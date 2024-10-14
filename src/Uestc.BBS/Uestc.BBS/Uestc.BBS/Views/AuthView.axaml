@@ -1,0 +1,40 @@
+<UserControl
+    x:Class="Uestc.BBS.Views.AuthView"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    VerticalAlignment="Center"
+    mc:Ignorable="d">
+    <StackPanel
+        MaxWidth="260"
+        HorizontalAlignment="Stretch"
+        VerticalAlignment="Stretch"
+        Orientation="Vertical">
+        <Image
+            Height="55"
+            Margin="0,0,0,20"
+            Source="/Assets/logo.png" />
+        <TextBox
+            Height="35"
+            Margin="0,0,0,10"
+            VerticalContentAlignment="Center"
+            Watermark="用户名" />
+        <TextBox
+            Height="35"
+            Margin="0,0,0,10"
+            VerticalContentAlignment="Center"
+            PasswordChar="*"
+            Watermark="密码" />
+        <CheckBox Margin="0,0,0,10" Content="记住密码" />
+        <Button
+            Height="35"
+            HorizontalAlignment="Stretch"
+            HorizontalContentAlignment="Center"
+            VerticalContentAlignment="Center"
+            Background="#2F95F1"
+            Content="登 录"
+            Foreground="White" />
+    </StackPanel>
+
+</UserControl>
