@@ -1,0 +1,30 @@
+<Window
+    x:Class="Uestc.BBS.Views.MainWindow"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:views="clr-namespace:Uestc.BBS.Views"
+    xmlns:vm="using:Uestc.BBS.ViewModels"
+    Title="Uestc.BBS"
+    Width="1440"
+    Height="900"
+    MinWidth="1440"
+    MinHeight="900"
+    Background="Transparent"
+    ExtendClientAreaToDecorationsHint="True"
+    TransparencyLevelHint="AcrylicBlur"
+    mc:Ignorable="d">
+    <Panel>
+        <ExperimentalAcrylicBorder IsHitTestVisible="False">
+            <ExperimentalAcrylicBorder.Material>
+                <ExperimentalAcrylicMaterial
+                    BackgroundSource="Digger"
+                    MaterialOpacity="0.8"
+                    TintColor="White"
+                    TintOpacity="1" />
+            </ExperimentalAcrylicBorder.Material>
+        </ExperimentalAcrylicBorder>
+        <views:MainView />
+    </Panel>
+</Window>
