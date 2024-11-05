@@ -1,6 +1,9 @@
-﻿namespace Uestc.BBS.ViewModels;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 
-public partial class MainViewModel : ViewModelBase
+namespace Uestc.BBS.ViewModels;
+
+public partial class MainViewModel : ObservableObject
 {
+    //public string Greeting => "Welcome to Avalonia!";
     public string Greeting => "Welcome to Avalonia!";
 }

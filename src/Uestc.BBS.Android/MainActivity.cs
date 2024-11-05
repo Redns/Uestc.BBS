@@ -1,6 +1,5 @@
 ﻿using Android.App;
 using Android.Content.PM;
-
 using Avalonia;
 using Avalonia.Android;
 
@@ -16,7 +15,13 @@ public class MainActivity : AvaloniaMainActivity<App>
 {
     protected override AppBuilder CustomizeAppBuilder(AppBuilder builder)
     {
+        ConfigureServices();
         return base.CustomizeAppBuilder(builder)
             .WithInterFont();
+    }
+
+    private static void ConfigureServices()
+    {
+
     }
 }

@@ -8,6 +8,8 @@
     <ApplicationVersion>1</ApplicationVersion>
     <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
     <AndroidPackageFormat>apk</AndroidPackageFormat>
+	  <PublishTrimmed>true</PublishTrimmed>
+	  <TrimMode>full</TrimMode>
 	<RunAOTCompilation>true</RunAOTCompilation>
 	<AndroidEnableProfiledAot>true</AndroidEnableProfiledAot>
   </PropertyGroup>

@@ -1,10 +1,35 @@
-<Application xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             x:Class="Uestc.BBS.App"
-             RequestedThemeVariant="Default">
-             <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
+<Application
+    x:Class="Uestc.BBS.App"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:vm="using:Uestc.BBS.ViewModels"
+    x:DataType="vm:AppViewModel"
+    RequestedThemeVariant="Default">
+    <!--  "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options.  -->
 
     <Application.Styles>
         <FluentTheme />
     </Application.Styles>
+
+    <TrayIcon.Icons>
+        <TrayIcons>
+            <TrayIcon
+                Command="{Binding ShowMainWindowCommand}"
+                Icon="/Assets/tray.jpg"
+                ToolTipText="South">
+                <TrayIcon.Menu>
+                    <NativeMenu>
+                        <NativeMenuItem Command="{Binding ShowMainWindowCommand}" Header="打开主窗口" />
+                        <NativeMenuItem Header="检查更新" />
+                        <NativeMenuItemSeparator />
+                        <NativeMenuItem Header="开机自启动" ToggleType="CheckBox" />
+                        <NativeMenuItem Header="静默启动" ToggleType="CheckBox" />
+                        <NativeMenuItemSeparator />
+                        <NativeMenuItem Command="{Binding RestartCommand}" Header="重新启动" />
+                        <NativeMenuItem Command="{Binding ExitCommand}" Header="退出" />
+                    </NativeMenu>
+                </TrayIcon.Menu>
+            </TrayIcon>
+        </TrayIcons>
+    </TrayIcon.Icons>
 </Application>
