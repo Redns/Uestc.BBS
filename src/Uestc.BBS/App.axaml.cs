@@ -5,15 +5,24 @@ using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
 using Avalonia.Platform;
 using Avalonia.Styling;
-using Microsoft.Extensions.DependencyInjection;
+using Jab;
+using Uestc.BBS.Services;
 using Uestc.BBS.ViewModels;
 using Uestc.BBS.Views;
 
 namespace Uestc.BBS;
 
+[ServiceProvider]
+[Singleton(typeof(AppViewModel))]
+[Singleton(typeof(MainViewModel))]
+[Singleton(typeof(MainView))]
+[Singleton(typeof(MainWindow))]
+public partial class ServiceProvider
+{
+}
+
 public partial class App : Application
 {
-    public static readonly ServiceCollection ServiceCollection = new();
     public static ServiceProvider Services { get; private set; }
 
     public override void Initialize()
@@ -24,7 +33,7 @@ public partial class App : Application
     public override void OnFrameworkInitializationCompleted()
     {
         // 初始化服务
-        Services = ConfigureServices();
+        Services = new ServiceProvider();
 
         // 初始化系统主题色
         if (Current!.RequestedThemeVariant == ThemeVariant.Default)
@@ -36,33 +45,18 @@ public partial class App : Application
         // Line below is needed to remove Avalonia data validation.
         // Without this line you will get duplicate validations from both Avalonia and CT
         BindingPlugins.DataValidators.RemoveAt(0);
-        DataContext = Services.GetRequiredService<AppViewModel>();
+        DataContext = Services.GetService<AppViewModel>();
 
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
             desktop.ShutdownMode = ShutdownMode.OnExplicitShutdown;
-            desktop.MainWindow = Services.GetRequiredService<MainWindow>();
+            desktop.MainWindow = Services.GetService<MainWindow>();
         }
         else if (ApplicationLifetime is ISingleViewApplicationLifetime singleViewPlatform)
         {
-            singleViewPlatform.MainView = Services.GetRequiredService<MainView>();
+            singleViewPlatform.MainView = Services.GetService<MainView>();
         }
 
         base.OnFrameworkInitializationCompleted();
-    }
-
-    /// <summary>
-    /// 初始化服务项
-    /// </summary>
-    /// <returns></returns>
-    private static ServiceProvider ConfigureServices()
-    {
-        // Views & ViewModels
-        ServiceCollection.AddSingleton<AppViewModel>()
-                .AddSingleton<MainWindow>()
-                .AddSingleton<MainView>()
-                .AddSingleton<MainViewModel>();
-
-        return ServiceCollection.BuildServiceProvider();
     }
 }

@@ -5,8 +5,8 @@ using CommunityToolkit.Mvvm.Input;
 using Avalonia;
 using System.Diagnostics;
 using System;
-using Microsoft.Extensions.DependencyInjection;
 using Uestc.BBS.Views;
+using Jab;
 
 namespace Uestc.BBS.ViewModels
 {
@@ -24,7 +24,7 @@ namespace Uestc.BBS.ViewModels
         {
             if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
-                desktop.MainWindow ??= App.Services.GetRequiredService<MainWindow>();
+                desktop.MainWindow ??= App.Services.GetService<MainWindow>();
                 desktop.MainWindow.WindowState = WindowState.Normal;
                 desktop.MainWindow.Show();
                 desktop.MainWindow.Activate();
