@@ -1,4 +1,5 @@
 ﻿using Avalonia.Controls;
+using Avalonia.Interactivity;
 using Microsoft.Extensions.DependencyInjection;
 using Uestc.BBS.ViewModels;
 
@@ -10,5 +11,15 @@ public partial class MainView : UserControl
     {
         InitializeComponent();
         DataContext = App.Services.GetRequiredService<MainViewModel>();
+    }
+
+    protected override void OnLoaded(RoutedEventArgs e)
+    {
+        base.OnLoaded(e);
+        var insetsManager = TopLevel.GetTopLevel(this)?.InsetsManager;
+        if (insetsManager != null)
+        {
+            insetsManager.DisplayEdgeToEdge = true;
+        }
     }
 }
