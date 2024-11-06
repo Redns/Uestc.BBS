@@ -26,13 +26,6 @@ public partial class App : Application
         // 初始化服务
         Services = ConfigureServices();
 
-        // 初始化系统主题色
-        if (Current!.RequestedThemeVariant == ThemeVariant.Default)
-        {
-            Current!.RequestedThemeVariant = Current!.PlatformSettings!.GetColorValues().ThemeVariant is PlatformThemeVariant.Light ?
-                ThemeVariant.Light : ThemeVariant.Dark;
-        }
-
         // Line below is needed to remove Avalonia data validation.
         // Without this line you will get duplicate validations from both Avalonia and CT
         BindingPlugins.DataValidators.RemoveAt(0);

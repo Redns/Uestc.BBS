@@ -11,12 +11,21 @@
         <FluentTheme />
     </Application.Styles>
 
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!--  引入主题资源  -->
+                <ResourceInclude Source="/Assets/Themes.axaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+
     <TrayIcon.Icons>
         <TrayIcons>
             <TrayIcon
                 Command="{Binding ShowMainWindowCommand}"
                 Icon="/Assets/tray.jpg"
-                ToolTipText="South">
+                ToolTipText="清水河畔">
                 <TrayIcon.Menu>
                     <NativeMenu>
                         <NativeMenuItem Command="{Binding ShowMainWindowCommand}" Header="打开主窗口" />

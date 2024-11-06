@@ -7,10 +7,24 @@
     xmlns:views="clr-namespace:Uestc.BBS.Views"
     xmlns:vm="using:Uestc.BBS.ViewModels"
     Title="Uestc.BBS"
-    d:DesignHeight="450"
-    d:DesignWidth="800"
+    Width="1000"
+    Height="650"
+    MinWidth="1000"
+    MinHeight="650"
+    ExtendClientAreaChromeHints="NoChrome"
+    ExtendClientAreaTitleBarHeightHint="30"
     ExtendClientAreaToDecorationsHint="True"
     Icon="/Assets/qshp.png"
     mc:Ignorable="d">
-    <views:MainView />
+    <Panel>
+        <ExperimentalAcrylicBorder IsHitTestVisible="True">
+            <ExperimentalAcrylicBorder.Material>
+                <ExperimentalAcrylicMaterial
+                    BackgroundSource="Digger"
+                    MaterialOpacity="0.8"
+                    TintColor="{DynamicResource BgWindow}" />
+            </ExperimentalAcrylicBorder.Material>
+        </ExperimentalAcrylicBorder>
+        <views:MainView />
+    </Panel>
 </Window>
