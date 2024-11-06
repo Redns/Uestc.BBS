@@ -3,8 +3,6 @@ using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
-using Avalonia.Platform;
-using Avalonia.Styling;
 using Microsoft.Extensions.DependencyInjection;
 using Uestc.BBS.ViewModels;
 using Uestc.BBS.Views;
@@ -44,12 +42,17 @@ public partial class App : Application
         base.OnFrameworkInitializationCompleted();
     }
 
+    /// <summary>
+    /// 注入公共依赖
+    /// </summary>
+    /// <returns></returns>
     private static ServiceProvider ConfigureServices()
     {
         ServiceCollection.AddSingleton<AppViewModel>();
         ServiceCollection.AddSingleton<MainWindow>();
         ServiceCollection.AddSingleton<MainView>();
         ServiceCollection.AddSingleton<MainViewModel>();
+        ServiceCollection.AddSingleton<HomeView>();
 
         return ServiceCollection.BuildServiceProvider();
     }

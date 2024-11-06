@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Linq;
 using Avalonia;
 using Avalonia.Media;
+using Microsoft.Extensions.DependencyInjection;
 using NLog;
 using Uestc.BBS.Desktop.Services;
 using Uestc.BBS.Desktop.Services.StartupService;
@@ -44,32 +45,31 @@ class Program
     private static void ConfigureServices()
     {
         // 日志
-        // App.ServiceCollection.AddSingleton<ILogService>(logger => new NLogService(LogManager.GetLogger("*")));
+        App.ServiceCollection.AddSingleton<ILogService>(logger => new NLogService(LogManager.GetLogger("*")));
         // 自启动
-        //App.ServiceCollection.AddSingleton<IStartupService>(startup =>
-        //{
-        //    var startupInfo = new StartupInfo
-        //    {
-        //        Name = AppDomain.CurrentDomain.FriendlyName,
-        //        Description = $"{AppDomain.CurrentDomain.FriendlyName} startup service",
-        //        ApplicationName = AppDomain.CurrentDomain.FriendlyName,
-        //        WorkingDirectory = AppDomain.CurrentDomain.BaseDirectory,
-        //        ApplicationPath = Environment.ProcessPath!
-        //    };
+        App.ServiceCollection.AddSingleton<IStartupService>(startup =>
+        {
+            var startupInfo = new StartupInfo
+            {
+                Name = AppDomain.CurrentDomain.FriendlyName,
+                Description = $"{AppDomain.CurrentDomain.FriendlyName} startup service",
+                ApplicationName = AppDomain.CurrentDomain.FriendlyName,
+                WorkingDirectory = AppDomain.CurrentDomain.BaseDirectory,
+                ApplicationPath = Environment.ProcessPath!
+            };
 
-        //    if (OperatingSystem.IsWindows())
-        //    {
-        //        return new WindowsStartupService(startupInfo);
-        //    }
-        //    else if (OperatingSystem.IsLinux())
-        //    {
-        //        return new LinuxStartupService(startupInfo);
-        //    }
-        //    else if (OperatingSystem.IsMacCatalyst())
-        //    {
-        //        return new MacCatalystStartupService();
-        //    }
-        //    throw new PlatformNotSupportedException(Environment.OSVersion.VersionString);
-        //});
+            if (OperatingSystem.IsWindows())
+            {
+                return new WindowsStartupService(startupInfo);
+            }
+            else if (OperatingSystem.IsLinux())
+            {
+                return new LinuxStartupService(startupInfo);
+            }
+            else
+            {
+                return new MacCatalystStartupService();
+            }
+        });
     }
 }

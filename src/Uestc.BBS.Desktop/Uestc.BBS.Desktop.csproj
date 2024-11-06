@@ -10,7 +10,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <AvaloniaResource Include="Resources\Fonts\HarmonyOS_Sans_SC_Regular.ttf" />
+    <AvaloniaResource Include="Resources\Fonts\HarmonyOS_Sans_SC_Regular.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </AvaloniaResource>
   </ItemGroup>
   <ItemGroup>
     <Content Include="nlog.config">

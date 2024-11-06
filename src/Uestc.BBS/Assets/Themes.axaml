@@ -29,7 +29,7 @@
 
         <!--  暗色主题  -->
         <ResourceDictionary x:Key="Dark">
-            <Color x:Key="BgWindow">#242424</Color>
+            <Color x:Key="BgWindow">#0A0A0A</Color>
             <SolidColorBrush x:Key="BorderColor" Color="#3c3c3c" />
             <SolidColorBrush x:Key="BgToolbar" Color="#222226" />
             <SolidColorBrush x:Key="BgBody" Color="#111113" />

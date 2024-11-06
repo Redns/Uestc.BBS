@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <AvaloniaXaml Remove="Assets\Styles.axaml" />
     <AvaloniaXaml Remove="Assets\Themes.axaml" />
   </ItemGroup>
 
@@ -27,6 +28,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <AvaloniaResource Update="Assets\Styles.axaml">
+      <SubType>Designer</SubType>
+    </AvaloniaResource>
     <AvaloniaResource Update="Assets\Themes.axaml">
       <SubType>Designer</SubType>
     </AvaloniaResource>

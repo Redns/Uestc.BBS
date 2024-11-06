@@ -1,15 +1,18 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
+using Uestc.BBS.ViewModels;
 
 namespace Uestc.BBS.Views;
 
 public partial class MainWindow : Window
 {
-    public MainWindow()
+    public MainWindow(MainViewModel viewModel)
     {
         InitializeComponent();
+        DataContext = viewModel;
     }
+
     private void DoubleTappedResizeWindow(object sender, TappedEventArgs e) =>
         WindowState = WindowState is WindowState.Normal ? WindowState.Maximized : WindowState.Normal;
 

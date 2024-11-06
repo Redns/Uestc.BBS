@@ -9,6 +9,7 @@
 
     <Application.Styles>
         <FluentTheme />
+        <StyleInclude Source="/Assets/Styles.axaml" />
     </Application.Styles>
 
     <Application.Resources>
