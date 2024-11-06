@@ -5,8 +5,8 @@ using CommunityToolkit.Mvvm.Input;
 using Avalonia;
 using System.Diagnostics;
 using System;
-using Microsoft.Extensions.DependencyInjection;
 using Uestc.BBS.Views;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Uestc.BBS.ViewModels
 {
