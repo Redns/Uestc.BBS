@@ -9,7 +9,6 @@
     <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
     <AndroidPackageFormat>apk</AndroidPackageFormat>
 	  <PublishTrimmed>true</PublishTrimmed>
-	  <TrimMode>full</TrimMode>
 	<RunAOTCompilation>true</RunAOTCompilation>
 	<AndroidEnableProfiledAot>true</AndroidEnableProfiledAot>
   </PropertyGroup>
@@ -38,4 +37,5 @@
 	    <!-- Note that single-architecture apps will be most successful -->
 	    <RuntimeIdentifier>android-arm64</RuntimeIdentifier>
     </PropertyGroup>
+	
 </Project>

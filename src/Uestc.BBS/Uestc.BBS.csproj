@@ -21,12 +21,4 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.1" />
   </ItemGroup>
 
-  <ItemGroup>
-    <AvaloniaResource Update="Assets\Fonts\HarmonyOS_Sans_SC_Regular.ttf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </AvaloniaResource>
-    <AvaloniaResource Update="Assets\tray.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </AvaloniaResource>
-  </ItemGroup>
 </Project>
