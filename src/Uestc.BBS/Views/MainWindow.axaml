@@ -3,7 +3,6 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:i18n="clr-namespace:Ke.Bee.Localization.Extensions;assembly=Ke.Bee.Localization"
     xmlns:ic="using:FluentIcons.Avalonia"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views="clr-namespace:Uestc.BBS.Views"
@@ -13,7 +12,7 @@
     Height="650"
     MinWidth="1000"
     MinHeight="650"
-    x:DataType="vm:MainViewModel"
+    x:DataType="vm:MainWindowViewModel"
     ExtendClientAreaChromeHints="NoChrome"
     ExtendClientAreaTitleBarHeightHint="30"
     ExtendClientAreaToDecorationsHint="True"
@@ -26,7 +25,7 @@
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
     <!--
-        ÐÞ¸´´°¿Ú×î´ó»¯Ê± TitleBar´íÎ»µÄÎÊÌâ£¬²Î¿¼Á´½Ó
+        ä¿®å¤çª—å£æœ€å¤§åŒ–æ—¶ TitleBaré”™ä½çš„é—®é¢˜ï¼Œå‚è€ƒé“¾æŽ¥
         https://medium.com/@adamciszewski/tip-how-to-fix-the-application-size-on-full-screen-avalonia-a2f8a0c3270f
     -->
     <Window.Styles>
@@ -49,13 +48,11 @@
                     MaterialOpacity="1.0"
                     TintColor="{DynamicResource BgWindow}" />
             </ExperimentalAcrylicBorder.Material>
-            <TextBlock Text="{Binding Greeting}" />
         </ExperimentalAcrylicBorder>
-        <Grid ColumnDefinitions="60,*" RowDefinitions="40,*">
-            <!--  ±êÌâÀ¸  -->
+        <Grid RowDefinitions="40,*">
+            <!--  æ ‡é¢˜æ   -->
             <DockPanel
                 Grid.Row="0"
-                Grid.ColumnSpan="2"
                 Background="{OnPlatform Linux=Transparent}"
                 DoubleTapped="{OnPlatform Linux=DoubleTappedResizeWindow}">
                 <Image
@@ -68,7 +65,7 @@
                     Height="30"
                     Margin="100,0,0,0"
                     DockPanel.Dock="Left"
-                    Text="ÕâÀïÊÇÃ¿ÈÕÓï¾ä"
+                    Text="è¿™é‡Œæ˜¯æ¯æ—¥è¯­å¥"
                     TextAlignment="Center" />
                 <Button
                     Classes="WindowToolbarButton CloseButton"
@@ -105,85 +102,7 @@
                 </Button>
                 <Border />
             </DockPanel>
-            <!--  ²à±ßµ¼º½À¸  -->
-            <DockPanel
-                Grid.Row="1"
-                Grid.Column="0"
-                Margin="10">
-                <Button
-                    Classes="ToolbarIconButton"
-                    Classes.Active="false"
-                    Command="{Binding NavigateCommand}"
-                    CommandParameter="Upload"
-                    DockPanel.Dock="Top">
-                    <StackPanel>
-                        <ic:SymbolIcon Symbol="Home" />
-                        <TextBlock Text="{i18n:Localize Menu.Toolbar.Home}" />
-                    </StackPanel>
-                </Button>
-                <Button
-                    Classes="ToolbarIconButton"
-                    Classes.Active="false"
-                    Command="{Binding NavigateCommand}"
-                    CommandParameter="Plugins"
-                    DockPanel.Dock="Top">
-                    <StackPanel>
-                        <ic:SymbolIcon Symbol="Apps" />
-                        <TextBlock Text="{i18n:Localize Menu.Toolbar.Forums}" />
-                    </StackPanel>
-                </Button>
-                <Button
-                    Classes="ToolbarIconButton"
-                    Classes.Active="false"
-                    Command="{Binding NavigateCommand}"
-                    CommandParameter="Plugins"
-                    DockPanel.Dock="Top">
-                    <StackPanel>
-                        <ic:SymbolIcon Symbol="Rocket" />
-                        <TextBlock Text="{i18n:Localize Menu.Toolbar.Services}" />
-                    </StackPanel>
-                </Button>
-                <Button
-                    Classes="ToolbarIconButton"
-                    Classes.Active="false"
-                    Command="{Binding NavigateCommand}"
-                    CommandParameter="Plugins"
-                    DockPanel.Dock="Top">
-                    <StackPanel>
-                        <ic:SymbolIcon Symbol="SaveCopy" />
-                        <TextBlock Text="{i18n:Localize Menu.Toolbar.Post}" />
-                    </StackPanel>
-                </Button>
-                <Button
-                    Classes="ToolbarIconButton"
-                    Classes.Active="false"
-                    Command="{Binding NavigateCommand}"
-                    CommandParameter="Settings"
-                    DockPanel.Dock="Bottom">
-                    <StackPanel>
-                        <ic:SymbolIcon Symbol="Settings" />
-                        <TextBlock Text="{i18n:Localize Menu.Settings}" />
-                    </StackPanel>
-                </Button>
-                <Button
-                    Classes="ToolbarIconButton"
-                    Classes.Active="false"
-                    Command="{Binding NavigateCommand}"
-                    CommandParameter="Settings"
-                    DockPanel.Dock="Bottom">
-                    <StackPanel>
-                        <ic:SymbolIcon Symbol="Mail" />
-                        <TextBlock Text="{i18n:Localize Menu.Messages}" />
-                    </StackPanel>
-                </Button>
-                <Border />
-            </DockPanel>
-            <!--  µ¼º½À¸¶ÔÓ¦Ò³Ãæ  -->
-            <ContentControl
-                Grid.Row="1"
-                Grid.Column="1"
-                Margin="20,10,40,10"
-                Content="{Binding CurrentPage}" />
+            <views:MainView Grid.Row="1" />
         </Grid>
 
     </Panel>

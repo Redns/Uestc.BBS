@@ -1,15 +1,16 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Interactivity;
+using Microsoft.Extensions.DependencyInjection;
 using Uestc.BBS.ViewModels;
 
 namespace Uestc.BBS.Views;
 
 public partial class MainView : UserControl
 {
-    public MainView(MainViewModel viewModel)
+    public MainView()
     {
         InitializeComponent();
-        DataContext = viewModel;
+        DataContext = App.Services.GetRequiredService<MainViewModel>();
     }
 
     protected override void OnLoaded(RoutedEventArgs e)

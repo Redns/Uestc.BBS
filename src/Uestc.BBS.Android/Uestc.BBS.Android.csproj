@@ -24,6 +24,7 @@
 
   <ItemGroup>
     <PackageReference Include="Avalonia.Android" Version="11.2.0" />
+    <PackageReference Include="Avalonia.Fonts.Inter" Version="11.2.0" />
     <PackageReference Include="Xamarin.AndroidX.Core.SplashScreen" Version="1.0.1.12" />
   </ItemGroup>
 
@@ -31,7 +32,7 @@
     <ProjectReference Include="..\Uestc.BBS\Uestc.BBS.csproj" />
   </ItemGroup>
 
-    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <PropertyGroup Condition="'$(Configuration)' == 'Release'">
 	    <AndroidEnableMarshalMethods>true</AndroidEnableMarshalMethods>
 	    <!-- Note that single-architecture apps will be most successful -->
 	    <RuntimeIdentifier>android-arm64</RuntimeIdentifier>

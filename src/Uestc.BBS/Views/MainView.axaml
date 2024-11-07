@@ -3,6 +3,7 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ic="using:FluentIcons.Avalonia"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="clr-namespace:Uestc.BBS.ViewModels"
     d:DesignHeight="650"
@@ -10,9 +11,89 @@
     x:DataType="vm:MainViewModel"
     mc:Ignorable="d">
 
+    <OnPlatform>
+        <On Options="Windows,Linux,macOS">
+            <Grid ColumnDefinitions="60,*">
+                <!--  侧边导航栏  -->
+                <DockPanel Grid.Column="0" Margin="10">
+                    <Button
+                        Classes="ToolbarIconButton"
+                        Classes.Active="false"
+                        Command="{Binding NavigateCommand}"
+                        CommandParameter="Upload"
+                        DockPanel.Dock="Top">
+                        <StackPanel>
+                            <ic:SymbolIcon Symbol="Home" />
+                            <TextBlock Text="首 页" />
+                        </StackPanel>
+                    </Button>
+                    <Button
+                        Classes="ToolbarIconButton"
+                        Classes.Active="false"
+                        Command="{Binding NavigateCommand}"
+                        CommandParameter="Plugins"
+                        DockPanel.Dock="Top">
+                        <StackPanel>
+                            <ic:SymbolIcon Symbol="Apps" />
+                            <TextBlock Text="版 块" />
+                        </StackPanel>
+                    </Button>
+                    <Button
+                        Classes="ToolbarIconButton"
+                        Classes.Active="false"
+                        Command="{Binding NavigateCommand}"
+                        CommandParameter="Plugins"
+                        DockPanel.Dock="Top">
+                        <StackPanel>
+                            <ic:SymbolIcon Symbol="Rocket" />
+                            <TextBlock Text="服 务" />
+                        </StackPanel>
+                    </Button>
+                    <Button
+                        Classes="ToolbarIconButton"
+                        Classes.Active="false"
+                        Command="{Binding NavigateCommand}"
+                        CommandParameter="Plugins"
+                        DockPanel.Dock="Top">
+                        <StackPanel>
+                            <ic:SymbolIcon Symbol="SaveCopy" />
+                            <TextBlock Text="发 帖" />
+                        </StackPanel>
+                    </Button>
+                    <Button
+                        Classes="ToolbarIconButton"
+                        Classes.Active="false"
+                        Command="{Binding NavigateCommand}"
+                        CommandParameter="Settings"
+                        DockPanel.Dock="Bottom">
+                        <StackPanel>
+                            <ic:SymbolIcon Symbol="Settings" />
+                            <TextBlock Text="设 置" />
+                        </StackPanel>
+                    </Button>
+                    <Button
+                        Classes="ToolbarIconButton"
+                        Classes.Active="false"
+                        Command="{Binding NavigateCommand}"
+                        CommandParameter="Settings"
+                        DockPanel.Dock="Bottom">
+                        <StackPanel>
+                            <ic:SymbolIcon Symbol="Mail" />
+                            <TextBlock Text="消 息" />
+                        </StackPanel>
+                    </Button>
+                    <Border />
+                </DockPanel>
+                <!--  导航栏对应页面  -->
+                <ContentControl
+                    Grid.Column="1"
+                    Margin="20,10,40,10"
+                    Content="{Binding CurrentPage}" />
+            </Grid>
 
-    <TextBlock
-        HorizontalAlignment="Center"
-        VerticalAlignment="Center"
-        Text="{Binding Greeting}" />
+        </On>
+        <On Options="Android,iOS">
+            <TextBlock Text="Hello, Mobile!" />
+        </On>
+    </OnPlatform>
 </UserControl>
