@@ -2,6 +2,7 @@
     x:Class="Uestc.BBS.Views.MainView"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:assets="clr-namespace:Uestc.BBS.Assets.i18n"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:ic="using:FluentIcons.Avalonia"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -24,7 +25,7 @@
                         DockPanel.Dock="Top">
                         <StackPanel>
                             <ic:SymbolIcon Symbol="Home" />
-                            <TextBlock Text="首 页" />
+                            <TextBlock Text="{x:Static assets:Resources.Menu_Toolbar_Home}" />
                         </StackPanel>
                     </Button>
                     <Button
@@ -35,7 +36,7 @@
                         DockPanel.Dock="Top">
                         <StackPanel>
                             <ic:SymbolIcon Symbol="Apps" />
-                            <TextBlock Text="版 块" />
+                            <TextBlock Text="{x:Static assets:Resources.Menu_Toolbar_Forums}" />
                         </StackPanel>
                     </Button>
                     <Button
@@ -46,7 +47,7 @@
                         DockPanel.Dock="Top">
                         <StackPanel>
                             <ic:SymbolIcon Symbol="Rocket" />
-                            <TextBlock Text="服 务" />
+                            <TextBlock Text="{x:Static assets:Resources.Menu_Toolbar_Services}" />
                         </StackPanel>
                     </Button>
                     <Button
@@ -57,7 +58,7 @@
                         DockPanel.Dock="Top">
                         <StackPanel>
                             <ic:SymbolIcon Symbol="SaveCopy" />
-                            <TextBlock Text="发 帖" />
+                            <TextBlock Text="{x:Static assets:Resources.Menu_Toolbar_Post}" />
                         </StackPanel>
                     </Button>
                     <Button
@@ -68,7 +69,7 @@
                         DockPanel.Dock="Bottom">
                         <StackPanel>
                             <ic:SymbolIcon Symbol="Settings" />
-                            <TextBlock Text="设 置" />
+                            <TextBlock Text="{x:Static assets:Resources.Menu_Toolbar_Settings}" />
                         </StackPanel>
                     </Button>
                     <Button
@@ -79,7 +80,7 @@
                         DockPanel.Dock="Bottom">
                         <StackPanel>
                             <ic:SymbolIcon Symbol="Mail" />
-                            <TextBlock Text="消 息" />
+                            <TextBlock Text="{x:Static assets:Resources.Menu_Toolbar_Messages}" />
                         </StackPanel>
                     </Button>
                     <Border />

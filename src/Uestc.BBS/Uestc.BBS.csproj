@@ -27,6 +27,20 @@
   </ItemGroup>
 
   <ItemGroup>
+    <AvaloniaResource Update="Assets\i18n\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </AvaloniaResource>
+    <AvaloniaResource Update="Assets\i18n\Resources.zh-CN.resx">
+      <SubType>Designer</SubType>
+      <LastGenOutput>Resources - 复制.Designer.cs</LastGenOutput>
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </AvaloniaResource>
+    <AvaloniaResource Update="Assets\i18n\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </AvaloniaResource>
     <AvaloniaResource Update="Assets\Styles.axaml">
       <SubType>Designer</SubType>
     </AvaloniaResource>
