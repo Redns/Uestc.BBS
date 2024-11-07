@@ -50,8 +50,15 @@ public partial class MainViewModel : ObservableObject
     /// 主题切换
     /// </summary>
     [RelayCommand]
-    private void SwitchTheme() => Application.Current!.RequestedThemeVariant =
-        Application.Current.RequestedThemeVariant == ThemeVariant.Light ? ThemeVariant.Dark : ThemeVariant.Light;
+    private void SwitchTheme()
+    {
+        if (Application.Current!.RequestedThemeVariant == ThemeVariant.Default)
+        {
+            Application.Current.RequestedThemeVariant = Application.Current.PlatformSettings!.GetColorValues().ThemeVariant is Avalonia.Platform.PlatformThemeVariant.Light ?
+                ThemeVariant.Light : ThemeVariant.Dark;
+        }
+        Application.Current!.RequestedThemeVariant = Application.Current.RequestedThemeVariant == ThemeVariant.Light ? ThemeVariant.Dark : ThemeVariant.Light;
+    }
 
     /// <summary>
     /// 窗口固定切换

@@ -3,6 +3,7 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i18n="clr-namespace:Ke.Bee.Localization.Extensions;assembly=Ke.Bee.Localization"
     xmlns:ic="using:FluentIcons.Avalonia"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views="clr-namespace:Uestc.BBS.Views"
@@ -50,7 +51,7 @@
             </ExperimentalAcrylicBorder.Material>
             <TextBlock Text="{Binding Greeting}" />
         </ExperimentalAcrylicBorder>
-        <Grid ColumnDefinitions="60,*" RowDefinitions="30,*">
+        <Grid ColumnDefinitions="60,*" RowDefinitions="40,*">
             <!--  标题栏  -->
             <DockPanel
                 Grid.Row="0"
@@ -58,10 +59,17 @@
                 Background="{OnPlatform Linux=Transparent}"
                 DoubleTapped="{OnPlatform Linux=DoubleTappedResizeWindow}">
                 <Image
-                    Width="24"
-                    Margin="8,0"
+                    Height="34"
+                    Margin="3"
                     DockPanel.Dock="Left"
                     Source="/Assets/title-logo.png" />
+                <TextBox
+                    Width="460"
+                    Height="30"
+                    Margin="100,0,0,0"
+                    DockPanel.Dock="Left"
+                    Text="这里是每日语句"
+                    TextAlignment="Center" />
                 <Button
                     Classes="WindowToolbarButton CloseButton"
                     Click="CloseWindow"
@@ -110,7 +118,7 @@
                     DockPanel.Dock="Top">
                     <StackPanel>
                         <ic:SymbolIcon Symbol="Home" />
-                        <TextBlock Text="主 页" />
+                        <TextBlock Text="{i18n:Localize Menu.Toolbar.Home}" />
                     </StackPanel>
                 </Button>
                 <Button
@@ -121,7 +129,7 @@
                     DockPanel.Dock="Top">
                     <StackPanel>
                         <ic:SymbolIcon Symbol="Apps" />
-                        <TextBlock Text="分 类" />
+                        <TextBlock Text="{i18n:Localize Menu.Toolbar.Forums}" />
                     </StackPanel>
                 </Button>
                 <Button
@@ -131,8 +139,8 @@
                     CommandParameter="Plugins"
                     DockPanel.Dock="Top">
                     <StackPanel>
-                        <ic:SymbolIcon Symbol="Apps" />
-                        <TextBlock Text="服 务" />
+                        <ic:SymbolIcon Symbol="Rocket" />
+                        <TextBlock Text="{i18n:Localize Menu.Toolbar.Services}" />
                     </StackPanel>
                 </Button>
                 <Button
@@ -142,8 +150,8 @@
                     CommandParameter="Plugins"
                     DockPanel.Dock="Top">
                     <StackPanel>
-                        <ic:SymbolIcon Symbol="Apps" />
-                        <TextBlock Text="发 帖" />
+                        <ic:SymbolIcon Symbol="SaveCopy" />
+                        <TextBlock Text="{i18n:Localize Menu.Toolbar.Post}" />
                     </StackPanel>
                 </Button>
                 <Button
@@ -154,7 +162,7 @@
                     DockPanel.Dock="Bottom">
                     <StackPanel>
                         <ic:SymbolIcon Symbol="Settings" />
-                        <TextBlock Text="设 置" />
+                        <TextBlock Text="{i18n:Localize Menu.Settings}" />
                     </StackPanel>
                 </Button>
                 <Button
@@ -165,7 +173,7 @@
                     DockPanel.Dock="Bottom">
                     <StackPanel>
                         <ic:SymbolIcon Symbol="Mail" />
-                        <TextBlock Text="消 息" />
+                        <TextBlock Text="{i18n:Localize Menu.Messages}" />
                     </StackPanel>
                 </Button>
                 <Border />
