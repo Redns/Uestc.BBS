@@ -56,13 +56,13 @@
                 Background="{OnPlatform Linux=Transparent}"
                 DoubleTapped="{OnPlatform Linux=DoubleTappedResizeWindow}">
                 <Image
-                    Margin="6" 
+                    Margin="5" 
                     DockPanel.Dock="Left" RenderOptions.BitmapInterpolationMode="HighQuality"
                     Source="/Assets/title-logo.png" />
-                    <TextBox
+                <TextBox 
                     Width="460" DockPanel.Dock="Left"
-                    MinHeight="20" Margin="50,6" 
-                    Text="你的问题主要在于读书不多而想得太多 ——杨绛"
+                    MinHeight="20" Margin="30,5,0,5" Background="Transparent"
+                    Watermark="你的问题主要在于读书不多而想得太多 ——杨绛"
                     TextAlignment="Center" />
                 <Button
                     Classes="WindowToolbarButton CloseButton"

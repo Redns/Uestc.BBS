@@ -1,16 +1,11 @@
 <Application
-    x:Class="Uestc.BBS.App"
+    x:Class="Uestc.BBS.App" xmlns:actipro="http://schemas.actiprosoftware.com/avaloniaui"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:vm="using:Uestc.BBS.ViewModels"
     x:DataType="vm:AppViewModel"
     RequestedThemeVariant="Default">
     <!--  "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options.  -->
-
-    <Application.Styles>
-        <FluentTheme />
-        <StyleInclude Source="/Assets/Styles.axaml" />
-    </Application.Styles>
 
     <Application.Resources>
         <ResourceDictionary>
@@ -20,6 +15,12 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
+
+     <Application.Styles>
+        <!-- <FluentTheme /> -->
+        <actipro:ModernTheme />
+        <StyleInclude Source="/Assets/Styles.axaml" />
+    </Application.Styles>
 
     <TrayIcon.Icons>
         <TrayIcons>
