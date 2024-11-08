@@ -49,23 +49,20 @@
                     TintColor="{DynamicResource BgWindow}" />
             </ExperimentalAcrylicBorder.Material>
         </ExperimentalAcrylicBorder>
-        <Grid RowDefinitions="40,*">
+        <Grid RowDefinitions="42,*">
             <!--  标题栏  -->
             <DockPanel
                 Grid.Row="0"
                 Background="{OnPlatform Linux=Transparent}"
                 DoubleTapped="{OnPlatform Linux=DoubleTappedResizeWindow}">
                 <Image
-                    Height="34"
-                    Margin="3"
-                    DockPanel.Dock="Left"
+                    Margin="6" 
+                    DockPanel.Dock="Left" RenderOptions.BitmapInterpolationMode="HighQuality"
                     Source="/Assets/title-logo.png" />
-                <TextBox
-                    Width="460"
-                    Height="30"
-                    Margin="100,0,0,0"
-                    DockPanel.Dock="Left"
-                    Text="这里是每日语句"
+                    <TextBox
+                    Width="460" DockPanel.Dock="Left"
+                    MinHeight="20" Margin="50,6" 
+                    Text="你的问题主要在于读书不多而想得太多 ——杨绛"
                     TextAlignment="Center" />
                 <Button
                     Classes="WindowToolbarButton CloseButton"
@@ -100,7 +97,8 @@
                     ToolTip.Tip="{DynamicResource TipsThemeSwitch}">
                     <ic:SymbolIcon Classes="ThemeIcon" Symbol="{DynamicResource IconThemeSwitch}" />
                 </Button>
-                <Border />
+                
+                      <Border />
             </DockPanel>
             <views:MainView Grid.Row="1" />
         </Grid>
