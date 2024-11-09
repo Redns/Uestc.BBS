@@ -17,7 +17,7 @@
     ExtendClientAreaTitleBarHeightHint="30"
     ExtendClientAreaToDecorationsHint="True"
     Icon="/Assets/tray.jpg"
-    PointerPressed="{OnPlatform Linux=DragWindow}"
+    
     SystemDecorations="{OnPlatform Default=Full,
                                    Linux=None}"
     Topmost="{Binding IsWindowPinned}"
@@ -52,18 +52,22 @@
         <Grid RowDefinitions="42,*">
             <!--  标题栏  -->
             <DockPanel
-                Grid.Row="0"
+                Grid.Row="0" PointerPressed="{OnPlatform Linux=DragWindow}"
                 Background="{OnPlatform Linux=Transparent}"
                 DoubleTapped="{OnPlatform Linux=DoubleTappedResizeWindow}">
                 <Image
                     Margin="5" 
                     DockPanel.Dock="Left" RenderOptions.BitmapInterpolationMode="HighQuality"
                     Source="/Assets/title-logo.png" />
-                <TextBox 
-                    Width="460" DockPanel.Dock="Left"
+                <TextBox
+                    Width="460" DockPanel.Dock="Left" 
                     MinHeight="20" Margin="30,5,0,5" Background="Transparent"
                     Watermark="你的问题主要在于读书不多而想得太多 ——杨绛"
-                    TextAlignment="Center" />
+                    VerticalContentAlignment="Center">
+                    <TextBox.InnerRightContent>
+                        <ic:SymbolIcon Symbol="Search" Margin="0,0,10,0" />    
+                    </TextBox.InnerRightContent>
+                </TextBox>
                 <Button
                     Classes="WindowToolbarButton CloseButton"
                     Click="CloseWindow"
@@ -96,12 +100,10 @@
                     ToolTip.Placement="Pointer"
                     ToolTip.Tip="{DynamicResource TipsThemeSwitch}">
                     <ic:SymbolIcon Classes="ThemeIcon" Symbol="{DynamicResource IconThemeSwitch}" />
-                </Button>
-                
-                      <Border />
+                </Button>                
+                <Border />
             </DockPanel>
             <views:MainView Grid.Row="1" />
         </Grid>
-
     </Panel>
 </Window>

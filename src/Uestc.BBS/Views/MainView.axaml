@@ -90,7 +90,6 @@
                     Margin="20,10,40,10"
                     Content="{Binding CurrentPage}" />
             </Grid>
-
         </On>
         <On Options="Android,iOS">
             <TextBlock Text="Hello, Mobile!" />

@@ -14,7 +14,7 @@
             <SolidColorBrush x:Key="BgSidebarItemHover" Color="#f5f5f6" />
             <SolidColorBrush x:Key="BgSidebarItemPressed" Color="#ebebed" />
             <SolidColorBrush x:Key="BgSearchInput" Color="#f6f6f7" />
-            <Color x:Key="BgWindow">#F9FAFC</Color>
+            <Color x:Key="BgWindow">White</Color>
             <!--  文本  -->
             <SolidColorBrush x:Key="TextPrimary" Color="#25262b" />
             <SolidColorBrush x:Key="TextSecondary" Color="#2B2D2D" />
@@ -29,7 +29,7 @@
 
         <!--  暗色主题  -->
         <ResourceDictionary x:Key="Dark">
-            <Color x:Key="BgWindow">#0A0A0A</Color>
+            <Color x:Key="BgWindow">#242424</Color>
             <SolidColorBrush x:Key="BorderColor" Color="#3c3c3c" />
             <SolidColorBrush x:Key="BgToolbar" Color="#222226" />
             <SolidColorBrush x:Key="BgBody" Color="#111113" />
