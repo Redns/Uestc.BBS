@@ -26,7 +26,7 @@
         <TrayIcons>
             <TrayIcon
                 Command="{Binding ShowMainWindowCommand}"
-                Icon="/Assets/tray.jpg"
+                Icon="/Assets/Icons/tray_icon.png"
                 ToolTipText="清水河畔">
                 <TrayIcon.Menu>
                     <NativeMenu>

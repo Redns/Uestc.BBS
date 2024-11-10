@@ -16,7 +16,7 @@
     ExtendClientAreaChromeHints="NoChrome"
     ExtendClientAreaTitleBarHeightHint="30"
     ExtendClientAreaToDecorationsHint="True"
-    Icon="/Assets/tray.jpg"
+    Icon="/Assets/Icons/taskbar_icon.png"
     SystemDecorations="{OnPlatform Default=Full,
                                    Linux=None}"
     Topmost="{Binding IsWindowPinned}"
@@ -59,7 +59,7 @@
                 <Image
                     Margin="5"
                     DockPanel.Dock="Left"
-                    Source="/Assets/title-logo.png" />
+                    Source="/Assets/Icons/titlebar_icon.png" />
                 <TextBox
                     Width="460"
                     MinHeight="20"

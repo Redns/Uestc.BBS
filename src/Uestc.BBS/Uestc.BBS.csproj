@@ -11,7 +11,7 @@
 
 	<ItemGroup>
 		<!-- Splash -->
-		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#2074F1" BaseSize="125,125" />
+		<MauiSplashScreen Include="Resources\Splash\splash.png" Color="#2074F1" />
 		
 		<!-- Images -->
 		<MauiImage Include="Resources\Images\*" />
@@ -33,12 +33,6 @@
 
 	<ItemGroup>
 	  <Folder Include="Resources\Fonts\" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <None Update="Resources\Splash\splash.png">
-	    <BaseSize>128,128</BaseSize>
-	  </None>
 	</ItemGroup>
 
 </Project>
