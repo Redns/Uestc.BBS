@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Uestc.BBS.Desktop.Helpers
+namespace Uestc.BBS.Core.Helpers
 {
     public static class OperatingSystemHelper
     {

@@ -1,4 +1,6 @@
-﻿namespace Uestc.BBS.Desktop.Services.StartupService
+﻿using Uestc.BBS.Core.Services;
+
+namespace Uestc.BBS.Desktop.Services.StartupService
 {
     public class MacCatalystStartupService : IStartupService
     {

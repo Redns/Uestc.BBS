@@ -1,15 +1,9 @@
 using Amazon.S3;
 using Amazon.S3.Model;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.IO;
-using System.Linq;
-using System.Net.Http;
-using System.Threading.Tasks;
-using Uestc.BBS.Desktop;
-using Uestc.BBS.Desktop.Helpers;
+using Uestc.BBS.Core.Helpers;
 
-namespace Uestc.BBS.Desktop.Services
+namespace Uestc.BBS.Core.Services
 {
     public class CloudflareAppUpgradeService(string baseUrl, string secretId, string secretKey, string bucketName, string endpointUrl) : IAppUpgradeService
     {
@@ -22,6 +16,8 @@ namespace Uestc.BBS.Desktop.Services
         private readonly string _bucketName = bucketName;
 
         private readonly string _endpointUrl = endpointUrl;
+
+        private readonly HttpClient _client = new();
 
         public async ValueTask<AppReleaseInfo> GetLatestRelease()
         {
@@ -52,8 +48,7 @@ namespace Uestc.BBS.Desktop.Services
                 return o.Key.Contains(latestReleaseVersion) && o.Key.Contains(systemArchitecture);
             })?.Key;
             // 获取版本描述
-            var description = await App.Services.GetRequiredService<HttpClient>()
-                .GetStringAsync($"{_baseUrl}/{operatingSystem}/{latestReleaseVersion}/readme.md");
+            var description = await _client.GetStringAsync($"{_baseUrl}/{operatingSystem}/{latestReleaseVersion}/readme.md");
 
             return new AppReleaseInfo(latestReleaseVersion, description, $"{_baseUrl}/{downloadUrl}");
         }
@@ -69,7 +64,7 @@ namespace Uestc.BBS.Desktop.Services
             // 下载安装包
             var downloadPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.InternetCache), info.DownloadName);
             using var downloadWriteStream = File.OpenWrite(downloadPath);
-            using var downloadReadStream = await App.Services.GetRequiredService<HttpClient>().GetStreamAsync(info.DownloadUrl);
+            using var downloadReadStream = await _client.GetStreamAsync(info.DownloadUrl);
             await downloadReadStream.CopyToAsync(downloadWriteStream);
 
             // TODO 执行安装

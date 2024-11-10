@@ -53,7 +53,7 @@
     </Style>
     <!--  工具栏  -->
     <Style Selector="Button.ToolbarIconButton">
-        <Setter Property="Margin" Value="10" />
+        <Setter Property="Margin" Value="10 8" />
         <Setter Property="Width" Value="60" />
         <Setter Property="CornerRadius" Value="10" />
         <Setter Property="Cursor" Value="Hand" />

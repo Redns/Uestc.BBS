@@ -16,10 +16,6 @@ public static class MauiProgramExtensions
 				fonts.AddFont("HarmonyOS_Sans_SC_Bold.ttf", "HarmonyOSBold");
 			});
 
-#if DEBUG
-		builder.Logging.AddDebug();
-#endif
-
 		return builder;
 	}
 }

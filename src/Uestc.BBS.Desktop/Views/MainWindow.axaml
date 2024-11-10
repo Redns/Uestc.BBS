@@ -59,6 +59,7 @@
                 <Image
                     Margin="5"
                     DockPanel.Dock="Left"
+                    RenderOptions.BitmapInterpolationMode="{OnPlatform Linux=HighQuality}"
                     Source="/Assets/Icons/titlebar_icon.png" />
                 <TextBox
                     Width="460"
@@ -159,6 +160,17 @@
                     <StackPanel>
                         <ic:SymbolIcon Symbol="Rocket" />
                         <TextBlock Text="服 务" />
+                    </StackPanel>
+                </Button>
+                <Button
+                    Classes="ToolbarIconButton"
+                    Classes.Active="false"
+                    Command="{Binding NavigateCommand}"
+                    CommandParameter="Plugins"
+                    DockPanel.Dock="Top">
+                    <StackPanel>
+                        <ic:SymbolIcon Symbol="Scan" />
+                        <TextBlock Text="动 态" />
                     </StackPanel>
                 </Button>
                 <Button

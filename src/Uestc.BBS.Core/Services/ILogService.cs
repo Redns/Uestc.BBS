@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Uestc.BBS.Desktop.Services
+namespace Uestc.BBS.Core.Services
 {
     public interface ILogService
     {

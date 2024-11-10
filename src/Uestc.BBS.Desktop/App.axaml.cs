@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using NLog;
 using System;
 using System.Net.Http;
+using Uestc.BBS.Core.Services;
 using Uestc.BBS.Desktop.Services;
 using Uestc.BBS.Desktop.Services.StartupService;
 using Uestc.BBS.Desktop.ViewModels;

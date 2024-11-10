@@ -1,5 +1,6 @@
 ﻿using NLog;
 using System;
+using Uestc.BBS.Core.Services;
 
 namespace Uestc.BBS.Desktop.Services
 {

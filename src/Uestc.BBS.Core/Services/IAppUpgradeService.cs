@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Uestc.BBS.Desktop.Services
+namespace Uestc.BBS.Core.Services
 {
     public interface IAppUpgradeService
     {

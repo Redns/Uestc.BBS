@@ -1,4 +1,4 @@
-namespace Uestc.BBS.Desktop.Services
+namespace Uestc.BBS.Core.Services
 {
     /// <summary>
     /// 开机自启动
