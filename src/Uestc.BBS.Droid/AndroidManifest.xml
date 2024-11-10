@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.krins.uestc.bbs" android:versionCode="113" android:versionName="0.0.1.113-beta">
+	<application android:allowBackup="true" android:label="@string/app_name" android:supportsRtl="true"></application>
+	<uses-permission android:name="android.permission.INTERNET" />
+	<uses-permission android:name="android.permission.INTERNET" />
+</manifest>

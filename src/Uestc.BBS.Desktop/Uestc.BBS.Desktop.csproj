@@ -1,39 +1,51 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <!--If you are willing to use Windows/MacOS native APIs you will need to create 3 projects.
-    One for Windows with net8.0-windows TFM, one for MacOS with net8.0-macos and one with net8.0 TFM for Linux.-->
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
     <ApplicationManifest>app.manifest</ApplicationManifest>
-	  <PublishAot Condition="'$(Configuration)' == 'Release'">true</PublishAot>
-	  <PublishTrimmed>true</PublishTrimmed>
+    <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+	<PublishAot Condition="'$(Configuration)' == 'Release'">true</PublishAot>
+	<PublishTrimmed>true</PublishTrimmed>
   </PropertyGroup>
 
   <ItemGroup>
-    <AvaloniaResource Include="Resources\Fonts\HarmonyOS_Sans_SC_Regular.ttf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </AvaloniaResource>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="nlog.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <Folder Include="Models\" />
+    <AvaloniaResource Include="Assets\**" />
   </ItemGroup>
 
   <ItemGroup>
+    <AvaloniaXaml Remove="Assets\Styles.axaml" />
+    <AvaloniaXaml Remove="Assets\Themes.axaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Assets\avatar.jpg" />
+    <None Remove="Assets\title-logo.png" />
+    <None Remove="Assets\tray.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ActiproSoftware.Controls.Avalonia" Version="25.1.0" />
+    <PackageReference Include="Avalonia" Version="11.2.0" />
     <PackageReference Include="Avalonia.Desktop" Version="11.2.0" />
-    <PackageReference Include="Avalonia.LinuxFramebuffer" Version="11.2.0" />
+    <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
+    <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.2.0" />
+    <PackageReference Include="AWSSDK.S3" Version="3.7.405.11" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.3.2" />
+    <PackageReference Include="FluentIcons.Avalonia" Version="1.1.265" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.1" />
     <PackageReference Include="NLog" Version="5.3.4" />
     <PackageReference Include="TaskScheduler" Version="2.11.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Uestc.BBS\Uestc.BBS.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Resources\Icons\" />
+    <AvaloniaResource Update="Assets\Styles.axaml">
+      <SubType>Designer</SubType>
+    </AvaloniaResource>
+    <AvaloniaResource Update="Assets\Themes.axaml">
+      <SubType>Designer</SubType>
+    </AvaloniaResource>
   </ItemGroup>
 </Project>

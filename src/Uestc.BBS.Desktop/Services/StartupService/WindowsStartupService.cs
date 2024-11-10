@@ -1,6 +1,5 @@
 ﻿using Microsoft.Win32.TaskScheduler;
 using System.IO;
-using Uestc.BBS.Services;
 
 namespace Uestc.BBS.Desktop.Services.StartupService
 {

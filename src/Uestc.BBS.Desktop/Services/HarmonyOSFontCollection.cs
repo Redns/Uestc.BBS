@@ -7,7 +7,7 @@ namespace Uestc.BBS.Desktop.Services
     {
         public HarmonyOSFontCollection() : base(
             new Uri("fonts:HarmonyOS Sans", UriKind.Absolute),
-            new Uri("avares://Uestc.BBS.Desktop/Resources/Fonts", UriKind.Absolute))
+            new Uri("avares://Uestc.BBS.Desktop/Assets/Fonts", UriKind.Absolute))
         {
         }
     }
