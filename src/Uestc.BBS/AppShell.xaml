@@ -6,9 +6,6 @@
     xmlns:local="clr-namespace:Uestc.BBS"
     Shell.FlyoutBehavior="Disabled">
 
-    <ShellContent
-        Content=""
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+    <ShellContent ContentTemplate="{DataTemplate local:MainPage}" Route="MainPage" />
 
 </Shell>

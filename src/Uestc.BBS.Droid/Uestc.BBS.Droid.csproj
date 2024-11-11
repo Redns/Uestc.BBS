@@ -10,13 +10,17 @@
 		<UseMaui>true</UseMaui>
 	</PropertyGroup>
 
-	<ItemGroup>
-	  <AndroidResource Remove="Resources\drawable\appicon.png" />
-	</ItemGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+	  <AndroidPackageFormat>apk</AndroidPackageFormat>
+	  <AndroidEnableMultiDex>True</AndroidEnableMultiDex>
+	  <AndroidLinkTool>r8</AndroidLinkTool>
+	  <RunAOTCompilation>True</RunAOTCompilation>
+	</PropertyGroup>
 
-	<ItemGroup>
-	  <None Remove="Resources\drawable\appicon.png" />
-	</ItemGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+	  <EmbedAssembliesIntoApk>False</EmbedAssembliesIntoApk>
+	  <AndroidEnableMultiDex>True</AndroidEnableMultiDex>
+	</PropertyGroup>
 
 	<ItemGroup>
 	  <MauiImage Include="Resources\drawable\appicon.png" />
@@ -30,5 +34,11 @@
 	<ItemGroup>
 		<ProjectReference Include="..\Uestc.BBS\Uestc.BBS.csproj" />
 	</ItemGroup>
+
+	<PropertyGroup Condition="'$(Configuration)' == 'Release'">
+		<AndroidEnableMarshalMethods>true</AndroidEnableMarshalMethods>
+		<!-- Note that single-architecture apps will be most successful -->
+		<RuntimeIdentifier>android-arm64</RuntimeIdentifier>
+	</PropertyGroup>
 
 </Project>

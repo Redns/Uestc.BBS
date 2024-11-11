@@ -1,5 +1,4 @@
 ﻿using CommunityToolkit.Maui;
-using Microsoft.Extensions.Logging;
 
 namespace Uestc.BBS;
 
@@ -9,12 +8,7 @@ public static class MauiProgramExtensions
 	{
 		builder
 			.UseMauiApp<App>()
-			.UseMauiCommunityToolkit()
-			.ConfigureFonts(fonts =>
-			{
-				fonts.AddFont("HarmonyOS_Sans_SC_Regular.ttf", "HarmonyOSRegular");
-				fonts.AddFont("HarmonyOS_Sans_SC_Bold.ttf", "HarmonyOSBold");
-			});
+			.UseMauiCommunityToolkit();
 
 		return builder;
 	}
