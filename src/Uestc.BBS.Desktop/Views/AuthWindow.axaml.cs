@@ -1,13 +1,16 @@
-using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Markup.Xaml;
+using Avalonia.Interactivity;
+using Uestc.BBS.Desktop.ViewModels;
 
-namespace Uestc.BBS;
+namespace Uestc.BBS.Desktop;
 
 public partial class AuthWindow : Window
 {
-    public AuthWindow()
+    public AuthWindow(AuthViewModel viewModel)
     {
         InitializeComponent();
+        DataContext = viewModel;
     }
+
+    private void CloseWindow(object? sender, RoutedEventArgs e) => Hide();
 }

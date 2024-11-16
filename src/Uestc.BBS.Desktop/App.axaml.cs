@@ -6,7 +6,6 @@ using Avalonia.Markup.Xaml;
 using Microsoft.Extensions.DependencyInjection;
 using NLog;
 using System;
-using System.Net.Http;
 using Uestc.BBS.Core.Services;
 using Uestc.BBS.Desktop.Services;
 using Uestc.BBS.Desktop.Services.StartupService;
@@ -18,7 +17,7 @@ namespace Uestc.BBS.Desktop;
 
 public partial class App : Application
 {
-    public static ServiceCollection ServiceCollection { get; } = new();
+    public static IServiceCollection ServiceCollection { get; } = new ServiceCollection();
     public static ServiceProvider Services { get; private set; }
 
     public override void Initialize()
@@ -36,10 +35,13 @@ public partial class App : Application
         BindingPlugins.DataValidators.RemoveAt(0);
         DataContext = Services.GetService<AppViewModel>();
 
+        // TODO 检查用户是否授权
+        var isUserAuthed = false;
+
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
             desktop.ShutdownMode = ShutdownMode.OnExplicitShutdown;
-            desktop.MainWindow = Services.GetService<MainWindow>();
+            desktop.MainWindow = isUserAuthed ? Services.GetRequiredService<MainWindow>() : Services.GetRequiredService<AuthWindow>();
         }
 
         base.OnFrameworkInitializationCompleted();
@@ -80,11 +82,13 @@ public partial class App : Application
         });
         // View & ViewModel
         ServiceCollection.AddSingleton<AppViewModel>();
+        ServiceCollection.AddSingleton<AuthWindow>();
+        ServiceCollection.AddSingleton<AuthViewModel>();
         ServiceCollection.AddSingleton<MainWindow>();
         ServiceCollection.AddSingleton<MainWindowViewModel>();
         ServiceCollection.AddSingleton<HomeView>();
         // Http
-        ServiceCollection.AddTransient(client => new HttpClient());
+        ServiceCollection.AddHttpClient();
         // App upgrade
         ServiceCollection.AddSingleton<IAppUpgradeService>(appUpgrade => new CloudflareAppUpgradeService("https://distributor.krins.cloud",
             "679edd7cffaf4a9ef3be4c445317a461",

@@ -31,7 +31,7 @@
     <!--  窗口关闭按钮背景  -->
     <Style Selector="Button.CloseButton">
         <Style Selector="^:pointerover /template/ ContentPresenter">
-            <Setter Property="Background" Value="#E81123" />
+            <Setter Property="Background" Value="#F14B5C" />
         </Style>
         <Style Selector="^:pressed /template/ ContentPresenter">
             <Setter Property="Background" Value="{DynamicResource BtnDefaultActive}" />
@@ -78,6 +78,22 @@
     </Style>
     <Style Selector="Button.ToolbarIconButton TextBlock">
         <Setter Property="HorizontalAlignment" Value="Center" />
+    </Style>
+    <!--  Tips  -->
+    <Style Selector="ToolTip">
+        <Setter Property="BorderThickness" Value="0" />
+    </Style>
+    <!--  TextBox.Auth  -->
+    <Style Selector="TextBox.Auth">
+        <Setter Property="Height" Value="36" />
+        <Setter Property="MaxLength" Value="24" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Background" Value="{DynamicResource TextBoxBackground}" />
+    </Style>
+    <!--  CheckBox.Auth  -->
+    <Style Selector="CheckBox.Auth">
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Background" Value="{DynamicResource TextBoxBackground}" />
     </Style>
 
 </Styles>

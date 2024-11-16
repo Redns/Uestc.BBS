@@ -14,13 +14,14 @@
             <SolidColorBrush x:Key="BgSidebarItemHover" Color="#f5f5f6" />
             <SolidColorBrush x:Key="BgSidebarItemPressed" Color="#ebebed" />
             <SolidColorBrush x:Key="BgSearchInput" Color="#f6f6f7" />
-            <Color x:Key="BgWindow">White</Color>
+            <Color x:Key="BgWindow">#F7F8FA</Color>
             <!--  文本  -->
             <SolidColorBrush x:Key="TextPrimary" Color="#25262b" />
             <SolidColorBrush x:Key="TextSecondary" Color="#2B2D2D" />
+            <SolidColorBrush x:Key="TextBoxBackground" Color="#F6F6F7" />
             <!--  按钮  -->
             <SolidColorBrush x:Key="BtnDefault" Color="#f5f5f6" />
-            <SolidColorBrush x:Key="BtnDefaultHover" Color="#ececee" />
+            <SolidColorBrush x:Key="BtnDefaultHover" Color="#F2F2F2" />
             <SolidColorBrush x:Key="BtnDefaultActive" Color="#e3e3e5" />
             <!--  主题图标 & Tips  -->
             <system:String x:Key="TipsThemeSwitch">切换至深色主题</system:String>
@@ -38,13 +39,12 @@
             <SolidColorBrush x:Key="BgSearchInput" Color="#19191c" />
             <SolidColorBrush x:Key="TextPrimary" Color="White" />
             <SolidColorBrush x:Key="TextSecondary" Color="#606062" />
+            <SolidColorBrush x:Key="TextBoxBackground" Color="#4A4A4A" />
             <SolidColorBrush x:Key="BtnDefault" Color="#222226" />
-            <SolidColorBrush x:Key="BtnDefaultHover" Color="#2e2e32" />
+            <SolidColorBrush x:Key="BtnDefaultHover" Color="#2A2A2C" />
             <SolidColorBrush x:Key="BtnDefaultActive" Color="#3a3a3f" />
             <system:String x:Key="TipsThemeSwitch">切换至浅色主题</system:String>
             <fluent-icon:Symbol x:Key="IconThemeSwitch">WeatherSunny</fluent-icon:Symbol>
         </ResourceDictionary>
-
     </ResourceDictionary.ThemeDictionaries>
-
 </ResourceDictionary>

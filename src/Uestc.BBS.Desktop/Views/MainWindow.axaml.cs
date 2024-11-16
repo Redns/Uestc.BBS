@@ -29,15 +29,5 @@ public partial class MainWindow : Window
     private void MaximizeWindow(object? sender, RoutedEventArgs e) =>
         WindowState = WindowState is WindowState.Normal ? WindowState.Maximized : WindowState.Normal;
 
-    private void CloseWindow(object? sender, RoutedEventArgs e) => Close();
-
-    /// <summary>
-    /// 关闭窗口时阻止应用退出
-    /// </summary>
-    /// <param name="e"></param>
-    protected override void OnClosing(WindowClosingEventArgs e)
-    {
-        e.Cancel = true;
-        Hide();
-    }
+    private void CloseWindow(object? sender, RoutedEventArgs e) => Hide();
 }
