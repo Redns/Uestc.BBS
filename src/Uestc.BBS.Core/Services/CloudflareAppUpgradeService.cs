@@ -1,10 +1,18 @@
 using Amazon.S3;
 using Amazon.S3.Model;
-using Microsoft.Extensions.DependencyInjection;
 using Uestc.BBS.Core.Helpers;
 
 namespace Uestc.BBS.Core.Services
 {
+    /// <summary>
+    /// Cloudflare 应用更新（分平台实现）
+    /// Android 下载更新：https://learn.microsoft.com/en-us/answers/questions/1660427/how-to-install-app-in-android-in-maui
+    /// </summary>
+    /// <param name="baseUrl"></param>
+    /// <param name="secretId"></param>
+    /// <param name="secretKey"></param>
+    /// <param name="bucketName"></param>
+    /// <param name="endpointUrl"></param>
     public class CloudflareAppUpgradeService(string baseUrl, string secretId, string secretKey, string bucketName, string endpointUrl) : IAppUpgradeService
     {
         private readonly string _baseUrl = baseUrl;

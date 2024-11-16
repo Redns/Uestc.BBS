@@ -4,6 +4,7 @@ using Avalonia.Styling;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.DependencyInjection;
+using Uestc.BBS.Core;
 
 namespace Uestc.BBS.Desktop.ViewModels
 {
@@ -22,7 +23,7 @@ namespace Uestc.BBS.Desktop.ViewModels
         /// 导航页面
         /// </summary>
         [ObservableProperty]
-        private UserControl _currentPage = App.Services.GetRequiredService<HomeView>();
+        private UserControl _currentPage = ServiceExtension.GetRequiredService<HomeView>();
 
         public MainWindowViewModel()
         {

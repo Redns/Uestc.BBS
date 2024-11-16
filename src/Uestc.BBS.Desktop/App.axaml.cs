@@ -6,6 +6,7 @@ using Avalonia.Markup.Xaml;
 using Microsoft.Extensions.DependencyInjection;
 using NLog;
 using System;
+using Uestc.BBS.Core;
 using Uestc.BBS.Core.Services;
 using Uestc.BBS.Desktop.Services;
 using Uestc.BBS.Desktop.Services.StartupService;
@@ -17,9 +18,6 @@ namespace Uestc.BBS.Desktop;
 
 public partial class App : Application
 {
-    public static IServiceCollection ServiceCollection { get; } = new ServiceCollection();
-    public static ServiceProvider Services { get; private set; }
-
     public override void Initialize()
     {
         AvaloniaXamlLoader.Load(this);
@@ -28,12 +26,12 @@ public partial class App : Application
     public override void OnFrameworkInitializationCompleted()
     {
         // 初始化服务
-        Services = ConfigureServices();
+        ServiceExtension.ConfigureServices(s => ConfigureServices(s));
 
         // Line below is needed to remove Avalonia data validation.
         // Without this line you will get duplicate validations from both Avalonia and CT
         BindingPlugins.DataValidators.RemoveAt(0);
-        DataContext = Services.GetService<AppViewModel>();
+        DataContext = ServiceExtension.GetService<AppViewModel>();
 
         // TODO 检查用户是否授权
         var isUserAuthed = false;
@@ -41,7 +39,7 @@ public partial class App : Application
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
             desktop.ShutdownMode = ShutdownMode.OnExplicitShutdown;
-            desktop.MainWindow = isUserAuthed ? Services.GetRequiredService<MainWindow>() : Services.GetRequiredService<AuthWindow>();
+            desktop.MainWindow = isUserAuthed ? ServiceExtension.GetRequiredService<MainWindow>() : ServiceExtension.GetRequiredService<AuthWindow>();
         }
 
         base.OnFrameworkInitializationCompleted();
@@ -51,12 +49,17 @@ public partial class App : Application
     /// 注入公共依赖
     /// </summary>
     /// <returns></returns>
-    private static ServiceProvider ConfigureServices()
+    private static void ConfigureServices(ServiceCollection collection)
     {
-        // 日志
-        ServiceCollection.AddSingleton<ILogService>(logger => new NLogService(LogManager.GetLogger("*")));
+        // View & ViewModel
+        collection.AddSingleton<AppViewModel>();
+        collection.AddSingleton<AuthWindow>();
+        collection.AddSingleton<AuthViewModel>();
+        collection.AddSingleton<MainWindow>();
+        collection.AddSingleton<MainWindowViewModel>();
+        collection.AddSingleton<HomeView>();
         // 自启动
-        ServiceCollection.AddSingleton<IStartupService>(startup =>
+        collection.AddSingleton<IStartupService>(startup =>
         {
             var startupInfo = new StartupInfo
             {
@@ -80,22 +83,7 @@ public partial class App : Application
                 return new MacCatalystStartupService();
             }
         });
-        // View & ViewModel
-        ServiceCollection.AddSingleton<AppViewModel>();
-        ServiceCollection.AddSingleton<AuthWindow>();
-        ServiceCollection.AddSingleton<AuthViewModel>();
-        ServiceCollection.AddSingleton<MainWindow>();
-        ServiceCollection.AddSingleton<MainWindowViewModel>();
-        ServiceCollection.AddSingleton<HomeView>();
-        // Http
-        ServiceCollection.AddHttpClient();
-        // App upgrade
-        ServiceCollection.AddSingleton<IAppUpgradeService>(appUpgrade => new CloudflareAppUpgradeService("https://distributor.krins.cloud",
-            "679edd7cffaf4a9ef3be4c445317a461",
-            "45fcd2ff239321d48ad4cae7ea9b5c4457f9d12f2483eb4029836931f5f83526",
-            "distributor",
-            "https://11f33fc072df859ebaf8faa0b0e1766b.r2.cloudflarestorage.com"));
-
-        return ServiceCollection.BuildServiceProvider();
+        // 日志
+        collection.AddSingleton<ILogService>(logger => new NLogService(LogManager.GetLogger("*")));
     }
 }
