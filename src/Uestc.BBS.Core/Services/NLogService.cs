@@ -1,8 +1,7 @@
 ﻿using NLog;
 using System;
-using Uestc.BBS.Core.Services;
 
-namespace Uestc.BBS.Desktop.Services
+namespace Uestc.BBS.Core.Services
 {
     public class NLogService(Logger logger) : ILogService
     {

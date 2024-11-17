@@ -23,7 +23,7 @@ public partial class App : Application
         // Without this line you will get duplicate validations from both Avalonia and CT
         BindingPlugins.DataValidators.RemoveAt(0);
         DataContext = ServiceExtension.Services.GetService<AppViewModel>();
-        var s = ServiceExtension.Services.GetService<AppSetting>();
+
         // TODO 检查用户是否授权
         var isUserAuthed = false;
 

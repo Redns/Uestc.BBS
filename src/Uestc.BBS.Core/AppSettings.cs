@@ -9,12 +9,6 @@ namespace Uestc.BBS.Core
 {
     public class AppSetting
     {
-        private static readonly JsonSerializerOptions _serializerOptions = new()
-        {
-            WriteIndented = true,
-            TypeInfoResolver = JsonTypeInfoResolver.Combine(AppSettingContext.Default, new DefaultJsonTypeInfoResolver())
-        };
-
         public AuthSetting Auth { get; set; } = new();
 
         public SyncSetting Sync { get; set; } = new();
@@ -60,6 +54,12 @@ namespace Uestc.BBS.Core
         {
             return JsonSerializer.Serialize(this, _serializerOptions);
         }
+
+        private static readonly JsonSerializerOptions _serializerOptions = new()
+        {
+            WriteIndented = true,
+            TypeInfoResolver = JsonTypeInfoResolver.Combine(AppSettingContext.Default, new DefaultJsonTypeInfoResolver())
+        };
     }
 
     public class AuthSetting
