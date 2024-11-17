@@ -24,6 +24,7 @@
   <ItemGroup>
     <None Remove="Assets\appicon.png" />
     <None Remove="Assets\avatar.jpg" />
+    <None Remove="Assets\Icons\auth_icon.png" />
     <None Remove="Assets\Icons\taskbar_icon.png" />
     <None Remove="Assets\Icons\titlebar_icon.png" />
     <None Remove="Assets\Icons\tray_icon.png" />

@@ -3,12 +3,9 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:ic="using:FluentIcons.Avalonia">
     <Design.PreviewWith>
-        <Border Padding="20">
-            <!--  Add Controls for Previewer Here  -->
-        </Border>
+        <Border Padding="20" />
     </Design.PreviewWith>
 
-    <!--  Add Styles Here  -->
     <!--  窗口标题工具栏  -->
     <Style Selector="Button.WindowToolbarButton">
         <Setter Property="Width" Value="45" />
@@ -31,7 +28,7 @@
     <!--  窗口关闭按钮背景  -->
     <Style Selector="Button.CloseButton">
         <Style Selector="^:pointerover /template/ ContentPresenter">
-            <Setter Property="Background" Value="#F14B5C" />
+            <Setter Property="Background" Value="#E74A5A" />
         </Style>
         <Style Selector="^:pressed /template/ ContentPresenter">
             <Setter Property="Background" Value="{DynamicResource BtnDefaultActive}" />
@@ -83,17 +80,32 @@
     <Style Selector="ToolTip">
         <Setter Property="BorderThickness" Value="0" />
     </Style>
+    <!--  AutoCompleteBox.Auth  -->
+    <Style Selector="AutoCompleteBox.Auth">
+        <Setter Property="Height" Value="36" />
+        <Setter Property="MaxLength" Value="24" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Background" Value="Transparent" />
+    </Style>
     <!--  TextBox.Auth  -->
     <Style Selector="TextBox.Auth">
         <Setter Property="Height" Value="36" />
         <Setter Property="MaxLength" Value="24" />
+        <Setter Property="BorderThickness" Value="1" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="Background" Value="{DynamicResource TextBoxBackground}" />
+        <Setter Property="Background" Value="Transparent" />
     </Style>
     <!--  CheckBox.Auth  -->
     <Style Selector="CheckBox.Auth">
-        <Setter Property="BorderThickness" Value="0" />
-        <Setter Property="Background" Value="{DynamicResource TextBoxBackground}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Background" Value="Transparent" />
     </Style>
-
+    <!--  搜索框  -->
+    <Style Selector="AutoCompleteBox.Search">
+        <Setter Property="MinHeight" Value="20" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Background" Value="Transparent" />
+    </Style>
 </Styles>

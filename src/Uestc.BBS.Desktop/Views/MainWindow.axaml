@@ -13,6 +13,7 @@
     MinWidth="1000"
     MinHeight="650"
     x:DataType="vm:MainWindowViewModel"
+    Background="{DynamicResource BgWindow}"
     ExtendClientAreaChromeHints="NoChrome"
     ExtendClientAreaTitleBarHeightHint="30"
     ExtendClientAreaToDecorationsHint="True"
@@ -20,7 +21,6 @@
     SystemDecorations="{OnPlatform Default=Full,
                                    Linux=None}"
     Topmost="{Binding IsWindowPinned}"
-    TransparencyLevelHint="AcrylicBlur"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
     <!--
@@ -39,181 +39,169 @@
             </OnPlatform>
         </Style>
     </Window.Styles>
-    <Panel>
-        <ExperimentalAcrylicBorder IsHitTestVisible="True">
-            <ExperimentalAcrylicBorder.Material>
-                <ExperimentalAcrylicMaterial
-                    BackgroundSource="Digger"
-                    MaterialOpacity="1.0"
-                    TintColor="{DynamicResource BgWindow}" />
-            </ExperimentalAcrylicBorder.Material>
-        </ExperimentalAcrylicBorder>
-        <Grid ColumnDefinitions="60,*" RowDefinitions="42,*">
-            <!--  标题栏  -->
-            <DockPanel
-                Grid.Row="0"
-                Grid.ColumnSpan="2"
-                Background="{OnPlatform Linux=Transparent}"
-                DoubleTapped="{OnPlatform Linux=DoubleTappedResizeWindow}"
-                PointerPressed="{OnPlatform Linux=DragWindow}">
-                <Image
-                    Margin="5"
-                    DockPanel.Dock="Left"
-                    RenderOptions.BitmapInterpolationMode="{OnPlatform Linux=HighQuality}"
-                    Source="/Assets/Icons/titlebar_icon.png" />
-                <TextBox
-                    Width="460"
-                    MinHeight="20"
-                    Margin="30,6,0,4"
-                    VerticalAlignment="Center"
-                    Background="Transparent"
-                    DockPanel.Dock="Left"
-                    Watermark="你的问题主要在于读书不多而想得太多 ——杨绛">
-                    <TextBox.InnerRightContent>
-                        <ic:SymbolIcon
-                            Margin="0,0,10,0"
-                            Foreground="#748185"
-                            Symbol="Search" />
-                    </TextBox.InnerRightContent>
-                </TextBox>
-                <Button
-                    Classes="WindowToolbarButton CloseButton"
-                    Click="CloseWindow"
-                    DockPanel.Dock="Right">
-                    <ic:SymbolIcon Symbol="Dismiss" />
-                </Button>
-                <Button
-                    Classes="WindowToolbarButton"
-                    Click="MaximizeWindow"
-                    DockPanel.Dock="Right">
-                    <ic:SymbolIcon Symbol="Maximize" />
-                </Button>
-                <Button
-                    Classes="WindowToolbarButton"
-                    Click="MinimizeWindow"
-                    DockPanel.Dock="Right">
-                    <ic:SymbolIcon Symbol="Subtract" />
-                </Button>
-                <Button
-                    Classes="WindowToolbarButton PinWindowButton"
-                    Classes.IsPinned="{Binding IsWindowPinned}"
-                    Command="{Binding SwitchPinWindowCommand}"
-                    DockPanel.Dock="Right">
-                    <ic:SymbolIcon />
-                </Button>
-                <Button
-                    Classes="WindowToolbarButton"
-                    Command="{Binding SwitchThemeCommand}"
-                    DockPanel.Dock="Right"
-                    ToolTip.Placement="Pointer"
-                    ToolTip.Tip="{DynamicResource TipsThemeSwitch}">
-                    <ic:SymbolIcon Classes="ThemeIcon" Symbol="{DynamicResource IconThemeSwitch}" />
-                </Button>
-                <Image
-                    Width="32"
-                    Margin="6,0"
-                    ClipToBounds="True"
-                    DockPanel.Dock="Right"
-                    Source="/Assets/avatar.jpg"
-                    Stretch="Uniform">
-                    <Image.Clip>
-                        <StreamGeometry>
-                            M 16 16 m -16, 0 a 16,16 0 1,0 32,0 a 16,16 0 1,0 -32,0
-                        </StreamGeometry>
-                    </Image.Clip>
-                </Image>
-                <Border />
-            </DockPanel>
-            <!--  侧边导航栏  -->
-            <DockPanel
-                Grid.Row="1"
-                Grid.Column="0"
-                Margin="10">
-                <Button
-                    Classes="ToolbarIconButton"
-                    Classes.Active="false"
-                    Command="{Binding NavigateCommand}"
-                    CommandParameter="Upload"
-                    DockPanel.Dock="Top">
-                    <StackPanel>
-                        <ic:SymbolIcon Symbol="Home" />
-                        <TextBlock Text="主 页" />
-                    </StackPanel>
-                </Button>
-                <Button
-                    Classes="ToolbarIconButton"
-                    Classes.Active="false"
-                    Command="{Binding NavigateCommand}"
-                    CommandParameter="Plugins"
-                    DockPanel.Dock="Top">
-                    <StackPanel>
-                        <ic:SymbolIcon Symbol="Apps" />
-                        <TextBlock Text="版 块" />
-                    </StackPanel>
-                </Button>
-                <Button
-                    Classes="ToolbarIconButton"
-                    Classes.Active="false"
-                    Command="{Binding NavigateCommand}"
-                    CommandParameter="Plugins"
-                    DockPanel.Dock="Top">
-                    <StackPanel>
-                        <ic:SymbolIcon Symbol="Rocket" />
-                        <TextBlock Text="服 务" />
-                    </StackPanel>
-                </Button>
-                <Button
-                    Classes="ToolbarIconButton"
-                    Classes.Active="false"
-                    Command="{Binding NavigateCommand}"
-                    CommandParameter="Plugins"
-                    DockPanel.Dock="Top">
-                    <StackPanel>
-                        <ic:SymbolIcon Symbol="Scan" />
-                        <TextBlock Text="动 态" />
-                    </StackPanel>
-                </Button>
-                <Button
-                    Classes="ToolbarIconButton"
-                    Classes.Active="false"
-                    Command="{Binding NavigateCommand}"
-                    CommandParameter="Plugins"
-                    DockPanel.Dock="Top">
-                    <StackPanel>
-                        <ic:SymbolIcon Symbol="SaveCopy" />
-                        <TextBlock Text="发 布" />
-                    </StackPanel>
-                </Button>
-                <Button
-                    Classes="ToolbarIconButton"
-                    Classes.Active="false"
-                    Command="{Binding NavigateCommand}"
-                    CommandParameter="Settings"
-                    DockPanel.Dock="Bottom">
-                    <StackPanel>
-                        <ic:SymbolIcon Symbol="Settings" />
-                        <TextBlock Text="设 置" />
-                    </StackPanel>
-                </Button>
-                <Button
-                    Classes="ToolbarIconButton"
-                    Classes.Active="false"
-                    Command="{Binding NavigateCommand}"
-                    CommandParameter="Settings"
-                    DockPanel.Dock="Bottom">
-                    <StackPanel>
-                        <ic:SymbolIcon Symbol="Mail" />
-                        <TextBlock Text="消 息" />
-                    </StackPanel>
-                </Button>
-                <Border />
-            </DockPanel>
-            <!--  导航栏对应页面  -->
-            <ContentControl
-                Grid.Row="1"
-                Grid.Column="1"
-                Margin="20,10,40,10"
-                Content="{Binding CurrentPage}" />
-        </Grid>
-    </Panel>
+    <Grid ColumnDefinitions="60,*" RowDefinitions="42,*">
+        <!--  标题栏  -->
+        <DockPanel
+            Grid.Row="0"
+            Grid.ColumnSpan="2"
+            Background="{OnPlatform Linux=Transparent}"
+            DoubleTapped="{OnPlatform Linux=DoubleTappedResizeWindow}"
+            PointerPressed="{OnPlatform Linux=DragWindow}">
+            <Image
+                Margin="5"
+                DockPanel.Dock="Left"
+                RenderOptions.BitmapInterpolationMode="{OnPlatform Linux=HighQuality}"
+                Source="/Assets/Icons/titlebar_icon.png" />
+            <AutoCompleteBox
+                Width="460"
+                Margin="30,6,0,4"
+                Classes="Search"
+                DockPanel.Dock="Left"
+                Watermark="你的问题主要在于读书不多而想得太多 ——杨绛">
+                <AutoCompleteBox.InnerRightContent>
+                    <ic:SymbolIcon
+                        Margin="0,0,10,0"
+                        Foreground="#748185"
+                        Symbol="Search" />
+                </AutoCompleteBox.InnerRightContent>
+            </AutoCompleteBox>
+            <Button
+                Classes="WindowToolbarButton CloseButton"
+                Click="CloseWindow"
+                DockPanel.Dock="Right">
+                <ic:SymbolIcon Symbol="Dismiss" />
+            </Button>
+            <Button
+                Classes="WindowToolbarButton"
+                Click="MaximizeWindow"
+                DockPanel.Dock="Right">
+                <ic:SymbolIcon Symbol="Maximize" />
+            </Button>
+            <Button
+                Classes="WindowToolbarButton"
+                Click="MinimizeWindow"
+                DockPanel.Dock="Right">
+                <ic:SymbolIcon Symbol="Subtract" />
+            </Button>
+            <Button
+                Classes="WindowToolbarButton PinWindowButton"
+                Classes.IsPinned="{Binding IsWindowPinned}"
+                Command="{Binding SwitchPinWindowCommand}"
+                DockPanel.Dock="Right">
+                <ic:SymbolIcon />
+            </Button>
+            <Button
+                Classes="WindowToolbarButton"
+                Command="{Binding SwitchThemeCommand}"
+                DockPanel.Dock="Right"
+                ToolTip.Placement="Pointer"
+                ToolTip.Tip="{DynamicResource TipsThemeSwitch}">
+                <ic:SymbolIcon Classes="ThemeIcon" Symbol="{DynamicResource IconThemeSwitch}" />
+            </Button>
+            <Image
+                Width="32"
+                Margin="6,0"
+                ClipToBounds="True"
+                DockPanel.Dock="Right"
+                Source="/Assets/avatar.jpg"
+                Stretch="Uniform">
+                <Image.Clip>
+                    <StreamGeometry>
+                        M 16 16 m -16, 0 a 16,16 0 1,0 32,0 a 16,16 0 1,0 -32,0
+                    </StreamGeometry>
+                </Image.Clip>
+            </Image>
+            <Border />
+        </DockPanel>
+        <!--  侧边导航栏  -->
+        <DockPanel
+            Grid.Row="1"
+            Grid.Column="0"
+            Margin="10">
+            <Button
+                Classes="ToolbarIconButton"
+                Classes.Active="false"
+                Command="{Binding NavigateCommand}"
+                CommandParameter="Upload"
+                DockPanel.Dock="Top">
+                <StackPanel>
+                    <ic:SymbolIcon Symbol="Home" />
+                    <TextBlock Text="主 页" />
+                </StackPanel>
+            </Button>
+            <Button
+                Classes="ToolbarIconButton"
+                Classes.Active="false"
+                Command="{Binding NavigateCommand}"
+                CommandParameter="Plugins"
+                DockPanel.Dock="Top">
+                <StackPanel>
+                    <ic:SymbolIcon Symbol="Apps" />
+                    <TextBlock Text="版 块" />
+                </StackPanel>
+            </Button>
+            <Button
+                Classes="ToolbarIconButton"
+                Classes.Active="false"
+                Command="{Binding NavigateCommand}"
+                CommandParameter="Plugins"
+                DockPanel.Dock="Top">
+                <StackPanel>
+                    <ic:SymbolIcon Symbol="Rocket" />
+                    <TextBlock Text="服 务" />
+                </StackPanel>
+            </Button>
+            <Button
+                Classes="ToolbarIconButton"
+                Classes.Active="false"
+                Command="{Binding NavigateCommand}"
+                CommandParameter="Plugins"
+                DockPanel.Dock="Top">
+                <StackPanel>
+                    <ic:SymbolIcon Symbol="Scan" />
+                    <TextBlock Text="动 态" />
+                </StackPanel>
+            </Button>
+            <Button
+                Classes="ToolbarIconButton"
+                Classes.Active="false"
+                Command="{Binding NavigateCommand}"
+                CommandParameter="Plugins"
+                DockPanel.Dock="Top">
+                <StackPanel>
+                    <ic:SymbolIcon Symbol="SaveCopy" />
+                    <TextBlock Text="发 布" />
+                </StackPanel>
+            </Button>
+            <Button
+                Classes="ToolbarIconButton"
+                Classes.Active="false"
+                Command="{Binding NavigateCommand}"
+                CommandParameter="Settings"
+                DockPanel.Dock="Bottom">
+                <StackPanel>
+                    <ic:SymbolIcon Symbol="Settings" />
+                    <TextBlock Text="设 置" />
+                </StackPanel>
+            </Button>
+            <Button
+                Classes="ToolbarIconButton"
+                Classes.Active="false"
+                Command="{Binding NavigateCommand}"
+                CommandParameter="Settings"
+                DockPanel.Dock="Bottom">
+                <StackPanel>
+                    <ic:SymbolIcon Symbol="Mail" />
+                    <TextBlock Text="消 息" />
+                </StackPanel>
+            </Button>
+            <Border />
+        </DockPanel>
+        <!--  导航栏对应页面  -->
+        <ContentControl
+            Grid.Row="1"
+            Grid.Column="1"
+            Margin="20,10,40,10"
+            Content="{Binding CurrentPage}" />
+    </Grid>
 </Window>
