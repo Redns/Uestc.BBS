@@ -38,6 +38,10 @@
     <PackageReference Include="Avalonia.Desktop" Version="11.2.1" />
     <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
     <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.2.1" />
+    <PackageReference Include="DeviceId" Version="6.7.0" />
+    <PackageReference Include="DeviceId.Linux" Version="6.4.0" />
+    <PackageReference Include="DeviceId.Mac" Version="6.3.0" />
+    <PackageReference Include="DeviceId.Windows.Wmi" Version="6.6.0" />
     <PackageReference Include="FluentIcons.Avalonia" Version="1.1.265" />
     <PackageReference Include="NLog" Version="5.3.4" />
     <PackageReference Include="TaskScheduler" Version="2.11.0" />
@@ -54,5 +58,11 @@
     <AvaloniaResource Update="Assets\Themes.axaml">
       <SubType>Designer</SubType>
     </AvaloniaResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="nlog.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 </Project>

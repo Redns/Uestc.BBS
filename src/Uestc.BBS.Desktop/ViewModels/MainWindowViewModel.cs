@@ -23,7 +23,7 @@ namespace Uestc.BBS.Desktop.ViewModels
         /// 导航页面
         /// </summary>
         [ObservableProperty]
-        private UserControl _currentPage = ServiceExtension.GetRequiredService<HomeView>();
+        private UserControl _currentPage = ServiceExtension.Services.GetRequiredService<HomeView>();
 
         public MainWindowViewModel()
         {

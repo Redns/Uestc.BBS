@@ -26,7 +26,7 @@ namespace Uestc.BBS.ViewModels
         {
             if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
-                desktop.MainWindow ??= ServiceExtension.GetRequiredService<MainWindow>();
+                desktop.MainWindow ??= ServiceExtension.Services.GetRequiredService<MainWindow>();
                 desktop.MainWindow.WindowState = WindowState.Normal;
                 desktop.MainWindow.Show();
                 desktop.MainWindow.Activate();

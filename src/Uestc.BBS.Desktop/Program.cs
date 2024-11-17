@@ -1,6 +1,5 @@
 ﻿using Avalonia;
 using Avalonia.Media;
-using Microsoft.VisualBasic;
 using System;
 using System.Diagnostics;
 using System.Linq;
@@ -26,6 +25,7 @@ namespace Uestc.BBS.Desktop
         // Avalonia configuration, don't remove; also used by visual designer.
         public static AppBuilder BuildAvaloniaApp() => AppBuilder.Configure<App>()
                 .UsePlatformDetect()
+                .ConfigureServices()
                 .ConfigureFonts(fontManager =>
                 {
                     fontManager.AddFontCollection(new HarmonyOSFontCollection());
