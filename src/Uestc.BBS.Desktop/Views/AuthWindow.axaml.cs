@@ -22,4 +22,8 @@ public partial class AuthWindow : Window
             BeginMoveDrag(e);
         }
     }
+
+    private void Binding(object? sender, Avalonia.Controls.SelectionChangedEventArgs e)
+    {
+    }
 }

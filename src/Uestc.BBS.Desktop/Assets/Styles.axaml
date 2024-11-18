@@ -6,6 +6,16 @@
         <Border Padding="20" />
     </Design.PreviewWith>
 
+    <!--  隐藏获得焦点状态下控件周围黑边  -->
+    <Styles>
+        <Style Selector="TextBox,Button,CheckBox">
+            <Setter Property="FocusAdorner">
+                <FocusAdornerTemplate>
+                    <Border Margin="-3" />
+                </FocusAdornerTemplate>
+            </Setter>
+        </Style>
+    </Styles>
     <!--  窗口标题工具栏  -->
     <Style Selector="Button.WindowToolbarButton">
         <Setter Property="Width" Value="45" />
@@ -84,28 +94,31 @@
     <Style Selector="AutoCompleteBox.Auth">
         <Setter Property="Height" Value="36" />
         <Setter Property="MaxLength" Value="24" />
-        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="BorderThickness" Value="0" />
         <Setter Property="VerticalAlignment" Value="Center" />
-        <Setter Property="Background" Value="Transparent" />
     </Style>
     <!--  TextBox.Auth  -->
     <Style Selector="TextBox.Auth">
         <Setter Property="Height" Value="36" />
         <Setter Property="MaxLength" Value="24" />
-        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="BorderThickness" Value="0" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Background" Value="{DynamicResource TextBoxDefault}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource BgWindow}" />
     </Style>
     <!--  CheckBox.Auth  -->
     <Style Selector="CheckBox.Auth">
-        <Setter Property="BorderThickness" Value="1" />
-        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Background" Value="{DynamicResource CheckBoxDefault}" />
+        <Style Selector="^:pointerover">
+            <Setter Property="Background" Value="Black" />
+        </Style>
     </Style>
     <!--  搜索框  -->
     <Style Selector="AutoCompleteBox.Search">
         <Setter Property="MinHeight" Value="20" />
-        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="BorderThickness" Value="0" />
         <Setter Property="VerticalAlignment" Value="Center" />
-        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Background" Value="{DynamicResource TextBoxDefault}" />
     </Style>
 </Styles>

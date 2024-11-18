@@ -55,6 +55,7 @@
             Source="/Assets/Icons/auth_icon.png" />
         <AutoCompleteBox
             Classes="Auth"
+            ItemsSource="{Binding Users, Mode=OneTime}"
             Text="{Binding Username}"
             Watermark="用户名">
             <AutoCompleteBox.InnerRightContent>

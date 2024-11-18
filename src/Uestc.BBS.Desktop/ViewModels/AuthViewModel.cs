@@ -3,10 +3,14 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Avalonia;
 using Uestc.BBS.Desktop.Views;
+using System.Collections.Generic;
+using Uestc.BBS.Core;
+using System.Linq;
+using Avalonia.Controls;
 
 namespace Uestc.BBS.Desktop.ViewModels
 {
-    public partial class AuthViewModel(MainWindow mainWindow) : ObservableObject
+    public partial class AuthViewModel(MainWindow mainWindow, AppSetting appSetting) : ObservableObject
     {
         private readonly MainWindow _mainWindow = mainWindow;
 
@@ -15,6 +19,9 @@ namespace Uestc.BBS.Desktop.ViewModels
 
         [ObservableProperty]
         private string _password = string.Empty;
+
+        [ObservableProperty]
+        private IEnumerable<string> _users = appSetting.Auth.Credentials.Select(c => c.Name).Order();
 
         [RelayCommand]
         private void Login()

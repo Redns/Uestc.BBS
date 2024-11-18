@@ -8,13 +8,17 @@
     <ResourceDictionary.ThemeDictionaries>
         <ResourceDictionary x:Key="Default">
             <!--  背景  -->
-            <Color x:Key="BgWindow">#D8D8DA</Color>
+            <Color x:Key="BgWindow">#E4E4E6</Color>
             <!--  文本  -->
             <SolidColorBrush x:Key="TextPrimary" Color="#25262b" />
             <SolidColorBrush x:Key="TextSecondary" Color="#2B2D2D" />
+            <!--  文本框  -->
+            <Color x:Key="TextBoxDefault">#CDCDCD</Color>
+            <!--  勾选框  -->
+            <Color x:Key="CheckBoxDefault">#CDCDCD</Color>
             <!--  按钮  -->
             <SolidColorBrush x:Key="BtnDefault" Color="#f5f5f6" />
-            <SolidColorBrush x:Key="BtnDefaultHover" Color="#F2F2F2" />
+            <SolidColorBrush x:Key="BtnDefaultHover" Color="#F0F0F0" />
             <SolidColorBrush x:Key="BtnDefaultActive" Color="#e3e3e5" />
             <!--  主题图标 & Tips  -->
             <system:String x:Key="TipsThemeSwitch">切换至深色主题</system:String>
@@ -23,13 +27,20 @@
 
         <!--  暗色主题  -->
         <ResourceDictionary x:Key="Dark">
+            <!--  背景  -->
             <Color x:Key="BgWindow">#2A2A2A</Color>
-            <SolidColorBrush x:Key="BgSearchBox">#3E3E42</SolidColorBrush>
-            <SolidColorBrush x:Key="TextPrimary" Color="White" />
+            <!--  文本  -->
+            <SolidColorBrush x:Key="TextPrimary" Color="#FFFFFF" />
             <SolidColorBrush x:Key="TextSecondary" Color="#606062" />
+            <!--  文本框  -->
+            <Color x:Key="TextBoxDefault">#4A4A4A</Color>
+            <!--  勾选框  -->
+            <Color x:Key="CheckBoxDefault">#4A4A4A</Color>
+            <!--  按钮  -->
             <SolidColorBrush x:Key="BtnDefault" Color="#222226" />
             <SolidColorBrush x:Key="BtnDefaultHover" Color="#3E3E42" />
             <SolidColorBrush x:Key="BtnDefaultActive" Color="#3a3a3f" />
+            <!--  主题图标 & Tips  -->
             <system:String x:Key="TipsThemeSwitch">切换至浅色主题</system:String>
             <fluent-icon:Symbol x:Key="IconThemeSwitch">WeatherSunny</fluent-icon:Symbol>
         </ResourceDictionary>
