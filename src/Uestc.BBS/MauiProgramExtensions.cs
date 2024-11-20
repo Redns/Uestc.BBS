@@ -1,7 +1,7 @@
 ﻿using CommunityToolkit.Maui;
 using NLog;
 using Uestc.BBS.Core;
-using Uestc.BBS.Core.Services;
+using Uestc.BBS.Core.Services.System;
 
 namespace Uestc.BBS;
 

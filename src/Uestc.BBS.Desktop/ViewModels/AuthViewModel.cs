@@ -21,7 +21,7 @@ namespace Uestc.BBS.Desktop.ViewModels
         private string _password = string.Empty;
 
         [ObservableProperty]
-        private IEnumerable<string> _users = appSetting.Auth.Credentials.Select(c => c.Name).Order();
+        private AuthCredential[] _users = [.. appSetting.Auth.Credentials.OrderBy(u => u.Name)];
 
         [RelayCommand]
         private void Login()

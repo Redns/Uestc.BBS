@@ -4,7 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using NLog;
 using System;
 using Uestc.BBS.Core;
-using Uestc.BBS.Core.Services;
+using Uestc.BBS.Core.Services.System;
 using Uestc.BBS.Desktop.Services;
 using Uestc.BBS.Desktop.Services.StartupService;
 using Uestc.BBS.Desktop.ViewModels;

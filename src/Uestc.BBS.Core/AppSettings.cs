@@ -3,7 +3,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.Json.Serialization.Metadata;
 using Uestc.BBS.Core.Helpers;
-using Uestc.BBS.Core.Services;
+using Uestc.BBS.Core.Services.System;
 
 namespace Uestc.BBS.Core
 {
@@ -22,7 +22,7 @@ namespace Uestc.BBS.Core
                 if (File.Exists(path))
                 {
                     var decryptSetting = File.ReadAllText(path).Decrypt(secret);
-                    appSetting = JsonSerializer.Deserialize<AppSetting>(decryptSetting, _serializerOptions);
+                    appSetting = JsonSerializer.Deserialize<AppSetting>(decryptSetting, SerializerOptions);
                     if (appSetting is not null)
                     {
                         return appSetting;
@@ -52,10 +52,10 @@ namespace Uestc.BBS.Core
 
         public override string ToString()
         {
-            return JsonSerializer.Serialize(this, _serializerOptions);
+            return JsonSerializer.Serialize(this, SerializerOptions);
         }
 
-        private static readonly JsonSerializerOptions _serializerOptions = new()
+        public static readonly JsonSerializerOptions SerializerOptions = new()
         {
             WriteIndented = true,
             TypeInfoResolver = JsonTypeInfoResolver.Combine(AppSettingContext.Default, new DefaultJsonTypeInfoResolver())
@@ -97,6 +97,11 @@ namespace Uestc.BBS.Core
         public string Secret { get; set; } = string.Empty;
 
         public string Avatar { get; set; } = string.Empty;
+
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 
     /// <summary>

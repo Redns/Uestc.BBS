@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Text;
-using Uestc.BBS.Core.Services;
+using Uestc.BBS.Core.Services.System;
 
 namespace Uestc.BBS.Desktop.Services.StartupService
 {

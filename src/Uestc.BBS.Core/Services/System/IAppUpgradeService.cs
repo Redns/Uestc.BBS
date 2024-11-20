@@ -1,8 +1,4 @@
-using System;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Uestc.BBS.Core.Services
+namespace Uestc.BBS.Core.Services.System
 {
     public interface IAppUpgradeService
     {

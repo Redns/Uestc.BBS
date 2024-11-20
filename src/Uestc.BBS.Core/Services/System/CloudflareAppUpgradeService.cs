@@ -2,7 +2,7 @@ using Amazon.S3;
 using Amazon.S3.Model;
 using Uestc.BBS.Core.Helpers;
 
-namespace Uestc.BBS.Core.Services
+namespace Uestc.BBS.Core.Services.System
 {
     /// <summary>
     /// Cloudflare 应用更新（分平台实现）
