@@ -26,4 +26,8 @@ public partial class AuthWindow : Window
     private void Binding(object? sender, Avalonia.Controls.SelectionChangedEventArgs e)
     {
     }
+
+    private void Binding(object? sender, Avalonia.Input.PointerPressedEventArgs e)
+    {
+    }
 }

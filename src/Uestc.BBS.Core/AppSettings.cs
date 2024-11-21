@@ -9,6 +9,8 @@ namespace Uestc.BBS.Core
 {
     public class AppSetting
     {
+        public ApperanceSetting Apperance { get; set; } = new();
+
         public AuthSetting Auth { get; set; } = new();
 
         public SyncSetting Sync { get; set; } = new();
@@ -62,6 +64,13 @@ namespace Uestc.BBS.Core
         };
     }
 
+    public class ApperanceSetting
+    {
+        public string OfficialUrl { get; set; } = "https://bbs.uestc.edu.cn/new";
+
+
+    }
+
     public class AuthSetting
     {
         public string UserName { get; set; } = string.Empty;
@@ -91,6 +100,7 @@ namespace Uestc.BBS.Core
         public uint Uid {  get; set; }
 
         public string Name { get; set; } = string.Empty;
+        public string Password { get; set; } = string.Empty;
 
         public string Token { get; set; } = string.Empty;
 

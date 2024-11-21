@@ -5,7 +5,9 @@
     xmlns:actipro="http://schemas.actiprosoftware.com/avaloniaui"
     xmlns:core="using:Uestc.BBS.Core"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:ic="using:FluentIcons.Avalonia"
+    xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
+    xmlns:ic="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+    xmlns:icon="using:FluentIcons.Avalonia"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="using:Uestc.BBS.Desktop.ViewModels"
     Title="清水河畔"
@@ -36,7 +38,7 @@
                 Classes="WindowToolbarButton"
                 Click="CloseWindow"
                 DockPanel.Dock="Right">
-                <ic:SymbolIcon Symbol="Dismiss" />
+                <icon:SymbolIcon Symbol="Dismiss" />
                 <Button.Styles>
                     <Style Selector="Button">
                         <Style Selector="^:pointerover /template/ ContentPresenter">
@@ -53,10 +55,18 @@
         <Image
             Height="60"
             Margin="0,-10,0,8"
-            Source="/Assets/Icons/auth_icon.png" />
+            Cursor="Hand"
+            Source="/Assets/Icons/auth_icon.png">
+            <ic:Interaction.Behaviors>
+                <ia:EventTriggerBehavior EventName="PointerPressed">
+                    <ia:InvokeCommandAction Command="{Binding OpenOfficialWebsiteCommand}" />
+                </ia:EventTriggerBehavior>
+            </ic:Interaction.Behaviors>
+        </Image>
         <AutoCompleteBox
             Classes="Auth"
             ItemsSource="{Binding Users, Mode=OneTime}"
+            SelectedItem="{Binding SelectedCredential}"
             Text="{Binding Username}"
             Watermark="用户名">
             <AutoCompleteBox.ItemTemplate>
@@ -77,7 +87,7 @@
                     Margin="2,0"
                     ClipToBounds="True"
                     DockPanel.Dock="Right"
-                    Source="/Assets/avatar.jpg"
+                    Source="{Binding Avatar^}"
                     Stretch="Uniform">
                     <Image.Clip>
                         <StreamGeometry>
@@ -100,7 +110,6 @@
             Height="36"
             Classes="theme-solid accent"
             Command="{Binding LoginCommand}"
-            Content="登 录"
-            HotKey="Enter" />
+            Content="登 录" />
     </StackPanel>
 </Window>
