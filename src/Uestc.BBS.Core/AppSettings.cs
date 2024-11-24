@@ -9,18 +9,34 @@ namespace Uestc.BBS.Core
 {
     public class AppSetting
     {
+        /// <summary>
+        /// 外观设置
+        /// </summary>
         public ApperanceSetting Apperance { get; set; } = new();
 
+        /// <summary>
+        /// 授权设置
+        /// </summary>
         public AuthSetting Auth { get; set; } = new();
 
+        /// <summary>
+        /// 同步设置
+        /// </summary>
         public SyncSetting Sync { get; set; } = new();
 
-        public static AppSetting Load(string path, string? secret = null)
+        /// <summary>
+        /// 加载配置文件
+        /// </summary>
+        /// <param name="path">配置文件路径</param>
+        /// <param name="secret">配置文件解密密钥</param>
+        /// <returns></returns>
+        public static AppSetting Load(string? path = null, string? secret = null)
         {
             AppSetting? appSetting;
 
             try
             {
+                path ??= Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), AppDomain.CurrentDomain.FriendlyName, "appsettings.aes");
                 if (File.Exists(path))
                 {
                     var decryptSetting = File.ReadAllText(path).Decrypt(secret);
@@ -47,9 +63,15 @@ namespace Uestc.BBS.Core
             return appSetting;
         }
 
-        public void Save(string path, string? secret = null)
+        /// <summary>
+        /// 保存配置文件
+        /// </summary>
+        /// <param name="path">配置文件路径</param>
+        /// <param name="secret">配置文件加密密钥</param>
+        public void Save(string? path = null, string? secret = null)
         {
-            File.WriteAllText(path, ToString().Encrypt(secret));
+            File.WriteAllText(path ?? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), 
+                AppDomain.CurrentDomain.FriendlyName, "appsettings.aes"), ToString().Encrypt(secret ?? Sync.Secret));
         }
 
         public override string ToString()
@@ -60,29 +82,122 @@ namespace Uestc.BBS.Core
         public static readonly JsonSerializerOptions SerializerOptions = new()
         {
             WriteIndented = true,
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+            PropertyNameCaseInsensitive = true,
             TypeInfoResolver = JsonTypeInfoResolver.Combine(AppSettingContext.Default, new DefaultJsonTypeInfoResolver())
         };
     }
 
+    /// <summary>
+    /// 外观设置
+    /// </summary>
     public class ApperanceSetting
     {
+        /// <summary>
+        /// 官方论坛链接
+        /// </summary>
         public string OfficialUrl { get; set; } = "https://bbs.uestc.edu.cn/new";
 
-
+        /// <summary>
+        /// 菜单列表
+        /// </summary>
+        public MenuItem[] MenuItems { get; set; } = 
+        [
+            new MenuItem
+            {
+                Key = "Home",
+                Name = "主 页",
+                Symbol = "Home",
+                IsActive = true,
+                DockTop = true
+            },
+            new MenuItem
+            {
+                Key = "Sections",
+                Name = "版 块",
+                Symbol = "Apps",
+                IsActive = false,
+                DockTop = true
+            },
+            new MenuItem
+            {
+                Key = "Services",
+                Name = "服 务",
+                Symbol = "Rocket",
+                IsActive = false,
+                DockTop = true
+            },
+            new MenuItem
+            {
+                Key = "Moments",
+                Name = "动 态",
+                Symbol = "Scan",
+                IsActive = false,
+                DockTop = true
+            },
+            new MenuItem
+            {
+                Key = "Post",
+                Name = "发 布",
+                Symbol = "SaveCopy",
+                IsActive = false,
+                DockTop = true
+            },
+            new MenuItem
+            {
+                Key = "Settings",
+                Name = "设 置",
+                Symbol = "Settings",
+                IsActive = false,
+                DockTop = false
+            },
+            new MenuItem
+            {
+                Key = "Messages",
+                Name = "消 息",
+                Symbol = "Mail",
+                IsActive = false,
+                DockTop = false
+            }
+        ];
     }
 
+    public class MenuItem
+    {
+        public string Key { get; set; } = string.Empty;
+
+        public string Name { get; set; } = string.Empty;
+
+        public string Symbol { get; set; } = string.Empty;
+
+        public bool IsActive { get; set; } = false;
+
+        public bool DockTop { get; set; } = true;
+    }
+
+    /// <summary>
+    /// 授权设置
+    /// </summary>
     public class AuthSetting
     {
-        public string UserName { get; set; } = string.Empty;
-
-        public string Password { get; set; } = string.Empty;
-
+        /// <summary>
+        /// 自动登录
+        /// </summary>
         public bool AutoLogin { get; set; } = false;
 
+        /// <summary>
+        /// 记住密码（取消记住密码仍然会保存密钥信息）
+        /// </summary>
         public bool RememberPassword { get; set; } = false;
 
+        /// <summary>
+        /// 默认授权信息 Uid
+        /// </summary>
         public uint DefaultCredentialUid {  get; set; }
 
+        /// <summary>
+        /// 默认授权信息
+        /// </summary>
         [JsonIgnore]
         public AuthCredential? DefaultCredential
         {
@@ -92,22 +207,53 @@ namespace Uestc.BBS.Core
             }
         }
 
-        public IEnumerable<AuthCredential> Credentials { get; set; } = [];
+        /// <summary>
+        /// 授权信息列表（保存本地所有授权信息）
+        /// </summary>
+        public List<AuthCredential> Credentials { get; set; } = [];
     }
 
+    /// <summary>
+    /// 授权信息
+    /// </summary>
     public class AuthCredential
     {
+        /// <summary>
+        /// 用户唯一识别码
+        /// </summary>
         public uint Uid {  get; set; }
 
+        /// <summary>
+        /// 用户名
+        /// </summary>
         public string Name { get; set; } = string.Empty;
+
+        /// <summary>
+        /// 密码
+        /// </summary>
         public string Password { get; set; } = string.Empty;
+
+        /// <summary>
+        /// 令牌
+        /// </summary>
 
         public string Token { get; set; } = string.Empty;
 
+        /// <summary>
+        /// 密钥
+        /// </summary>
+
         public string Secret { get; set; } = string.Empty;
 
+        /// <summary>
+        /// 头像
+        /// </summary>
         public string Avatar { get; set; } = string.Empty;
 
+        /// <summary>
+        /// 此处序列化用户 AutoCompleteBox 显示
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             return Name;

@@ -1,11 +1,10 @@
 ﻿using Avalonia;
-using DeviceId;
 using Microsoft.Extensions.DependencyInjection;
 using NLog;
 using System;
+using System.Threading;
 using Uestc.BBS.Core;
 using Uestc.BBS.Core.Services.System;
-using Uestc.BBS.Desktop.Services;
 using Uestc.BBS.Desktop.Services.StartupService;
 using Uestc.BBS.Desktop.ViewModels;
 using Uestc.BBS.Desktop.Views;
@@ -24,27 +23,8 @@ namespace Uestc.BBS.Desktop
         {
             ServiceExtension.ConfigureCommonServices();
 
-            // View & ViewModel
-            ServiceExtension.ServiceCollection.AddSingleton<AppViewModel>();
-            ServiceExtension.ServiceCollection.AddSingleton<AuthWindow>();
-            ServiceExtension.ServiceCollection.AddSingleton<AuthViewModel>();
-            ServiceExtension.ServiceCollection.AddSingleton<MainWindow>();
-            ServiceExtension.ServiceCollection.AddSingleton<MainWindowViewModel>();
-            ServiceExtension.ServiceCollection.AddSingleton<HomeView>();
-            // DeviceId
-            ServiceExtension.ServiceCollection.AddSingleton(deviceId => new DeviceIdBuilder().AddMachineName().AddOsVersion()
-                .OnWindows(windows => windows
-                    .AddProcessorId()
-                    .AddMotherboardSerialNumber()
-                    .AddSystemDriveSerialNumber())
-                .OnLinux(linux => linux
-                    .AddMotherboardSerialNumber())
-                .OnMac(mac => mac
-                    .AddSystemDriveSerialNumber()
-                    .AddPlatformSerialNumber())
-                .ToString());
             // 自启动
-            ServiceExtension.ServiceCollection.AddSingleton<IStartupService>(startup =>
+            ServiceExtension.ServiceCollection.AddTransient<IStartupService>(startup =>
             {
                 var startupInfo = new StartupInfo
                 {
@@ -68,6 +48,20 @@ namespace Uestc.BBS.Desktop
                     return new MacCatalystStartupService();
                 }
             });
+            // View & ViewModel
+            ServiceExtension.ServiceCollection.AddSingleton<AppViewModel>();
+            ServiceExtension.ServiceCollection.AddSingleton<AuthWindow>();
+            ServiceExtension.ServiceCollection.AddSingleton<AuthViewModel>();
+            ServiceExtension.ServiceCollection.AddSingleton<MainWindow>();
+            ServiceExtension.ServiceCollection.AddSingleton<MainWindowViewModel>();
+            ServiceExtension.ServiceCollection.AddSingleton<HomeView>();
+            // HttpClient
+            ServiceExtension.ServiceCollection.AddHttpClient<AuthViewModel>()
+                .UseSocketsHttpHandler((handler, _) => handler.PooledConnectionLifetime = TimeSpan.FromMinutes(30))
+                .SetHandlerLifetime(Timeout.InfiniteTimeSpan);
+            ServiceExtension.ServiceCollection.AddHttpClient<MainWindowViewModel>()
+                .UseSocketsHttpHandler((handler, _) => handler.PooledConnectionLifetime = TimeSpan.FromMinutes(30))
+                .SetHandlerLifetime(Timeout.InfiniteTimeSpan);
             // 日志
             ServiceExtension.ServiceCollection.AddSingleton<ILogService>(logger => new NLogService(LogManager.GetLogger("*")));
 

@@ -14,20 +14,15 @@ namespace Uestc.BBS.Desktop.Helpers
             return new Bitmap(AssetLoader.Open(resourceUri));
         }
 
-        public static async Task<Bitmap?> LoadFromWeb(Uri url)
+        public static async Task<Bitmap?> LoadFromWeb(string? url)
         {
-            using var httpClient = new HttpClient();
-            try
-            {
-                var response = await httpClient.GetAsync(url);
-                var data = await response.Content.ReadAsByteArrayAsync();
-                return new Bitmap(new MemoryStream(data));
-            }
-            catch (HttpRequestException ex)
-            {
-                Console.WriteLine($"An error occurred while downloading image '{url}' : {ex.Message}");
-                return null;
-            }
+            using var client = new HttpClient();
+            return await LoadFromWeb(client, url);
+        }
+
+        public static async Task<Bitmap?> LoadFromWeb(HttpClient client, string? url)
+        {
+            return string.IsNullOrEmpty(url) ? null : new Bitmap(new MemoryStream(await client.GetByteArrayAsync(url)));
         }
     }
 }

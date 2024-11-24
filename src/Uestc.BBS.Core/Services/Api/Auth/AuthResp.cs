@@ -6,7 +6,6 @@ namespace Uestc.BBS.Core.Services.Api.Auth
 {
     public class AuthResp : ApiRespBase
     {
-
         #region Authorization
         public int GroupId { get; set; } = 0;
         public int IsValidation { get; set; } = 0;
@@ -16,9 +15,12 @@ namespace Uestc.BBS.Core.Services.Api.Auth
         public string Secret {  get; set; } = string.Empty;
         #endregion
 
+        [JsonIgnore]
+        public bool Success => Rs is 1;
+
         public int Score {  get; set; } = 0;
 
-        public int Uid { get; set; } = 0;
+        public uint Uid { get; set; } = 0;
 
         public string Username { get; set; } = string.Empty;
 
@@ -42,6 +44,7 @@ namespace Uestc.BBS.Core.Services.Api.Auth
         public static readonly JsonSerializerOptions SerializerOptions = new()
         {
             WriteIndented = true,
+            PropertyNameCaseInsensitive = true,
             TypeInfoResolver = JsonTypeInfoResolver.Combine(AuthRespContext.Default, new DefaultJsonTypeInfoResolver())
         };
     }

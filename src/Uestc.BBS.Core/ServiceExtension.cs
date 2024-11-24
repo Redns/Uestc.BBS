@@ -1,9 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using NLog.Targets;
-using System.Text.Json;
-using System.Text.Json.Serialization.Metadata;
-using Uestc.BBS.Core.Helpers;
 using Uestc.BBS.Core.Services.Api.Auth;
+using Uestc.BBS.Core.Services.Api.Forum;
+using Uestc.BBS.Core.Services.Api.User;
 using Uestc.BBS.Core.Services.System;
 
 namespace Uestc.BBS.Core
@@ -32,13 +30,31 @@ namespace Uestc.BBS.Core
             ServiceCollection.AddSingleton(settings =>
             {
                 var appName = AppDomain.CurrentDomain.FriendlyName;
-                var deviceId = Services.GetRequiredService<string>();
-                var appSecretPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), appName, "secret.aes");
-                var appSettingsPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), appName, "appsettings.aes");
-                return AppSetting.Load(appSettingsPath, File.Exists(appSecretPath) ? File.ReadAllText(appSecretPath).Decrypt(deviceId) : string.Empty);
+                var appSettingsPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), appName, "appsettings.json");
+                return AppSetting.Load(appSettingsPath);
             });
+            // Forums
+            ServiceCollection.AddTransient<IAuthService, AuthService>();
+            ServiceCollection.AddTransient<ITopicService, TopicService>();
             // HttpClient
             ServiceCollection.AddHttpClient();
+            ServiceCollection.AddHttpClient<IAuthService, AuthService>(client =>
+            {
+                client.BaseAddress = new Uri("https://bbs.uestc.edu.cn/mobcent/app/web/index.php?r=user/login");
+            });
+            ServiceCollection.AddHttpClient<ITopicService, TopicService>((services, client) =>
+            {
+                var appSetting = services.GetService<AppSetting>();
+                var credential = appSetting?.Auth.DefaultCredential;
+                client.BaseAddress = new Uri($"https://bbs.uestc.edu.cn/mobcent/app/web/index.php?r=forum/topiclist&accessToken={credential?.Token}&accessSecret={credential?.Secret}");
+            });
+            ServiceCollection.AddHttpClient<IUserService, UserService>((services, client) =>
+            {
+                var appSetting = services.GetService<AppSetting>();
+                var credential = appSetting?.Auth.DefaultCredential;
+                client.BaseAddress = new Uri($"https://bbs.uestc.edu.cn/mobcent/app/web/index.php?accessToken={credential?.Token}&accessSecret={credential?.Secret}");
+            });
+           
             // App upgrade
             ServiceCollection.AddSingleton<IAppUpgradeService>(appUpgrade => new CloudflareAppUpgradeService("https://distributor.krins.cloud",
                 "679edd7cffaf4a9ef3be4c445317a461",

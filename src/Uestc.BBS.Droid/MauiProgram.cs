@@ -1,5 +1,4 @@
 ﻿using Uestc.BBS.Core;
-using Setting = Android.Provider.Settings;
 using static Android.Provider.Settings;
 using AndroidApp = Android.App.Application;
 

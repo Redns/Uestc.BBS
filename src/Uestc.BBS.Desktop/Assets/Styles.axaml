@@ -62,6 +62,7 @@
     <Style Selector="Button.ToolbarIconButton">
         <Setter Property="Margin" Value="10 8" />
         <Setter Property="Width" Value="60" />
+        <Setter Property="Height" Value="60" />
         <Setter Property="CornerRadius" Value="10" />
         <Setter Property="Cursor" Value="Hand" />
         <Setter Property="HorizontalAlignment" Value="Center" />
@@ -81,7 +82,7 @@
         <Setter Property="FontSize" Value="25" />
         <Setter Property="IconVariant" Value="Regular" />
         <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
-        <Setter Property="Margin" Value="4" />
+        <Setter Property="Margin" Value="0 0 0 4" />
     </Style>
     <Style Selector="Button.ToolbarIconButton TextBlock">
         <Setter Property="HorizontalAlignment" Value="Center" />

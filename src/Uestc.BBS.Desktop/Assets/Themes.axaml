@@ -17,8 +17,8 @@
             <!--  勾选框  -->
             <Color x:Key="CheckBoxDefault">#CDCDCD</Color>
             <!--  按钮  -->
-            <SolidColorBrush x:Key="BtnDefaultHover" Color="#F9FAFC" />
-            <SolidColorBrush x:Key="BtnDefaultActive" Color="#e3e3e5" />
+            <SolidColorBrush x:Key="BtnDefaultHover" Color="#F1F2F3" />
+            <SolidColorBrush x:Key="BtnDefaultActive" Color="#F9FAFC" />
             <!--  主题图标 & Tips  -->
             <system:String x:Key="TipsThemeSwitch">切换至深色主题</system:String>
             <fluent-icon:Symbol x:Key="IconThemeSwitch">WeatherMoon</fluent-icon:Symbol>

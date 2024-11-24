@@ -10,7 +10,7 @@ namespace Uestc.BBS.Core.Services.Api
 
         public string ErrCode {  get; set; } = string.Empty;
 
-        public ApiRespBaseHeader Header { get; set; } = new();
+        public ApiRespBaseHeader Head { get; set; } = new();
 
         public ApiRespBaseBody Body { get; set; } = new();
 
