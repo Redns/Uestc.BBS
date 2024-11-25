@@ -1,5 +1,5 @@
 <Window
-    x:Class="Uestc.BBS.Desktop.AuthWindow"
+    x:Class="Uestc.BBS.Desktop.Views.AuthWindow"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:actipro="http://schemas.actiprosoftware.com/avaloniaui"
@@ -7,10 +7,11 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:icon="using:FluentIcons.Avalonia"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:view="using:Uestc.BBS.Desktop.Views"
     xmlns:vm="using:Uestc.BBS.Desktop.ViewModels"
     Title="清水河畔"
-    Width="340"
-    Height="290"
+    Width="330"
+    Height="285"
     x:DataType="vm:AuthViewModel"
     Background="{DynamicResource BgWindow}"
     CanResize="False"
@@ -58,22 +59,51 @@
             Source="/Assets/Icons/auth_icon.png" />
         <AutoCompleteBox
             Classes="Auth"
-            ItemsSource="{Binding Users, Mode=OneTime}"
+            ItemsSource="{Binding Users}"
             SelectedItem="{Binding SelectedCredential}"
             Text="{Binding Username}"
             Watermark="用户名">
             <AutoCompleteBox.ItemTemplate>
                 <DataTemplate DataType="core:AuthCredential">
-                    <DockPanel>
+                    <DockPanel Height="26" LastChildFill="False">
+                        <!--<TextBlock
+                            VerticalAlignment="Center"
+                            DockPanel.Dock="Left"
+                            Text="{Binding Name}" />
+                        <Button
+                            Command="{Binding $parent[AutoCompleteBox].((vm:AuthViewModel)DataContext).DeleteCredentialCommand}"
+                            CommandParameter="{Binding}"
+                            DockPanel.Dock="Right">
+                            <icon:SymbolIcon
+                                Cursor="Hand"
+                                DockPanel.Dock="Right"
+                                FontSize="16"
+                                Symbol="Delete" />-->
                         <TextBlock
                             VerticalAlignment="Center"
                             DockPanel.Dock="Left"
                             Text="{Binding Name}" />
-                        <Button Content="×" DockPanel.Dock="Right" />
-                        <Border />
+                        <Button
+                            Width="32"
+                            Classes="theme-subtle"
+                            Command="{Binding $parent[AutoCompleteBox].((vm:AuthViewModel)DataContext).DeleteCredentialCommand}"
+                            CommandParameter="{Binding}"
+                            Cursor="Hand"
+                            DockPanel.Dock="Right">
+                            <icon:SymbolIcon
+                                DockPanel.Dock="Right"
+                                FontSize="16"
+                                Symbol="Delete" />
+                        </Button>
                     </DockPanel>
                 </DataTemplate>
             </AutoCompleteBox.ItemTemplate>
+            <!--  TODO 设置ListBoxItem的背景色  -->
+            <!--<AutoCompleteBox.Styles>
+                <Style Selector="AutoCompleteBox#PART_SuggestionsContainer">
+                    <Setter Property="BorderBrush" Value="Pink" />
+                </Style>
+            </AutoCompleteBox.Styles>-->
             <AutoCompleteBox.InnerRightContent>
                 <Image
                     Height="32"
@@ -109,6 +139,7 @@
             Height="36"
             Classes="theme-solid accent"
             Command="{Binding LoginCommand}"
-            Content="登 录" />
+            Content="登 录"
+            Cursor="Hand" />
     </StackPanel>
 </Window>

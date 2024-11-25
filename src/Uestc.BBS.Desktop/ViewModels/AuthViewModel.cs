@@ -1,17 +1,16 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using Uestc.BBS.Desktop.Views;
-using Uestc.BBS.Core;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
-using System.Diagnostics;
-using Avalonia.Media.Imaging;
-using Uestc.BBS.Desktop.Helpers;
-using System.Threading.Tasks;
 using System.Net.Http;
-using Uestc.BBS.Core.Services.Api.Auth;
+using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
-using System.Net.Sockets;
+using Avalonia.Media.Imaging;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using Uestc.BBS.Core;
+using Uestc.BBS.Core.Services.Api.Auth;
+using Uestc.BBS.Desktop.Helpers;
+using Uestc.BBS.Desktop.Views;
 
 namespace Uestc.BBS.Desktop.ViewModels
 {
@@ -29,7 +28,7 @@ namespace Uestc.BBS.Desktop.ViewModels
         /// 用户名
         /// </summary>
         [ObservableProperty]
-        private string _username =  string.Empty;
+        private string _username = string.Empty;
 
         /// <summary>
         /// 密码
@@ -52,7 +51,8 @@ namespace Uestc.BBS.Desktop.ViewModels
         /// <summary>
         /// 用户头像
         /// </summary>
-        public Task<Bitmap?> Avatar => ImageHelper.LoadFromWeb(_httpClient, _selectedCredential?.Avatar);
+        public Task<Bitmap?> Avatar =>
+            ImageHelper.LoadFromWeb(_httpClient, _selectedCredential?.Avatar);
 
         /// <summary>
         /// 选中的本地授权信息
@@ -77,9 +77,14 @@ namespace Uestc.BBS.Desktop.ViewModels
         /// 本地所有授权信息
         /// </summary>
         [ObservableProperty]
-        private AuthCredential[] _users;
+        private ObservableCollection<AuthCredential> _users;
 
-        public AuthViewModel(MainWindow mainWindow, AppSetting appSetting, HttpClient httpClient, IAuthService authService)
+        public AuthViewModel(
+            MainWindow mainWindow,
+            AppSetting appSetting,
+            HttpClient httpClient,
+            IAuthService authService
+        )
         {
             _mainWindow = mainWindow;
             _appSetting = appSetting;
@@ -89,6 +94,20 @@ namespace Uestc.BBS.Desktop.ViewModels
             RememberPassword = appSetting.Auth.RememberPassword;
             SelectedCredential = appSetting.Auth.DefaultCredential;
             Users = [.. appSetting.Auth.Credentials.OrderBy(c => c.Name)];
+        }
+
+        /// <summary>
+        /// 移除本地授权信息
+        /// </summary>
+        /// <param name="credential"></param>
+        [RelayCommand]
+        private void DeleteCredential(AuthCredential credential)
+        {
+            Users.Remove(credential);
+            if (_appSetting.Auth.Credentials.Remove(credential))
+            {
+                _appSetting.Save();
+            }
         }
 
         /// <summary>
@@ -120,7 +139,10 @@ namespace Uestc.BBS.Desktop.ViewModels
 
         private async Task<AuthCredential?> GetAuthenticationAsync()
         {
-            if (string.IsNullOrEmpty(_selectedCredential?.Token) is false && string.IsNullOrEmpty(_selectedCredential?.Secret) is false)
+            if (
+                string.IsNullOrEmpty(_selectedCredential?.Token) is false
+                && string.IsNullOrEmpty(_selectedCredential?.Secret) is false
+            )
             {
                 return _selectedCredential;
             }
@@ -139,12 +161,14 @@ namespace Uestc.BBS.Desktop.ViewModels
                 return null;
             }
 
-            var credential = _selectedCredential ?? new AuthCredential
-            {
-                Uid = resp.Uid,
-                Avatar = resp.Avatar,
-                Name = resp.Username
-            };
+            var credential =
+                _selectedCredential
+                ?? new AuthCredential
+                {
+                    Uid = resp.Uid,
+                    Avatar = resp.Avatar,
+                    Name = resp.Username,
+                };
             credential.Password = RememberPassword ? Password : string.Empty;
             credential.Token = resp.Token;
             credential.Secret = resp.Secret;
@@ -154,7 +178,8 @@ namespace Uestc.BBS.Desktop.ViewModels
 
         private void NavigateToMainPage()
         {
-            var applicationLifetime = Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime;
+            var applicationLifetime =
+                Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime;
             if (applicationLifetime is not null)
             {
                 _mainWindow.Show();

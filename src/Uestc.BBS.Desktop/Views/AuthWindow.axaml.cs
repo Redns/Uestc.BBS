@@ -5,7 +5,7 @@ using System.Diagnostics;
 using Uestc.BBS.Core;
 using Uestc.BBS.Desktop.ViewModels;
 
-namespace Uestc.BBS.Desktop;
+namespace Uestc.BBS.Desktop.Views;
 
 public partial class AuthWindow : Window
 {

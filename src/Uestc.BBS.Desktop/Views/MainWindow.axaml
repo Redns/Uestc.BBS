@@ -54,7 +54,9 @@
                 DockPanel.Dock="Left"
                 PointerPressed="OpenOfficialWebsite"
                 RenderOptions.BitmapInterpolationMode="{OnPlatform Linux=HighQuality}"
-                Source="/Assets/Icons/titlebar_icon.png" />
+                Source="/Assets/Icons/titlebar_icon.png"
+                ToolTip.Placement="RightEdgeAlignedBottom"
+                ToolTip.Tip="前往官方论坛" />
             <AutoCompleteBox
                 Width="460"
                 Margin="30,6,0,4"

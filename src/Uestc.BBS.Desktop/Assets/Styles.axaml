@@ -111,8 +111,9 @@
     <Style Selector="CheckBox.Auth">
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="Background" Value="{DynamicResource CheckBoxDefault}" />
-        <Style Selector="^:pointerover">
-            <Setter Property="Background" Value="Black" />
+        <Style Selector="^:pointerover /template/ Border">
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Background" Value="{DynamicResource CheckBoxDefault}" />
         </Style>
     </Style>
     <!--  搜索框  -->
