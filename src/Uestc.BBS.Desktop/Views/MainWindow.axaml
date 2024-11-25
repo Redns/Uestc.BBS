@@ -39,13 +39,14 @@
             </OnPlatform>
         </Style>
     </Window.Styles>
-    <Grid ColumnDefinitions="60,*" RowDefinitions="42,*">
+    <Grid ColumnDefinitions="auto,*" RowDefinitions="42,*">
         <!--  标题栏  -->
         <DockPanel
             Grid.Row="0"
             Grid.ColumnSpan="2"
             Background="{OnPlatform Linux=Transparent}"
             DoubleTapped="{OnPlatform Linux=DoubleTappedResizeWindow}"
+            LastChildFill="False"
             PointerPressed="{OnPlatform Linux=DragWindow}">
             <Image
                 Margin="10,5"
@@ -113,91 +114,37 @@
                     </StreamGeometry>
                 </Image.Clip>
             </Image>
-            <Border />
         </DockPanel>
-        <DockPanel
+        <ItemsControl
             Grid.Row="1"
             Grid.Column="0"
-            Margin="10">
-            <Button
-                Classes="ToolbarIconButton"
-                Classes.Active="true"
-                Command="{Binding NavigateCommand}"
-                CommandParameter="Home"
-                DockPanel.Dock="Top">
-                <StackPanel>
-                    <icon:SymbolIcon Symbol="Home" />
-                    <TextBlock Text="主 页" />
-                </StackPanel>
-            </Button>
-            <Button
-                Classes="ToolbarIconButton"
-                Classes.Active="false"
-                Command="{Binding NavigateCommand}"
-                CommandParameter="Sections"
-                DockPanel.Dock="Top">
-                <StackPanel>
-                    <icon:SymbolIcon Symbol="Apps" />
-                    <TextBlock Text="版 块" />
-                </StackPanel>
-            </Button>
-            <Button
-                Classes="ToolbarIconButton"
-                Classes.Active="false"
-                Command="{Binding NavigateCommand}"
-                CommandParameter="Services"
-                DockPanel.Dock="Top">
-                <StackPanel>
-                    <icon:SymbolIcon Symbol="Rocket" />
-                    <TextBlock Text="服 务" />
-                </StackPanel>
-            </Button>
-            <Button
-                Classes="ToolbarIconButton"
-                Classes.Active="false"
-                Command="{Binding NavigateCommand}"
-                CommandParameter="Moments"
-                DockPanel.Dock="Top">
-                <StackPanel>
-                    <icon:SymbolIcon Symbol="Scan" />
-                    <TextBlock Text="动 态" />
-                </StackPanel>
-            </Button>
-            <Button
-                Classes="ToolbarIconButton"
-                Classes.Active="false"
-                Command="{Binding NavigateCommand}"
-                CommandParameter="Post"
-                DockPanel.Dock="Top">
-                <StackPanel>
-                    <icon:SymbolIcon Symbol="SaveCopy" />
-                    <TextBlock Text="发 布" />
-                </StackPanel>
-            </Button>
-            <Button
-                Classes="ToolbarIconButton"
-                Classes.Active="false"
-                Command="{Binding NavigateCommand}"
-                CommandParameter="Settings"
-                DockPanel.Dock="Bottom">
-                <StackPanel>
-                    <icon:SymbolIcon Symbol="Settings" />
-                    <TextBlock Text="设 置" />
-                </StackPanel>
-            </Button>
-            <Button
-                Classes="ToolbarIconButton"
-                Classes.Active="false"
-                Command="{Binding NavigateCommand}"
-                CommandParameter="Messages"
-                DockPanel.Dock="Bottom">
-                <StackPanel>
-                    <icon:SymbolIcon Symbol="Mail" />
-                    <TextBlock Text="消 息" />
-                </StackPanel>
-            </Button>
-            <Border />
-        </DockPanel>
+            ItemsSource="{Binding Menus}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <DockPanel Margin="0,10" LastChildFill="False" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Button
+                        Classes="ToolbarIconButton"
+                        Classes.Active="{Binding IsActive}}"
+                        Command="{Binding MenuClickCommand}"
+                        CommandParameter="{Binding}"
+                        DockPanel.Dock="{Binding Dock}">
+                        <StackPanel>
+                            <icon:SymbolIcon Symbol="{Binding Symbol}" />
+                            <TextBlock Text="{Binding Name}" />
+                        </StackPanel>
+                    </Button>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+            <ItemsControl.Styles>
+                <Style x:DataType="vm:MenuItemViewModel" Selector="ContentPresenter">
+                    <Setter Property="DockPanel.Dock" Value="{Binding Dock}" />
+                </Style>
+            </ItemsControl.Styles>
+        </ItemsControl>
         <!--  导航栏对应页面  -->
         <ContentControl
             Grid.Row="1"

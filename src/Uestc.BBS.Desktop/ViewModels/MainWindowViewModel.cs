@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -36,11 +35,11 @@ namespace Uestc.BBS.Desktop.ViewModels
         public Task<Bitmap?> Avatar =>
             ImageHelper.LoadFromWeb(_httpClient, _appSetting.Auth.DefaultCredential?.Avatar);
 
-        ///// <summary>
-        ///// 侧边栏菜单
-        ///// </summary>
-        //[ObservableProperty]
-        //private ObservableCollection<MenuItemViewModel>? _menus;
+        /// <summary>
+        /// 侧边栏菜单
+        /// </summary>
+        [ObservableProperty]
+        private ObservableCollection<MenuItemViewModel>? _menus;
 
         /// <summary>
         /// 导航页面
@@ -59,35 +58,35 @@ namespace Uestc.BBS.Desktop.ViewModels
             _httpClient = httpClient;
             _currentPage = homeView;
             _topicService = topicService;
-            //Menus = new ObservableCollection<MenuItemViewModel>(
-            //    appSetting.Apperance.MenuItems.Select(m => new MenuItemViewModel
-            //    {
-            //        Key = m.Key,
-            //        Name = m.Name,
-            //        Symbol = m.Symbol,
-            //        IsActive = m.IsActive,
-            //        Dock = m.DockTop ? Dock.Top : Dock.Bottom,
-            //        MenuClickCommand = new RelayCommand<MenuItemViewModel>(
-            //            (MenuItemViewModel? menuItem) =>
-            //            {
-            //                // 已选中菜单
-            //                if (menuItem is null || menuItem.IsActive)
-            //                {
-            //                    return;
-            //                }
+            Menus = new ObservableCollection<MenuItemViewModel>(
+                appSetting.Apperance.MenuItems.Select(m => new MenuItemViewModel
+                {
+                    Key = m.Key,
+                    Name = m.Name,
+                    Symbol = m.Symbol,
+                    IsActive = m.IsActive,
+                    Dock = m.DockTop ? Dock.Top : Dock.Bottom,
+                    MenuClickCommand = new RelayCommand<MenuItemViewModel>(
+                        (MenuItemViewModel? menuItem) =>
+                        {
+                            // 已选中菜单
+                            if (menuItem is null || menuItem.IsActive)
+                            {
+                                return;
+                            }
 
-            //                // 清除先前选中项
-            //                var beforeActived = Menus?.FirstOrDefault(m => m.IsActive);
-            //                if (beforeActived is not null)
-            //                {
-            //                    beforeActived.IsActive = false;
-            //                }
+                            // 清除先前选中项
+                            var beforeActived = Menus?.FirstOrDefault(m => m.IsActive);
+                            if (beforeActived is not null)
+                            {
+                                beforeActived.IsActive = false;
+                            }
 
-            //                menuItem.IsActive = true;
-            //            }
-            //        ),
-            //    })
-            //);
+                            menuItem.IsActive = true;
+                        }
+                    ),
+                })
+            );
         }
 
         /// <summary>

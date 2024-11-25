@@ -71,7 +71,7 @@ namespace Uestc.BBS.Core
         public void Save(string? path = null, string? secret = null)
         {
             File.WriteAllText(path ?? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), 
-                AppDomain.CurrentDomain.FriendlyName, "appsettings.aes"), ToString().Encrypt(secret ?? Sync.Secret));
+                AppDomain.CurrentDomain.FriendlyName, "appsettings.json"), ToString().Encrypt(secret ?? Sync.Secret));
         }
 
         public override string ToString()

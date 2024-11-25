@@ -100,7 +100,10 @@
                 Classes="Auth"
                 Content="记住密码"
                 IsChecked="{Binding RememberPassword}" />
-            <CheckBox Classes="Auth" Content="自动登录" />
+            <CheckBox
+                Classes="Auth"
+                Content="自动登录"
+                IsChecked="{Binding AutoLogin}" />
         </StackPanel>
         <Button
             Height="36"

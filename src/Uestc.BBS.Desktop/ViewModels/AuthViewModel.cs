@@ -11,6 +11,7 @@ using System.Net.Http;
 using Uestc.BBS.Core.Services.Api.Auth;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
+using System.Net.Sockets;
 
 namespace Uestc.BBS.Desktop.ViewModels
 {
@@ -97,50 +98,58 @@ namespace Uestc.BBS.Desktop.ViewModels
         [RelayCommand]
         private async Task Login()
         {
-            if (!string.IsNullOrEmpty(_selectedCredential?.Token) && !string.IsNullOrEmpty(_selectedCredential?.Secret))
+            var credential = await GetAuthenticationAsync();
+            if (credential is null)
             {
-                NavigateToMainPage();
                 return;
             }
-
-            if (string.IsNullOrEmpty(Username) || string.IsNullOrEmpty(Password))
-            {
-                // NOTI 用户名和密码不能为空
-                return;
-            }
-
-            // 根据用户名和密码登录
-            var resp = await _authService.LoginAsync(Username, Password);
-            if (resp?.Success is null or false)
-            {
-                // NOTI 用户名不存在或密码错误
-                return;
-            }
-
-            // 更新本地登录信息
-            var credential = SelectedCredential ?? new AuthCredential 
-            {
-                Uid = resp.Uid,
-                Name = resp.Username,
-                Avatar = resp.Avatar,
-                Password = string.Empty
-            };
-            credential.Token = resp.Token;
-            credential.Secret = resp.Secret;
-            credential.Password = RememberPassword ? Password : credential.Password;
 
             // 保存本地登录信息
-            if (_selectedCredential is null)
+            if (_selectedCredential?.Equals(credential) is false)
             {
                 _appSetting.Auth.Credentials.Add(credential);
             }
-            _appSetting.Auth.DefaultCredentialUid = resp.Uid;
+            _appSetting.Auth.DefaultCredentialUid = credential.Uid;
             _appSetting.Auth.AutoLogin = AutoLogin;
             _appSetting.Auth.RememberPassword = RememberPassword;
             _appSetting.Save();
 
             // 跳转至主页
             NavigateToMainPage();
+        }
+
+        private async Task<AuthCredential?> GetAuthenticationAsync()
+        {
+            if (string.IsNullOrEmpty(_selectedCredential?.Token) is false && string.IsNullOrEmpty(_selectedCredential?.Secret) is false)
+            {
+                return _selectedCredential;
+            }
+
+            if (string.IsNullOrEmpty(Username) || string.IsNullOrEmpty(Password))
+            {
+                // NOTI 用户名和密码不能为空
+                return null;
+            }
+
+            // 根据用户名和密码登录
+            var resp = await _authService.LoginAsync(Username, Password);
+            if (resp?.Success is not true)
+            {
+                // NOTI 用户名不存在或密码错误
+                return null;
+            }
+
+            var credential = _selectedCredential ?? new AuthCredential
+            {
+                Uid = resp.Uid,
+                Avatar = resp.Avatar,
+                Name = resp.Username
+            };
+            credential.Password = RememberPassword ? Password : string.Empty;
+            credential.Token = resp.Token;
+            credential.Secret = resp.Secret;
+
+            return credential;
         }
 
         private void NavigateToMainPage()
