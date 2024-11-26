@@ -2,11 +2,20 @@
     x:Class="Uestc.BBS.HomeView"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:actipro="http://schemas.actiprosoftware.com/avaloniaui"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:ic="using:FluentIcons.Avalonia"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     d:DesignHeight="3240"
     d:DesignWidth="1440"
     mc:Ignorable="d">
-    <TextBlock Text="Hello, Desktop" />
+    <StackPanel Classes="theme-subtle" Orientation="Vertical">
+        <actipro:SegmentedBar HorizontalAlignment="Left" Background="Transparent">
+            <actipro:SegmentedBarItem>最新发表</actipro:SegmentedBarItem>
+            <actipro:SegmentedBarItem>最新回复</actipro:SegmentedBarItem>
+            <actipro:SegmentedBarItem>热门</actipro:SegmentedBarItem>
+            <actipro:SegmentedBarItem>精华</actipro:SegmentedBarItem>
+            <actipro:SegmentedBarItem>淘专辑</actipro:SegmentedBarItem>
+        </actipro:SegmentedBar>
+    </StackPanel>
 </UserControl>

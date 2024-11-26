@@ -34,6 +34,11 @@ namespace Uestc.BBS.Desktop.Services.StartupService
         /// <exception cref="Exception"></exception>
         public void Enable()
         {
+            if (File.Exists(_configFilePath))
+            {
+                return;
+            }
+
             if (Directory.Exists(Path.GetDirectoryName(_configFilePath)) is false)
             {
                 throw new PlatformNotSupportedException();

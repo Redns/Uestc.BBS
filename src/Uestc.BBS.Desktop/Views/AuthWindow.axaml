@@ -18,7 +18,7 @@
     ExtendClientAreaChromeHints="NoChrome"
     ExtendClientAreaTitleBarHeightHint="30"
     ExtendClientAreaToDecorationsHint="True"
-    Icon="/Assets/Icons/taskbar_icon.png"
+    Icon="/Assets/Icons/taskbar.ico"
     SystemDecorations="{OnPlatform Default=Full,
                                    Linux=None}"
     WindowStartupLocation="CenterOwner"
@@ -66,19 +66,6 @@
             <AutoCompleteBox.ItemTemplate>
                 <DataTemplate DataType="core:AuthCredential">
                     <DockPanel Height="26" LastChildFill="False">
-                        <!--<TextBlock
-                            VerticalAlignment="Center"
-                            DockPanel.Dock="Left"
-                            Text="{Binding Name}" />
-                        <Button
-                            Command="{Binding $parent[AutoCompleteBox].((vm:AuthViewModel)DataContext).DeleteCredentialCommand}"
-                            CommandParameter="{Binding}"
-                            DockPanel.Dock="Right">
-                            <icon:SymbolIcon
-                                Cursor="Hand"
-                                DockPanel.Dock="Right"
-                                FontSize="16"
-                                Symbol="Delete" />-->
                         <TextBlock
                             VerticalAlignment="Center"
                             DockPanel.Dock="Left"
@@ -139,7 +126,6 @@
             Height="36"
             Classes="theme-solid accent"
             Command="{Binding LoginCommand}"
-            Content="登 录"
-            Cursor="Hand" />
+            Content="登 录" />
     </StackPanel>
 </Window>

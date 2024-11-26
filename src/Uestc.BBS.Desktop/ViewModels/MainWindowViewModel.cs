@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -83,6 +84,8 @@ namespace Uestc.BBS.Desktop.ViewModels
                             }
 
                             menuItem.IsActive = true;
+
+                            Navigate(menuItem.Key);
                         }
                     ),
                 })
@@ -96,9 +99,20 @@ namespace Uestc.BBS.Desktop.ViewModels
         [RelayCommand]
         private void Navigate(string menu)
         {
-            CurrentPage = menu switch
+            if (Enum.TryParse<MenuItemKey>(menu, out var key) is false)
             {
-                "Home" => ServiceExtension.Services.GetRequiredService<HomeView>(),
+                return;
+            }
+
+            CurrentPage = key switch
+            {
+                MenuItemKey.Home => ServiceExtension.Services.GetRequiredService<HomeView>(),
+                MenuItemKey.Sections => ServiceExtension.Services.GetRequiredService<SectionsView>(),
+                MenuItemKey.Services => ServiceExtension.Services.GetRequiredService<ServicesView>(),
+                MenuItemKey.Moments => ServiceExtension.Services.GetRequiredService<MomentsView>(),
+                MenuItemKey.Post => ServiceExtension.Services.GetRequiredService<PostView>(),
+                MenuItemKey.Messages => ServiceExtension.Services.GetRequiredService<MessagesView>(),
+                MenuItemKey.Settings => ServiceExtension.Services.GetRequiredService<SettingsView>(),
                 _ => CurrentPage,
             };
         }

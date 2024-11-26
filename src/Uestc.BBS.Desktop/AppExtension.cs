@@ -55,6 +55,12 @@ namespace Uestc.BBS.Desktop
             ServiceExtension.ServiceCollection.AddSingleton<MainWindow>();
             ServiceExtension.ServiceCollection.AddSingleton<MainWindowViewModel>();
             ServiceExtension.ServiceCollection.AddSingleton<HomeView>();
+            ServiceExtension.ServiceCollection.AddSingleton<SectionsView>();
+            ServiceExtension.ServiceCollection.AddSingleton<ServicesView>();
+            ServiceExtension.ServiceCollection.AddSingleton<MomentsView>();
+            ServiceExtension.ServiceCollection.AddSingleton<PostView>();
+            ServiceExtension.ServiceCollection.AddSingleton<MessagesView>();
+            ServiceExtension.ServiceCollection.AddSingleton<SettingsView>();
             // HttpClient
             ServiceExtension.ServiceCollection.AddHttpClient<AuthViewModel>()
                 .UseSocketsHttpHandler((handler, _) => handler.PooledConnectionLifetime = TimeSpan.FromMinutes(30))

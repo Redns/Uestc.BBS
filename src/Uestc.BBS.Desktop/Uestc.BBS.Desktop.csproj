@@ -24,7 +24,9 @@
     <None Remove="Assets\appicon.png" />
     <None Remove="Assets\avatar.jpg" />
     <None Remove="Assets\Icons\auth_icon.png" />
+    <None Remove="Assets\Icons\taskbar.ico" />
     <None Remove="Assets\Icons\titlebar_icon.png" />
+    <None Remove="Assets\Icons\tray.ico" />
     <None Remove="Assets\title-logo.png" />
     <None Remove="Assets\tray.png" />
   </ItemGroup>

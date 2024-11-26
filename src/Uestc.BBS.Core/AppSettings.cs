@@ -99,6 +99,16 @@ namespace Uestc.BBS.Core
         public string OfficialUrl { get; set; } = "https://bbs.uestc.edu.cn/new";
 
         /// <summary>
+        /// 静默启动
+        /// </summary>
+        public bool SlientStart { get; set; } = false;
+
+        /// <summary>
+        /// 开机自启动
+        /// </summary>
+        public bool StartupOnLaunch {  get; set; } = false;
+
+        /// <summary>
         /// 菜单列表
         /// </summary>
         public MenuItem[] MenuItems { get; set; } = 
@@ -160,6 +170,17 @@ namespace Uestc.BBS.Core
                 DockTop = false
             }
         ];
+    }
+
+    public enum MenuItemKey
+    {
+        Home = 0,
+        Sections,
+        Services,
+        Moments,
+        Post,
+        Messages,
+        Settings
     }
 
     public class MenuItem

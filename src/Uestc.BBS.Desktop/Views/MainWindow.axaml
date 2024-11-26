@@ -17,7 +17,7 @@
     ExtendClientAreaChromeHints="NoChrome"
     ExtendClientAreaTitleBarHeightHint="30"
     ExtendClientAreaToDecorationsHint="True"
-    Icon="/Assets/Icons/taskbar_icon.png"
+    Icon="/Assets/Icons/taskbar.ico"
     SystemDecorations="{OnPlatform Default=Full,
                                    Linux=None}"
     Topmost="{Binding IsWindowPinned}"

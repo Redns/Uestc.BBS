@@ -1,22 +1,20 @@
-﻿using Avalonia.Controls.ApplicationLifetimes;
+﻿using System;
+using System.Diagnostics;
+using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.ApplicationLifetimes;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Avalonia;
-using System.Diagnostics;
-using System;
 using Microsoft.Extensions.DependencyInjection;
+using Uestc.BBS.Core;
 using Uestc.BBS.Desktop;
 using Uestc.BBS.Desktop.Views;
-using Uestc.BBS.Core;
 
 namespace Uestc.BBS.ViewModels
 {
     public partial class AppViewModel : ObservableObject
     {
-        public AppViewModel()
-        {
-        }
+        public AppViewModel() { }
 
         /// <summary>
         /// 显示主窗口
@@ -26,8 +24,20 @@ namespace Uestc.BBS.ViewModels
         {
             if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
-                desktop.MainWindow ??= ServiceExtension.Services.GetRequiredService<MainWindow>();
-                desktop.MainWindow.WindowState = WindowState.Normal;
+                if (desktop.MainWindow is null)
+                {
+                    var appSetting = ServiceExtension.Services.GetRequiredService<AppSetting>();
+                    var authSetting = appSetting.Auth;
+                    var isUserAuthed =
+                        authSetting.AutoLogin
+                        && string.IsNullOrEmpty(authSetting.DefaultCredential?.Token) is false
+                        && string.IsNullOrEmpty(authSetting.DefaultCredential?.Token) is false;
+                    desktop.MainWindow = isUserAuthed
+                        ? ServiceExtension.Services.GetService<MainWindow>()
+                        : ServiceExtension.Services.GetService<AuthWindow>();
+                }
+
+                desktop.MainWindow!.WindowState = WindowState.Normal;
                 desktop.MainWindow.Show();
                 desktop.MainWindow.Activate();
             }
@@ -39,11 +49,13 @@ namespace Uestc.BBS.ViewModels
         [RelayCommand]
         private void Restart()
         {
-            Process.Start(new ProcessStartInfo(Environment.ProcessPath!)
-            {
-                UseShellExecute = true,
-                Arguments = "restart"
-            });
+            Process.Start(
+                new ProcessStartInfo(Environment.ProcessPath!)
+                {
+                    UseShellExecute = true,
+                    Arguments = "restart"
+                }
+            );
             Environment.Exit(0);
         }
 
@@ -53,7 +65,10 @@ namespace Uestc.BBS.ViewModels
         [RelayCommand]
         private static void Exit()
         {
-            if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime application)
+            if (
+                Application.Current?.ApplicationLifetime
+                is IClassicDesktopStyleApplicationLifetime application
+            )
             {
                 application.Shutdown();
             }
