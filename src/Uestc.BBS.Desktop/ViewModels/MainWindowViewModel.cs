@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -93,6 +94,21 @@ namespace Uestc.BBS.Desktop.ViewModels
         }
 
         /// <summary>
+        /// 打开官方论坛链接
+        /// </summary>
+        [RelayCommand]
+        private void OpenOfficialWebsite()
+        {
+            Process.Start(
+                new ProcessStartInfo()
+                {
+                    FileName = _appSetting.Apperance.OfficialUrl,
+                    UseShellExecute = true,
+                }
+            );
+        }
+
+        /// <summary>
         /// 导航
         /// </summary>
         /// <param name="menu"></param>
@@ -107,12 +123,16 @@ namespace Uestc.BBS.Desktop.ViewModels
             CurrentPage = key switch
             {
                 MenuItemKey.Home => ServiceExtension.Services.GetRequiredService<HomeView>(),
-                MenuItemKey.Sections => ServiceExtension.Services.GetRequiredService<SectionsView>(),
-                MenuItemKey.Services => ServiceExtension.Services.GetRequiredService<ServicesView>(),
+                MenuItemKey.Sections =>
+                    ServiceExtension.Services.GetRequiredService<SectionsView>(),
+                MenuItemKey.Services =>
+                    ServiceExtension.Services.GetRequiredService<ServicesView>(),
                 MenuItemKey.Moments => ServiceExtension.Services.GetRequiredService<MomentsView>(),
                 MenuItemKey.Post => ServiceExtension.Services.GetRequiredService<PostView>(),
-                MenuItemKey.Messages => ServiceExtension.Services.GetRequiredService<MessagesView>(),
-                MenuItemKey.Settings => ServiceExtension.Services.GetRequiredService<SettingsView>(),
+                MenuItemKey.Messages =>
+                    ServiceExtension.Services.GetRequiredService<MessagesView>(),
+                MenuItemKey.Settings =>
+                    ServiceExtension.Services.GetRequiredService<SettingsView>(),
                 _ => CurrentPage,
             };
         }

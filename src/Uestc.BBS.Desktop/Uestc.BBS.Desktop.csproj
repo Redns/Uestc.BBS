@@ -21,23 +21,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="Assets\appicon.png" />
-    <None Remove="Assets\avatar.jpg" />
-    <None Remove="Assets\Icons\auth_icon.png" />
-    <None Remove="Assets\Icons\taskbar.ico" />
-    <None Remove="Assets\Icons\titlebar_icon.png" />
-    <None Remove="Assets\Icons\tray.ico" />
-    <None Remove="Assets\title-logo.png" />
-    <None Remove="Assets\tray.png" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="ActiproSoftware.Controls.Avalonia" Version="25.1.0" />
     <PackageReference Include="ActiproSoftware.Controls.Avalonia.Pro" Version="25.1.0" />
-    <PackageReference Include="Avalonia" Version="11.2.1" />
-    <PackageReference Include="Avalonia.Desktop" Version="11.2.1" />
+    <PackageReference Include="Avalonia" Version="11.2.2" />
+    <PackageReference Include="Avalonia.Desktop" Version="11.2.2" />
     <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
-    <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.2.1" />
+    <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.2.2" />
+    <PackageReference Include="Avalonia.Xaml.Behaviors" Version="11.2.0.1" />
     <PackageReference Include="FluentIcons.Avalonia" Version="1.1.266" />
     <PackageReference Include="TaskScheduler" Version="2.11.0" />
   </ItemGroup>

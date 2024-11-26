@@ -52,11 +52,16 @@
                 Margin="10,5"
                 Cursor="Hand"
                 DockPanel.Dock="Left"
-                PointerPressed="OpenOfficialWebsite"
                 RenderOptions.BitmapInterpolationMode="{OnPlatform Linux=HighQuality}"
                 Source="/Assets/Icons/titlebar_icon.png"
                 ToolTip.Placement="RightEdgeAlignedBottom"
-                ToolTip.Tip="前往官方论坛" />
+                ToolTip.Tip="前往官方论坛">
+                <Interaction.Behaviors>
+                    <RoutedEventTriggerBehavior RoutedEvent="{x:Static InputElement.PointerPressedEvent}">
+                        <InvokeCommandAction Command="{Binding OpenOfficialWebsiteCommand}" />
+                    </RoutedEventTriggerBehavior>
+                </Interaction.Behaviors>
+            </Image>
             <AutoCompleteBox
                 Width="460"
                 Margin="30,6,0,4"

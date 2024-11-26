@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -108,6 +109,21 @@ namespace Uestc.BBS.Desktop.ViewModels
             {
                 _appSetting.Save();
             }
+        }
+
+        /// <summary>
+        /// 打开官方论坛链接
+        /// </summary>
+        [RelayCommand]
+        private void OpenOfficialWebsite()
+        {
+            Process.Start(
+                new ProcessStartInfo()
+                {
+                    FileName = _appSetting.Apperance.OfficialUrl,
+                    UseShellExecute = true,
+                }
+            );
         }
 
         /// <summary>
