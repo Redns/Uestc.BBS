@@ -2,10 +2,117 @@
     x:Class="Uestc.BBS.Desktop.SettingsView"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:actipro="http://schemas.actiprosoftware.com/avaloniaui"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:icon="using:FluentIcons.Avalonia"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">
-    Settings!
+    <TabControl>
+        <TabItem>
+            <TabItem.Header>
+                <StackPanel
+                    Height="20"
+                    Orientation="Horizontal"
+                    Spacing="5">
+                    <icon:SymbolIcon Symbol="Desktop" />
+                    <TextBlock Text="显示" />
+                </StackPanel>
+            </TabItem.Header>
+            <StackPanel Orientation="Vertical">
+                <!--  版本信息  -->
+                <Expander Background="#EFEFF1" IsExpanded="True">
+                    <Expander.Header>
+                        <DockPanel
+                            Height="50"
+                            VerticalAlignment="Center"
+                            LastChildFill="False">
+                            <Image
+                                Width="24"
+                                DockPanel.Dock="Left"
+                                Source="/Assets/Icons/app.ico" />
+                            <StackPanel
+                                Margin="15,0"
+                                VerticalAlignment="Center"
+                                DockPanel.Dock="Left"
+                                Orientation="Vertical">
+                                <TextBlock VerticalAlignment="Center" Text="版本信息" />
+                                <TextBlock
+                                    FontSize="12"
+                                    Foreground="Gray"
+                                    Text="© 2024-2025 Redns. MIT License" />
+                            </StackPanel>
+                            <TextBlock
+                                Margin="5,0"
+                                VerticalAlignment="Center"
+                                DockPanel.Dock="Right"
+                                Foreground="Gray"
+                                Text="0.0.0.113-beta" />
+
+                        </DockPanel>
+                    </Expander.Header>
+                    <Grid ColumnDefinitions="*,100" RowDefinitions="*,*">
+                        <TextBlock
+                            Grid.Row="0"
+                            VerticalAlignment="Center"
+                            Text="发布日期：2024/12/18" />
+                        <Button
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            Content="检查更新" />
+
+                        <TextBlock
+                            Grid.Row="1"
+                            Margin="0,10,0,0"
+                            VerticalAlignment="Center"
+                            Text="接收预览版" />
+                        <ToggleSwitch
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Margin="0,10,0,0"
+                            actipro:ThemeProperties.ToggleSwitchHasFarAffinity="False"
+                            Classes="theme-solid accent"
+                            OffContent=""
+                            OnContent="" />
+                    </Grid>
+
+                </Expander>
+            </StackPanel>
+        </TabItem>
+        <TabItem>
+            <TabItem.Header>
+                <StackPanel
+                    Height="20"
+                    Orientation="Horizontal"
+                    Spacing="5">
+                    <icon:SymbolIcon Symbol="Fingerprint" />
+                    <TextBlock Text="登录" />
+                </StackPanel>
+            </TabItem.Header>
+        </TabItem>
+        <TabItem>
+            <TabItem.Header>
+                <StackPanel
+                    Height="20"
+                    Orientation="Horizontal"
+                    Spacing="5">
+                    <icon:SymbolIcon Symbol="CloudSync" />
+                    <TextBlock Text="同步" />
+                </StackPanel>
+            </TabItem.Header>
+        </TabItem>
+        <TabItem>
+            <TabItem.Header>
+                <StackPanel
+                    Height="20"
+                    Orientation="Horizontal"
+                    Spacing="5">
+                    <icon:SymbolIcon Symbol="Info" />
+                    <TextBlock Text="关于" />
+                </StackPanel>
+            </TabItem.Header>
+
+        </TabItem>
+    </TabControl>
 </UserControl>

@@ -23,12 +23,9 @@
                                    Linux=None}"
     WindowStartupLocation="CenterOwner"
     mc:Ignorable="d">
-    <StackPanel
-        Margin="25,0"
-        Orientation="Vertical"
-        Spacing="14">
+    <StackPanel Margin="25,0" Orientation="Vertical">
         <DockPanel
-            Margin="-25,0,-25,-14"
+            Margin="0,0,-25,0"
             Background="{OnPlatform Linux=Transparent}"
             PointerPressed="{OnPlatform Linux=DragWindow}">
             <Button
@@ -62,6 +59,7 @@
             </Interaction.Behaviors>
         </Image>
         <AutoCompleteBox
+            Margin="0,18,0,0"
             Classes="Auth"
             ItemsSource="{Binding Users}"
             SelectedItem="{Binding SelectedCredential}"
@@ -106,25 +104,21 @@
             </AutoCompleteBox.InnerRightContent>
         </AutoCompleteBox>
         <TextBlock
-            Margin="0,-14,0,0"
-            FontSize="12"
+            Height="16"
+            FontSize="10"
             Foreground="#3B81F5"
             Text="{Binding UsernameMessage}" />
         <TextBox
-            Margin="0,-14,0,0"
             Classes="Auth has-reveal-password-button"
             PasswordChar="{actipro:ThemeResource EditPasswordChar}"
             Text="{Binding Password}"
             Watermark="密码" />
         <TextBlock
-            Margin="0,-14,0,0"
-            FontSize="12"
+            Height="16"
+            FontSize="10"
             Foreground="#3B81F5"
             Text="{Binding PasswordMessage}" />
-        <StackPanel
-            Margin="0,-14,0,0"
-            Orientation="Horizontal"
-            Spacing="20">
+        <StackPanel Orientation="Horizontal" Spacing="20">
             <CheckBox
                 Classes="Auth"
                 Content="记住密码"
@@ -136,6 +130,7 @@
         </StackPanel>
         <Button
             Height="36"
+            Margin="0,18,0,0"
             Classes="theme-solid accent"
             Command="{Binding LoginCommand}"
             Content="登 录" />
