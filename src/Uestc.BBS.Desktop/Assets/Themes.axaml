@@ -13,7 +13,7 @@
             <SolidColorBrush x:Key="TextPrimary" Color="#25262b" />
             <SolidColorBrush x:Key="TextSecondary" Color="#2B2D2D" />
             <!--  文本框  -->
-            <Color x:Key="TextBoxDefault">#CDCDCD</Color>
+            <Color x:Key="TextBoxDefault">#CECECE</Color>
             <!--  勾选框  -->
             <Color x:Key="CheckBoxDefault">#CDCDCD</Color>
             <!--  按钮  -->

@@ -29,13 +29,19 @@ namespace Uestc.BBS.Desktop.ViewModels
         /// 用户名
         /// </summary>
         [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(UsernameMessage))]
         private string _username = string.Empty;
 
         /// <summary>
         /// 密码
         /// </summary>
         [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(PasswordMessage))]
         private string _password = string.Empty;
+
+        public string UsernameMessage => string.IsNullOrEmpty(Username) ? "请输入用户名" : string.Empty;
+
+        public string PasswordMessage => string.IsNullOrEmpty(Password) ? "请输入密码" : string.Empty;
 
         /// <summary>
         /// 记住密码
@@ -191,6 +197,7 @@ namespace Uestc.BBS.Desktop.ViewModels
 
             return credential;
         }
+
         private void NavigateToMainPage()
         {
             var applicationLifetime =
