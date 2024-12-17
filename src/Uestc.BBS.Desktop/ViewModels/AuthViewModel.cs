@@ -191,7 +191,6 @@ namespace Uestc.BBS.Desktop.ViewModels
 
             return credential;
         }
-
         private void NavigateToMainPage()
         {
             var applicationLifetime =

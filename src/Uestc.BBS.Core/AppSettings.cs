@@ -220,13 +220,13 @@ namespace Uestc.BBS.Core
         /// 默认授权信息
         /// </summary>
         [JsonIgnore]
-        public AuthCredential? DefaultCredential
-        {
-            get
-            {
-                return Credentials.FirstOrDefault(c => c.Uid == DefaultCredentialUid);
-            }
-        }
+        public AuthCredential? DefaultCredential => Credentials.FirstOrDefault(c => c.Uid == DefaultCredentialUid);
+
+        /// <summary>
+        /// 用戶是否授权
+        /// </summary>
+        [JsonIgnore]
+        public bool IsUserAuthed => !string.IsNullOrEmpty(DefaultCredential?.Token) && !string.IsNullOrEmpty(DefaultCredential.Secret); 
 
         /// <summary>
         /// 授权信息列表（保存本地所有授权信息）

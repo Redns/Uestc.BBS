@@ -7,15 +7,12 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.DependencyInjection;
 using Uestc.BBS.Core;
-using Uestc.BBS.Desktop;
 using Uestc.BBS.Desktop.Views;
 
 namespace Uestc.BBS.ViewModels
 {
     public partial class AppViewModel : ObservableObject
     {
-        public AppViewModel() { }
-
         /// <summary>
         /// 显示主窗口
         /// </summary>
@@ -27,14 +24,9 @@ namespace Uestc.BBS.ViewModels
                 if (desktop.MainWindow is null)
                 {
                     var appSetting = ServiceExtension.Services.GetRequiredService<AppSetting>();
-                    var authSetting = appSetting.Auth;
-                    var isUserAuthed =
-                        authSetting.AutoLogin
-                        && string.IsNullOrEmpty(authSetting.DefaultCredential?.Token) is false
-                        && string.IsNullOrEmpty(authSetting.DefaultCredential?.Token) is false;
-                    desktop.MainWindow = isUserAuthed
-                        ? ServiceExtension.Services.GetService<MainWindow>()
-                        : ServiceExtension.Services.GetService<AuthWindow>();
+                    desktop.MainWindow = appSetting.Auth.IsUserAuthed
+                        ? ServiceExtension.Services.GetRequiredService<MainWindow>()
+                        : ServiceExtension.Services.GetRequiredService<AuthWindow>();
                 }
 
                 desktop.MainWindow!.WindowState = WindowState.Normal;

@@ -29,27 +29,22 @@ public partial class App : Application
         try
         {
             var appSetting = ServiceExtension.Services.GetRequiredService<AppSetting>();
-            var authSetting = appSetting.Auth;
-            var isUserAuthed =
-                authSetting.AutoLogin
-                && string.IsNullOrEmpty(authSetting.DefaultCredential?.Token) is false
-                && string.IsNullOrEmpty(authSetting.DefaultCredential?.Token) is false;
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
                 desktop.ShutdownMode = ShutdownMode.OnExplicitShutdown;
                 desktop.MainWindow = appSetting.Apperance.SlientStart
                     ? null
-                    : isUserAuthed
-                        ? ServiceExtension.Services.GetService<MainWindow>()
-                        : ServiceExtension.Services.GetService<AuthWindow>();
+                    : appSetting.Auth.IsUserAuthed
+                        ? ServiceExtension.Services.GetRequiredService<MainWindow>()
+                        : ServiceExtension.Services.GetRequiredService<AuthWindow>();
                 base.OnFrameworkInitializationCompleted();
             }
         }
         catch (Exception e)
         {
             ServiceExtension
-                .Services.GetService<ILogService>()
-                ?.Error("Application launched failed", e);
+                .Services.GetRequiredService<ILogService>()
+                .Error("Application launched failed", e);
         }
     }
 }

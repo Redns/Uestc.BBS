@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "Uestc.BBS.WinUI (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "Uestc.BBS.WinUI (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}

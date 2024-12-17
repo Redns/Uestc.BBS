@@ -10,12 +10,12 @@
     d:DesignWidth="1440"
     mc:Ignorable="d">
     <StackPanel Classes="theme-subtle" Orientation="Vertical">
-        <actipro:SegmentedBar HorizontalAlignment="Left" Background="Transparent">
+        <!--<actipro:SegmentedBar HorizontalAlignment="Left" Background="Transparent">
             <actipro:SegmentedBarItem>最新发表</actipro:SegmentedBarItem>
             <actipro:SegmentedBarItem>最新回复</actipro:SegmentedBarItem>
             <actipro:SegmentedBarItem>热门</actipro:SegmentedBarItem>
             <actipro:SegmentedBarItem>精华</actipro:SegmentedBarItem>
             <actipro:SegmentedBarItem>淘专辑</actipro:SegmentedBarItem>
-        </actipro:SegmentedBar>
+        </actipro:SegmentedBar>-->
     </StackPanel>
 </UserControl>
