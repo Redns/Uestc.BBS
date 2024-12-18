@@ -6,7 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:icon="using:FluentIcons.Avalonia"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    d:DesignHeight="450"
+    d:DesignHeight="1000"
     d:DesignWidth="800"
     mc:Ignorable="d">
     <TabControl>
@@ -20,93 +20,7 @@
                     <TextBlock Text="显示" />
                 </StackPanel>
             </TabItem.Header>
-            <StackPanel Orientation="Vertical">
-                <!--  版本信息  -->
-                <Expander Background="#EFEFF1" IsExpanded="True">
-                    <Expander.Header>
-                        <DockPanel
-                            Height="55"
-                            VerticalAlignment="Center"
-                            LastChildFill="False">
-                            <Image
-                                Width="24"
-                                DockPanel.Dock="Left"
-                                Source="/Assets/Icons/app.ico" />
-                            <StackPanel
-                                Margin="15,0"
-                                VerticalAlignment="Center"
-                                DockPanel.Dock="Left"
-                                Orientation="Vertical">
-                                <TextBlock VerticalAlignment="Center" Text="清水河畔" />
-                                <TextBlock
-                                    FontSize="12"
-                                    Foreground="Gray"
-                                    Text="© 2024-2025 Redns. MIT License" />
-                            </StackPanel>
-                            <TextBlock
-                                Margin="8,0"
-                                VerticalAlignment="Center"
-                                DockPanel.Dock="Right"
-                                Foreground="Gray"
-                                Text="0.0.0.113-beta" />
-                        </DockPanel>
-                    </Expander.Header>
-                    <StackPanel Margin="0,-10" Orientation="Vertical">
-                        <DockPanel
-                            Height="45"
-                            Margin="40,0,0,0"
-                            LastChildFill="False">
-                            <TextBlock VerticalAlignment="Center" Text="接收预览版" />
-                            <ToggleSwitch
-                                VerticalAlignment="Center"
-                                actipro:ThemeProperties.ToggleSwitchHasFarAffinity="True"
-                                Classes="theme-solid accent"
-                                DockPanel.Dock="Right"
-                                OffContent="关"
-                                OnContent="开" />
-                        </DockPanel>
-                        <Separator Margin="-10,0" />
-                        <DockPanel
-                            Height="45"
-                            Margin="40,0,0,0"
-                            LastChildFill="False">
-                            <TextBlock
-                                VerticalAlignment="Center"
-                                DockPanel.Dock="Left"
-                                Text="发布日期：2024/12/18" />
-                            <Button
-                                Height="32"
-                                Background="#FFFFFF"
-                                Classes="theme-soft"
-                                Content="检查更新"
-                                DockPanel.Dock="Right" />
-                        </DockPanel>
-                        <Separator Margin="-10,0" />
 
-                        <DockPanel
-                            Height="45"
-                            Margin="40,0,-5,0"
-                            LastChildFill="False">
-                            <TextBlock VerticalAlignment="Center" Text="项目地址" />
-                            <Button
-                                Classes="theme-link"
-                                Content="https://github.com/Redns/Uestc.BBS"
-                                DockPanel.Dock="Right"
-                                Foreground="Gray" />
-                        </DockPanel>
-                        <Separator Margin="-10,0" />
-                        <DockPanel
-                            Height="45"
-                            Margin="40,0,-5,0"
-                            LastChildFill="False">
-                            <TextBlock VerticalAlignment="Center" Text="反馈与建议" />
-                            <Button Classes="theme-subtle" DockPanel.Dock="Right">
-                                <icon:SymbolIcon Width="16" Symbol="ChatBubblesQuestion" />
-                            </Button>
-                        </DockPanel>
-                    </StackPanel>
-                </Expander>
-            </StackPanel>
         </TabItem>
         <TabItem>
             <TabItem.Header>
@@ -140,7 +54,271 @@
                     <TextBlock Text="关于" />
                 </StackPanel>
             </TabItem.Header>
+            <ScrollViewer VerticalScrollBarVisibility="Hidden">
+                <StackPanel Orientation="Vertical" Spacing="6">
+                    <!--  版本信息  -->
+                    <Expander IsExpanded="True">
+                        <Expander.Header>
+                            <DockPanel
+                                Height="55"
+                                VerticalAlignment="Center"
+                                LastChildFill="False">
+                                <icon:SymbolIcon
+                                    Width="26"
+                                    DockPanel.Dock="Left"
+                                    FontSize="26"
+                                    Symbol="ArrowSync" />
+                                <StackPanel
+                                    Margin="15,0"
+                                    VerticalAlignment="Center"
+                                    DockPanel.Dock="Left"
+                                    Orientation="Vertical">
+                                    <TextBlock VerticalAlignment="Center" Text="应用更新" />
+                                    <TextBlock
+                                        FontSize="12"
+                                        Foreground="Gray"
+                                        Text="检查应用是否有可用更新" />
+                                </StackPanel>
+                                <TextBlock
+                                    Margin="8,0"
+                                    VerticalAlignment="Center"
+                                    DockPanel.Dock="Right"
+                                    Foreground="Gray"
+                                    Text="0.0.0.113-beta" />
+                            </DockPanel>
+                        </Expander.Header>
+                        <StackPanel Margin="0,-10" Orientation="Vertical">
+                            <DockPanel
+                                MinHeight="30"
+                                Margin="40,10,0,10"
+                                LastChildFill="False">
+                                <TextBlock VerticalAlignment="Center" Text="接收预览版" />
+                                <ToggleSwitch
+                                    VerticalAlignment="Center"
+                                    actipro:ThemeProperties.ToggleSwitchHasFarAffinity="True"
+                                    Classes="theme-solid accent"
+                                    DockPanel.Dock="Right"
+                                    OffContent="关"
+                                    OnContent="开" />
+                            </DockPanel>
+                            <Separator Margin="-10,0" />
+                            <DockPanel
+                                MinHeight="30"
+                                Margin="40,10,0,10"
+                                LastChildFill="False">
+                                <TextBlock VerticalAlignment="Center" Text="更新镜像源" />
+                                <TextBox
+                                    Width="300"
+                                    VerticalAlignment="Center"
+                                    Background="#f9fafc"
+                                    Classes="theme-soft"
+                                    DockPanel.Dock="Right"
+                                    Text="https://distributor.krins.cloud/Uestc.BBS"
+                                    TextAlignment="Center" />
+                            </DockPanel>
+                            <Separator Margin="-10,0" />
+                            <DockPanel
+                                MinHeight="30"
+                                Margin="40,10,0,10"
+                                LastChildFill="False">
+                                <TextBlock
+                                    VerticalAlignment="Center"
+                                    DockPanel.Dock="Left"
+                                    Text="发布日期：2024/12/18" />
+                                <Button
+                                    Height="32"
+                                    Background="{DynamicResource BtnDefault}"
+                                    Classes="theme-soft"
+                                    Content="检查更新"
+                                    DockPanel.Dock="Right" />
+                            </DockPanel>
+                        </StackPanel>
+                    </Expander>
+                    <!--  日志  -->
+                    <Expander>
+                        <Expander.Header>
+                            <DockPanel
+                                Height="55"
+                                VerticalAlignment="Center"
+                                LastChildFill="False">
+                                <icon:SymbolIcon
+                                    Width="26"
+                                    DockPanel.Dock="Left"
+                                    FontSize="26"
+                                    Symbol="Textbox" />
+                                <StackPanel
+                                    Margin="15,0"
+                                    VerticalAlignment="Center"
+                                    DockPanel.Dock="Left"
+                                    Orientation="Vertical">
+                                    <TextBlock VerticalAlignment="Center" Text="日志记录" />
+                                    <TextBlock
+                                        FontSize="12"
+                                        Foreground="Gray"
+                                        Text="查看应用日志或清除日志记录" />
+                                </StackPanel>
+                                <Button
+                                    Height="32"
+                                    Margin="8,0"
+                                    Background="{DynamicResource BtnDefault}"
+                                    Classes="theme-soft"
+                                    Content="打开文件夹"
+                                    DockPanel.Dock="Right" />
+                            </DockPanel>
+                        </Expander.Header>
+                        <StackPanel Margin="0,-10" Orientation="Vertical">
+                            <DockPanel
+                                MinHeight="30"
+                                Margin="40,10,0,10"
+                                LastChildFill="False">
+                                <TextBlock VerticalAlignment="Center" Text="启用服务" />
+                                <ToggleSwitch
+                                    VerticalAlignment="Center"
+                                    actipro:ThemeProperties.ToggleSwitchHasFarAffinity="True"
+                                    Classes="theme-solid accent"
+                                    DockPanel.Dock="Right"
+                                    OffContent="关"
+                                    OnContent="开" />
+                            </DockPanel>
+                            <Separator Margin="-10,0" />
+                            <DockPanel
+                                MinHeight="30"
+                                Margin="40,10,0,10"
+                                LastChildFill="False">
+                                <TextBlock VerticalAlignment="Center" Text="记录等级" />
+                                <ComboBox
+                                    Width="85"
+                                    BorderThickness="0"
+                                    DockPanel.Dock="Right"
+                                    SelectedIndex="0">
+                                    <ComboBoxItem Content="Trace" />
+                                    <ComboBoxItem Content="Debug" />
+                                    <ComboBoxItem Content="Info" />
+                                    <ComboBoxItem Content="Warn" />
+                                    <ComboBoxItem Content="Error" />
+                                    <ComboBoxItem Content="Fatal" />
+                                </ComboBox>
+                            </DockPanel>
+                            <Separator Margin="-10,0" />
+                            <DockPanel
+                                MinHeight="30"
+                                Margin="40,10,0,10"
+                                LastChildFill="False">
+                                <TextBlock VerticalAlignment="Center" Text="输出格式" />
+                                <TextBox
+                                    Width="320"
+                                    Height="100"
+                                    VerticalAlignment="Center"
+                                    Background="#f9fafc"
+                                    Classes="theme-soft"
+                                    DockPanel.Dock="Right"
+                                    Text="${date:format=yyyy-MM-dd HH:mm:ss} [Uestc.BBS ${level}] ${message}${onexception:${newline}${exception:format=toString}${expection:format=StackTrace}}"
+                                    TextWrapping="Wrap" />
+                            </DockPanel>
+                            <Separator Margin="-10,0" />
+                            <DockPanel
+                                MinHeight="30"
+                                Margin="40,10,0,10"
+                                LastChildFill="False">
+                                <TextBlock
+                                    VerticalAlignment="Center"
+                                    DockPanel.Dock="Left"
+                                    Text="清除日志记录" />
+                                <Button
+                                    Height="32"
+                                    Background="{DynamicResource BtnDefault}"
+                                    Classes="theme-soft"
+                                    Content="清除"
+                                    DockPanel.Dock="Right" />
+                            </DockPanel>
+                        </StackPanel>
+                    </Expander>
+                    <!--  项目信息  -->
+                    <Expander>
+                        <Expander.Header>
+                            <DockPanel
+                                Height="55"
+                                VerticalAlignment="Center"
+                                LastChildFill="False">
+                                <Image
+                                    Width="20"
+                                    Margin="3,0,0,0"
+                                    DockPanel.Dock="Left"
+                                    Source="/Assets/Icons/app.ico" />
+                                <StackPanel
+                                    Margin="15,0"
+                                    VerticalAlignment="Center"
+                                    DockPanel.Dock="Left"
+                                    Orientation="Vertical">
+                                    <TextBlock VerticalAlignment="Center" Text="清水河畔" />
+                                    <TextBlock
+                                        FontSize="12"
+                                        Foreground="Gray"
+                                        Text="© 2024-2025 Redns. MIT License" />
+                                </StackPanel>
+                            </DockPanel>
+                        </Expander.Header>
+                        <StackPanel Margin="0,-10" Orientation="Vertical">
+                            <DockPanel
+                                MinHeight="30"
+                                Margin="40,10,0,10"
+                                LastChildFill="False">
+                                <TextBlock VerticalAlignment="Center" Text="源代码" />
+                                <actipro:HyperlinkTextBlock
+                                    VerticalAlignment="Center"
+                                    DockPanel.Dock="Right"
+                                    Foreground="Gray"
+                                    Text="https://github.com/Redns/Uestc.BBS" />
+                            </DockPanel>
+                            <Separator Margin="-10,0" />
+                            <StackPanel
+                                Margin="40,10,0,10"
+                                Orientation="Vertical"
+                                Spacing="10">
+                                <TextBlock VerticalAlignment="Center" Text="贡献者" />
+                                <Image
+                                    Width="32"
+                                    HorizontalAlignment="Left"
+                                    ClipToBounds="True"
+                                    DockPanel.Dock="Right"
+                                    Source="/Assets/avatar.jpg"
+                                    Stretch="Uniform">
+                                    <Image.Clip>
+                                        <StreamGeometry>
+                                            M 16 16 m -16, 0 a 16,16 0 1,0 32,0 a 16,16 0 1,0 -32,0
+                                        </StreamGeometry>
+                                    </Image.Clip>
+                                </Image>
+                                <Image
+                                    Width="32"
+                                    HorizontalAlignment="Left"
+                                    ClipToBounds="True"
+                                    DockPanel.Dock="Right"
+                                    Source="/Assets/Icons/app.ico"
+                                    Stretch="Uniform">
+                                    <Image.Clip>
+                                        <StreamGeometry>
+                                            M 16 16 m -16, 0 a 16,16 0 1,0 32,0 a 16,16 0 1,0 -32,0
+                                        </StreamGeometry>
+                                    </Image.Clip>
+                                </Image>
+                            </StackPanel>
+                            <Separator Margin="-10,0" />
+                            <DockPanel
+                                MinHeight="30"
+                                Margin="40,10,0,10"
+                                LastChildFill="False">
+                                <TextBlock VerticalAlignment="Center" Text="反馈与建议" />
 
+                                <icon:SymbolIcon
+                                    Width="16"
+                                    DockPanel.Dock="Right"
+                                    Symbol="ChatBubblesQuestion" />
+                            </DockPanel>
+                        </StackPanel>
+                    </Expander>
+                </StackPanel>
+            </ScrollViewer>
         </TabItem>
     </TabControl>
 </UserControl>

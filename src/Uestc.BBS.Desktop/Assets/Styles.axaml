@@ -122,4 +122,11 @@
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="Background" Value="{DynamicResource TextBoxDefault}" />
     </Style>
+    <!--  Expander  -->
+    <Style Selector="Expander">
+        <Setter Property="Background" Value="{DynamicResource ExpanderDefault}" />
+        <Style Selector="^ /template/ ToggleButton">
+            <Setter Property="Background" Value="{DynamicResource ExpanderDefault}" />
+        </Style>
+    </Style>
 </Styles>
