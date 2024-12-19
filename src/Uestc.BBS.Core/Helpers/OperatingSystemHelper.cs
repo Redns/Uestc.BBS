@@ -6,6 +6,7 @@ namespace Uestc.BBS.Core.Helpers
     {
         public static Version? GetAppVersion()
         {
+            // FIXME NOT WORK AT ALL
             return System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
         }
 

@@ -1,11 +1,13 @@
 ﻿using System;
+using Avalonia;
+using Avalonia.Controls;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Uestc.BBS.Core;
 using Uestc.BBS.Core.Services.System;
 
 namespace Uestc.BBS.Desktop.Models
 {
-    public partial class SettingsModel : ObservableObject
+    public partial class AppSettingsModel : ObservableObject
     {
         #region 外观
         [ObservableProperty]
@@ -71,7 +73,7 @@ namespace Uestc.BBS.Desktop.Models
         private string _logOutputFormat;
         #endregion
 
-        public SettingsModel(AppSetting appSetting, ILogService logService)
+        public AppSettingsModel(AppSetting appSetting, ILogService logService)
         {
             #region 外观
             _themeColor = appSetting.Apperance.ThemeColor;

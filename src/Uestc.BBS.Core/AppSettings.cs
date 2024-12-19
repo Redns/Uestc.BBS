@@ -309,7 +309,7 @@ namespace Uestc.BBS.Core
         /// <summary>
         /// 同步模式
         /// </summary>
-        public SyncMode Mode { get; set; } = SyncMode.Timing;
+        public SyncMode Mode { get; set; } = SyncMode.OnStaupAndTiming;
 
         /// <summary>
         /// 同步密钥
@@ -351,7 +351,6 @@ namespace Uestc.BBS.Core
     {
         None = 0,           // 手动
         OnStartup,          // 启动时同步
-        Timing,             // 定时同步
         OnStaupAndTiming    // 启动时 + 定时同步
     }
 
@@ -370,7 +369,7 @@ namespace Uestc.BBS.Core
         /// <summary>
         /// 输出格式
         /// </summary>
-        public string OutputFormat { get; set; } = "${date:format=yyyy-MM-dd HH\\:mm\\:ss} [Uestc.BBS ${level}] ${message}${onexception:${newline}${exception:format=toString}${expection:format=StackTrace}}";
+        public string OutputFormat { get; set; } = "${date:format=yyyy-MM-dd HH\\:mm\\:ss} [Uestc.BBS ${level}] ${message}${onexception:${newline}${exception:format=toString}${exception:format=StackTrace}}";
     }
 
     [JsonSerializable(typeof(AppSetting))]

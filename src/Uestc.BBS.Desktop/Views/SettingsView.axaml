@@ -174,10 +174,10 @@
                             SelectedIndex="{Binding Model.SyncMode}">
                             <ComboBoxItem Content="手动同步" />
                             <ComboBoxItem Content="应用启动时" />
-                            <ComboBoxItem Content="定时" />
                             <ComboBoxItem Content="应用启动时 + 定时" />
                         </ComboBox>
                     </DockPanel>
+                    <Separator />
                     <DockPanel Classes="MenuItem">
                         <TextBlock Text="时间间隔" />
                         <TextBlock
@@ -328,7 +328,7 @@
                             OnContent="开" />
                     </DockPanel>
                     <Separator />
-                    <DockPanel Classes="MenuItem">
+                    <DockPanel Classes="MenuItem" IsEnabled="{Binding Model.LogEnable}">
                         <TextBlock Text="记录等级" />
                         <ComboBox
                             BorderThickness="0"
@@ -343,11 +343,11 @@
                         </ComboBox>
                     </DockPanel>
                     <Separator />
-                    <DockPanel Classes="MenuItem">
+                    <DockPanel Classes="MenuItem" IsEnabled="{Binding Model.LogEnable}">
                         <TextBlock Text="输出格式" />
                         <TextBox
                             Width="320"
-                            Height="100"
+                            Height="110"
                             VerticalAlignment="Center"
                             BorderThickness="0"
                             DockPanel.Dock="Right"
@@ -409,13 +409,13 @@
                             Source="/Assets/Icons/app.ico" />
                         <StackPanel Classes="MenuTitle" DockPanel.Dock="Left">
                             <TextBlock Text="清水河畔" />
-                            <TextBlock Classes="Note" Text="© 2024-2025 Redns. MIT License" />
+                            <TextBlock Classes="Note" Text="{Binding Copyright, Mode=OneTime}" />
                         </StackPanel>
                         <TextBlock
                             Margin="8,0"
                             DockPanel.Dock="Right"
                             Foreground="Gray"
-                            Text="0.0.0.113-beta" />
+                            Text="{StaticResource AppVersion}" />
                     </DockPanel>
                 </Expander.Header>
                 <StackPanel Classes="MenuContent">

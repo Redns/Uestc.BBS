@@ -62,7 +62,7 @@ namespace Uestc.BBS.Desktop
             ServiceExtension.ServiceCollection.AddSingleton<PostView>();
             ServiceExtension.ServiceCollection.AddSingleton<MessagesView>();
             ServiceExtension.ServiceCollection.AddSingleton<SettingsView>();
-            ServiceExtension.ServiceCollection.AddSingleton<SettingsModel>();
+            ServiceExtension.ServiceCollection.AddSingleton<AppSettingsModel>();
             ServiceExtension.ServiceCollection.AddSingleton<SettingsViewModel>();
             // HttpClient
             ServiceExtension.ServiceCollection.AddHttpClient<AuthViewModel>()

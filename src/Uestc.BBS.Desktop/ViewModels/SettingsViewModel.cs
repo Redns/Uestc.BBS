@@ -1,5 +1,7 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using System;
+using CommunityToolkit.Mvvm.ComponentModel;
 using Uestc.BBS.Core;
+using Uestc.BBS.Desktop.Helpers;
 using Uestc.BBS.Desktop.Models;
 
 namespace Uestc.BBS.Desktop.ViewModels
@@ -7,14 +9,16 @@ namespace Uestc.BBS.Desktop.ViewModels
     public partial class SettingsViewModel : ObservableObject
     {
         [ObservableProperty]
-        private SettingsModel _model;
+        private AppSettingsModel _model;
 
-        private readonly AppSetting _appSetting;
+        public string Copyright { get; } =
+            DateTime.Now.Year == AppHelper.OriginalDatetime.Year
+                ? $"© {AppHelper.OriginalDatetime.Year} Redns. MIT License"
+                : $"© {AppHelper.OriginalDatetime.Year} - {DateTime.Now.Year} Redns. MIT License";
 
-        public SettingsViewModel(AppSetting appSetting, SettingsModel model)
+        public SettingsViewModel(AppSettingsModel model)
         {
             _model = model;
-            _appSetting = appSetting;
         }
     }
 }
