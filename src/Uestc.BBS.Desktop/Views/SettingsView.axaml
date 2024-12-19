@@ -9,16 +9,53 @@
     d:DesignHeight="600"
     d:DesignWidth="900"
     mc:Ignorable="d">
+    <UserControl.Styles>
+        <!--  按钮  -->
+        <Style Selector="Button">
+            <Setter Property="Height" Value="32" />
+            <Setter Property="Margin" Value="8,0" />
+            <Setter Property="BorderBrush" Value="{DynamicResource BtnDefaultBorderBrush}" />
+            <Setter Property="Background" Value="{DynamicResource BtnDefault}" />
+            <Style Selector="^:pointerover /template/ ContentPresenter">
+                <Setter Property="BorderBrush" Value="{DynamicResource BtnDefaultBorderBrush}" />
+                <Setter Property="Background" Value="{DynamicResource BtnDefaultHover}" />
+            </Style>
+            <Style Selector="^:pressed /template/ ContentPresenter">
+                <Setter Property="Background" Value="{DynamicResource BtnDefaultPressed}" />
+            </Style>
+        </Style>
+        <!--  Expander  -->
+        <Style Selector="Expander">
+            <Setter Property="Background" Value="{DynamicResource ExpanderDefault}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource ExpanderDefaultBorderBrush}" />
+            <Style Selector="^ /template/ ToggleButton">
+                <Setter Property="Background" Value="{DynamicResource ExpanderDefault}" />
+                <Style Selector="^:pointerover /template/ Border">
+                    <Setter Property="Background" Value="{DynamicResource ExpanderDefaultHover}" />
+                </Style>
+            </Style>
+        </Style>
+        <!--  DockPanel  -->
+        <Style Selector="DockPanel.MenuHeader">
+            <Setter Property="Height" Value="55" />
+            <Setter Property="LastChildFill" Value="False" />
+        </Style>
+        <Style Selector="DockPanel.MenuItem">
+            <Setter Property="MinHeight" Value="30" />
+            <Setter Property="Margin" Value="40,10,0,10" />
+            <Setter Property="LastChildFill" Value="False" />
+        </Style>
+        <Style Selector="Separator">
+            <Setter Property="Background" Value="{DynamicResource SeparatorDefaultBackground}" />
+        </Style>
+    </UserControl.Styles>
     <ScrollViewer VerticalScrollBarVisibility="Hidden">
         <StackPanel Orientation="Vertical" Spacing="6">
             <TextBlock Text="通用" />
             <!--  个性化  -->
             <Expander>
                 <Expander.Header>
-                    <DockPanel
-                        Height="55"
-                        VerticalAlignment="Center"
-                        LastChildFill="False">
+                    <DockPanel Classes="MenuHeader">
                         <icon:SymbolIcon
                             Width="26"
                             DockPanel.Dock="Left"
@@ -38,10 +75,7 @@
                     </DockPanel>
                 </Expander.Header>
                 <StackPanel Margin="0,-10" Orientation="Vertical">
-                    <DockPanel
-                        MinHeight="30"
-                        Margin="40,10,0,10"
-                        LastChildFill="False">
+                    <DockPanel Classes="MenuItem">
                         <TextBlock VerticalAlignment="Center" Text="主题" />
                         <ComboBox
                             Width="100"
@@ -54,10 +88,7 @@
                         </ComboBox>
                     </DockPanel>
                     <Separator Margin="-10,0" />
-                    <DockPanel
-                        MinHeight="30"
-                        Margin="40,10,0,10"
-                        LastChildFill="False">
+                    <DockPanel Classes="MenuItem">
                         <TextBlock VerticalAlignment="Center" Text="论坛链接" />
                         <TextBox
                             Width="220"
@@ -72,10 +103,7 @@
             <!--  同步  -->
             <Expander>
                 <Expander.Header>
-                    <DockPanel
-                        Height="55"
-                        VerticalAlignment="Center"
-                        LastChildFill="False">
+                    <DockPanel Classes="MenuHeader">
                         <icon:SymbolIcon
                             Width="26"
                             DockPanel.Dock="Left"
@@ -92,19 +120,11 @@
                                 Foreground="Gray"
                                 Text="在不同设备间同步配置和数据" />
                         </StackPanel>
-                        <Button
-                            Height="32"
-                            Margin="8,0"
-                            BorderThickness="0"
-                            Content="立即同步"
-                            DockPanel.Dock="Right" />
+                        <Button Content="立即同步" DockPanel.Dock="Right" />
                     </DockPanel>
                 </Expander.Header>
                 <StackPanel Margin="0,-10" Orientation="Vertical">
-                    <DockPanel
-                        MinHeight="30"
-                        Margin="40,10,0,10"
-                        LastChildFill="False">
+                    <DockPanel Classes="MenuItem">
                         <TextBlock VerticalAlignment="Center" Text="时间间隔" />
                         <TextBlock
                             Margin="10,0,0,0"
@@ -120,10 +140,7 @@
                             Value="10" />
                     </DockPanel>
                     <Separator Margin="-10,0" />
-                    <DockPanel
-                        MinHeight="30"
-                        Margin="40,10,0,10"
-                        LastChildFill="False">
+                    <DockPanel Classes="MenuItem">
                         <TextBlock VerticalAlignment="Center" Text="AES 密钥" />
                         <TextBox
                             Width="220"
@@ -191,10 +208,9 @@
                         <Button
                             Grid.Row="3"
                             Grid.Column="1"
-                            Width="88"
+                            Width="90"
                             Margin="0,10,0,0"
                             HorizontalAlignment="Left"
-                            BorderThickness="0"
                             Content="验证服务器"
                             DockPanel.Dock="Right" />
                     </Grid>
@@ -203,10 +219,7 @@
             <!--  启动  -->
             <Expander>
                 <Expander.Header>
-                    <DockPanel
-                        Height="55"
-                        VerticalAlignment="Center"
-                        LastChildFill="False">
+                    <DockPanel Classes="MenuHeader">
                         <icon:SymbolIcon
                             Width="26"
                             DockPanel.Dock="Left"
@@ -226,10 +239,7 @@
                     </DockPanel>
                 </Expander.Header>
                 <StackPanel Margin="0,-10" Orientation="Vertical">
-                    <DockPanel
-                        MinHeight="30"
-                        Margin="40,10,0,10"
-                        LastChildFill="False">
+                    <DockPanel Classes="MenuItem">
                         <TextBlock VerticalAlignment="Center" Text="自启动" />
                         <ToggleSwitch
                             VerticalAlignment="Center"
@@ -240,10 +250,7 @@
                             OnContent="开" />
                     </DockPanel>
                     <Separator Margin="-10,0" />
-                    <DockPanel
-                        MinHeight="30"
-                        Margin="40,10,0,10"
-                        LastChildFill="False">
+                    <DockPanel Classes="MenuItem">
                         <TextBlock VerticalAlignment="Center" Text="静默启动" />
                         <ToggleSwitch
                             VerticalAlignment="Center"
@@ -255,13 +262,10 @@
                     </DockPanel>
                 </StackPanel>
             </Expander>
-            <!--  应用更新  -->
+            <!--  更新  -->
             <Expander>
                 <Expander.Header>
-                    <DockPanel
-                        Height="55"
-                        VerticalAlignment="Center"
-                        LastChildFill="False">
+                    <DockPanel Classes="MenuHeader">
                         <icon:SymbolIcon
                             Width="26"
                             DockPanel.Dock="Left"
@@ -287,10 +291,7 @@
                     </DockPanel>
                 </Expander.Header>
                 <StackPanel Margin="0,-10" Orientation="Vertical">
-                    <DockPanel
-                        MinHeight="30"
-                        Margin="40,10,0,10"
-                        LastChildFill="False">
+                    <DockPanel Classes="MenuItem">
                         <TextBlock VerticalAlignment="Center" Text="接收预览版" />
                         <ToggleSwitch
                             VerticalAlignment="Center"
@@ -301,10 +302,7 @@
                             OnContent="开" />
                     </DockPanel>
                     <Separator Margin="-10,0" />
-                    <DockPanel
-                        MinHeight="30"
-                        Margin="40,10,0,10"
-                        LastChildFill="False">
+                    <DockPanel Classes="MenuItem">
                         <TextBlock VerticalAlignment="Center" Text="更新镜像源" />
                         <TextBox
                             Width="300"
@@ -315,30 +313,19 @@
                             TextAlignment="Center" />
                     </DockPanel>
                     <Separator Margin="-10,0" />
-                    <DockPanel
-                        MinHeight="30"
-                        Margin="40,10,0,10"
-                        LastChildFill="False">
+                    <DockPanel Classes="MenuItem">
                         <TextBlock
                             VerticalAlignment="Center"
                             DockPanel.Dock="Left"
                             Text="发布日期：2024/12/18" />
-                        <Button
-                            Height="32"
-                            Background="{DynamicResource BtnDefault}"
-                            Classes="theme-soft"
-                            Content="检查更新"
-                            DockPanel.Dock="Right" />
+                        <Button Content="检查更新" DockPanel.Dock="Right" />
                     </DockPanel>
                 </StackPanel>
             </Expander>
             <!--  日志  -->
             <Expander>
                 <Expander.Header>
-                    <DockPanel
-                        Height="55"
-                        VerticalAlignment="Center"
-                        LastChildFill="False">
+                    <DockPanel Classes="MenuHeader">
                         <icon:SymbolIcon
                             Width="26"
                             DockPanel.Dock="Left"
@@ -355,20 +342,11 @@
                                 Foreground="Gray"
                                 Text="查看应用日志或清除日志记录" />
                         </StackPanel>
-                        <Button
-                            Height="32"
-                            Margin="8,0"
-                            Background="{DynamicResource BtnDefault}"
-                            Classes="theme-soft"
-                            Content="打开文件夹"
-                            DockPanel.Dock="Right" />
+                        <Button Content="打开文件夹" DockPanel.Dock="Right" />
                     </DockPanel>
                 </Expander.Header>
                 <StackPanel Margin="0,-10" Orientation="Vertical">
-                    <DockPanel
-                        MinHeight="30"
-                        Margin="40,10,0,10"
-                        LastChildFill="False">
+                    <DockPanel Classes="MenuItem">
                         <TextBlock VerticalAlignment="Center" Text="启用服务" />
                         <ToggleSwitch
                             VerticalAlignment="Center"
@@ -379,10 +357,7 @@
                             OnContent="开" />
                     </DockPanel>
                     <Separator Margin="-10,0" />
-                    <DockPanel
-                        MinHeight="30"
-                        Margin="40,10,0,10"
-                        LastChildFill="False">
+                    <DockPanel Classes="MenuItem">
                         <TextBlock VerticalAlignment="Center" Text="记录等级" />
                         <ComboBox
                             Width="85"
@@ -398,10 +373,7 @@
                         </ComboBox>
                     </DockPanel>
                     <Separator Margin="-10,0" />
-                    <DockPanel
-                        MinHeight="30"
-                        Margin="40,10,0,10"
-                        LastChildFill="False">
+                    <DockPanel Classes="MenuItem">
                         <TextBlock VerticalAlignment="Center" Text="输出格式" />
                         <TextBox
                             Width="320"
@@ -413,31 +385,20 @@
                             TextWrapping="Wrap" />
                     </DockPanel>
                     <Separator Margin="-10,0" />
-                    <DockPanel
-                        MinHeight="30"
-                        Margin="40,10,0,10"
-                        LastChildFill="False">
+                    <DockPanel Classes="MenuItem">
                         <TextBlock
                             VerticalAlignment="Center"
                             DockPanel.Dock="Left"
                             Text="清除日志记录" />
-                        <Button
-                            Height="32"
-                            Background="{DynamicResource BtnDefault}"
-                            Classes="theme-soft"
-                            Content="清除"
-                            DockPanel.Dock="Right" />
+                        <Button Content="清除" DockPanel.Dock="Right" />
                     </DockPanel>
                 </StackPanel>
             </Expander>
             <TextBlock Margin="0,10,0,0" Text="关于此应用" />
-            <!--  项目信息  -->
+            <!--  关于  -->
             <Expander>
                 <Expander.Header>
-                    <DockPanel
-                        Height="55"
-                        VerticalAlignment="Center"
-                        LastChildFill="False">
+                    <DockPanel Classes="MenuHeader">
                         <Image
                             Width="20"
                             Margin="3,0,0,0"
@@ -457,10 +418,7 @@
                     </DockPanel>
                 </Expander.Header>
                 <StackPanel Margin="0,-10" Orientation="Vertical">
-                    <DockPanel
-                        MinHeight="30"
-                        Margin="40,10,0,10"
-                        LastChildFill="False">
+                    <DockPanel Classes="MenuItem">
                         <TextBlock VerticalAlignment="Center" Text="源代码" />
                         <actipro:HyperlinkTextBlock
                             VerticalAlignment="Center"
@@ -502,12 +460,8 @@
                         </Image>
                     </StackPanel>
                     <Separator Margin="-10,0" />
-                    <DockPanel
-                        MinHeight="30"
-                        Margin="40,10,0,10"
-                        LastChildFill="False">
+                    <DockPanel Classes="MenuItem">
                         <TextBlock VerticalAlignment="Center" Text="反馈与建议" />
-
                         <icon:SymbolIcon
                             Width="16"
                             DockPanel.Dock="Right"
