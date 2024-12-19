@@ -102,7 +102,7 @@ namespace Uestc.BBS.Desktop.ViewModels
             Process.Start(
                 new ProcessStartInfo()
                 {
-                    FileName = _appSetting.Apperance.OfficialUrl,
+                    FileName = _appSetting.Apperance.OfficialWebsite,
                     UseShellExecute = true,
                 }
             );

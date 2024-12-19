@@ -25,6 +25,11 @@ namespace Uestc.BBS.Core
         public SyncSetting Sync { get; set; } = new();
 
         /// <summary>
+        /// 日志设置
+        /// </summary>
+        public LogSetting Log { get; set; } = new();
+
+        /// <summary>
         /// 加载配置文件
         /// </summary>
         /// <param name="path">配置文件路径</param>
@@ -71,7 +76,7 @@ namespace Uestc.BBS.Core
         public void Save(string? path = null, string? secret = null)
         {
             File.WriteAllText(path ?? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), 
-                AppDomain.CurrentDomain.FriendlyName, "appsettings.json"), ToString().Encrypt(secret ?? Sync.Secret));
+                AppDomain.CurrentDomain.FriendlyName, "appsettings.json"), ToString().Encrypt(secret));
         }
 
         public override string ToString()
@@ -94,9 +99,14 @@ namespace Uestc.BBS.Core
     public class ApperanceSetting
     {
         /// <summary>
+        /// 主题
+        /// </summary>
+        public ThemeColor ThemeColor { get; set; } = ThemeColor.System;
+
+        /// <summary>
         /// 官方论坛链接
         /// </summary>
-        public string OfficialUrl { get; set; } = "https://bbs.uestc.edu.cn/new";
+        public string OfficialWebsite { get; set; } = "https://bbs.uestc.edu.cn/new";
 
         /// <summary>
         /// 静默启动
@@ -170,6 +180,16 @@ namespace Uestc.BBS.Core
                 DockTop = false
             }
         ];
+    }
+
+    /// <summary>
+    /// 主题
+    /// </summary>
+    public enum ThemeColor
+    {
+        Light = 0,
+        Dark,
+        System
     }
 
     public enum MenuItemKey
@@ -287,14 +307,14 @@ namespace Uestc.BBS.Core
     public class SyncSetting
     {
         /// <summary>
+        /// 同步模式
+        /// </summary>
+        public SyncMode Mode { get; set; } = SyncMode.Timing;
+
+        /// <summary>
         /// 同步密钥
         /// </summary>
         public string Secret { get; set; } = string.Empty;
-
-        /// <summary>
-        /// 同步模式
-        /// </summary>
-        public SyncMode SyncMode { get; set; } = SyncMode.Timing;
 
         /// <summary>
         /// 最近更新日期
@@ -306,7 +326,22 @@ namespace Uestc.BBS.Core
         /// <summary>
         /// 更新时间间隔
         /// </summary>
-        public TimeSpan UpdateTimeInterval { get; set; } = TimeSpan.FromMinutes(60);
+        public TimeSpan TimeInterval { get; set; } = TimeSpan.FromMinutes(60);
+
+        /// <summary>
+        /// WebDAV 服务地址
+        /// </summary>
+        public string Api { get; set; } = "https://dav.jianguoyun.com/dav";
+
+        /// <summary>
+        /// WebDAV 服务用户名
+        /// </summary>
+        public string Username {  get; set; } = string.Empty;
+
+        /// <summary>
+        /// WebDAV 服务密码
+        /// </summary>
+        public string Password { get; set; } = string.Empty;
     }
 
     /// <summary>
@@ -314,9 +349,28 @@ namespace Uestc.BBS.Core
     /// </summary>
     public enum SyncMode
     {
-        None = 0,       // 手动同步
-        OnStartup,      // 应用启动时同步
-        Timing          // 定时同步
+        None = 0,           // 手动
+        OnStartup,          // 启动时同步
+        Timing,             // 定时同步
+        OnStaupAndTiming    // 启动时 + 定时同步
+    }
+
+    public class LogSetting
+    {
+        /// <summary>
+        /// 启用服务
+        /// </summary>
+        public bool IsEnable { get; set; } = true;
+
+        /// <summary>
+        /// 最低日志级别
+        /// </summary>
+        public LogLevel MinLevel { get; set; } = LogLevel.Info;
+
+        /// <summary>
+        /// 输出格式
+        /// </summary>
+        public string OutputFormat { get; set; } = "${date:format=yyyy-MM-dd HH\\:mm\\:ss} [Uestc.BBS ${level}] ${message}${onexception:${newline}${exception:format=toString}${expection:format=StackTrace}}";
     }
 
     [JsonSerializable(typeof(AppSetting))]

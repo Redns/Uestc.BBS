@@ -6,8 +6,10 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:icon="using:FluentIcons.Avalonia"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="using:Uestc.BBS.Desktop.ViewModels"
     d:DesignHeight="600"
     d:DesignWidth="900"
+    x:DataType="vm:SettingsViewModel"
     mc:Ignorable="d">
     <UserControl.Styles>
         <!--  按钮  -->
@@ -46,7 +48,33 @@
             <Setter Property="LastChildFill" Value="False" />
         </Style>
         <Style Selector="Separator">
+            <Setter Property="Margin" Value="-10 0" />
             <Setter Property="Background" Value="{DynamicResource SeparatorDefaultBackground}" />
+        </Style>
+        <!--  StackPanel.MenuTitle  -->
+        <Style Selector="StackPanel.MenuTitle">
+            <Setter Property="Margin" Value="15,0" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="Orientation" Value="Vertical" />
+        </Style>
+        <!--  StackPanel.MenuContent  -->
+        <Style Selector="StackPanel.MenuContent">
+            <Setter Property="Margin" Value="0,-10" />
+            <Setter Property="Orientation" Value="Vertical" />
+        </Style>
+        <!--  SymbolIcon  -->
+        <Style Selector="icon|SymbolIcon">
+            <Setter Property="Width" Value="26" />
+            <Setter Property="FontSize" Value="26" />
+        </Style>
+        <!--  TextBlock  -->
+        <Style Selector="TextBlock">
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+        <!--  TextBlock.Note  -->
+        <Style Selector="TextBlock.Note">
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="Foreground" Value="Gray" />
         </Style>
     </UserControl.Styles>
     <ScrollViewer VerticalScrollBarVisibility="Hidden">
@@ -56,47 +84,72 @@
             <Expander>
                 <Expander.Header>
                     <DockPanel Classes="MenuHeader">
-                        <icon:SymbolIcon
-                            Width="26"
-                            DockPanel.Dock="Left"
-                            FontSize="26"
-                            Symbol="Color" />
-                        <StackPanel
-                            Margin="15,0"
-                            VerticalAlignment="Center"
-                            DockPanel.Dock="Left"
-                            Orientation="Vertical">
+                        <icon:SymbolIcon DockPanel.Dock="Left" Symbol="Color" />
+                        <StackPanel Classes="MenuTitle" DockPanel.Dock="Left">
                             <TextBlock VerticalAlignment="Center" Text="个性化" />
-                            <TextBlock
-                                FontSize="12"
-                                Foreground="Gray"
-                                Text="主题、动画" />
+                            <TextBlock Classes="Note" Text="主题、动画" />
                         </StackPanel>
                     </DockPanel>
                 </Expander.Header>
-                <StackPanel Margin="0,-10" Orientation="Vertical">
+                <StackPanel Classes="MenuContent">
                     <DockPanel Classes="MenuItem">
-                        <TextBlock VerticalAlignment="Center" Text="主题" />
+                        <TextBlock Text="主题" />
                         <ComboBox
-                            Width="100"
                             BorderThickness="0"
                             DockPanel.Dock="Right"
-                            SelectedIndex="2">
+                            SelectedIndex="{Binding Model.ThemeColor}">
                             <ComboBoxItem Content="浅色" />
                             <ComboBoxItem Content="深色" />
                             <ComboBoxItem Content="跟随系统" />
                         </ComboBox>
                     </DockPanel>
-                    <Separator Margin="-10,0" />
+                    <Separator />
                     <DockPanel Classes="MenuItem">
-                        <TextBlock VerticalAlignment="Center" Text="论坛链接" />
+                        <TextBlock Text="论坛链接" />
                         <TextBox
                             Width="220"
                             VerticalAlignment="Center"
                             BorderThickness="0"
                             DockPanel.Dock="Right"
-                            Text="https://bbs.uestc.edu.cn/new"
+                            Text="{Binding Model.OfficialWebsite, UpdateSourceTrigger=LostFocus}"
                             TextAlignment="Center" />
+                    </DockPanel>
+                </StackPanel>
+            </Expander>
+            <!--  账号  -->
+            <Expander>
+                <Expander.Header>
+                    <DockPanel Classes="MenuHeader">
+                        <icon:SymbolIcon DockPanel.Dock="Left" Symbol="Person" />
+                        <StackPanel Classes="MenuTitle" DockPanel.Dock="Left">
+                            <TextBlock Text="账号" />
+                            <TextBlock Classes="Note" Text="管理授权信息或切换用户" />
+                        </StackPanel>
+                        <Button Content="添加用户" DockPanel.Dock="Right" />
+                    </DockPanel>
+                </Expander.Header>
+                <StackPanel Classes="MenuContent">
+                    <DockPanel Classes="MenuItem">
+                        <TextBlock Text="自动登录" />
+                        <ToggleSwitch
+                            VerticalAlignment="Center"
+                            actipro:ThemeProperties.ToggleSwitchHasFarAffinity="True"
+                            Classes="theme-solid accent"
+                            DockPanel.Dock="Right"
+                            IsChecked="{Binding Model.AutoLogin}"
+                            OffContent="关"
+                            OnContent="开" />
+                    </DockPanel>
+                    <Separator />
+                    <DockPanel Classes="MenuItem">
+                        <TextBlock Text="记住密码" />
+                        <ToggleSwitch
+                            VerticalAlignment="Center"
+                            actipro:ThemeProperties.ToggleSwitchHasFarAffinity="True"
+                            Classes="theme-solid accent"
+                            DockPanel.Dock="Right"
+                            OffContent="关"
+                            OnContent="开" />
                     </DockPanel>
                 </StackPanel>
             </Expander>
@@ -104,31 +157,31 @@
             <Expander>
                 <Expander.Header>
                     <DockPanel Classes="MenuHeader">
-                        <icon:SymbolIcon
-                            Width="26"
-                            DockPanel.Dock="Left"
-                            FontSize="26"
-                            Symbol="CloudSync" />
-                        <StackPanel
-                            Margin="15,0"
-                            VerticalAlignment="Center"
-                            DockPanel.Dock="Left"
-                            Orientation="Vertical">
-                            <TextBlock VerticalAlignment="Center" Text="WebDAV 同步" />
-                            <TextBlock
-                                FontSize="12"
-                                Foreground="Gray"
-                                Text="在不同设备间同步配置和数据" />
+                        <icon:SymbolIcon DockPanel.Dock="Left" Symbol="CloudSync" />
+                        <StackPanel Classes="MenuTitle" DockPanel.Dock="Left">
+                            <TextBlock Text="WebDAV 同步" />
+                            <TextBlock Classes="Note" Text="在不同设备之间同步配置和数据" />
                         </StackPanel>
                         <Button Content="立即同步" DockPanel.Dock="Right" />
                     </DockPanel>
                 </Expander.Header>
-                <StackPanel Margin="0,-10" Orientation="Vertical">
+                <StackPanel Classes="MenuContent">
                     <DockPanel Classes="MenuItem">
-                        <TextBlock VerticalAlignment="Center" Text="时间间隔" />
+                        <TextBlock Text="同步模式" />
+                        <ComboBox
+                            BorderThickness="0"
+                            DockPanel.Dock="Right"
+                            SelectedIndex="{Binding Model.SyncMode}">
+                            <ComboBoxItem Content="手动同步" />
+                            <ComboBoxItem Content="应用启动时" />
+                            <ComboBoxItem Content="定时" />
+                            <ComboBoxItem Content="应用启动时 + 定时" />
+                        </ComboBox>
+                    </DockPanel>
+                    <DockPanel Classes="MenuItem">
+                        <TextBlock Text="时间间隔" />
                         <TextBlock
                             Margin="10,0,0,0"
-                            VerticalAlignment="Center"
                             DockPanel.Dock="Right"
                             Text="分钟" />
                         <NumericUpDown
@@ -137,11 +190,11 @@
                             DockPanel.Dock="Right"
                             Increment="1"
                             Minimum="1"
-                            Value="10" />
+                            Value="{Binding Model.SyncTimeIntervalMinutes, UpdateSourceTrigger=LostFocus}" />
                     </DockPanel>
-                    <Separator Margin="-10,0" />
+                    <Separator />
                     <DockPanel Classes="MenuItem">
-                        <TextBlock VerticalAlignment="Center" Text="AES 密钥" />
+                        <TextBlock Text="AES 密钥" />
                         <TextBox
                             Width="220"
                             VerticalAlignment="Center"
@@ -150,9 +203,9 @@
                             DockPanel.Dock="Right"
                             MaxLength="20"
                             PasswordChar="{actipro:ThemeResource EditPasswordChar}"
-                            Text="12333333333333333333" />
+                            Text="{Binding Model.SyncSecret, UpdateSourceTrigger=LostFocus}" />
                     </DockPanel>
-                    <Separator Margin="-10,0" />
+                    <Separator />
                     <Grid
                         MinHeight="30"
                         Margin="40,10,0,10"
@@ -162,7 +215,6 @@
                         <TextBlock
                             Grid.Row="0"
                             Grid.Column="0"
-                            VerticalAlignment="Center"
                             Text="服务器地址" />
                         <TextBox
                             Grid.Row="0"
@@ -170,13 +222,12 @@
                             Width="260"
                             HorizontalAlignment="Left"
                             BorderThickness="0"
-                            Text="https://dav.jianguoyun.com/dav" />
+                            Text="{Binding Model.SyncApi, UpdateSourceTrigger=LostFocus}" />
                         <!--  用户名  -->
                         <TextBlock
                             Grid.Row="1"
                             Grid.Column="0"
                             Margin="0,10,0,0"
-                            VerticalAlignment="Center"
                             Text="用户名" />
                         <TextBox
                             Grid.Row="1"
@@ -185,13 +236,12 @@
                             Margin="0,10,0,0"
                             HorizontalAlignment="Left"
                             BorderThickness="0"
-                            Text="ljing431@163.com" />
+                            Text="{Binding Model.SyncUsername, UpdateSourceTrigger=LostFocus}" />
                         <!--  密码  -->
                         <TextBlock
                             Grid.Row="2"
                             Grid.Column="0"
                             Margin="0,10,0,0"
-                            VerticalAlignment="Center"
                             Text="密码" />
                         <TextBox
                             Grid.Row="2"
@@ -203,7 +253,7 @@
                             Classes="has-reveal-password-button"
                             MaxLength="20"
                             PasswordChar="{actipro:ThemeResource EditPasswordChar}"
-                            Text="ljing431@163.com" />
+                            Text="{Binding Model.SyncPassword, UpdateSourceTrigger=LostFocus}" />
                         <!--  验证配置  -->
                         <Button
                             Grid.Row="3"
@@ -220,105 +270,36 @@
             <Expander>
                 <Expander.Header>
                     <DockPanel Classes="MenuHeader">
-                        <icon:SymbolIcon
-                            Width="26"
-                            DockPanel.Dock="Left"
-                            FontSize="26"
-                            Symbol="DesktopArrowRight" />
-                        <StackPanel
-                            Margin="15,0"
-                            VerticalAlignment="Center"
-                            DockPanel.Dock="Left"
-                            Orientation="Vertical">
-                            <TextBlock VerticalAlignment="Center" Text="启动" />
-                            <TextBlock
-                                FontSize="12"
-                                Foreground="Gray"
-                                Text="自启动、静默启动" />
+                        <icon:SymbolIcon DockPanel.Dock="Left" Symbol="DesktopArrowRight" />
+                        <StackPanel Classes="MenuTitle" DockPanel.Dock="Left">
+                            <TextBlock Text="启动" />
+                            <TextBlock Classes="Note" Text="自启动、静默启动" />
                         </StackPanel>
                     </DockPanel>
                 </Expander.Header>
-                <StackPanel Margin="0,-10" Orientation="Vertical">
+                <StackPanel Classes="MenuContent">
                     <DockPanel Classes="MenuItem">
-                        <TextBlock VerticalAlignment="Center" Text="自启动" />
+                        <TextBlock Text="自启动" />
                         <ToggleSwitch
                             VerticalAlignment="Center"
                             actipro:ThemeProperties.ToggleSwitchHasFarAffinity="True"
                             Classes="theme-solid accent"
                             DockPanel.Dock="Right"
+                            IsChecked="{Binding Model.StartupOnLaunch}"
                             OffContent="关"
                             OnContent="开" />
                     </DockPanel>
-                    <Separator Margin="-10,0" />
+                    <Separator />
                     <DockPanel Classes="MenuItem">
-                        <TextBlock VerticalAlignment="Center" Text="静默启动" />
+                        <TextBlock Text="静默启动" />
                         <ToggleSwitch
                             VerticalAlignment="Center"
                             actipro:ThemeProperties.ToggleSwitchHasFarAffinity="True"
                             Classes="theme-solid accent"
                             DockPanel.Dock="Right"
+                            IsChecked="{Binding Model.SlientStartup}"
                             OffContent="关"
                             OnContent="开" />
-                    </DockPanel>
-                </StackPanel>
-            </Expander>
-            <!--  更新  -->
-            <Expander>
-                <Expander.Header>
-                    <DockPanel Classes="MenuHeader">
-                        <icon:SymbolIcon
-                            Width="26"
-                            DockPanel.Dock="Left"
-                            FontSize="26"
-                            Symbol="ArrowSync" />
-                        <StackPanel
-                            Margin="15,0"
-                            VerticalAlignment="Center"
-                            DockPanel.Dock="Left"
-                            Orientation="Vertical">
-                            <TextBlock VerticalAlignment="Center" Text="应用更新" />
-                            <TextBlock
-                                FontSize="12"
-                                Foreground="Gray"
-                                Text="检查应用是否有可用更新" />
-                        </StackPanel>
-                        <TextBlock
-                            Margin="8,0"
-                            VerticalAlignment="Center"
-                            DockPanel.Dock="Right"
-                            Foreground="Gray"
-                            Text="0.0.0.113-beta" />
-                    </DockPanel>
-                </Expander.Header>
-                <StackPanel Margin="0,-10" Orientation="Vertical">
-                    <DockPanel Classes="MenuItem">
-                        <TextBlock VerticalAlignment="Center" Text="接收预览版" />
-                        <ToggleSwitch
-                            VerticalAlignment="Center"
-                            actipro:ThemeProperties.ToggleSwitchHasFarAffinity="True"
-                            Classes="theme-solid accent"
-                            DockPanel.Dock="Right"
-                            OffContent="关"
-                            OnContent="开" />
-                    </DockPanel>
-                    <Separator Margin="-10,0" />
-                    <DockPanel Classes="MenuItem">
-                        <TextBlock VerticalAlignment="Center" Text="更新镜像源" />
-                        <TextBox
-                            Width="300"
-                            VerticalAlignment="Center"
-                            BorderThickness="0"
-                            DockPanel.Dock="Right"
-                            Text="https://distributor.krins.cloud/Uestc.BBS"
-                            TextAlignment="Center" />
-                    </DockPanel>
-                    <Separator Margin="-10,0" />
-                    <DockPanel Classes="MenuItem">
-                        <TextBlock
-                            VerticalAlignment="Center"
-                            DockPanel.Dock="Left"
-                            Text="发布日期：2024/12/18" />
-                        <Button Content="检查更新" DockPanel.Dock="Right" />
                     </DockPanel>
                 </StackPanel>
             </Expander>
@@ -326,44 +307,33 @@
             <Expander>
                 <Expander.Header>
                     <DockPanel Classes="MenuHeader">
-                        <icon:SymbolIcon
-                            Width="26"
-                            DockPanel.Dock="Left"
-                            FontSize="26"
-                            Symbol="Textbox" />
-                        <StackPanel
-                            Margin="15,0"
-                            VerticalAlignment="Center"
-                            DockPanel.Dock="Left"
-                            Orientation="Vertical">
-                            <TextBlock VerticalAlignment="Center" Text="日志记录" />
-                            <TextBlock
-                                FontSize="12"
-                                Foreground="Gray"
-                                Text="查看应用日志或清除日志记录" />
+                        <icon:SymbolIcon DockPanel.Dock="Left" Symbol="Textbox" />
+                        <StackPanel Classes="MenuTitle" DockPanel.Dock="Left">
+                            <TextBlock Text="日志记录" />
+                            <TextBlock Classes="Note" Text="查看应用日志或清除日志记录" />
                         </StackPanel>
                         <Button Content="打开文件夹" DockPanel.Dock="Right" />
                     </DockPanel>
                 </Expander.Header>
-                <StackPanel Margin="0,-10" Orientation="Vertical">
+                <StackPanel Classes="MenuContent">
                     <DockPanel Classes="MenuItem">
-                        <TextBlock VerticalAlignment="Center" Text="启用服务" />
+                        <TextBlock Text="启用服务" />
                         <ToggleSwitch
                             VerticalAlignment="Center"
                             actipro:ThemeProperties.ToggleSwitchHasFarAffinity="True"
                             Classes="theme-solid accent"
                             DockPanel.Dock="Right"
+                            IsChecked="{Binding Model.LogEnable}"
                             OffContent="关"
                             OnContent="开" />
                     </DockPanel>
-                    <Separator Margin="-10,0" />
+                    <Separator />
                     <DockPanel Classes="MenuItem">
-                        <TextBlock VerticalAlignment="Center" Text="记录等级" />
+                        <TextBlock Text="记录等级" />
                         <ComboBox
-                            Width="85"
                             BorderThickness="0"
                             DockPanel.Dock="Right"
-                            SelectedIndex="0">
+                            SelectedIndex="{Binding Model.LogMinLevel}">
                             <ComboBoxItem Content="Trace" />
                             <ComboBoxItem Content="Debug" />
                             <ComboBoxItem Content="Info" />
@@ -372,25 +342,58 @@
                             <ComboBoxItem Content="Fatal" />
                         </ComboBox>
                     </DockPanel>
-                    <Separator Margin="-10,0" />
+                    <Separator />
                     <DockPanel Classes="MenuItem">
-                        <TextBlock VerticalAlignment="Center" Text="输出格式" />
+                        <TextBlock Text="输出格式" />
                         <TextBox
                             Width="320"
                             Height="100"
                             VerticalAlignment="Center"
                             BorderThickness="0"
                             DockPanel.Dock="Right"
-                            Text="${date:format=yyyy-MM-dd HH:mm:ss} [Uestc.BBS ${level}] ${message}${onexception:${newline}${exception:format=toString}${expection:format=StackTrace}}"
+                            Text="{Binding Model.LogOutputFormat, UpdateSourceTrigger=LostFocus}"
                             TextWrapping="Wrap" />
                     </DockPanel>
-                    <Separator Margin="-10,0" />
+                    <Separator />
                     <DockPanel Classes="MenuItem">
-                        <TextBlock
-                            VerticalAlignment="Center"
-                            DockPanel.Dock="Left"
-                            Text="清除日志记录" />
+                        <TextBlock DockPanel.Dock="Left" Text="清除日志记录" />
                         <Button Content="清除" DockPanel.Dock="Right" />
+                    </DockPanel>
+                </StackPanel>
+            </Expander>
+            <!--  更新  -->
+            <Expander>
+                <Expander.Header>
+                    <DockPanel Classes="MenuHeader">
+                        <icon:SymbolIcon DockPanel.Dock="Left" Symbol="ArrowSync" />
+                        <StackPanel Classes="MenuTitle" DockPanel.Dock="Left">
+                            <TextBlock Text="应用更新" />
+                            <TextBlock Classes="Note" Text="最近检查时间：2024/12/18 17:56" />
+                        </StackPanel>
+                        <Button Content="检查更新" DockPanel.Dock="Right" />
+                    </DockPanel>
+                </Expander.Header>
+                <StackPanel Classes="MenuContent">
+                    <DockPanel Classes="MenuItem">
+                        <TextBlock Text="接收预览版" />
+                        <ToggleSwitch
+                            VerticalAlignment="Center"
+                            actipro:ThemeProperties.ToggleSwitchHasFarAffinity="True"
+                            Classes="theme-solid accent"
+                            DockPanel.Dock="Right"
+                            OffContent="关"
+                            OnContent="开" />
+                    </DockPanel>
+                    <Separator />
+                    <DockPanel Classes="MenuItem">
+                        <TextBlock Text="更新镜像源" />
+                        <TextBox
+                            Width="300"
+                            VerticalAlignment="Center"
+                            BorderThickness="0"
+                            DockPanel.Dock="Right"
+                            Text="https://distributor.krins.cloud/Uestc.BBS"
+                            TextAlignment="Center" />
                     </DockPanel>
                 </StackPanel>
             </Expander>
@@ -404,34 +407,32 @@
                             Margin="3,0,0,0"
                             DockPanel.Dock="Left"
                             Source="/Assets/Icons/app.ico" />
-                        <StackPanel
-                            Margin="15,0"
-                            VerticalAlignment="Center"
-                            DockPanel.Dock="Left"
-                            Orientation="Vertical">
-                            <TextBlock VerticalAlignment="Center" Text="清水河畔" />
-                            <TextBlock
-                                FontSize="12"
-                                Foreground="Gray"
-                                Text="© 2024-2025 Redns. MIT License" />
+                        <StackPanel Classes="MenuTitle" DockPanel.Dock="Left">
+                            <TextBlock Text="清水河畔" />
+                            <TextBlock Classes="Note" Text="© 2024-2025 Redns. MIT License" />
                         </StackPanel>
+                        <TextBlock
+                            Margin="8,0"
+                            DockPanel.Dock="Right"
+                            Foreground="Gray"
+                            Text="0.0.0.113-beta" />
                     </DockPanel>
                 </Expander.Header>
-                <StackPanel Margin="0,-10" Orientation="Vertical">
+                <StackPanel Classes="MenuContent">
                     <DockPanel Classes="MenuItem">
-                        <TextBlock VerticalAlignment="Center" Text="源代码" />
+                        <TextBlock Text="源代码" />
                         <actipro:HyperlinkTextBlock
                             VerticalAlignment="Center"
                             DockPanel.Dock="Right"
                             Foreground="Gray"
                             Text="https://github.com/Redns/Uestc.BBS" />
                     </DockPanel>
-                    <Separator Margin="-10,0" />
+                    <Separator />
                     <StackPanel
                         Margin="40,10,0,10"
                         Orientation="Vertical"
                         Spacing="10">
-                        <TextBlock VerticalAlignment="Center" Text="贡献者" />
+                        <TextBlock Text="贡献者" />
                         <Image
                             Width="32"
                             HorizontalAlignment="Left"
@@ -459,12 +460,13 @@
                             </Image.Clip>
                         </Image>
                     </StackPanel>
-                    <Separator Margin="-10,0" />
+                    <Separator />
                     <DockPanel Classes="MenuItem">
-                        <TextBlock VerticalAlignment="Center" Text="反馈与建议" />
+                        <TextBlock Text="反馈与建议" />
                         <icon:SymbolIcon
                             Width="16"
                             DockPanel.Dock="Right"
+                            FontSize="20"
                             Symbol="ChatBubblesQuestion" />
                     </DockPanel>
                 </StackPanel>

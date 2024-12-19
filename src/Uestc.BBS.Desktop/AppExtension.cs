@@ -5,6 +5,7 @@ using System;
 using System.Threading;
 using Uestc.BBS.Core;
 using Uestc.BBS.Core.Services.System;
+using Uestc.BBS.Desktop.Models;
 using Uestc.BBS.Desktop.Services.StartupService;
 using Uestc.BBS.Desktop.ViewModels;
 using Uestc.BBS.Desktop.Views;
@@ -61,6 +62,8 @@ namespace Uestc.BBS.Desktop
             ServiceExtension.ServiceCollection.AddSingleton<PostView>();
             ServiceExtension.ServiceCollection.AddSingleton<MessagesView>();
             ServiceExtension.ServiceCollection.AddSingleton<SettingsView>();
+            ServiceExtension.ServiceCollection.AddSingleton<SettingsModel>();
+            ServiceExtension.ServiceCollection.AddSingleton<SettingsViewModel>();
             // HttpClient
             ServiceExtension.ServiceCollection.AddHttpClient<AuthViewModel>()
                 .UseSocketsHttpHandler((handler, _) => handler.PooledConnectionLifetime = TimeSpan.FromMinutes(30))
@@ -69,7 +72,13 @@ namespace Uestc.BBS.Desktop
                 .UseSocketsHttpHandler((handler, _) => handler.PooledConnectionLifetime = TimeSpan.FromMinutes(30))
                 .SetHandlerLifetime(Timeout.InfiniteTimeSpan);
             // 日志
-            ServiceExtension.ServiceCollection.AddSingleton<ILogService>(logger => new NLogService(LogManager.GetLogger("*")));
+            ServiceExtension.ServiceCollection.AddSingleton<ILogService>(logger =>
+            {
+                var nlogger = new NLogService(LogManager.GetLogger("*"));
+                var appSetting = ServiceExtension.Services.GetRequiredService<AppSetting>();
+                nlogger.Setup(appSetting.Log);
+                return nlogger;
+            });
 
             return builder;
         }

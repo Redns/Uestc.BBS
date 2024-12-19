@@ -12,7 +12,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Models\" />
     <AvaloniaResource Include="Assets\**" />
   </ItemGroup>
 
@@ -43,11 +42,5 @@
     <AvaloniaResource Update="Assets\Themes.axaml">
       <SubType>Designer</SubType>
     </AvaloniaResource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="nlog.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 </Project>

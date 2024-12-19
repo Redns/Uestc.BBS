@@ -2,6 +2,8 @@
 {
     public interface ILogService
     {
+        void Setup(LogSetting setting);
+
         void Trace(string message);
 
         void Trace(string message, Exception exception);
@@ -25,5 +27,15 @@
         void Fatal(string message);
 
         void Fatal(string message, Exception exception);
+    }
+
+    public enum LogLevel
+    {
+        Trace,
+        Debug,
+        Info,
+        Warn,
+        Error,
+        Fatal
     }
 }
