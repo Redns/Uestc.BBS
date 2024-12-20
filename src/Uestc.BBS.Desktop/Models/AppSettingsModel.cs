@@ -151,12 +151,11 @@ namespace Uestc.BBS.Desktop.Models
                 #region 日志
                 if ((appSetting.Log.IsEnable != _logEnable) || (appSetting.Log.MinLevel != _logMinLevel) || !appSetting.Log.OutputFormat.Equals(_logOutputFormat))
                 {
+                    appSetting.Log.IsEnable = _logEnable;
+                    appSetting.Log.MinLevel = _logMinLevel;
+                    appSetting.Log.OutputFormat = _logOutputFormat;
                     logService.Setup(appSetting.Log);
                 }
-
-                appSetting.Log.IsEnable = _logEnable;
-                appSetting.Log.MinLevel = _logMinLevel;
-                appSetting.Log.OutputFormat = _logOutputFormat;
                 #endregion
             };
         }

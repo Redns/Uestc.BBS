@@ -4,6 +4,7 @@ using Avalonia.Styling;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Uestc.BBS.Core;
+using Uestc.BBS.Core.Services.System;
 using Uestc.BBS.Desktop.Helpers;
 using Uestc.BBS.Desktop.Models;
 
@@ -19,7 +20,9 @@ namespace Uestc.BBS.Desktop.ViewModels
 
         private readonly AppSetting _appSetting;
 
-        public SettingsViewModel(AppSettingsModel model, AppSetting appSetting)
+        private readonly ILogService _logService;
+
+        public SettingsViewModel(AppSettingsModel model, AppSetting appSetting, ILogService logService)
         {
             _model = model;
             _copyright =
@@ -27,6 +30,7 @@ namespace Uestc.BBS.Desktop.ViewModels
                     ? $"©{AppHelper.OriginalDatetime.Year} Redns. MIT License"
                     : $"©{AppHelper.OriginalDatetime.Year}-{DateTime.Now.Year} Redns. MIT License";
             _appSetting = appSetting;
+            _logService = logService;
         }
 
         /// <summary>
@@ -39,6 +43,12 @@ namespace Uestc.BBS.Desktop.ViewModels
             ThemeColor.Light => ThemeVariant.Light,
             _ => ThemeVariant.Default
         };
+
+        [RelayCommand]
+        private void AddUser()
+        {
+            
+        }
 
         [RelayCommand]
         private void SaveAppSetting()

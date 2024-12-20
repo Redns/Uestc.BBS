@@ -2,7 +2,6 @@
 using NLog.Config;
 using NLog.Targets;
 using NLog.Targets.Wrappers;
-using Uestc.BBS.Core.Services.System;
 
 namespace Uestc.BBS.Core.Services.System
 {
@@ -14,6 +13,8 @@ namespace Uestc.BBS.Core.Services.System
         {
             if (!setting.IsEnable)
             {
+                LogManager.Configuration?.LoggingRules.Clear();
+                LogManager.ReconfigExistingLoggers();
                 return;
             }
 

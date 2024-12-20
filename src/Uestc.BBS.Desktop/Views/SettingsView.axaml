@@ -150,7 +150,10 @@
                             <TextBlock Text="账号" />
                             <TextBlock Classes="Note" Text="管理授权信息或切换用户" />
                         </StackPanel>
-                        <Button Content="添加用户" DockPanel.Dock="Right" />
+                        <Button
+                            Command="{Binding AddUserCommand}"
+                            Content="添加用户"
+                            DockPanel.Dock="Right" />
                     </DockPanel>
                 </Expander.Header>
                 <StackPanel Classes="MenuContent">
