@@ -1,13 +1,18 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 using Avalonia;
+using Avalonia.Media.Imaging;
 using Avalonia.Styling;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Uestc.BBS.Core;
 using Uestc.BBS.Core.Helpers;
+using Uestc.BBS.Core.Services;
 using Uestc.BBS.Core.Services.System;
 using Uestc.BBS.Desktop.Helpers;
 using Uestc.BBS.Desktop.Models;
@@ -27,19 +32,36 @@ namespace Uestc.BBS.Desktop.ViewModels
         [ObservableProperty]
         private AppSettingModel _model;
 
+        [ObservableProperty]
+        private Task<IEnumerable<Contributor>> _contributors;
+
         private readonly AppSetting _appSetting;
 
         private readonly ILogService _logService;
 
+        private readonly IGithubRESTService _githubRESTService;
+
         public SettingsViewModel(
             AppSettingModel model,
             AppSetting appSetting,
-            ILogService logService
+            ILogService logService,
+            IGithubRESTService githubRESTService
         )
         {
             _model = model;
             _appSetting = appSetting;
             _logService = logService;
+            _githubRESTService = githubRESTService;
+            _contributors = githubRESTService
+                .GetContributorsAsync("Redns", "Uestc.BBS")
+                .ContinueWith(contributors =>
+                    contributors.Result.Select(c => new Contributor
+                    {
+                        Name = c.Login,
+                        HomePage = c.HtmlUrl,
+                        Avatar = ImageHelper.LoadFromWeb(c.AvatarUrl),
+                    })
+                );
         }
 
         /// <summary>
@@ -71,27 +93,13 @@ namespace Uestc.BBS.Desktop.ViewModels
 
             if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
-                Process.Start(
-                    new ProcessStartInfo
-                    {
-                        FileName = "explorer",
-                        Arguments = "-R " + _logService.LogDirectory,
-                        UseShellExecute = true,
-                    }
-                );
+                Process.Start("explorer", $"-R {_logService.LogDirectory}");
                 return;
             }
 
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             {
-                Process.Start(
-                    new ProcessStartInfo
-                    {
-                        FileName = "xdg-open",
-                        Arguments = _logService.LogDirectory,
-                        UseShellExecute = true,
-                    }
-                );
+                Process.Start("xdg-open", _logService.LogDirectory);
             }
         }
 
@@ -122,5 +130,14 @@ namespace Uestc.BBS.Desktop.ViewModels
             Model.LogSizeContent =
                 $"日志文件存储占用：{_logService.LogDirectory.GetFileTotalSize($"*{AppDomain.CurrentDomain.FriendlyName}*.log").FormatFileSize()}";
         }
+    }
+
+    public class Contributor
+    {
+        public string Name { get; set; } = string.Empty;
+
+        public string HomePage { get; set; } = string.Empty;
+
+        public Task<Bitmap?> Avatar { get; set; } = Task.FromResult<Bitmap?>(null);
     }
 }

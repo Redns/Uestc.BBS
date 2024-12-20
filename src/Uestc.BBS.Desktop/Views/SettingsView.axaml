@@ -497,32 +497,28 @@
                         Orientation="Vertical"
                         Spacing="10">
                         <TextBlock Text="贡献者" />
-                        <Image
-                            Width="32"
-                            HorizontalAlignment="Left"
-                            ClipToBounds="True"
-                            DockPanel.Dock="Right"
-                            Source="/Assets/avatar.jpg"
-                            Stretch="Uniform">
-                            <Image.Clip>
-                                <StreamGeometry>
-                                    M 16 16 m -16, 0 a 16,16 0 1,0 32,0 a 16,16 0 1,0 -32,0
-                                </StreamGeometry>
-                            </Image.Clip>
-                        </Image>
-                        <Image
-                            Width="32"
-                            HorizontalAlignment="Left"
-                            ClipToBounds="True"
-                            DockPanel.Dock="Right"
-                            Source="/Assets/Icons/app.ico"
-                            Stretch="Uniform">
-                            <Image.Clip>
-                                <StreamGeometry>
-                                    M 16 16 m -16, 0 a 16,16 0 1,0 32,0 a 16,16 0 1,0 -32,0
-                                </StreamGeometry>
-                            </Image.Clip>
-                        </Image>
+                        <ItemsControl ItemsSource="{Binding Contributors^}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Image
+                                        Width="32"
+                                        ClipToBounds="True"
+                                        Source="{Binding Avatar^}"
+                                        Stretch="Uniform">
+                                        <Image.Clip>
+                                            <StreamGeometry>
+                                                M 16 16 m -16, 0 a 16,16 0 1,0 32,0 a 16,16 0 1,0 -32,0
+                                            </StreamGeometry>
+                                        </Image.Clip>
+                                    </Image>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
                     </StackPanel>
                     <Separator />
                     <DockPanel Classes="MenuItem">
