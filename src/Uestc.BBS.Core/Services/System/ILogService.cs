@@ -2,6 +2,8 @@
 {
     public interface ILogService
     {
+        string LogDirectory { get; }
+
         void Setup(LogSetting setting);
 
         void Trace(string message);

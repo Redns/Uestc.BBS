@@ -26,12 +26,7 @@ namespace Uestc.BBS.Core
         public static ServiceCollection ConfigureCommonServices()
         {
             // AppSetting
-            ServiceCollection.AddSingleton(settings =>
-            {
-                var appName = AppDomain.CurrentDomain.FriendlyName;
-                var appSettingsPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), appName, "appsettings.json");
-                return AppSetting.Load(appSettingsPath);
-            });
+            ServiceCollection.AddSingleton(settings => AppSetting.Load());
             // Forums
             ServiceCollection.AddTransient<IAuthService, AuthService>();
             ServiceCollection.AddTransient<ITopicService, TopicService>();

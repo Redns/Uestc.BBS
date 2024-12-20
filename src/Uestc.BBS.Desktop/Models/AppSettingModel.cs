@@ -1,11 +1,12 @@
 ﻿using System;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Uestc.BBS.Core;
+using Uestc.BBS.Core.Helpers;
 using Uestc.BBS.Core.Services.System;
 
 namespace Uestc.BBS.Desktop.Models
 {
-    public partial class AppSettingsModel : ObservableObject
+    public partial class AppSettingModel : ObservableObject
     {
         #region 外观
         /// <summary>
@@ -22,6 +23,12 @@ namespace Uestc.BBS.Desktop.Models
         /// </summary>
         [ObservableProperty]
         private string _officialWebsite;
+
+        /// <summary>
+        /// 窗口关闭行为
+        /// </summary>
+        [ObservableProperty]
+        private WindowCloseBehavior _windowCloseBehavior;
         #endregion
 
         #region 账号
@@ -81,12 +88,16 @@ namespace Uestc.BBS.Desktop.Models
 
         [ObservableProperty]
         private string _logOutputFormat;
+
+        [ObservableProperty]
+        private string _logSizeContent;
         #endregion
 
-        public AppSettingsModel(AppSetting appSetting, ILogService logService)
+        public AppSettingModel(AppSetting appSetting, ILogService logService)
         {
             #region 外观
             _themeColor = appSetting.Apperance.ThemeMode;
+            _windowCloseBehavior = appSetting.Apperance.WindowCloseBehavior;
             _backgroundOpacity = appSetting.Apperance.BackgroundOpacity;
             _officialWebsite = appSetting.Apperance.OfficialWebsite;
             #endregion
@@ -117,6 +128,7 @@ namespace Uestc.BBS.Desktop.Models
             _logEnable = appSetting.Log.IsEnable;
             _logMinLevel = appSetting.Log.MinLevel;
             _logOutputFormat = appSetting.Log.OutputFormat;
+            _logSizeContent = $"日志文件存储占用：{logService.LogDirectory.GetFileTotalSize($"*{AppDomain.CurrentDomain.FriendlyName}*.log").FormatFileSize()}";
             #endregion
 
             // 保存配置至本地
@@ -124,6 +136,7 @@ namespace Uestc.BBS.Desktop.Models
             {
                 #region 外观
                 appSetting.Apperance.ThemeMode = _themeColor;
+                appSetting.Apperance.WindowCloseBehavior = _windowCloseBehavior;
                 appSetting.Apperance.BackgroundOpacity = _backgroundOpacity;
                 appSetting.Apperance.OfficialWebsite = _officialWebsite;
                 #endregion

@@ -9,6 +9,18 @@ namespace Uestc.BBS.Core.Services.System
     {
         private readonly Logger _logger = logger;
 
+        private string? _logDirectory;
+        public string LogDirectory
+        {
+            get
+            {
+                return _logDirectory ??= Path.Combine(
+                    Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                    $"{AppDomain.CurrentDomain.FriendlyName}/Logs"
+                );
+            }
+        }
+
         public void Setup(LogSetting setting)
         {
             if (!setting.IsEnable)
@@ -19,16 +31,23 @@ namespace Uestc.BBS.Core.Services.System
             }
 
             var config = new LoggingConfiguration();
-            var appName = AppDomain.CurrentDomain.FriendlyName;
-            var outputPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), $"{appName}/Logs/{appName}.log");
-            config.AddRule(GetLogLevel(setting.MinLevel), NLog.LogLevel.Fatal, new AsyncTargetWrapper(new FileTarget()
-            {
-                FileName = outputPath,
-                Layout = setting.OutputFormat,
-                KeepFileOpen = false,
-                ArchiveAboveSize = 10 * 1024 * 1024,
-                MaxArchiveFiles = 10
-            }));
+            config.AddRule(
+                GetLogLevel(setting.MinLevel),
+                NLog.LogLevel.Fatal,
+                new AsyncTargetWrapper(
+                    new FileTarget()
+                    {
+                        FileName = Path.Combine(
+                            LogDirectory,
+                            $"{AppDomain.CurrentDomain.FriendlyName}.log"
+                        ),
+                        Layout = setting.OutputFormat,
+                        KeepFileOpen = false,
+                        ArchiveAboveSize = 10 * 1024 * 1024,
+                        MaxArchiveFiles = 10
+                    }
+                )
+            );
 
             LogManager.Configuration = config;
             LogManager.ReconfigExistingLoggers();

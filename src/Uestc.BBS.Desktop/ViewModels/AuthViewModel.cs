@@ -11,6 +11,7 @@ using CommunityToolkit.Mvvm.Input;
 using Uestc.BBS.Core;
 using Uestc.BBS.Core.Services.Api.Auth;
 using Uestc.BBS.Desktop.Helpers;
+using Uestc.BBS.Desktop.Models;
 using Uestc.BBS.Desktop.Views;
 
 namespace Uestc.BBS.Desktop.ViewModels
@@ -24,6 +25,9 @@ namespace Uestc.BBS.Desktop.ViewModels
         private readonly HttpClient _httpClient;
 
         private readonly IAuthService _authService;
+
+        [ObservableProperty]
+        private AppSettingModel _appSettingModel;
 
         /// <summary>
         /// 用户名
@@ -90,13 +94,16 @@ namespace Uestc.BBS.Desktop.ViewModels
             MainWindow mainWindow,
             AppSetting appSetting,
             HttpClient httpClient,
+            AppSettingModel appSettingModel,
             IAuthService authService
         )
         {
             _mainWindow = mainWindow;
             _appSetting = appSetting;
-            _authService = authService;
             _httpClient = httpClient;
+            _appSettingModel = appSettingModel;
+            _authService = authService;
+
             AutoLogin = appSetting.Auth.AutoLogin;
             RememberPassword = appSetting.Auth.RememberPassword;
             SelectedCredential = appSetting.Auth.DefaultCredential;

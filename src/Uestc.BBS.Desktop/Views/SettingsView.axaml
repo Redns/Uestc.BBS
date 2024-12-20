@@ -90,7 +90,7 @@
     <ScrollViewer VerticalScrollBarVisibility="Hidden">
         <StackPanel Orientation="Vertical" Spacing="6">
             <TextBlock Text="个性化" />
-            <!--  个性化  -->
+            <!--  颜色  -->
             <Expander>
                 <Expander.Header>
                     <DockPanel Classes="MenuHeader">
@@ -130,7 +130,7 @@
                     </DockPanel>
                     <Separator />
                     <DockPanel Classes="MenuItem">
-                        <TextBlock Text="论坛链接" />
+                        <TextBlock Text="论坛跳转链接" />
                         <TextBox
                             Width="220"
                             VerticalAlignment="Center"
@@ -141,13 +141,65 @@
                     </DockPanel>
                 </StackPanel>
             </Expander>
-            <!--  账号  -->
+            <!--  启动与关闭  -->
+            <Expander>
+                <Expander.Header>
+                    <DockPanel Classes="MenuHeader">
+                        <icon:SymbolIcon DockPanel.Dock="Left" Symbol="DesktopArrowRight" />
+                        <StackPanel Classes="MenuTitle" DockPanel.Dock="Left">
+                            <TextBlock Text="启动与关闭" />
+                            <TextBlock Classes="Note" Text="自启动、静默启动" />
+                        </StackPanel>
+                    </DockPanel>
+                </Expander.Header>
+                <StackPanel Classes="MenuContent">
+                    <DockPanel Classes="MenuItem">
+                        <TextBlock Text="自启动" />
+                        <ToggleSwitch
+                            VerticalAlignment="Center"
+                            actipro:ThemeProperties.ToggleSwitchHasFarAffinity="True"
+                            Classes="theme-solid accent"
+                            DockPanel.Dock="Right"
+                            IsChecked="{Binding Model.StartupOnLaunch}"
+                            OffContent="关"
+                            OnContent="开" />
+                    </DockPanel>
+                    <Separator />
+                    <DockPanel Classes="MenuItem">
+                        <StackPanel>
+                            <TextBlock Text="静默启动" />
+                            <TextBlock Classes="Note" Text="启动后隐藏窗口仅显示托盘图标" />
+                        </StackPanel>
+                        <ToggleSwitch
+                            VerticalAlignment="Center"
+                            actipro:ThemeProperties.ToggleSwitchHasFarAffinity="True"
+                            Classes="theme-solid accent"
+                            DockPanel.Dock="Right"
+                            IsChecked="{Binding Model.SlientStartup}"
+                            OffContent="关"
+                            OnContent="开" />
+                    </DockPanel>
+                    <Separator />
+                    <DockPanel Classes="MenuItem">
+                        <TextBlock Text="窗口关闭行为" />
+                        <ComboBox
+                            BorderThickness="0"
+                            DockPanel.Dock="Right"
+                            SelectedIndex="{Binding Model.WindowCloseBehavior}">
+                            <ComboBoxItem Content="隐藏窗口" />
+                            <ComboBoxItem Content="退出应用" />
+                        </ComboBox>
+                    </DockPanel>
+                </StackPanel>
+            </Expander>
+            <TextBlock Margin="0,10,0,0" Text="通用" />
+            <!--  账户  -->
             <Expander>
                 <Expander.Header>
                     <DockPanel Classes="MenuHeader">
                         <icon:SymbolIcon DockPanel.Dock="Left" Symbol="Person" />
                         <StackPanel Classes="MenuTitle" DockPanel.Dock="Left">
-                            <TextBlock Text="账号" />
+                            <TextBlock Text="账户" />
                             <TextBlock Classes="Note" Text="管理授权信息或切换用户" />
                         </StackPanel>
                         <Button
@@ -176,6 +228,7 @@
                             actipro:ThemeProperties.ToggleSwitchHasFarAffinity="True"
                             Classes="theme-solid accent"
                             DockPanel.Dock="Right"
+                            IsChecked="{Binding Model.RememberPassword}"
                             OffContent="关"
                             OnContent="开" />
                     </DockPanel>
@@ -217,12 +270,15 @@
                             BorderThickness="0"
                             DockPanel.Dock="Right"
                             Increment="1"
-                            Minimum="1"
+                            Minimum="5"
                             Value="{Binding Model.SyncTimeIntervalMinutes}" />
                     </DockPanel>
                     <Separator />
                     <DockPanel Classes="MenuItem">
-                        <TextBlock Text="AES 密钥" />
+                        <StackPanel>
+                            <TextBlock Text="AES 密钥" />
+                            <TextBlock Classes="Note" Text="数据将加密后上传至云端" />
+                        </StackPanel>
                         <TextBox
                             Width="220"
                             VerticalAlignment="Center"
@@ -238,6 +294,7 @@
                         MinHeight="30"
                         Margin="40,10,0,10"
                         ColumnDefinitions="100,*"
+                        IsEnabled="{Binding Model.SyncSecret, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
                         RowDefinitions="*,*,*,*">
                         <!--  服务器地址  -->
                         <TextBlock
@@ -294,43 +351,6 @@
                     </Grid>
                 </StackPanel>
             </Expander>
-            <!--  启动  -->
-            <Expander>
-                <Expander.Header>
-                    <DockPanel Classes="MenuHeader">
-                        <icon:SymbolIcon DockPanel.Dock="Left" Symbol="DesktopArrowRight" />
-                        <StackPanel Classes="MenuTitle" DockPanel.Dock="Left">
-                            <TextBlock Text="启动" />
-                            <TextBlock Classes="Note" Text="自启动、静默启动" />
-                        </StackPanel>
-                    </DockPanel>
-                </Expander.Header>
-                <StackPanel Classes="MenuContent">
-                    <DockPanel Classes="MenuItem">
-                        <TextBlock Text="自启动" />
-                        <ToggleSwitch
-                            VerticalAlignment="Center"
-                            actipro:ThemeProperties.ToggleSwitchHasFarAffinity="True"
-                            Classes="theme-solid accent"
-                            DockPanel.Dock="Right"
-                            IsChecked="{Binding Model.StartupOnLaunch}"
-                            OffContent="关"
-                            OnContent="开" />
-                    </DockPanel>
-                    <Separator />
-                    <DockPanel Classes="MenuItem">
-                        <TextBlock Text="静默启动" />
-                        <ToggleSwitch
-                            VerticalAlignment="Center"
-                            actipro:ThemeProperties.ToggleSwitchHasFarAffinity="True"
-                            Classes="theme-solid accent"
-                            DockPanel.Dock="Right"
-                            IsChecked="{Binding Model.SlientStartup}"
-                            OffContent="关"
-                            OnContent="开" />
-                    </DockPanel>
-                </StackPanel>
-            </Expander>
             <!--  日志  -->
             <Expander>
                 <Expander.Header>
@@ -340,7 +360,10 @@
                             <TextBlock Text="日志记录" />
                             <TextBlock Classes="Note" Text="查看应用日志或清除日志记录" />
                         </StackPanel>
-                        <Button Content="打开文件夹" DockPanel.Dock="Right" />
+                        <Button
+                            Command="{Binding OpenLogDirectoryCommand}"
+                            Content="打开文件夹"
+                            DockPanel.Dock="Right" />
                     </DockPanel>
                 </Expander.Header>
                 <StackPanel Classes="MenuContent">
@@ -357,7 +380,10 @@
                     </DockPanel>
                     <Separator />
                     <DockPanel Classes="MenuItem" IsEnabled="{Binding Model.LogEnable}">
-                        <TextBlock Text="记录等级" />
+                        <StackPanel>
+                            <TextBlock Text="记录等级" />
+                            <TextBlock Classes="Note" Text="低于此等级的日志不会输出至文件" />
+                        </StackPanel>
                         <ComboBox
                             BorderThickness="0"
                             DockPanel.Dock="Right"
@@ -372,10 +398,13 @@
                     </DockPanel>
                     <Separator />
                     <DockPanel Classes="MenuItem" IsEnabled="{Binding Model.LogEnable}">
-                        <TextBlock Text="输出格式" />
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Text="输出格式" />
+                            <TextBlock Classes="Note" Text="请参照 NLog 配置文档" />
+                        </StackPanel>
                         <TextBox
                             Width="320"
-                            Height="110"
+                            Height="100"
                             VerticalAlignment="Center"
                             BorderThickness="0"
                             DockPanel.Dock="Right"
@@ -384,8 +413,15 @@
                     </DockPanel>
                     <Separator />
                     <DockPanel Classes="MenuItem">
-                        <TextBlock DockPanel.Dock="Left" Text="清除日志记录" />
-                        <Button Content="清除" DockPanel.Dock="Right" />
+                        <StackPanel>
+                            <TextBlock DockPanel.Dock="Left" Text="清除日志记录" />
+                            <TextBlock Classes="Note" Text="{Binding Model.LogSizeContent}" />
+                        </StackPanel>
+
+                        <Button
+                            Command="{Binding ClearLogsCommand}"
+                            Content="清除"
+                            DockPanel.Dock="Right" />
                     </DockPanel>
                 </StackPanel>
             </Expander>

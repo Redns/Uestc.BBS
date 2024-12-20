@@ -28,7 +28,7 @@ namespace Uestc.BBS.Desktop.ViewModels
         private readonly ITopicService _topicService;
 
         [ObservableProperty]
-        private AppSettingsModel _appSettingsModel;
+        private AppSettingModel _appSettingsModel;
 
         /// <summary>
         /// 是否固定窗口至顶部
@@ -58,7 +58,7 @@ namespace Uestc.BBS.Desktop.ViewModels
             AppSetting appSetting,
             HomeView homeView,
             HttpClient httpClient,
-            AppSettingsModel appSettingsModel,
+            AppSettingModel appSettingsModel,
             ITopicService topicService
         )
         {

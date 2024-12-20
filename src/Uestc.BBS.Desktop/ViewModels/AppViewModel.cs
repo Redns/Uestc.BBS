@@ -15,9 +15,9 @@ namespace Uestc.BBS.ViewModels
     public partial class AppViewModel : ObservableObject
     {
         [ObservableProperty]
-        private AppSettingsModel _model;
+        private AppSettingModel _model;
 
-        public AppViewModel(AppSettingsModel model)
+        public AppViewModel(AppSettingModel model)
         {
             _model = model;
         }

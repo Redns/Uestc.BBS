@@ -2,7 +2,6 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.Json.Serialization.Metadata;
-using Uestc.BBS.Core.Helpers;
 using Uestc.BBS.Core.Services.System;
 
 namespace Uestc.BBS.Core
@@ -35,17 +34,16 @@ namespace Uestc.BBS.Core
         /// <param name="path">配置文件路径</param>
         /// <param name="secret">配置文件解密密钥</param>
         /// <returns></returns>
-        public static AppSetting Load(string? path = null, string? secret = null)
+        public static AppSetting Load(string? path = null)
         {
             AppSetting? appSetting;
 
             try
             {
-                path ??= Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), AppDomain.CurrentDomain.FriendlyName, "appsettings.aes");
+                path ??= Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), AppDomain.CurrentDomain.FriendlyName, "appsettings.json");
                 if (File.Exists(path))
                 {
-                    var decryptSetting = File.ReadAllText(path).Decrypt(secret);
-                    appSetting = JsonSerializer.Deserialize<AppSetting>(decryptSetting, SerializerOptions);
+                    appSetting = JsonSerializer.Deserialize<AppSetting>(File.ReadAllText(path), SerializerOptions);
                     if (appSetting is not null)
                     {
                         return appSetting;
@@ -63,7 +61,7 @@ namespace Uestc.BBS.Core
                 Directory.CreateDirectory(dir);
             }
             appSetting = new AppSetting();
-            appSetting.Save(path, secret);
+            appSetting.Save(path);
 
             return appSetting;
         }
@@ -73,10 +71,10 @@ namespace Uestc.BBS.Core
         /// </summary>
         /// <param name="path">配置文件路径</param>
         /// <param name="secret">配置文件加密密钥</param>
-        public void Save(string? path = null, string? secret = null)
+        public void Save(string? path = null)
         {
             File.WriteAllText(path ?? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), 
-                AppDomain.CurrentDomain.FriendlyName, "appsettings.json"), ToString().Encrypt(secret));
+                AppDomain.CurrentDomain.FriendlyName, "appsettings.json"), ToString());
         }
 
         public override string ToString()
@@ -122,6 +120,11 @@ namespace Uestc.BBS.Core
         /// 开机自启动
         /// </summary>
         public bool StartupOnLaunch {  get; set; } = false;
+
+        /// <summary>
+        /// 窗口关闭行为
+        /// </summary>
+        public WindowCloseBehavior WindowCloseBehavior { get; set; } = WindowCloseBehavior.Hide;
 
         /// <summary>
         /// 菜单列表
@@ -195,6 +198,15 @@ namespace Uestc.BBS.Core
         Light = 0,
         Dark,
         System
+    }
+
+    /// <summary>
+    /// 窗口关闭行为
+    /// </summary>
+    public enum WindowCloseBehavior
+    {
+        Hide,
+        Exit
     }
 
     public enum MenuItemKey
