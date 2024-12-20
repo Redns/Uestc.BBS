@@ -16,7 +16,7 @@
                 <ResourceInclude Source="/Assets/Themes.axaml" />
             </ResourceDictionary.MergedDictionaries>
             <x:String x:Key="AppVersion">0.0.0.113-beta</x:String>
-            <system:DateTime x:Key="OriginalDatetime">2023-07-16</system:DateTime>
+            <system:DateTime x:Key="OriginalDatetime">2024-07-16</system:DateTime>
         </ResourceDictionary>
     </Application.Resources>
 

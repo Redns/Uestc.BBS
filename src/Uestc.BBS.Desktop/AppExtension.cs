@@ -6,6 +6,7 @@ using System.Threading;
 using Uestc.BBS.Core;
 using Uestc.BBS.Core.Services.System;
 using Uestc.BBS.Desktop.Models;
+using Uestc.BBS.Desktop.Services;
 using Uestc.BBS.Desktop.Services.StartupService;
 using Uestc.BBS.Desktop.ViewModels;
 using Uestc.BBS.Desktop.Views;
@@ -79,6 +80,12 @@ namespace Uestc.BBS.Desktop
                 nlogger.Setup(appSetting.Log);
                 return nlogger;
             });
+            // App upgrade
+            ServiceExtension.ServiceCollection.AddSingleton<IAppUpgradeService>(appUpgrade => new CloudflareAppUpgradeService("https://distributor.krins.cloud",
+                "679edd7cffaf4a9ef3be4c445317a461",
+                "45fcd2ff239321d48ad4cae7ea9b5c4457f9d12f2483eb4029836931f5f83526",
+                "distributor",
+                "https://11f33fc072df859ebaf8faa0b0e1766b.r2.cloudflarestorage.com"));
 
             return builder;
         }

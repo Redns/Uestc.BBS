@@ -1,14 +1,20 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
-using System.Diagnostics;
-using Uestc.BBS.Core;
 using Uestc.BBS.Desktop.ViewModels;
 
 namespace Uestc.BBS.Desktop.Views;
 
 public partial class MainWindow : Window
 {
+    /// <summary>
+    /// 仅用于设计器预览
+    /// </summary>
+    public MainWindow()
+    {
+        InitializeComponent();
+    }
+
     public MainWindow(MainWindowViewModel viewModel)
     {
         InitializeComponent();

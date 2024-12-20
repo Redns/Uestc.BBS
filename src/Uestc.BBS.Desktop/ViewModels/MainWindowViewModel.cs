@@ -14,6 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Uestc.BBS.Core;
 using Uestc.BBS.Core.Services.Api.Forum;
 using Uestc.BBS.Desktop.Helpers;
+using Uestc.BBS.Desktop.Views;
 
 namespace Uestc.BBS.Desktop.ViewModels
 {

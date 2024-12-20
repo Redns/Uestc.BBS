@@ -27,6 +27,7 @@ namespace Uestc.BBS.Desktop.Models
 
         #region 同步
         [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(SyncTimeIntervalMinutesEnable))]
         private SyncMode _syncMode;
 
         [ObservableProperty]
@@ -34,6 +35,8 @@ namespace Uestc.BBS.Desktop.Models
 
         [ObservableProperty]
         private double _syncTimeIntervalMinutes;
+
+        public bool SyncTimeIntervalMinutesEnable => SyncMode is SyncMode.OnStaupAndTiming; 
 
         /// <summary>
         /// WebDAV 服务地址

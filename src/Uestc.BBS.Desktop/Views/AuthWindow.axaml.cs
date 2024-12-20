@@ -1,13 +1,20 @@
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
-using Uestc.BBS.Core;
 using Uestc.BBS.Desktop.ViewModels;
 
 namespace Uestc.BBS.Desktop.Views;
 
 public partial class AuthWindow : Window
 {
+    /// <summary>
+    /// 仅用于设计器预览
+    /// </summary>
+    public AuthWindow()
+    {
+        InitializeComponent();
+    }
+
     public AuthWindow(AuthViewModel viewModel)
     {
         InitializeComponent();

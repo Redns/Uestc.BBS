@@ -9,6 +9,7 @@
 	<PublishAot Condition="'$(Configuration)' == 'Release'">true</PublishAot>
 	<PublishTrimmed>true</PublishTrimmed>
 	<ApplicationIcon>Assets\Icons\app.ico</ApplicationIcon>
+	<FileVersion>0.0.0.113</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>

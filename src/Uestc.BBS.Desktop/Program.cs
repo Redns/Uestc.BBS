@@ -1,12 +1,8 @@
-﻿using ActiproSoftware.Properties.Shared;
-using Avalonia;
-using Avalonia.Controls;
+﻿using Avalonia;
 using Avalonia.Media;
 using System;
 using System.Diagnostics;
 using System.Linq;
-using System.Reflection;
-using Uestc.BBS.Core.Helpers;
 using Uestc.BBS.Desktop.Services;
 
 namespace Uestc.BBS.Desktop

@@ -1,5 +1,5 @@
 <UserControl
-    x:Class="Uestc.BBS.HomeView"
+    x:Class="Uestc.BBS.Desktop.Views.HomeView"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:actipro="http://schemas.actiprosoftware.com/avaloniaui"

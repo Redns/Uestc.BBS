@@ -1,10 +1,11 @@
 <UserControl
-    x:Class="Uestc.BBS.Desktop.SettingsView"
+    x:Class="Uestc.BBS.Desktop.Views.SettingsView"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:actipro="http://schemas.actiprosoftware.com/avaloniaui"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:icon="using:FluentIcons.Avalonia"
+    xmlns:local="using:Uestc.BBS.Desktop.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="using:Uestc.BBS.Desktop.ViewModels"
     d:DesignHeight="600"
@@ -101,6 +102,11 @@
                             <ComboBoxItem Content="浅色" />
                             <ComboBoxItem Content="深色" />
                             <ComboBoxItem Content="跟随系统" />
+                            <Interaction.Behaviors>
+                                <RoutedEventTriggerBehavior RoutedEvent="{x:Static SelectingItemsControl.SelectionChangedEvent}">
+                                    <InvokeCommandAction Command="{Binding SwitchThemeCommand}" />
+                                </RoutedEventTriggerBehavior>
+                            </Interaction.Behaviors>
                         </ComboBox>
                     </DockPanel>
                     <Separator />
@@ -178,7 +184,7 @@
                         </ComboBox>
                     </DockPanel>
                     <Separator />
-                    <DockPanel Classes="MenuItem">
+                    <DockPanel Classes="MenuItem" IsEnabled="{Binding Model.SyncTimeIntervalMinutesEnable}">
                         <TextBlock Text="时间间隔" />
                         <TextBlock
                             Margin="10,0,0,0"
