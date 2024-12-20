@@ -51,7 +51,7 @@ namespace Uestc.BBS.Desktop.ViewModels
             {
                 ThemeColor.Dark => ThemeVariant.Dark,
                 ThemeColor.Light => ThemeVariant.Light,
-                _ => ThemeVariant.Default
+                _ => ThemeVariant.Default,
             };
 
         [RelayCommand]
@@ -65,14 +65,7 @@ namespace Uestc.BBS.Desktop.ViewModels
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                Process.Start(
-                    new ProcessStartInfo
-                    {
-                        FileName = "explorer.exe",
-                        Arguments = $"\"{_logService.LogDirectory}\"",
-                        UseShellExecute = true
-                    }
-                );
+                Process.Start("explorer.exe", _logService.LogDirectory);
                 return;
             }
 
@@ -83,7 +76,7 @@ namespace Uestc.BBS.Desktop.ViewModels
                     {
                         FileName = "explorer",
                         Arguments = "-R " + _logService.LogDirectory,
-                        UseShellExecute = true
+                        UseShellExecute = true,
                     }
                 );
                 return;
@@ -96,7 +89,7 @@ namespace Uestc.BBS.Desktop.ViewModels
                     {
                         FileName = "xdg-open",
                         Arguments = _logService.LogDirectory,
-                        UseShellExecute = true
+                        UseShellExecute = true,
                     }
                 );
             }

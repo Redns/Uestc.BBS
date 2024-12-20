@@ -16,7 +16,8 @@ namespace Uestc.BBS.Core.Services.System
             {
                 return _logDirectory ??= Path.Combine(
                     Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-                    $"{AppDomain.CurrentDomain.FriendlyName}/Logs"
+                    AppDomain.CurrentDomain.FriendlyName,
+                    "Logs"
                 );
             }
         }
@@ -44,7 +45,7 @@ namespace Uestc.BBS.Core.Services.System
                         Layout = setting.OutputFormat,
                         KeepFileOpen = false,
                         ArchiveAboveSize = 10 * 1024 * 1024,
-                        MaxArchiveFiles = 10
+                        MaxArchiveFiles = 10,
                     }
                 )
             );
