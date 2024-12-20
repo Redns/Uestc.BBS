@@ -13,7 +13,6 @@
     MinWidth="1000"
     MinHeight="650"
     x:DataType="vm:MainWindowViewModel"
-    Background="{DynamicResource BgWindow}"
     ExtendClientAreaChromeHints="NoChrome"
     ExtendClientAreaTitleBarHeightHint="30"
     ExtendClientAreaToDecorationsHint="True"
@@ -21,6 +20,7 @@
     SystemDecorations="{OnPlatform Default=Full,
                                    Linux=None}"
     Topmost="{Binding IsWindowPinned}"
+    TransparencyLevelHint="AcrylicBlur"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
     <!--
@@ -39,126 +39,134 @@
             </OnPlatform>
         </Style>
     </Window.Styles>
-    <Grid ColumnDefinitions="auto,*" RowDefinitions="42,*">
-        <!--  标题栏  -->
-        <DockPanel
-            Grid.Row="0"
-            Grid.ColumnSpan="2"
-            Background="{OnPlatform Linux=Transparent}"
-            DoubleTapped="{OnPlatform Linux=DoubleTappedResizeWindow}"
-            LastChildFill="False"
-            PointerPressed="{OnPlatform Linux=DragWindow}">
-            <Image
-                Margin="10,5"
-                Cursor="Hand"
-                DockPanel.Dock="Left"
-                RenderOptions.BitmapInterpolationMode="{OnPlatform Linux=HighQuality}"
-                Source="/Assets/Icons/titlebar_icon.png"
-                ToolTip.Placement="RightEdgeAlignedBottom"
-                ToolTip.Tip="前往官方论坛">
-                <Interaction.Behaviors>
-                    <RoutedEventTriggerBehavior RoutedEvent="{x:Static InputElement.PointerPressedEvent}">
-                        <InvokeCommandAction Command="{Binding OpenOfficialWebsiteCommand}" />
-                    </RoutedEventTriggerBehavior>
-                </Interaction.Behaviors>
-            </Image>
-            <AutoCompleteBox
-                Width="460"
-                Margin="30,6,0,4"
-                Classes="Search"
-                DockPanel.Dock="Left"
-                Watermark="你的问题主要在于读书不多而想得太多 ——杨绛">
-                <AutoCompleteBox.InnerRightContent>
-                    <icon:SymbolIcon
-                        Margin="0,0,10,0"
-                        Foreground="#748185"
-                        Symbol="Search" />
-                </AutoCompleteBox.InnerRightContent>
-            </AutoCompleteBox>
-            <Button
-                Classes="WindowToolbarButton CloseButton"
-                Click="CloseWindow"
-                DockPanel.Dock="Right">
-                <icon:SymbolIcon Symbol="Dismiss" />
-            </Button>
-            <Button
-                Classes="WindowToolbarButton"
-                Click="MaximizeWindow"
-                DockPanel.Dock="Right">
-                <icon:SymbolIcon Symbol="Maximize" />
-            </Button>
-            <Button
-                Classes="WindowToolbarButton"
-                Click="MinimizeWindow"
-                DockPanel.Dock="Right">
-                <icon:SymbolIcon Symbol="Subtract" />
-            </Button>
-            <Button
-                Classes="WindowToolbarButton PinWindowButton"
-                Classes.IsPinned="{Binding IsWindowPinned}"
-                Command="{Binding SwitchPinWindowCommand}"
-                DockPanel.Dock="Right">
-                <icon:SymbolIcon />
-            </Button>
-            <Button
-                Classes="WindowToolbarButton"
-                Command="{Binding SwitchThemeCommand}"
-                DockPanel.Dock="Right"
-                ToolTip.Placement="Pointer"
-                ToolTip.Tip="{DynamicResource TipsThemeSwitch}">
-                <icon:SymbolIcon Classes="ThemeIcon" Symbol="{DynamicResource IconThemeSwitch}" />
-            </Button>
-            <Image
-                Width="32"
-                Margin="6,0"
-                ClipToBounds="True"
-                DockPanel.Dock="Right"
-                Source="{Binding Avatar^, Mode=OneWay}"
-                Stretch="Uniform">
-                <Image.Clip>
-                    <StreamGeometry>
-                        M 16 16 m -16, 0 a 16,16 0 1,0 32,0 a 16,16 0 1,0 -32,0
-                    </StreamGeometry>
-                </Image.Clip>
-            </Image>
-        </DockPanel>
-        <ItemsControl
-            Grid.Row="1"
-            Grid.Column="0"
-            ItemsSource="{Binding Menus}">
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <DockPanel Margin="0,10" LastChildFill="False" />
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <Button
-                        Classes="ToolbarIconButton"
-                        Classes.Active="{Binding IsActive}}"
-                        Command="{Binding MenuClickCommand}"
-                        CommandParameter="{Binding}"
-                        DockPanel.Dock="{Binding Dock}">
-                        <StackPanel>
-                            <icon:SymbolIcon Symbol="{Binding Symbol}" />
-                            <TextBlock Text="{Binding Name}" />
-                        </StackPanel>
-                    </Button>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-            <ItemsControl.Styles>
-                <Style x:DataType="vm:MenuItemViewModel" Selector="ContentPresenter">
-                    <Setter Property="DockPanel.Dock" Value="{Binding Dock}" />
-                </Style>
-            </ItemsControl.Styles>
-        </ItemsControl>
-        <!--  导航栏对应页面  -->
-        <ContentControl
-            Grid.Row="1"
-            Grid.Column="1"
-            Margin="20,10,40,10"
-            Content="{Binding CurrentPage}" />
-    </Grid>
-
-
+    <Panel>
+        <ExperimentalAcrylicBorder IsHitTestVisible="False">
+            <ExperimentalAcrylicBorder.Material>
+                <ExperimentalAcrylicMaterial
+                    BackgroundSource="Digger"
+                    MaterialOpacity="{Binding AppSettingsModel.BackgroundOpacity}"
+                    TintColor="{DynamicResource BgWindow}" />
+            </ExperimentalAcrylicBorder.Material>
+        </ExperimentalAcrylicBorder>
+        <Grid ColumnDefinitions="auto,*" RowDefinitions="42,*">
+            <!--  标题栏  -->
+            <DockPanel
+                Grid.Row="0"
+                Grid.ColumnSpan="2"
+                Background="{OnPlatform Linux=Transparent}"
+                DoubleTapped="{OnPlatform Linux=DoubleTappedResizeWindow}"
+                LastChildFill="False"
+                PointerPressed="{OnPlatform Linux=DragWindow}">
+                <Image
+                    Margin="10,5"
+                    Cursor="Hand"
+                    DockPanel.Dock="Left"
+                    RenderOptions.BitmapInterpolationMode="{OnPlatform Linux=HighQuality}"
+                    Source="/Assets/Icons/titlebar_icon.png"
+                    ToolTip.Placement="RightEdgeAlignedBottom"
+                    ToolTip.Tip="前往官方论坛">
+                    <Interaction.Behaviors>
+                        <RoutedEventTriggerBehavior RoutedEvent="{x:Static InputElement.PointerPressedEvent}">
+                            <InvokeCommandAction Command="{Binding OpenOfficialWebsiteCommand}" />
+                        </RoutedEventTriggerBehavior>
+                    </Interaction.Behaviors>
+                </Image>
+                <AutoCompleteBox
+                    Width="460"
+                    Margin="30,6,0,4"
+                    Classes="Search"
+                    DockPanel.Dock="Left"
+                    Watermark="你的问题主要在于读书不多而想得太多 ——杨绛">
+                    <AutoCompleteBox.InnerRightContent>
+                        <icon:SymbolIcon
+                            Margin="0,0,10,0"
+                            Foreground="#748185"
+                            Symbol="Search" />
+                    </AutoCompleteBox.InnerRightContent>
+                </AutoCompleteBox>
+                <Button
+                    Classes="WindowToolbarButton CloseButton"
+                    Click="CloseWindow"
+                    DockPanel.Dock="Right">
+                    <icon:SymbolIcon Symbol="Dismiss" />
+                </Button>
+                <Button
+                    Classes="WindowToolbarButton"
+                    Click="MaximizeWindow"
+                    DockPanel.Dock="Right">
+                    <icon:SymbolIcon Symbol="Maximize" />
+                </Button>
+                <Button
+                    Classes="WindowToolbarButton"
+                    Click="MinimizeWindow"
+                    DockPanel.Dock="Right">
+                    <icon:SymbolIcon Symbol="Subtract" />
+                </Button>
+                <Button
+                    Classes="WindowToolbarButton PinWindowButton"
+                    Classes.IsPinned="{Binding IsWindowPinned}"
+                    Command="{Binding SwitchPinWindowCommand}"
+                    DockPanel.Dock="Right">
+                    <icon:SymbolIcon />
+                </Button>
+                <Button
+                    Classes="WindowToolbarButton"
+                    Command="{Binding SwitchThemeCommand}"
+                    DockPanel.Dock="Right"
+                    ToolTip.Placement="Pointer"
+                    ToolTip.Tip="{DynamicResource TipsThemeSwitch}">
+                    <icon:SymbolIcon Classes="ThemeIcon" Symbol="{DynamicResource IconThemeSwitch}" />
+                </Button>
+                <Image
+                    Width="32"
+                    Margin="6,0"
+                    ClipToBounds="True"
+                    DockPanel.Dock="Right"
+                    Source="{Binding Avatar^, Mode=OneWay}"
+                    Stretch="Uniform">
+                    <Image.Clip>
+                        <StreamGeometry>
+                            M 16 16 m -16, 0 a 16,16 0 1,0 32,0 a 16,16 0 1,0 -32,0
+                        </StreamGeometry>
+                    </Image.Clip>
+                </Image>
+            </DockPanel>
+            <ItemsControl
+                Grid.Row="1"
+                Grid.Column="0"
+                ItemsSource="{Binding Menus}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <DockPanel Margin="0,10" LastChildFill="False" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Button
+                            Classes="ToolbarIconButton"
+                            Classes.Active="{Binding IsActive}}"
+                            Command="{Binding MenuClickCommand}"
+                            CommandParameter="{Binding}"
+                            DockPanel.Dock="{Binding Dock}">
+                            <StackPanel>
+                                <icon:SymbolIcon Symbol="{Binding Symbol}" />
+                                <TextBlock Text="{Binding Name}" />
+                            </StackPanel>
+                        </Button>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+                <ItemsControl.Styles>
+                    <Style x:DataType="vm:MenuItemViewModel" Selector="ContentPresenter">
+                        <Setter Property="DockPanel.Dock" Value="{Binding Dock}" />
+                    </Style>
+                </ItemsControl.Styles>
+            </ItemsControl>
+            <!--  导航栏对应页面  -->
+            <ContentControl
+                Grid.Row="1"
+                Grid.Column="1"
+                Margin="20,10,40,10"
+                Content="{Binding CurrentPage}" />
+        </Grid>
+    </Panel>
 </Window>

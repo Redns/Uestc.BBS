@@ -101,7 +101,12 @@ namespace Uestc.BBS.Core
         /// <summary>
         /// 主题
         /// </summary>
-        public ThemeColor ThemeColor { get; set; } = ThemeColor.System;
+        public ThemeColor ThemeMode { get; set; } = ThemeColor.System;
+
+        /// <summary>
+        /// 背景透明度
+        /// </summary>
+        public double BackgroundOpacity { get; set; } = 1.0;
 
         /// <summary>
         /// 官方论坛链接

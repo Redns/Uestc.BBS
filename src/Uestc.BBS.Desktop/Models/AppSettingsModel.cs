@@ -1,6 +1,4 @@
 ﻿using System;
-using Avalonia;
-using Avalonia.Controls;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Uestc.BBS.Core;
 using Uestc.BBS.Core.Services.System;
@@ -10,9 +8,18 @@ namespace Uestc.BBS.Desktop.Models
     public partial class AppSettingsModel : ObservableObject
     {
         #region 外观
+        /// <summary>
+        /// 主题色
+        /// </summary>
         [ObservableProperty]
         private ThemeColor _themeColor;
 
+        [ObservableProperty]
+        private double _backgroundOpacity;
+
+        /// <summary>
+        /// 论坛官网
+        /// </summary>
         [ObservableProperty]
         private string _officialWebsite;
         #endregion
@@ -79,7 +86,8 @@ namespace Uestc.BBS.Desktop.Models
         public AppSettingsModel(AppSetting appSetting, ILogService logService)
         {
             #region 外观
-            _themeColor = appSetting.Apperance.ThemeColor;
+            _themeColor = appSetting.Apperance.ThemeMode;
+            _backgroundOpacity = appSetting.Apperance.BackgroundOpacity;
             _officialWebsite = appSetting.Apperance.OfficialWebsite;
             #endregion
 
@@ -115,7 +123,8 @@ namespace Uestc.BBS.Desktop.Models
             PropertyChanged += (sender, e) =>
             {
                 #region 外观
-                appSetting.Apperance.ThemeColor = _themeColor;
+                appSetting.Apperance.ThemeMode = _themeColor;
+                appSetting.Apperance.BackgroundOpacity = _backgroundOpacity;
                 appSetting.Apperance.OfficialWebsite = _officialWebsite;
                 #endregion
 
@@ -149,8 +158,6 @@ namespace Uestc.BBS.Desktop.Models
                 appSetting.Log.MinLevel = _logMinLevel;
                 appSetting.Log.OutputFormat = _logOutputFormat;
                 #endregion
-
-                appSetting.Save();
             };
         }
     }

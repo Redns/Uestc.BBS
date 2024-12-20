@@ -14,6 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Uestc.BBS.Core;
 using Uestc.BBS.Core.Services.Api.Forum;
 using Uestc.BBS.Desktop.Helpers;
+using Uestc.BBS.Desktop.Models;
 using Uestc.BBS.Desktop.Views;
 
 namespace Uestc.BBS.Desktop.ViewModels
@@ -25,6 +26,9 @@ namespace Uestc.BBS.Desktop.ViewModels
         private readonly HttpClient _httpClient;
 
         private readonly ITopicService _topicService;
+
+        [ObservableProperty]
+        private AppSettingsModel _appSettingsModel;
 
         /// <summary>
         /// 是否固定窗口至顶部
@@ -54,6 +58,7 @@ namespace Uestc.BBS.Desktop.ViewModels
             AppSetting appSetting,
             HomeView homeView,
             HttpClient httpClient,
+            AppSettingsModel appSettingsModel,
             ITopicService topicService
         )
         {
@@ -61,6 +66,7 @@ namespace Uestc.BBS.Desktop.ViewModels
             _httpClient = httpClient;
             _currentPage = homeView;
             _topicService = topicService;
+            _appSettingsModel = appSettingsModel;
             Menus = new ObservableCollection<MenuItemViewModel>(
                 appSetting.Apperance.MenuItems.Select(m => new MenuItemViewModel
                 {

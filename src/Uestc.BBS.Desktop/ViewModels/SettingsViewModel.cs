@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using Avalonia;
 using Avalonia.Styling;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -18,15 +17,17 @@ namespace Uestc.BBS.Desktop.ViewModels
         [ObservableProperty]
         private string _copyright;
 
-        public SettingsViewModel(AppSettingsModel model)
+        private readonly AppSetting _appSetting;
+
+        public SettingsViewModel(AppSettingsModel model, AppSetting appSetting)
         {
             _model = model;
             _copyright =
                 DateTime.Now.Year == AppHelper.OriginalDatetime.Year
                     ? $"©{AppHelper.OriginalDatetime.Year} Redns. MIT License"
                     : $"©{AppHelper.OriginalDatetime.Year}-{DateTime.Now.Year} Redns. MIT License";
+            _appSetting = appSetting;
         }
-
 
         /// <summary>
         /// 主题切换
@@ -38,5 +39,11 @@ namespace Uestc.BBS.Desktop.ViewModels
             ThemeColor.Light => ThemeVariant.Light,
             _ => ThemeVariant.Default
         };
+
+        [RelayCommand]
+        private void SaveAppSetting()
+        {
+            _appSetting.Save();
+        }
     }
 }

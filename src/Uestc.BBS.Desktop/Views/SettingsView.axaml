@@ -12,6 +12,11 @@
     d:DesignWidth="900"
     x:DataType="vm:SettingsViewModel"
     mc:Ignorable="d">
+    <Interaction.Behaviors>
+        <RoutedEventTriggerBehavior RoutedEvent="{x:Static InputElement.LostFocusEvent}">
+            <InvokeCommandAction Command="{Binding SaveAppSettingCommand}" />
+        </RoutedEventTriggerBehavior>
+    </Interaction.Behaviors>
     <UserControl.Styles>
         <!--  按钮  -->
         <Style Selector="Button">
@@ -58,6 +63,10 @@
             <Setter Property="VerticalAlignment" Value="Center" />
             <Setter Property="Orientation" Value="Vertical" />
         </Style>
+        <Style Selector="StackPanel.SubMenuTitle">
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="Orientation" Value="Vertical" />
+        </Style>
         <!--  StackPanel.MenuContent  -->
         <Style Selector="StackPanel.MenuContent">
             <Setter Property="Margin" Value="0,-10" />
@@ -80,21 +89,21 @@
     </UserControl.Styles>
     <ScrollViewer VerticalScrollBarVisibility="Hidden">
         <StackPanel Orientation="Vertical" Spacing="6">
-            <TextBlock Text="通用" />
+            <TextBlock Text="个性化" />
             <!--  个性化  -->
             <Expander>
                 <Expander.Header>
                     <DockPanel Classes="MenuHeader">
                         <icon:SymbolIcon DockPanel.Dock="Left" Symbol="Color" />
                         <StackPanel Classes="MenuTitle" DockPanel.Dock="Left">
-                            <TextBlock VerticalAlignment="Center" Text="个性化" />
-                            <TextBlock Classes="Note" Text="主题、动画" />
+                            <TextBlock VerticalAlignment="Center" Text="颜色" />
+                            <TextBlock Classes="Note" Text="主题色、透明效果" />
                         </StackPanel>
                     </DockPanel>
                 </Expander.Header>
                 <StackPanel Classes="MenuContent">
                     <DockPanel Classes="MenuItem">
-                        <TextBlock Text="主题" />
+                        <TextBlock Text="主题色" />
                         <ComboBox
                             BorderThickness="0"
                             DockPanel.Dock="Right"
@@ -111,13 +120,23 @@
                     </DockPanel>
                     <Separator />
                     <DockPanel Classes="MenuItem">
+                        <TextBlock Text="背景透明度" />
+                        <Slider
+                            Width="150"
+                            DockPanel.Dock="Right"
+                            Maximum="1.0"
+                            Minimum="0"
+                            Value="{Binding Model.BackgroundOpacity}" />
+                    </DockPanel>
+                    <Separator />
+                    <DockPanel Classes="MenuItem">
                         <TextBlock Text="论坛链接" />
                         <TextBox
                             Width="220"
                             VerticalAlignment="Center"
                             BorderThickness="0"
                             DockPanel.Dock="Right"
-                            Text="{Binding Model.OfficialWebsite, UpdateSourceTrigger=LostFocus}"
+                            Text="{Binding Model.OfficialWebsite}"
                             TextAlignment="Center" />
                     </DockPanel>
                 </StackPanel>
@@ -196,7 +215,7 @@
                             DockPanel.Dock="Right"
                             Increment="1"
                             Minimum="1"
-                            Value="{Binding Model.SyncTimeIntervalMinutes, UpdateSourceTrigger=LostFocus}" />
+                            Value="{Binding Model.SyncTimeIntervalMinutes}" />
                     </DockPanel>
                     <Separator />
                     <DockPanel Classes="MenuItem">
@@ -209,7 +228,7 @@
                             DockPanel.Dock="Right"
                             MaxLength="20"
                             PasswordChar="{actipro:ThemeResource EditPasswordChar}"
-                            Text="{Binding Model.SyncSecret, UpdateSourceTrigger=LostFocus}" />
+                            Text="{Binding Model.SyncSecret}" />
                     </DockPanel>
                     <Separator />
                     <Grid
@@ -228,7 +247,7 @@
                             Width="260"
                             HorizontalAlignment="Left"
                             BorderThickness="0"
-                            Text="{Binding Model.SyncApi, UpdateSourceTrigger=LostFocus}" />
+                            Text="{Binding Model.SyncApi}" />
                         <!--  用户名  -->
                         <TextBlock
                             Grid.Row="1"
@@ -242,7 +261,7 @@
                             Margin="0,10,0,0"
                             HorizontalAlignment="Left"
                             BorderThickness="0"
-                            Text="{Binding Model.SyncUsername, UpdateSourceTrigger=LostFocus}" />
+                            Text="{Binding Model.SyncUsername}" />
                         <!--  密码  -->
                         <TextBlock
                             Grid.Row="2"
@@ -259,7 +278,7 @@
                             Classes="has-reveal-password-button"
                             MaxLength="20"
                             PasswordChar="{actipro:ThemeResource EditPasswordChar}"
-                            Text="{Binding Model.SyncPassword, UpdateSourceTrigger=LostFocus}" />
+                            Text="{Binding Model.SyncPassword}" />
                         <!--  验证配置  -->
                         <Button
                             Grid.Row="3"
@@ -357,7 +376,7 @@
                             VerticalAlignment="Center"
                             BorderThickness="0"
                             DockPanel.Dock="Right"
-                            Text="{Binding Model.LogOutputFormat, UpdateSourceTrigger=LostFocus}"
+                            Text="{Binding Model.LogOutputFormat}"
                             TextWrapping="Wrap" />
                     </DockPanel>
                     <Separator />
