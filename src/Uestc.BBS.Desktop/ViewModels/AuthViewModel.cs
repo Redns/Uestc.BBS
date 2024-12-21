@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
@@ -16,7 +17,7 @@ using Uestc.BBS.Desktop.Views;
 
 namespace Uestc.BBS.Desktop.ViewModels
 {
-    public partial class AuthViewModel : ObservableObject
+    public partial class AuthViewModel : ObservableValidator
     {
         private readonly MainWindow _mainWindow;
 
@@ -33,19 +34,25 @@ namespace Uestc.BBS.Desktop.ViewModels
         /// 用户名
         /// </summary>
         [ObservableProperty]
+        [NotifyDataErrorInfo]
+        [Required(ErrorMessage = "请输入用户名")]
         [NotifyPropertyChangedFor(nameof(UsernameMessage))]
-        private string _username = string.Empty;
+        private string? _username;
 
         /// <summary>
         /// 密码
         /// </summary>
         [ObservableProperty]
+        [NotifyDataErrorInfo]
+        [Required(ErrorMessage = "请输入密码")]
         [NotifyPropertyChangedFor(nameof(PasswordMessage))]
-        private string _password = string.Empty;
+        private string? _password;
 
-        public string UsernameMessage => string.IsNullOrEmpty(Username) ? "请输入用户名" : string.Empty;
+        public string UsernameMessage =>
+            GetErrors(nameof(Username)).FirstOrDefault()?.ErrorMessage ?? string.Empty;
 
-        public string PasswordMessage => string.IsNullOrEmpty(Password) ? "请输入密码" : string.Empty;
+        public string PasswordMessage =>
+            GetErrors(nameof(Password)).FirstOrDefault()?.ErrorMessage ?? string.Empty;
 
         /// <summary>
         /// 记住密码
@@ -77,9 +84,9 @@ namespace Uestc.BBS.Desktop.ViewModels
                 SetProperty(ref _selectedCredential, value);
                 if (value is not null)
                 {
-                    Username = _selectedCredential?.Name ?? string.Empty;
+                    Username = _selectedCredential?.Name;
                 }
-                Password = _selectedCredential?.Password ?? string.Empty;
+                Password = _selectedCredential?.Password;
                 OnPropertyChanged(nameof(Avatar));
             }
         }

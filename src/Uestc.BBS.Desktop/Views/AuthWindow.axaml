@@ -120,7 +120,7 @@
             <TextBox
                 Classes="Auth has-reveal-password-button"
                 PasswordChar="{actipro:ThemeResource EditPasswordChar}"
-                Text="{Binding Password}"
+                Text="{Binding Password,}"
                 Watermark="密码">
                 <TextBox.Styles>
                     <Style Selector="TextBlock#PART_Watermark">
