@@ -3,14 +3,17 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
+using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Media.Imaging;
 using Avalonia.Styling;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.DependencyInjection;
 using Uestc.BBS.Core;
 using Uestc.BBS.Core.Services.Api.Forum;
+using Uestc.BBS.Desktop.Helpers;
 using Uestc.BBS.Desktop.Models;
 using Uestc.BBS.Desktop.Views;
 
@@ -25,7 +28,7 @@ namespace Uestc.BBS.Desktop.ViewModels
         private readonly ITopicService _topicService;
 
         [ObservableProperty]
-        private string _avatar;
+        private Task<Bitmap?> _avatar;
 
         [ObservableProperty]
         private AppSettingModel _appSettingsModel;
@@ -61,7 +64,7 @@ namespace Uestc.BBS.Desktop.ViewModels
             _currentPage = homeView;
             _topicService = topicService;
             _appSettingsModel = appSettingsModel;
-            _avatar = appSetting.Auth.DefaultCredential?.Avatar ?? string.Empty;
+            _avatar = ImageHelper.LoadFromWebAsync(httpClient, appSetting.Auth.DefaultCredential?.Avatar);
             
             Menus = new ObservableCollection<MenuItemViewModel>(
                 appSetting.Apperance.MenuItems.Select(m => new MenuItemViewModel
