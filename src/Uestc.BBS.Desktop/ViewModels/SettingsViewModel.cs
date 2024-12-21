@@ -3,16 +3,14 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Runtime.InteropServices;
-using System.Threading.Tasks;
 using Avalonia;
-using Avalonia.Media.Imaging;
 using Avalonia.Styling;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Uestc.BBS.Core;
 using Uestc.BBS.Core.Helpers;
-using Uestc.BBS.Core.Services;
 using Uestc.BBS.Core.Services.System;
 using Uestc.BBS.Desktop.Helpers;
 using Uestc.BBS.Desktop.Models;
@@ -21,47 +19,51 @@ namespace Uestc.BBS.Desktop.ViewModels
 {
     public partial class SettingsViewModel : ObservableObject
     {
+        private readonly AppSetting _appSetting;
+
+        private readonly HttpClient _httpClient;
+
+        private readonly ILogService _logService;
+
+        private readonly Appmanifest _appmanifest;
+
+        public string AppVersion => _appmanifest.Version;
+
         /// <summary>
         /// Copyright
         /// </summary>
         public string Copyright =>
-            DateTime.Now.Year == AppHelper.OriginalDatetime.Year
-                ? $"©{AppHelper.OriginalDatetime.Year} Redns. MIT License"
-                : $"©{AppHelper.OriginalDatetime.Year}-{DateTime.Now.Year} Redns. MIT License";
+            DateTime.Now.Year == _appmanifest.OriginalDate.Year
+                ? $"©{_appmanifest.OriginalDate.Year} Redns. MIT License"
+                : $"©{_appmanifest.OriginalDate.Year}-{DateTime.Now.Year} Redns. MIT License";
 
         [ObservableProperty]
         private AppSettingModel _model;
 
         [ObservableProperty]
-        private Task<IEnumerable<Contributor>> _contributors;
-
-        private readonly AppSetting _appSetting;
-
-        private readonly ILogService _logService;
-
-        private readonly IGithubRESTService _githubRESTService;
+        private IEnumerable<ContributorModel> _contributors;
 
         public SettingsViewModel(
             AppSettingModel model,
             AppSetting appSetting,
-            ILogService logService,
-            IGithubRESTService githubRESTService
+            HttpClient httpClient,
+            Appmanifest appmanifest,
+            ILogService logService
         )
         {
             _model = model;
             _appSetting = appSetting;
+            _httpClient = httpClient;
             _logService = logService;
-            _githubRESTService = githubRESTService;
-            _contributors = githubRESTService
-                .GetContributorsAsync("Redns", "Uestc.BBS")
-                .ContinueWith(contributors =>
-                    contributors.Result.Select(c => new Contributor
-                    {
-                        Name = c.Login,
-                        HomePage = c.HtmlUrl,
-                        Avatar = ImageHelper.LoadFromWeb(c.AvatarUrl),
-                    })
-                );
+            _appmanifest = appmanifest;
+            _contributors =
+                appmanifest.Contributors.Select(c => new ContributorModel
+                {
+                    Name = c.Name,
+                    Avatar = c.Avatar,
+                    HomePage = c.HomePage,
+                    Description = c.Description,
+                }) ?? [];
         }
 
         /// <summary>
@@ -76,6 +78,9 @@ namespace Uestc.BBS.Desktop.ViewModels
                 _ => ThemeVariant.Default,
             };
 
+        /// <summary>
+        /// 添加用户
+        /// </summary>
         [RelayCommand]
         private void AddUser() { }
 
@@ -130,14 +135,13 @@ namespace Uestc.BBS.Desktop.ViewModels
             Model.LogSizeContent =
                 $"日志文件存储占用：{_logService.LogDirectory.GetFileTotalSize($"*{AppDomain.CurrentDomain.FriendlyName}*.log").FormatFileSize()}";
         }
-    }
 
-    public class Contributor
-    {
-        public string Name { get; set; } = string.Empty;
-
-        public string HomePage { get; set; } = string.Empty;
-
-        public Task<Bitmap?> Avatar { get; set; } = Task.FromResult<Bitmap?>(null);
+        [RelayCommand]
+        private void OpenContributorHomePage(ContributorModel model)
+        {
+            Process.Start(
+                new ProcessStartInfo() { FileName = model.HomePage, UseShellExecute = true }
+            );
+        }
     }
 }

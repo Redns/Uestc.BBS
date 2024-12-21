@@ -29,6 +29,11 @@ namespace Uestc.BBS.Core
         public LogSetting Log { get; set; } = new();
 
         /// <summary>
+        /// 更新设置
+        /// </summary>
+        public UpgradeSetting Upgrade { get; set; } = new();
+
+        /// <summary>
         /// 加载配置文件
         /// </summary>
         /// <param name="path">配置文件路径</param>
@@ -387,6 +392,19 @@ namespace Uestc.BBS.Core
         /// 输出格式
         /// </summary>
         public string OutputFormat { get; set; } = "${date:format=yyyy-MM-dd HH\\:mm\\:ss} [Uestc.BBS ${level}] ${message}${onexception:${newline}${exception:format=toString}${exception:format=StackTrace}}";
+    }
+
+    public class UpgradeSetting
+    {
+        /// <summary>
+        /// 启用服务
+        /// </summary>
+        public bool AcceptBetaVersion { get; set; } = false;
+
+        /// <summary>
+        /// 更新地址
+        /// </summary>
+        public string Mirror { get; set; } = "https://mirrors.krins.cloud/Uestc.BBS";
     }
 
     [JsonSerializable(typeof(AppSetting))]

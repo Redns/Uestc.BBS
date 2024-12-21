@@ -1,10 +1,12 @@
-﻿using Avalonia;
+﻿using System;
+using System.Text.Json;
+using System.Threading;
+using Avalonia;
 using Microsoft.Extensions.DependencyInjection;
 using NLog;
-using System;
-using System.Threading;
 using Uestc.BBS.Core;
 using Uestc.BBS.Core.Services.System;
+using Uestc.BBS.Desktop.Helpers;
 using Uestc.BBS.Desktop.Models;
 using Uestc.BBS.Desktop.Services.StartupService;
 using Uestc.BBS.Desktop.ViewModels;
@@ -24,31 +26,6 @@ namespace Uestc.BBS.Desktop
         {
             ServiceExtension.ConfigureCommonServices();
 
-            // 自启动
-            ServiceExtension.ServiceCollection.AddTransient<IStartupService>(startup =>
-            {
-                var startupInfo = new StartupInfo
-                {
-                    Name = AppDomain.CurrentDomain.FriendlyName,
-                    Description = $"{AppDomain.CurrentDomain.FriendlyName} startup service",
-                    ApplicationName = AppDomain.CurrentDomain.FriendlyName,
-                    WorkingDirectory = AppDomain.CurrentDomain.BaseDirectory,
-                    ApplicationPath = Environment.ProcessPath!
-                };
-
-                if (OperatingSystem.IsWindows())
-                {
-                    return new WindowsStartupService(startupInfo);
-                }
-                else if (OperatingSystem.IsLinux())
-                {
-                    return new LinuxStartupService(startupInfo);
-                }
-                else
-                {
-                    return new MacCatalystStartupService();
-                }
-            });
             // View & ViewModel
             ServiceExtension.ServiceCollection.AddSingleton<AppViewModel>();
             ServiceExtension.ServiceCollection.AddSingleton<AuthWindow>();
@@ -65,12 +42,31 @@ namespace Uestc.BBS.Desktop
             ServiceExtension.ServiceCollection.AddSingleton<AppSettingModel>();
             ServiceExtension.ServiceCollection.AddSingleton<SettingsViewModel>();
             // HttpClient
-            ServiceExtension.ServiceCollection.AddHttpClient<AuthViewModel>()
-                .UseSocketsHttpHandler((handler, _) => handler.PooledConnectionLifetime = TimeSpan.FromMinutes(30))
+            ServiceExtension
+                .ServiceCollection.AddHttpClient<AuthViewModel>()
+                .UseSocketsHttpHandler(
+                    (handler, _) => handler.PooledConnectionLifetime = TimeSpan.FromMinutes(30)
+                )
                 .SetHandlerLifetime(Timeout.InfiniteTimeSpan);
-            ServiceExtension.ServiceCollection.AddHttpClient<MainWindowViewModel>()
-                .UseSocketsHttpHandler((handler, _) => handler.PooledConnectionLifetime = TimeSpan.FromMinutes(30))
+            ServiceExtension
+                .ServiceCollection.AddHttpClient<MainWindowViewModel>()
+                .UseSocketsHttpHandler(
+                    (handler, _) => handler.PooledConnectionLifetime = TimeSpan.FromMinutes(30)
+                )
                 .SetHandlerLifetime(Timeout.InfiniteTimeSpan);
+            ServiceExtension
+                .ServiceCollection.AddHttpClient<SettingsViewModel>()
+                .UseSocketsHttpHandler(
+                    (handler, _) => handler.PooledConnectionLifetime = TimeSpan.FromMinutes(30)
+                )
+                .SetHandlerLifetime(Timeout.InfiniteTimeSpan);
+            // Appmanifest
+            ServiceExtension.ServiceCollection.AddSingleton(appmanifest =>
+                JsonSerializer.Deserialize<Appmanifest>(
+                    ResourceHelper.Load("/Assets/appmanifest.json"),
+                    Appmanifest.SerializerOptions
+                )
+            );
             // 日志
             ServiceExtension.ServiceCollection.AddSingleton<ILogService>(logger =>
             {
@@ -78,6 +74,31 @@ namespace Uestc.BBS.Desktop
                 var appSetting = ServiceExtension.Services.GetRequiredService<AppSetting>();
                 nlogger.Setup(appSetting.Log);
                 return nlogger;
+            });
+            // 自启动
+            ServiceExtension.ServiceCollection.AddTransient<IStartupService>(startup =>
+            {
+                var startupInfo = new StartupInfo
+                {
+                    Name = AppDomain.CurrentDomain.FriendlyName,
+                    Description = $"{AppDomain.CurrentDomain.FriendlyName} startup service",
+                    ApplicationName = AppDomain.CurrentDomain.FriendlyName,
+                    WorkingDirectory = AppDomain.CurrentDomain.BaseDirectory,
+                    ApplicationPath = Environment.ProcessPath!,
+                };
+
+                if (OperatingSystem.IsWindows())
+                {
+                    return new WindowsStartupService(startupInfo);
+                }
+                else if (OperatingSystem.IsLinux())
+                {
+                    return new LinuxStartupService(startupInfo);
+                }
+                else
+                {
+                    return new MacCatalystStartupService();
+                }
             });
 
             return builder;

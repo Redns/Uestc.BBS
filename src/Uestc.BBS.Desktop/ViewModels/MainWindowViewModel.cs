@@ -3,17 +3,14 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
-using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Media.Imaging;
 using Avalonia.Styling;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.DependencyInjection;
 using Uestc.BBS.Core;
 using Uestc.BBS.Core.Services.Api.Forum;
-using Uestc.BBS.Desktop.Helpers;
 using Uestc.BBS.Desktop.Models;
 using Uestc.BBS.Desktop.Views;
 
@@ -28,6 +25,9 @@ namespace Uestc.BBS.Desktop.ViewModels
         private readonly ITopicService _topicService;
 
         [ObservableProperty]
+        private string _avatar;
+
+        [ObservableProperty]
         private AppSettingModel _appSettingsModel;
 
         /// <summary>
@@ -35,12 +35,6 @@ namespace Uestc.BBS.Desktop.ViewModels
         /// </summary>
         [ObservableProperty]
         private bool _isWindowPinned = false;
-
-        /// <summary>
-        /// 用户头像
-        /// </summary>
-        public Task<Bitmap?> Avatar =>
-            ImageHelper.LoadFromWeb(_httpClient, _appSetting.Auth.DefaultCredential?.Avatar);
 
         /// <summary>
         /// 侧边栏菜单
@@ -67,6 +61,8 @@ namespace Uestc.BBS.Desktop.ViewModels
             _currentPage = homeView;
             _topicService = topicService;
             _appSettingsModel = appSettingsModel;
+            _avatar = appSetting.Auth.DefaultCredential?.Avatar ?? string.Empty;
+            
             Menus = new ObservableCollection<MenuItemViewModel>(
                 appSetting.Apperance.MenuItems.Select(m => new MenuItemViewModel
                 {

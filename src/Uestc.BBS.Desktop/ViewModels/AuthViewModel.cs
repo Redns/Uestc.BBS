@@ -63,7 +63,7 @@ namespace Uestc.BBS.Desktop.ViewModels
         /// 用户头像
         /// </summary>
         public Task<Bitmap?> Avatar =>
-            ImageHelper.LoadFromWeb(_httpClient, _selectedCredential?.Avatar);
+            ImageHelper.LoadFromWebAsync(_httpClient, _selectedCredential?.Avatar);
 
         /// <summary>
         /// 选中的本地授权信息

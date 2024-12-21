@@ -32,8 +32,6 @@ namespace Uestc.BBS.Core
             // Forums
             ServiceCollection.AddTransient<IAuthService, AuthService>();
             ServiceCollection.AddTransient<ITopicService, TopicService>();
-            //  Github REST
-            ServiceCollection.AddTransient<IGithubRESTService, GithubRESTService>();
             // HttpClient
             ServiceCollection.AddHttpClient();
             ServiceCollection.AddHttpClient<IAuthService, AuthService>(client =>
@@ -51,11 +49,6 @@ namespace Uestc.BBS.Core
                 var appSetting = services.GetService<AppSetting>();
                 var credential = appSetting?.Auth.DefaultCredential;
                 client.BaseAddress = new Uri($"https://bbs.uestc.edu.cn/mobcent/app/web/index.php?accessToken={credential?.Token}&accessSecret={credential?.Secret}");
-            });
-            ServiceCollection.AddHttpClient<IGithubRESTService, GithubRESTService>((services, client) =>
-            {
-                client.BaseAddress = new Uri("https://api.github.com");
-                client.DefaultRequestHeaders.Add("User-Agent", "YourApp");
             });
 
             return ServiceCollection;

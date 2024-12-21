@@ -93,6 +93,14 @@ namespace Uestc.BBS.Desktop.Models
         private string _logSizeContent;
         #endregion
 
+        #region 更新
+        [ObservableProperty]
+        private bool _acceptBetaVersion;
+
+        [ObservableProperty]
+        private string _upgradeMirror;
+        #endregion
+
         public AppSettingModel(AppSetting appSetting, ILogService logService)
         {
             #region 外观
@@ -129,6 +137,11 @@ namespace Uestc.BBS.Desktop.Models
             _logMinLevel = appSetting.Log.MinLevel;
             _logOutputFormat = appSetting.Log.OutputFormat;
             _logSizeContent = $"日志文件存储占用：{logService.LogDirectory.GetFileTotalSize($"*{AppDomain.CurrentDomain.FriendlyName}*.log").FormatFileSize()}";
+            #endregion
+
+            #region 更新
+            _acceptBetaVersion = appSetting.Upgrade.AcceptBetaVersion;
+            _upgradeMirror = appSetting.Upgrade.Mirror;
             #endregion
 
             // 保存配置至本地
@@ -169,6 +182,11 @@ namespace Uestc.BBS.Desktop.Models
                     appSetting.Log.OutputFormat = _logOutputFormat;
                     logService.Setup(appSetting.Log);
                 }
+                #endregion
+
+                #region 更新
+                appSetting.Upgrade.AcceptBetaVersion = _acceptBetaVersion;
+                appSetting.Upgrade.Mirror = _upgradeMirror;
                 #endregion
             };
         }

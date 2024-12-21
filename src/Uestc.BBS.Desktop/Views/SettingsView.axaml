@@ -445,6 +445,7 @@
                             actipro:ThemeProperties.ToggleSwitchHasFarAffinity="True"
                             Classes="theme-solid accent"
                             DockPanel.Dock="Right"
+                            IsChecked="{Binding Model.AcceptBetaVersion}"
                             OffContent="关"
                             OnContent="开" />
                     </DockPanel>
@@ -456,7 +457,7 @@
                             VerticalAlignment="Center"
                             BorderThickness="0"
                             DockPanel.Dock="Right"
-                            Text="https://distributor.krins.cloud/Uestc.BBS"
+                            Text="{Binding Model.UpgradeMirror}"
                             TextAlignment="Center" />
                     </DockPanel>
                 </StackPanel>
@@ -479,7 +480,7 @@
                             Margin="8,0"
                             DockPanel.Dock="Right"
                             Foreground="Gray"
-                            Text="{StaticResource AppVersion}" />
+                            Text="{Binding AppVersion, Mode=OneTime}" />
                     </DockPanel>
                 </Expander.Header>
                 <StackPanel Classes="MenuContent">
@@ -497,24 +498,32 @@
                         Orientation="Vertical"
                         Spacing="10">
                         <TextBlock Text="贡献者" />
-                        <ItemsControl ItemsSource="{Binding Contributors^}">
+                        <ItemsControl ItemsSource="{Binding Contributors}">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
-                                    <WrapPanel />
+                                    <WrapPanel Margin="-3,0" />
                                 </ItemsPanelTemplate>
                             </ItemsControl.ItemsPanel>
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <Image
                                         Width="32"
+                                        Margin="3"
                                         ClipToBounds="True"
-                                        Source="{Binding Avatar^}"
-                                        Stretch="Uniform">
+                                        Cursor="Hand"
+                                        Source="{Binding AvatarImage^}"
+                                        Stretch="Uniform"
+                                        ToolTip.Tip="{Binding Name}">
                                         <Image.Clip>
                                             <StreamGeometry>
                                                 M 16 16 m -16, 0 a 16,16 0 1,0 32,0 a 16,16 0 1,0 -32,0
                                             </StreamGeometry>
                                         </Image.Clip>
+                                        <Interaction.Behaviors>
+                                            <RoutedEventTriggerBehavior RoutedEvent="{x:Static InputElement.PointerPressedEvent}">
+                                                <InvokeCommandAction Command="{Binding $parent[ItemsControl].((vm:SettingsViewModel)DataContext).OpenContributorHomePageCommand}" CommandParameter="{Binding}" />
+                                            </RoutedEventTriggerBehavior>
+                                        </Interaction.Behaviors>
                                     </Image>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
