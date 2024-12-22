@@ -4,12 +4,10 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
-    <ApplicationManifest>app.manifest</ApplicationManifest>
     <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
 	<PublishAot Condition="'$(Configuration)' == 'Release'">true</PublishAot>
 	<PublishTrimmed>true</PublishTrimmed>
 	<ApplicationIcon>Assets\Icons\app.ico</ApplicationIcon>
-	<FileVersion>0.0.0.113</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>

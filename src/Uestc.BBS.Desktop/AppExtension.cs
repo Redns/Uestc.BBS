@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Text.Json;
-using System.Threading;
 using Avalonia;
 using Microsoft.Extensions.DependencyInjection;
 using NLog;
