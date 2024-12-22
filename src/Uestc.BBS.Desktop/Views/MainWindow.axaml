@@ -122,7 +122,7 @@
                     Margin="6,0"
                     ClipToBounds="True"
                     DockPanel.Dock="Right"
-                    Source="{Binding Avatar^}"
+                    Source="{Binding Avatar^, Mode=OneWay}"
                     Stretch="Uniform">
                     <Image.Clip>
                         <StreamGeometry>

@@ -91,7 +91,7 @@
         <StackPanel Orientation="Vertical" Spacing="6">
             <TextBlock Text="个性化" />
             <!--  颜色  -->
-            <Expander>
+            <Expander IsExpanded="True">
                 <Expander.Header>
                     <DockPanel Classes="MenuHeader">
                         <icon:SymbolIcon DockPanel.Dock="Left" Symbol="Color" />
@@ -123,10 +123,15 @@
                         <TextBlock Text="背景透明度" />
                         <Slider
                             Width="150"
+                            VerticalAlignment="Center"
                             DockPanel.Dock="Right"
                             Maximum="1.0"
                             Minimum="0"
                             Value="{Binding Model.BackgroundOpacity}" />
+                        <TextBlock
+                            Margin="10,0"
+                            DockPanel.Dock="Right"
+                            Text="{Binding Model.BackgroundOpacity, StringFormat=F2}" />
                     </DockPanel>
                     <Separator />
                     <DockPanel Classes="MenuItem">
@@ -168,7 +173,7 @@
                     <DockPanel Classes="MenuItem">
                         <StackPanel>
                             <TextBlock Text="静默启动" />
-                            <TextBlock Classes="Note" Text="启动后隐藏窗口仅显示托盘图标" />
+                            <TextBlock Classes="Note" Text="启动后仅显示托盘图标" />
                         </StackPanel>
                         <ToggleSwitch
                             VerticalAlignment="Center"
@@ -404,7 +409,7 @@
                         </StackPanel>
                         <TextBox
                             Width="320"
-                            Height="100"
+                            Height="110"
                             VerticalAlignment="Center"
                             BorderThickness="0"
                             DockPanel.Dock="Right"

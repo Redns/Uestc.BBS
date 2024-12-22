@@ -7,14 +7,6 @@ namespace Uestc.BBS.Desktop.Views;
 
 public partial class AuthWindow : Window
 {
-    /// <summary>
-    /// 仅用于设计器预览
-    /// </summary>
-    public AuthWindow()
-    {
-        InitializeComponent();
-    }
-
     public AuthWindow(AuthViewModel viewModel)
     {
         InitializeComponent();

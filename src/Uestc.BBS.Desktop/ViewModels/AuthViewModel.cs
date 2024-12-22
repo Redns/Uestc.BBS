@@ -1,29 +1,33 @@
-﻿using System.Collections.ObjectModel;
-using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Media.Imaging;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.Extensions.DependencyInjection;
 using Uestc.BBS.Core;
 using Uestc.BBS.Core.Services.Api.Auth;
+using Uestc.BBS.Core.Services.System;
 using Uestc.BBS.Desktop.Helpers;
 using Uestc.BBS.Desktop.Models;
 using Uestc.BBS.Desktop.Views;
 
 namespace Uestc.BBS.Desktop.ViewModels
 {
-    public partial class AuthViewModel : ObservableValidator
+    public partial class AuthViewModel : ObservableObject
     {
-        private readonly MainWindow _mainWindow;
-
         private readonly AppSetting _appSetting;
 
         private readonly HttpClient _httpClient;
+
+        private readonly ILogService _logService;
 
         private readonly IAuthService _authService;
 
@@ -34,8 +38,7 @@ namespace Uestc.BBS.Desktop.ViewModels
         /// 用户名
         /// </summary>
         [ObservableProperty]
-        [NotifyDataErrorInfo]
-        [Required(ErrorMessage = "请输入用户名")]
+        [NotifyCanExecuteChangedFor(nameof(LoginCommand))]
         [NotifyPropertyChangedFor(nameof(UsernameMessage))]
         private string? _username;
 
@@ -43,16 +46,13 @@ namespace Uestc.BBS.Desktop.ViewModels
         /// 密码
         /// </summary>
         [ObservableProperty]
-        [NotifyDataErrorInfo]
-        [Required(ErrorMessage = "请输入密码")]
+        [NotifyCanExecuteChangedFor(nameof(LoginCommand))]
         [NotifyPropertyChangedFor(nameof(PasswordMessage))]
         private string? _password;
 
-        public string UsernameMessage =>
-            GetErrors(nameof(Username)).FirstOrDefault()?.ErrorMessage ?? string.Empty;
+        public string UsernameMessage => Username == string.Empty ? "请输入用户名" : string.Empty;
 
-        public string PasswordMessage =>
-            GetErrors(nameof(Password)).FirstOrDefault()?.ErrorMessage ?? string.Empty;
+        public string PasswordMessage => Password == string.Empty ? "请输入密码" : string.Empty;
 
         /// <summary>
         /// 记住密码
@@ -66,30 +66,24 @@ namespace Uestc.BBS.Desktop.ViewModels
         [ObservableProperty]
         private bool _autoLogin;
 
+        [ObservableProperty]
+        private bool _isLoging = false;
+
         /// <summary>
         /// 用户头像
         /// </summary>
         public Task<Bitmap?> Avatar =>
             ImageHelper.LoadFromWebAsync(_httpClient, _selectedCredential?.Avatar);
 
+        public bool CanLogin() =>
+            !string.IsNullOrEmpty(Username) && !string.IsNullOrEmpty(Password);
+
         /// <summary>
         /// 选中的本地授权信息
         /// </summary>
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(Avatar))]
         private AuthCredential? _selectedCredential;
-        public AuthCredential? SelectedCredential
-        {
-            get { return _selectedCredential; }
-            set
-            {
-                SetProperty(ref _selectedCredential, value);
-                if (value is not null)
-                {
-                    Username = _selectedCredential?.Name;
-                }
-                Password = _selectedCredential?.Password;
-                OnPropertyChanged(nameof(Avatar));
-            }
-        }
 
         /// <summary>
         /// 本地所有授权信息
@@ -98,23 +92,34 @@ namespace Uestc.BBS.Desktop.ViewModels
         private ObservableCollection<AuthCredential> _users;
 
         public AuthViewModel(
-            MainWindow mainWindow,
             AppSetting appSetting,
             HttpClient httpClient,
             AppSettingModel appSettingModel,
+            ILogService logService,
             IAuthService authService
         )
         {
-            _mainWindow = mainWindow;
             _appSetting = appSetting;
             _httpClient = httpClient;
             _appSettingModel = appSettingModel;
+            _logService = logService;
             _authService = authService;
 
             AutoLogin = appSetting.Auth.AutoLogin;
             RememberPassword = appSetting.Auth.RememberPassword;
             SelectedCredential = appSetting.Auth.DefaultCredential;
             Users = [.. appSetting.Auth.Credentials.OrderBy(c => c.Name)];
+        }
+
+        [RelayCommand]
+        private void SelectCredential(SelectionChangedEventArgs e)
+        {
+            if (e.AddedItems.Count != 0)
+            {
+                Password = e.AddedItems.Cast<AuthCredential>().First().Password;
+                return;
+            }
+            Password = string.Empty;
         }
 
         /// <summary>
@@ -150,47 +155,69 @@ namespace Uestc.BBS.Desktop.ViewModels
         /// 登录
         /// </summary>
         /// <returns></returns>
-        [RelayCommand]
+        [RelayCommand(CanExecute = nameof(CanLogin))]
         private async Task Login()
         {
-            var credential = await GetAuthenticationAsync();
-            if (credential is null)
-            {
-                return;
-            }
+            IsLoging = true;
 
-            // 保存本地登录信息
-            if (_selectedCredential?.Equals(credential) is false)
+            try
             {
-                _appSetting.Auth.Credentials.Add(credential);
-            }
-            _appSetting.Auth.DefaultCredentialUid = credential.Uid;
-            _appSetting.Auth.AutoLogin = AutoLogin;
-            _appSetting.Auth.RememberPassword = RememberPassword;
-            _appSetting.Save();
+                var credential = await GetAuthCredentialAsync();
+                if (credential is null)
+                {
+                    return;
+                }
 
-            // 跳转至主页
-            NavigateToMainPage();
+                // 保存本地登录信息
+                if (SelectedCredential?.Equals(credential) is false)
+                {
+                    _appSetting.Auth.Credentials.Add(credential);
+                }
+                _appSetting.Auth.DefaultCredentialUid = credential.Uid;
+                _appSetting.Auth.AutoLogin = AutoLogin;
+                _appSetting.Auth.RememberPassword = RememberPassword;
+                _appSetting.Save();
+
+                // 跳转至主页
+                if (
+                    Application.Current?.ApplicationLifetime
+                    is IClassicDesktopStyleApplicationLifetime desktop
+                )
+                {
+                    var mainWindow = ServiceExtension.Services.GetRequiredService<MainWindow>();
+                    mainWindow.Show();
+                    desktop.MainWindow?.Hide();
+                    desktop.MainWindow = mainWindow;
+                }
+            }
+            catch (Exception ex)
+            {
+                _logService.Error("User login failed", ex);
+            }
+            finally
+            {
+                IsLoging = false;
+            }
         }
 
-        private async Task<AuthCredential?> GetAuthenticationAsync()
+        /// <summary>
+        /// 获取授权信息
+        /// </summary>
+        /// <returns></returns>
+        private async Task<AuthCredential?> GetAuthCredentialAsync()
         {
+            // 选中授权信息有效，无需重新获取
             if (
-                string.IsNullOrEmpty(_selectedCredential?.Token) is false
-                && string.IsNullOrEmpty(_selectedCredential?.Secret) is false
+                !string.IsNullOrEmpty(SelectedCredential?.Token)
+                && !string.IsNullOrEmpty(SelectedCredential?.Secret)
+                && SelectedCredential?.Password == Password
             )
             {
-                return _selectedCredential;
-            }
-
-            if (string.IsNullOrEmpty(Username) || string.IsNullOrEmpty(Password))
-            {
-                // NOTI 用户名和密码不能为空
-                return null;
+                return SelectedCredential;
             }
 
             // 根据用户名和密码登录
-            var resp = await _authService.LoginAsync(Username, Password);
+            var resp = await _authService.LoginAsync(Username!, Password!);
             if (resp?.Success is not true)
             {
                 // NOTI 用户名不存在或密码错误
@@ -198,30 +225,18 @@ namespace Uestc.BBS.Desktop.ViewModels
             }
 
             var credential =
-                _selectedCredential
+                SelectedCredential
                 ?? new AuthCredential
                 {
                     Uid = resp.Uid,
                     Avatar = resp.Avatar,
                     Name = resp.Username,
                 };
-            credential.Password = RememberPassword ? Password : string.Empty;
+            credential.Password = RememberPassword ? Password! : string.Empty;
             credential.Token = resp.Token;
             credential.Secret = resp.Secret;
 
             return credential;
-        }
-
-        private void NavigateToMainPage()
-        {
-            var applicationLifetime =
-                Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime;
-            if (applicationLifetime is not null)
-            {
-                _mainWindow.Show();
-                applicationLifetime.MainWindow?.Hide();
-                applicationLifetime.MainWindow = _mainWindow;
-            }
         }
     }
 }

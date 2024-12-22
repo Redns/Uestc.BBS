@@ -21,6 +21,7 @@
     <Application.Styles>
         <actipro:ModernTheme />
         <StyleInclude Source="/Assets/Styles.axaml" />
+        <StyleInclude Source="avares://FluentAvalonia.ProgressRing/Styling/Controls/ProgressRing.axaml" />
     </Application.Styles>
 
     <TrayIcon.Icons>

@@ -65,7 +65,7 @@ namespace Uestc.BBS.Desktop
                 JsonSerializer.Deserialize<Appmanifest>(
                     ResourceHelper.Load("/Assets/appmanifest.json"),
                     Appmanifest.SerializerOptions
-                )
+                ) ?? throw new ArgumentNullException(nameof(appmanifest))
             );
             // 日志
             ServiceExtension.ServiceCollection.AddSingleton<ILogService>(logger =>

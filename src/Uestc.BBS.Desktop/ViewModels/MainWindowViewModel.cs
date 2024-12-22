@@ -27,8 +27,8 @@ namespace Uestc.BBS.Desktop.ViewModels
 
         private readonly ITopicService _topicService;
 
-        [ObservableProperty]
-        private Task<Bitmap?> _avatar;
+        public Task<Bitmap?> Avatar =>
+            ImageHelper.LoadFromWebAsync(_httpClient, _appSetting.Auth.DefaultCredential?.Avatar);
 
         [ObservableProperty]
         private AppSettingModel _appSettingsModel;
@@ -64,8 +64,7 @@ namespace Uestc.BBS.Desktop.ViewModels
             _currentPage = homeView;
             _topicService = topicService;
             _appSettingsModel = appSettingsModel;
-            _avatar = ImageHelper.LoadFromWebAsync(httpClient, appSetting.Auth.DefaultCredential?.Avatar);
-            
+
             Menus = new ObservableCollection<MenuItemViewModel>(
                 appSetting.Apperance.MenuItems.Select(m => new MenuItemViewModel
                 {

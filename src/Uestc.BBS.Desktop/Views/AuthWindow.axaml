@@ -7,6 +7,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:icon="using:FluentIcons.Avalonia"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="using:FluentAvalonia.UI.Controls"
     xmlns:view="using:Uestc.BBS.Desktop.Views"
     xmlns:vm="using:Uestc.BBS.Desktop.ViewModels"
     Title="清水河畔"
@@ -23,6 +24,12 @@
     TransparencyLevelHint="AcrylicBlur"
     WindowStartupLocation="CenterOwner"
     mc:Ignorable="d">
+    <Window.Styles>
+        <Style Selector="ui|ProgressRing:preserveaspect">
+            <Setter Property="MinHeight" Value="20" />
+            <Setter Property="MinWidth" Value="20" />
+        </Style>
+    </Window.Styles>
     <Panel>
         <ExperimentalAcrylicBorder IsHitTestVisible="False">
             <ExperimentalAcrylicBorder.Material>
@@ -102,7 +109,7 @@
                         Margin="2,0"
                         ClipToBounds="True"
                         DockPanel.Dock="Right"
-                        Source="{Binding Avatar^}"
+                        Source="{Binding Avatar^, Mode=OneWay}"
                         Stretch="Uniform">
                         <Image.Clip>
                             <StreamGeometry>
@@ -111,6 +118,11 @@
                         </Image.Clip>
                     </Image>
                 </AutoCompleteBox.InnerRightContent>
+                <Interaction.Behaviors>
+                    <RoutedEventTriggerBehavior RoutedEvent="{x:Static AutoCompleteBox.SelectionChangedEvent}">
+                        <InvokeCommandAction Command="{Binding SelectCredentialCommand}" PassEventArgsToCommand="True" />
+                    </RoutedEventTriggerBehavior>
+                </Interaction.Behaviors>
             </AutoCompleteBox>
             <TextBlock
                 Height="16"
@@ -148,7 +160,21 @@
                 Margin="0,18,0,0"
                 Classes="theme-solid accent"
                 Command="{Binding LoginCommand}"
-                Content="登 录" />
+                IsEnabled="{Binding !IsLoging}">
+                <StackPanel Orientation="Horizontal" Spacing="10">
+                    <ui:ProgressRing
+                        BorderThickness="3"
+                        EndAngle="200"
+                        Foreground="{Binding #LoginButtonText.Foreground}"
+                        IsIndeterminate="True"
+                        IsVisible="{Binding IsLoging}"
+                        StartAngle="50" />
+                    <TextBlock
+                        Name="LoginButtonText"
+                        VerticalAlignment="Center"
+                        Text="登 录" />
+                </StackPanel>
+            </Button>
         </StackPanel>
     </Panel>
 </Window>
