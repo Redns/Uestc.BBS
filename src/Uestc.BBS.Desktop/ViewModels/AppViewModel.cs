@@ -38,8 +38,12 @@ namespace Uestc.BBS.ViewModels
                         : ServiceExtension.Services.GetRequiredService<AuthWindow>();
                 }
 
-                desktop.MainWindow!.WindowState = WindowState.Normal;
-                desktop.MainWindow.Show();
+                if (!desktop.MainWindow.IsVisible)
+                {
+                    desktop.MainWindow!.WindowState = WindowState.Normal;
+                    desktop.MainWindow.Show();
+                }
+                
                 desktop.MainWindow.Activate();
             }
         }

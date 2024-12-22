@@ -12,7 +12,6 @@ using CommunityToolkit.Mvvm.Input;
 using Uestc.BBS.Core;
 using Uestc.BBS.Core.Helpers;
 using Uestc.BBS.Core.Services.System;
-using Uestc.BBS.Desktop.Helpers;
 using Uestc.BBS.Desktop.Models;
 
 namespace Uestc.BBS.Desktop.ViewModels
@@ -137,11 +136,9 @@ namespace Uestc.BBS.Desktop.ViewModels
         }
 
         [RelayCommand]
-        private void OpenContributorHomePage(ContributorModel model)
+        private void OpenUrl(string url)
         {
-            Process.Start(
-                new ProcessStartInfo() { FileName = model.HomePage, UseShellExecute = true }
-            );
+            Process.Start(new ProcessStartInfo() { FileName = url, UseShellExecute = true });
         }
     }
 }

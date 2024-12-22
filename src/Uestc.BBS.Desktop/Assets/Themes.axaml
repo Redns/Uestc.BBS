@@ -7,19 +7,19 @@
     <!--  Add Resources Here  -->
     <ResourceDictionary.ThemeDictionaries>
         <ResourceDictionary x:Key="Default">
-            <!--  背景  -->
+            <!--  Background  -->
             <!--<Color x:Key="BgWindow">#E4E4E6</Color>-->
             <Color x:Key="BgWindow">#FFFFFF</Color>
             <Color x:Key="BgBorder">#EFEFF1</Color>
-            <!--  文本  -->
+            <!--  Text  -->
             <SolidColorBrush x:Key="TextPrimary" Color="#25262b" />
             <SolidColorBrush x:Key="TextSecondary" Color="#2B2D2D" />
-            <!--  文本框  -->
+            <!--  TextBox  -->
             <Color x:Key="TextBoxDefault">#CECECE</Color>
-            <!--  勾选框  -->
+            <!--  CheckBox  -->
             <Color x:Key="CheckBoxDefault">#CDCDCD</Color>
             <!--  按钮  -->
-            <SolidColorBrush x:Key="BtnDefault" Color="#F9FAFC" />
+            <SolidColorBrush x:Key="BtnDefault" Color="#FFFFFF" />
             <SolidColorBrush x:Key="BtnDefaultHover" Color="#F5F7F6" />
             <SolidColorBrush x:Key="BtnDefaultPressed" Color="#F1F1F1" />
             <SolidColorBrush x:Key="BtnDefaultActive" Color="#F9FAFC" />
@@ -35,15 +35,15 @@
             <fluent-icon:Symbol x:Key="IconThemeSwitch">WeatherMoon</fluent-icon:Symbol>
         </ResourceDictionary>
 
-        <!--  暗色主题  -->
+        <!--  Dark  -->
         <ResourceDictionary x:Key="Dark">
-            <!--  背景  -->
+            <!--  Background  -->
             <Color x:Key="BgWindow">#181818</Color>
             <Color x:Key="BgBorder">#4A4A4A</Color>
-            <!--  文本  -->
+            <!--  Text  -->
             <SolidColorBrush x:Key="TextPrimary" Color="#FFFFFF" />
             <SolidColorBrush x:Key="TextSecondary" Color="#606062" />
-            <!--  文本框  -->
+            <!--  TextBox  -->
             <Color x:Key="TextBoxDefault">#3A3A3A</Color>
             <!--  勾选框  -->
             <Color x:Key="CheckBoxDefault">#4A4A4A</Color>

@@ -42,24 +42,9 @@ namespace Uestc.BBS.Desktop
             ServiceExtension.ServiceCollection.AddSingleton<AppSettingModel>();
             ServiceExtension.ServiceCollection.AddSingleton<SettingsViewModel>();
             // HttpClient
-            ServiceExtension
-                .ServiceCollection.AddHttpClient<AuthViewModel>()
-                .UseSocketsHttpHandler(
-                    (handler, _) => handler.PooledConnectionLifetime = TimeSpan.FromMinutes(30)
-                )
-                .SetHandlerLifetime(Timeout.InfiniteTimeSpan);
-            ServiceExtension
-                .ServiceCollection.AddHttpClient<MainWindowViewModel>()
-                .UseSocketsHttpHandler(
-                    (handler, _) => handler.PooledConnectionLifetime = TimeSpan.FromMinutes(30)
-                )
-                .SetHandlerLifetime(Timeout.InfiniteTimeSpan);
-            ServiceExtension
-                .ServiceCollection.AddHttpClient<SettingsViewModel>()
-                .UseSocketsHttpHandler(
-                    (handler, _) => handler.PooledConnectionLifetime = TimeSpan.FromMinutes(30)
-                )
-                .SetHandlerLifetime(Timeout.InfiniteTimeSpan);
+            ServiceExtension.ServiceCollection.AddHttpClient<AuthViewModel>();
+            ServiceExtension.ServiceCollection.AddHttpClient<MainWindowViewModel>();
+            ServiceExtension.ServiceCollection.AddHttpClient<SettingsViewModel>();
             // Appmanifest
             ServiceExtension.ServiceCollection.AddSingleton(appmanifest =>
                 JsonSerializer.Deserialize<Appmanifest>(

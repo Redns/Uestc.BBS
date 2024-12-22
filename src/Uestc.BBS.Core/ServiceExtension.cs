@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using System.Net.Http;
-using Uestc.BBS.Core.Services;
+using System.Net;
 using Uestc.BBS.Core.Services.Api.Auth;
 using Uestc.BBS.Core.Services.Api.Forum;
 using Uestc.BBS.Core.Services.Api.User;
