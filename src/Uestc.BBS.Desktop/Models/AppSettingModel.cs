@@ -1,4 +1,7 @@
 ﻿using System;
+using Avalonia;
+using Avalonia.Media;
+using Avalonia.Styling;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Uestc.BBS.Core;
 using Uestc.BBS.Core.Helpers;
@@ -15,8 +18,51 @@ namespace Uestc.BBS.Desktop.Models
         [ObservableProperty]
         private ThemeColor _themeColor;
 
+        /// <summary>
+        /// 颜色不透明度
+        /// </summary>
         [ObservableProperty]
-        private double _backgroundOpacity;
+        private double _tintOpacity;
+
+        /// <summary>
+        /// 亚克力材质亮色
+        /// </summary>
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(TintColor))]
+        private Color _tintLightColor;
+
+        /// <summary>
+        /// 亚克力主题暗色
+        /// </summary>
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(TintColor))]
+        private Color _tintDarkColor;
+
+        /// <summary>
+        /// 亚克力材质颜色
+        /// </summary>
+        public Color TintColor
+        {
+            get
+            {
+                if (Application.Current!.RequestedThemeVariant == ThemeVariant.Default)
+                {
+                    Application.Current.RequestedThemeVariant =
+                        Application.Current.PlatformSettings!.GetColorValues().ThemeVariant
+                        is Avalonia.Platform.PlatformThemeVariant.Light
+                            ? ThemeVariant.Light
+                            : ThemeVariant.Dark;
+                }
+
+                return Application.Current.RequestedThemeVariant == ThemeVariant.Light ? TintLightColor : TintDarkColor;
+            }
+        }
+
+        /// <summary>
+        /// 材质不透明度
+        /// </summary>
+        [ObservableProperty]
+        private double _materialOpacity;
 
         /// <summary>
         /// 论坛官网
@@ -50,7 +96,7 @@ namespace Uestc.BBS.Desktop.Models
         [ObservableProperty]
         private double _syncTimeIntervalMinutes;
 
-        public bool SyncTimeIntervalMinutesEnable => SyncMode is SyncMode.OnStaupAndTiming; 
+        public bool SyncTimeIntervalMinutesEnable => SyncMode is SyncMode.OnStaupAndTiming;
 
         /// <summary>
         /// WebDAV 服务地址
@@ -105,9 +151,13 @@ namespace Uestc.BBS.Desktop.Models
         {
             #region 外观
             _themeColor = appSetting.Apperance.ThemeMode;
-            _windowCloseBehavior = appSetting.Apperance.WindowCloseBehavior;
-            _backgroundOpacity = appSetting.Apperance.BackgroundOpacity;
+            _tintOpacity = appSetting.Apperance.TintOpacity;
+            _tintDarkColor = Color.Parse(appSetting.Apperance.TintDarkColor);
+            _tintLightColor = Color.Parse(appSetting.Apperance.TintLightColor);
+            _materialOpacity = appSetting.Apperance.MaterialOpacity;
             _officialWebsite = appSetting.Apperance.OfficialWebsite;
+            _windowCloseBehavior = appSetting.Apperance.WindowCloseBehavior;
+
             #endregion
 
             #region 账号
@@ -136,7 +186,8 @@ namespace Uestc.BBS.Desktop.Models
             _logEnable = appSetting.Log.IsEnable;
             _logMinLevel = appSetting.Log.MinLevel;
             _logOutputFormat = appSetting.Log.OutputFormat;
-            _logSizeContent = $"日志文件存储占用：{logService.LogDirectory.GetFileTotalSize($"*{AppDomain.CurrentDomain.FriendlyName}*.log").FormatFileSize()}";
+            _logSizeContent =
+                $"日志文件存储占用：{logService.LogDirectory.GetFileTotalSize($"*{AppDomain.CurrentDomain.FriendlyName}*.log").FormatFileSize()}";
             #endregion
 
             #region 更新
@@ -149,9 +200,12 @@ namespace Uestc.BBS.Desktop.Models
             {
                 #region 外观
                 appSetting.Apperance.ThemeMode = _themeColor;
-                appSetting.Apperance.WindowCloseBehavior = _windowCloseBehavior;
-                appSetting.Apperance.BackgroundOpacity = _backgroundOpacity;
+                appSetting.Apperance.TintOpacity = _tintOpacity;
+                appSetting.Apperance.TintDarkColor = _tintDarkColor.ToString();
+                appSetting.Apperance.TintLightColor = _tintLightColor.ToString();
+                appSetting.Apperance.MaterialOpacity = _materialOpacity;
                 appSetting.Apperance.OfficialWebsite = _officialWebsite;
+                appSetting.Apperance.WindowCloseBehavior = _windowCloseBehavior;
                 #endregion
 
                 #region 账号
@@ -175,7 +229,11 @@ namespace Uestc.BBS.Desktop.Models
                 #endregion
 
                 #region 日志
-                if ((appSetting.Log.IsEnable != _logEnable) || (appSetting.Log.MinLevel != _logMinLevel) || !appSetting.Log.OutputFormat.Equals(_logOutputFormat))
+                if (
+                    (appSetting.Log.IsEnable != _logEnable)
+                    || (appSetting.Log.MinLevel != _logMinLevel)
+                    || !appSetting.Log.OutputFormat.Equals(_logOutputFormat)
+                )
                 {
                     appSetting.Log.IsEnable = _logEnable;
                     appSetting.Log.MinLevel = _logMinLevel;

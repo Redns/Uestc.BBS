@@ -107,9 +107,24 @@ namespace Uestc.BBS.Core
         public ThemeColor ThemeMode { get; set; } = ThemeColor.System;
 
         /// <summary>
-        /// 背景透明度
+        /// 颜色不透明度
         /// </summary>
-        public double BackgroundOpacity { get; set; } = 1.0;
+        public double TintOpacity { get; set; } = 2.0;
+
+        /// <summary>
+        /// 亮色主题背景颜色
+        /// </summary>
+        public string TintLightColor { get; set; } = "#FFFFFF";
+
+        /// <summary>
+        /// 暗色主题背景颜色
+        /// </summary>
+        public string TintDarkColor { get; set; } = "#181818";
+
+        /// <summary>
+        /// 材质不透明度
+        /// </summary>
+        public double MaterialOpacity { get; set; } = 1.0;
 
         /// <summary>
         /// 官方论坛链接

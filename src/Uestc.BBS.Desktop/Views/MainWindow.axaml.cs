@@ -4,6 +4,7 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Uestc.BBS.Core;
+using Uestc.BBS.Desktop.Models;
 using Uestc.BBS.Desktop.ViewModels;
 
 namespace Uestc.BBS.Desktop.Views;
@@ -20,9 +21,14 @@ public partial class MainWindow : Window
         InitializeComponent();
     }
 
-    public MainWindow(MainWindowViewModel viewModel, AppSetting appSetting)
+    public MainWindow(
+        MainWindowViewModel viewModel,
+        AppSetting appSetting,
+        AppSettingModel appSettingModel
+    )
     {
         InitializeComponent();
+
         DataContext = viewModel;
         _appSetting = appSetting;
     }
@@ -54,9 +60,12 @@ public partial class MainWindow : Window
             return;
         }
 
-        if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime application)
+        if (
+            Application.Current?.ApplicationLifetime
+            is IClassicDesktopStyleApplicationLifetime desktop
+        )
         {
-            application.Shutdown();
+            desktop.Shutdown();
         }
     }
 }

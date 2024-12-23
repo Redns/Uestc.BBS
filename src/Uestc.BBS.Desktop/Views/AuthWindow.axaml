@@ -35,8 +35,9 @@
             <ExperimentalAcrylicBorder.Material>
                 <ExperimentalAcrylicMaterial
                     BackgroundSource="Digger"
-                    MaterialOpacity="{Binding AppSettingModel.BackgroundOpacity}"
-                    TintColor="{DynamicResource BgWindow}" />
+                    MaterialOpacity="{Binding AppSettingModel.MaterialOpacity}"
+                    TintColor="{Binding AppSettingModel.TintColor, Mode=TwoWay}"
+                    TintOpacity="{Binding AppSettingModel.TintOpacity}" />
             </ExperimentalAcrylicBorder.Material>
         </ExperimentalAcrylicBorder>
         <StackPanel Margin="25,0" Orientation="Vertical">

@@ -31,7 +31,7 @@ namespace Uestc.BBS.Desktop.ViewModels
             ImageHelper.LoadFromWebAsync(_httpClient, _appSetting.Auth.DefaultCredential?.Avatar);
 
         [ObservableProperty]
-        private AppSettingModel _appSettingsModel;
+        private AppSettingModel _appSettingModel;
 
         /// <summary>
         /// 是否固定窗口至顶部
@@ -55,7 +55,7 @@ namespace Uestc.BBS.Desktop.ViewModels
             AppSetting appSetting,
             HomeView homeView,
             HttpClient httpClient,
-            AppSettingModel appSettingsModel,
+            AppSettingModel appSettingModel,
             ITopicService topicService
         )
         {
@@ -63,7 +63,7 @@ namespace Uestc.BBS.Desktop.ViewModels
             _httpClient = httpClient;
             _currentPage = homeView;
             _topicService = topicService;
-            _appSettingsModel = appSettingsModel;
+            _appSettingModel = appSettingModel;
 
             Menus = new ObservableCollection<MenuItemViewModel>(
                 appSetting.Apperance.MenuItems.Select(m => new MenuItemViewModel
@@ -128,16 +128,16 @@ namespace Uestc.BBS.Desktop.ViewModels
             CurrentPage = key switch
             {
                 MenuItemKey.Home => ServiceExtension.Services.GetRequiredService<HomeView>(),
-                MenuItemKey.Sections =>
-                    ServiceExtension.Services.GetRequiredService<SectionsView>(),
-                MenuItemKey.Services =>
-                    ServiceExtension.Services.GetRequiredService<ServicesView>(),
+                MenuItemKey.Sections
+                    => ServiceExtension.Services.GetRequiredService<SectionsView>(),
+                MenuItemKey.Services
+                    => ServiceExtension.Services.GetRequiredService<ServicesView>(),
                 MenuItemKey.Moments => ServiceExtension.Services.GetRequiredService<MomentsView>(),
                 MenuItemKey.Post => ServiceExtension.Services.GetRequiredService<PostView>(),
-                MenuItemKey.Messages =>
-                    ServiceExtension.Services.GetRequiredService<MessagesView>(),
-                MenuItemKey.Settings =>
-                    ServiceExtension.Services.GetRequiredService<SettingsView>(),
+                MenuItemKey.Messages
+                    => ServiceExtension.Services.GetRequiredService<MessagesView>(),
+                MenuItemKey.Settings
+                    => ServiceExtension.Services.GetRequiredService<SettingsView>(),
                 _ => CurrentPage,
             };
         }
@@ -156,10 +156,16 @@ namespace Uestc.BBS.Desktop.ViewModels
                         ? ThemeVariant.Light
                         : ThemeVariant.Dark;
             }
+
             Application.Current!.RequestedThemeVariant =
                 Application.Current.RequestedThemeVariant == ThemeVariant.Light
                     ? ThemeVariant.Dark
                     : ThemeVariant.Light;
+
+            AppSettingModel.ThemeColor =
+                Application.Current.RequestedThemeVariant == ThemeVariant.Light
+                    ? ThemeColor.Light
+                    : ThemeColor.Dark;
         }
 
         /// <summary>

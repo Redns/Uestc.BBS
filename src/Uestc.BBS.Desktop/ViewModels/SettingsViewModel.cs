@@ -69,13 +69,12 @@ namespace Uestc.BBS.Desktop.ViewModels
         /// 主题切换
         /// </summary>
         [RelayCommand]
-        private void SwitchTheme() =>
-            Application.Current!.RequestedThemeVariant = Model.ThemeColor switch
-            {
-                ThemeColor.Dark => ThemeVariant.Dark,
-                ThemeColor.Light => ThemeVariant.Light,
-                _ => ThemeVariant.Default,
-            };
+        private void SetThemeColor() => Application.Current!.RequestedThemeVariant = Model.ThemeColor switch
+        {
+            ThemeColor.Dark => ThemeVariant.Dark,
+            ThemeColor.Light => ThemeVariant.Light,
+            _ => ThemeVariant.Default,
+        };
 
         /// <summary>
         /// 添加用户
@@ -89,6 +88,11 @@ namespace Uestc.BBS.Desktop.ViewModels
         [RelayCommand]
         private void OpenLogDirectory()
         {
+            if (!Directory.Exists(_logService.LogDirectory))
+            {
+                Directory.CreateDirectory(_logService.LogDirectory);
+            }
+
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
                 Process.Start("explorer.exe", _logService.LogDirectory);

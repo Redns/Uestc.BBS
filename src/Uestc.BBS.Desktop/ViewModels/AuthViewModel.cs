@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -73,10 +72,10 @@ namespace Uestc.BBS.Desktop.ViewModels
         /// 用户头像
         /// </summary>
         public Task<Bitmap?> Avatar =>
-            ImageHelper.LoadFromWebAsync(_httpClient, _selectedCredential?.Avatar);
+            ImageHelper.LoadFromWebAsync(_httpClient, SelectedCredential?.Avatar);
 
         public bool CanLogin() =>
-            !string.IsNullOrEmpty(Username) && !string.IsNullOrEmpty(Password);
+            string.IsNullOrEmpty(Username) is false && string.IsNullOrEmpty(Password) is false;
 
         /// <summary>
         /// 选中的本地授权信息
@@ -114,7 +113,7 @@ namespace Uestc.BBS.Desktop.ViewModels
         [RelayCommand]
         private void SelectCredential(SelectionChangedEventArgs e)
         {
-            if (e.AddedItems.Count != 0)
+            if (e.AddedItems.Count is not 0)
             {
                 Password = e.AddedItems.Cast<AuthCredential>().First().Password;
                 return;
@@ -169,7 +168,7 @@ namespace Uestc.BBS.Desktop.ViewModels
                 }
 
                 // 保存本地登录信息
-                if (SelectedCredential?.Equals(credential) is false)
+                if (SelectedCredential?.Equals(credential) is not true)
                 {
                     _appSetting.Auth.Credentials.Add(credential);
                 }
@@ -208,8 +207,8 @@ namespace Uestc.BBS.Desktop.ViewModels
         {
             // 选中授权信息有效，无需重新获取
             if (
-                !string.IsNullOrEmpty(SelectedCredential?.Token)
-                && !string.IsNullOrEmpty(SelectedCredential?.Secret)
+                string.IsNullOrEmpty(SelectedCredential?.Token) is false
+                && string.IsNullOrEmpty(SelectedCredential?.Secret) is false
                 && SelectedCredential?.Password == Password
             )
             {

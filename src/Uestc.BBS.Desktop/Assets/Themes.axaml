@@ -25,8 +25,8 @@
             <SolidColorBrush x:Key="BtnDefaultActive" Color="#F9FAFC" />
             <SolidColorBrush x:Key="BtnDefaultBorderBrush" Color="#E4E8EA" />
             <!--  Expander  -->
-            <SolidColorBrush x:Key="ExpanderDefault" Color="#F1F2F3" />
-            <SolidColorBrush x:Key="ExpanderDefaultHover" Color="#EAEAEA" />
+            <SolidColorBrush x:Key="ExpanderDefault" Color="#F9FAFC" />
+            <SolidColorBrush x:Key="ExpanderDefaultHover" Color="#F3F3F3" />
             <SolidColorBrush x:Key="ExpanderDefaultBorderBrush" Color="#DADADA" />
             <!--  Separator  -->
             <SolidColorBrush x:Key="SeparatorDefaultBackground" Color="#DADADA" />

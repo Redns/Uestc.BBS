@@ -44,8 +44,9 @@
             <ExperimentalAcrylicBorder.Material>
                 <ExperimentalAcrylicMaterial
                     BackgroundSource="Digger"
-                    MaterialOpacity="{Binding AppSettingsModel.BackgroundOpacity}"
-                    TintColor="{DynamicResource BgWindow}" />
+                    MaterialOpacity="{Binding AppSettingModel.MaterialOpacity}"
+                    TintColor="{DynamicResource BgWindow}"
+                    TintOpacity="{Binding AppSettingModel.TintOpacity}" />
             </ExperimentalAcrylicBorder.Material>
         </ExperimentalAcrylicBorder>
         <Grid ColumnDefinitions="auto,*" RowDefinitions="42,*">
