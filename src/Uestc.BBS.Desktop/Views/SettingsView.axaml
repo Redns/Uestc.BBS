@@ -115,7 +115,7 @@
         <StackPanel Orientation="Vertical" Spacing="6">
             <TextBlock Text="个性化" />
             <!--  颜色  -->
-            <Expander IsExpanded="True">
+            <Expander>
                 <Expander.Header>
                     <DockPanel Classes="MenuHeader">
                         <icon:SymbolIcon DockPanel.Dock="Left" Symbol="Color" />
@@ -127,7 +127,7 @@
                 </Expander.Header>
                 <StackPanel Classes="MenuContent">
                     <DockPanel Classes="MenuItem">
-                        <TextBlock Text="主题色" />
+                        <TextBlock Text="选择模式" />
                         <ComboBox DockPanel.Dock="Right" SelectedIndex="{Binding Model.ThemeColor}">
                             <ComboBoxItem Content="浅色" />
                             <ComboBoxItem Content="深色" />
@@ -138,6 +138,34 @@
                                 </RoutedEventTriggerBehavior>
                             </Interaction.Behaviors>
                         </ComboBox>
+                    </DockPanel>
+                    <Separator />
+                    <DockPanel Classes="MenuItem">
+                        <TextBlock Text="亮色背景" />
+                        <ColorPicker
+                            Width="120"
+                            Classes="has-value-text"
+                            ColorSpectrumShape="Ring"
+                            DockPanel.Dock="Right"
+                            HexInputAlphaPosition="Leading"
+                            IsAlphaEnabled="False"
+                            IsAlphaVisible="False"
+                            IsColorSpectrumSliderVisible="False"
+                            Color="{Binding Model.TintLightColor}" />
+                    </DockPanel>
+                    <Separator />
+                    <DockPanel Classes="MenuItem">
+                        <TextBlock Text="暗色背景" />
+                        <ColorPicker
+                            Width="120"
+                            Classes="has-value-text"
+                            ColorSpectrumShape="Ring"
+                            DockPanel.Dock="Right"
+                            HexInputAlphaPosition="Leading"
+                            IsAlphaEnabled="False"
+                            IsAlphaVisible="False"
+                            IsColorSpectrumSliderVisible="False"
+                            Color="{Binding Model.TintDarkColor}" />
                     </DockPanel>
                     <Separator />
                     <DockPanel Classes="MenuItem">

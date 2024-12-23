@@ -30,6 +30,7 @@ public partial class App : Application
         try
         {
             var appSetting = ServiceExtension.Services.GetRequiredService<AppSetting>();
+            var appSettingModel = ServiceExtension.Services.GetRequiredService<AppSettingModel>();
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
                 desktop.ShutdownMode = ShutdownMode.OnExplicitShutdown;
@@ -38,6 +39,8 @@ public partial class App : Application
                     : appSetting.Auth.IsUserAuthed
                         ? ServiceExtension.Services.GetRequiredService<MainWindow>()
                         : ServiceExtension.Services.GetRequiredService<AuthWindow>();
+                Current!.ActualThemeVariantChanged += (sender, args) =>
+                    appSettingModel.NotifyTintColorChanged();
                 base.OnFrameworkInitializationCompleted();
             }
         }

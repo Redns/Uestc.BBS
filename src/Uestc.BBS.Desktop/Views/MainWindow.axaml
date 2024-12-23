@@ -45,7 +45,7 @@
                 <ExperimentalAcrylicMaterial
                     BackgroundSource="Digger"
                     MaterialOpacity="{Binding AppSettingModel.MaterialOpacity}"
-                    TintColor="{DynamicResource BgWindow}"
+                    TintColor="{Binding AppSettingModel.TintColor}"
                     TintOpacity="{Binding AppSettingModel.TintOpacity}" />
             </ExperimentalAcrylicBorder.Material>
         </ExperimentalAcrylicBorder>

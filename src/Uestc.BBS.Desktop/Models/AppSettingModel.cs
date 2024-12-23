@@ -16,6 +16,7 @@ namespace Uestc.BBS.Desktop.Models
         /// 主题色
         /// </summary>
         [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(TintColor))]
         private ThemeColor _themeColor;
 
         /// <summary>
@@ -41,22 +42,10 @@ namespace Uestc.BBS.Desktop.Models
         /// <summary>
         /// 亚克力材质颜色
         /// </summary>
-        public Color TintColor
-        {
-            get
-            {
-                if (Application.Current!.RequestedThemeVariant == ThemeVariant.Default)
-                {
-                    Application.Current.RequestedThemeVariant =
-                        Application.Current.PlatformSettings!.GetColorValues().ThemeVariant
-                        is Avalonia.Platform.PlatformThemeVariant.Light
-                            ? ThemeVariant.Light
-                            : ThemeVariant.Dark;
-                }
-
-                return Application.Current.RequestedThemeVariant == ThemeVariant.Light ? TintLightColor : TintDarkColor;
-            }
-        }
+        public Color TintColor =>
+            Application.Current!.ActualThemeVariant == ThemeVariant.Light
+                ? TintLightColor
+                : TintDarkColor;
 
         /// <summary>
         /// 材质不透明度
@@ -247,6 +236,11 @@ namespace Uestc.BBS.Desktop.Models
                 appSetting.Upgrade.Mirror = _upgradeMirror;
                 #endregion
             };
+        }
+
+        public void NotifyTintColorChanged()
+        {
+            OnPropertyChanged(nameof(TintColor));
         }
     }
 }

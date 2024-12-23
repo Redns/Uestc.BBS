@@ -148,17 +148,8 @@ namespace Uestc.BBS.Desktop.ViewModels
         [RelayCommand]
         private void SwitchTheme()
         {
-            if (Application.Current!.RequestedThemeVariant == ThemeVariant.Default)
-            {
-                Application.Current.RequestedThemeVariant =
-                    Application.Current.PlatformSettings!.GetColorValues().ThemeVariant
-                    is Avalonia.Platform.PlatformThemeVariant.Light
-                        ? ThemeVariant.Light
-                        : ThemeVariant.Dark;
-            }
-
             Application.Current!.RequestedThemeVariant =
-                Application.Current.RequestedThemeVariant == ThemeVariant.Light
+                Application.Current.ActualThemeVariant == ThemeVariant.Light
                     ? ThemeVariant.Dark
                     : ThemeVariant.Light;
 
