@@ -228,6 +228,21 @@
                             OffContent="关"
                             OnContent="开" />
                     </DockPanel>
+                    <Separator />
+                    <DockPanel Classes="MenuItem">
+                        <StackPanel>
+                            <TextBlock Text="搜索历史" />
+                            <TextBlock Classes="Note" Text="关闭后不会清除现有搜索记录" />
+                        </StackPanel>
+                        <ToggleSwitch
+                            VerticalAlignment="Center"
+                            actipro:ThemeProperties.ToggleSwitchHasFarAffinity="True"
+                            Classes="theme-solid accent"
+                            DockPanel.Dock="Right"
+                            IsChecked="{Binding Model.StartupOnLaunch}"
+                            OffContent="关"
+                            OnContent="开" />
+                    </DockPanel>
                 </StackPanel>
             </Expander>
             <!--  浏览  -->
