@@ -417,6 +417,11 @@ namespace Uestc.BBS.Core
         public bool AcceptBetaVersion { get; set; } = false;
 
         /// <summary>
+        /// 上次更新检查时间
+        /// </summary>
+        public DateTime LastCheckTime {  get; set; } = DateTime.MinValue;
+
+        /// <summary>
         /// 更新地址
         /// </summary>
         public string Mirror { get; set; } = "https://mirrors.krins.cloud/Uestc.BBS";

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System.Net;
+using Uestc.BBS.Core.Services;
 using Uestc.BBS.Core.Services.Api.Auth;
 using Uestc.BBS.Core.Services.Api.Forum;
 using Uestc.BBS.Core.Services.Api.User;
@@ -31,8 +32,14 @@ namespace Uestc.BBS.Core
             // Forums
             ServiceCollection.AddTransient<IAuthService, AuthService>();
             ServiceCollection.AddTransient<ITopicService, TopicService>();
+            // 每日一句 
+            ServiceCollection.AddTransient<IDailySentenceService, DailySentenceService>();
             // HttpClient
             ServiceCollection.AddHttpClient();
+            ServiceCollection.AddHttpClient<IDailySentenceService, DailySentenceService>(client =>
+            {
+                client.BaseAddress = new Uri("https://bbs.uestc.edu.cn/forum.php");
+            });
             ServiceCollection.AddHttpClient<IAuthService, AuthService>(client =>
             {
                 client.BaseAddress = new Uri("https://bbs.uestc.edu.cn/mobcent/app/web/index.php?r=user/login");

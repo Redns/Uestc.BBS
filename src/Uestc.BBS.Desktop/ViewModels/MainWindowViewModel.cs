@@ -12,6 +12,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.DependencyInjection;
 using Uestc.BBS.Core;
+using Uestc.BBS.Core.Services;
 using Uestc.BBS.Core.Services.Api.Forum;
 using Uestc.BBS.Desktop.Helpers;
 using Uestc.BBS.Desktop.Models;
@@ -27,6 +28,8 @@ namespace Uestc.BBS.Desktop.ViewModels
 
         private readonly ITopicService _topicService;
 
+        private readonly IDailySentenceService _dailySentenceService;
+
         public Task<Bitmap?> Avatar =>
             ImageHelper.LoadFromWebAsync(_httpClient, _appSetting.Auth.DefaultCredential?.Avatar);
 
@@ -38,6 +41,9 @@ namespace Uestc.BBS.Desktop.ViewModels
         /// </summary>
         [ObservableProperty]
         private bool _isWindowPinned = false;
+
+        [ObservableProperty]
+        private Task<string> _dailySentence;
 
         /// <summary>
         /// 侧边栏菜单
@@ -56,7 +62,8 @@ namespace Uestc.BBS.Desktop.ViewModels
             HomeView homeView,
             HttpClient httpClient,
             AppSettingModel appSettingModel,
-            ITopicService topicService
+            ITopicService topicService,
+            IDailySentenceService dailySentenceService
         )
         {
             _appSetting = appSetting;
@@ -64,6 +71,10 @@ namespace Uestc.BBS.Desktop.ViewModels
             _currentPage = homeView;
             _topicService = topicService;
             _appSettingModel = appSettingModel;
+            _dailySentenceService = dailySentenceService;
+
+            // 获取每日一句
+            DailySentence = dailySentenceService.GetDailySentenceAsync();
 
             Menus = new ObservableCollection<MenuItemViewModel>(
                 appSetting.Apperance.MenuItems.Select(m => new MenuItemViewModel

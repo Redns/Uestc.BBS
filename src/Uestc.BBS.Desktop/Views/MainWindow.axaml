@@ -44,6 +44,7 @@
             <ExperimentalAcrylicBorder.Material>
                 <ExperimentalAcrylicMaterial
                     BackgroundSource="Digger"
+                    FallbackColor="{DynamicResource BgWindow}"
                     MaterialOpacity="{Binding AppSettingModel.MaterialOpacity}"
                     TintColor="{Binding AppSettingModel.TintColor}"
                     TintOpacity="{Binding AppSettingModel.TintOpacity}" />
@@ -77,7 +78,7 @@
                     Margin="30,6,0,4"
                     Classes="Search"
                     DockPanel.Dock="Left"
-                    Watermark="你的问题主要在于读书不多而想得太多 ——杨绛">
+                    Watermark="{Binding DailySentence^}">
                     <AutoCompleteBox.InnerRightContent>
                         <icon:SymbolIcon
                             Margin="0,0,10,0"

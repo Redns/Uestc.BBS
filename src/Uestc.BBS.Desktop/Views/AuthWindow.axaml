@@ -35,6 +35,7 @@
             <ExperimentalAcrylicBorder.Material>
                 <ExperimentalAcrylicMaterial
                     BackgroundSource="Digger"
+                    FallbackColor="{DynamicResource BgWindow}"
                     MaterialOpacity="{Binding AppSettingModel.MaterialOpacity}"
                     TintColor="{Binding AppSettingModel.TintColor, Mode=TwoWay}"
                     TintOpacity="{Binding AppSettingModel.TintOpacity}" />
@@ -123,6 +124,9 @@
                     <RoutedEventTriggerBehavior RoutedEvent="{x:Static AutoCompleteBox.SelectionChangedEvent}">
                         <InvokeCommandAction Command="{Binding SelectCredentialCommand}" PassEventArgsToCommand="True" />
                     </RoutedEventTriggerBehavior>
+                    <RoutedEventTriggerBehavior RoutedEvent="{x:Static InputElement.KeyDownEvent}">
+                        <InvokeCommandAction Command="{Binding EnterToLoginCommand}" PassEventArgsToCommand="True" />
+                    </RoutedEventTriggerBehavior>
                 </Interaction.Behaviors>
             </AutoCompleteBox>
             <TextBlock
@@ -133,13 +137,18 @@
             <TextBox
                 Classes="Auth has-reveal-password-button"
                 PasswordChar="{actipro:ThemeResource EditPasswordChar}"
-                Text="{Binding Password,}"
+                Text="{Binding Password}"
                 Watermark="密码">
                 <TextBox.Styles>
                     <Style Selector="TextBlock#PART_Watermark">
                         <Setter Property="FontSize" Value="300" />
                     </Style>
                 </TextBox.Styles>
+                <Interaction.Behaviors>
+                    <RoutedEventTriggerBehavior RoutedEvent="{x:Static InputElement.KeyDownEvent}">
+                        <InvokeCommandAction Command="{Binding EnterToLoginCommand}" PassEventArgsToCommand="True" />
+                    </RoutedEventTriggerBehavior>
+                </Interaction.Behaviors>
             </TextBox>
             <TextBlock
                 Height="16"

@@ -9,7 +9,7 @@
     xmlns:local="using:Uestc.BBS.Desktop.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="using:Uestc.BBS.Desktop.ViewModels"
-    d:DesignHeight="600"
+    d:DesignHeight="1200"
     d:DesignWidth="900"
     x:DataType="vm:SettingsViewModel"
     mc:Ignorable="d">
@@ -113,7 +113,7 @@
     </UserControl.Styles>
     <ScrollViewer VerticalScrollBarVisibility="Hidden">
         <StackPanel Orientation="Vertical" Spacing="6">
-            <TextBlock Text="个性化" />
+            <TextBlock Text="显示" />
             <!--  颜色  -->
             <Expander>
                 <Expander.Header>
@@ -203,18 +203,87 @@
                             DockPanel.Dock="Right"
                             Text="{Binding Model.MaterialOpacity, StringFormat=F2}" />
                     </DockPanel>
-                    <Separator />
+                </StackPanel>
+            </Expander>
+            <!--  搜索栏  -->
+            <Expander>
+                <Expander.Header>
+                    <DockPanel Classes="MenuHeader">
+                        <icon:SymbolIcon DockPanel.Dock="Left" Symbol="Search" />
+                        <StackPanel Classes="MenuTitle" DockPanel.Dock="Left">
+                            <TextBlock VerticalAlignment="Center" Text="搜索栏" />
+                            <TextBlock Classes="Note" Text="每日一句" />
+                        </StackPanel>
+                    </DockPanel>
+                </Expander.Header>
+                <StackPanel Classes="MenuContent">
+                    <DockPanel Classes="MenuItem">
+                        <TextBlock Text="每日一句" />
+                        <ToggleSwitch
+                            VerticalAlignment="Center"
+                            actipro:ThemeProperties.ToggleSwitchHasFarAffinity="True"
+                            Classes="theme-solid accent"
+                            DockPanel.Dock="Right"
+                            IsChecked="{Binding Model.StartupOnLaunch}"
+                            OffContent="关"
+                            OnContent="开" />
+                    </DockPanel>
+                </StackPanel>
+            </Expander>
+            <!--  浏览  -->
+            <Expander>
+                <Expander.Header>
+                    <DockPanel Classes="MenuHeader">
+                        <icon:SymbolIcon DockPanel.Dock="Left" Symbol="ArrowAutofitHeight" />
+                        <StackPanel Classes="MenuTitle" DockPanel.Dock="Left">
+                            <TextBlock VerticalAlignment="Center" Text="浏览" />
+                            <TextBlock Classes="Note" Text="置顶公告、点赞评论" />
+                        </StackPanel>
+                    </DockPanel>
+                </Expander.Header>
+                <StackPanel Classes="MenuContent" />
+            </Expander>
+            <!--  评论  -->
+            <Expander IsExpanded="True">
+                <Expander.Header>
+                    <DockPanel Classes="MenuHeader">
+                        <icon:SymbolIcon DockPanel.Dock="Left" Symbol="Chat" />
+                        <StackPanel Classes="MenuTitle" DockPanel.Dock="Left">
+                            <TextBlock VerticalAlignment="Center" Text="评论" />
+                            <TextBlock Classes="Note" Text="强制置顶" />
+                        </StackPanel>
+                    </DockPanel>
+                </Expander.Header>
+                <StackPanel Classes="MenuContent">
                     <DockPanel Classes="MenuItem">
                         <StackPanel>
-                            <TextBlock Text="论坛跳转链接" />
-                            <TextBlock Classes="Note" Text="点击应用图标将跳转至论坛网页端" />
+                            <TextBlock Text="强制置顶" />
+                            <TextBlock Classes="Note" Text="置顶评论将显示在热评上方" />
                         </StackPanel>
-                        <TextBox
-                            Width="220"
+                        <ToggleSwitch
                             VerticalAlignment="Center"
+                            actipro:ThemeProperties.ToggleSwitchHasFarAffinity="True"
+                            Classes="theme-solid accent"
                             DockPanel.Dock="Right"
-                            Text="{Binding Model.OfficialWebsite}"
-                            TextAlignment="Center" />
+                            IsChecked="{Binding Model.SlientStartup}"
+                            OffContent="关"
+                            OnContent="开" />
+                    </DockPanel>
+                    <Separator />
+                    <DockPanel Classes="MenuItem">
+                        <TextBlock DockPanel.Dock="Top" Text="显示内容" />
+                        <StackPanel
+                            Margin="0,10,0,5"
+                            Orientation="Horizontal"
+                            Spacing="20">
+                            <CheckBox Content="楼层" />
+                            <CheckBox Content="等级" />
+                            <CheckBox Content="勋章" />
+                            <CheckBox Content="自定义头衔" />
+                            <CheckBox Content="帖子反对数量" />
+                            <CheckBox Content="评论反对数量" />
+                            <CheckBox Content="用户签名" />
+                        </StackPanel>
                     </DockPanel>
                 </StackPanel>
             </Expander>
@@ -264,6 +333,19 @@
                             <ComboBoxItem Content="退出应用" />
                         </ComboBox>
                     </DockPanel>
+                    <Separator />
+                    <DockPanel Classes="MenuItem">
+                        <StackPanel>
+                            <TextBlock Text="论坛跳转链接" />
+                            <TextBlock Classes="Note" Text="点击应用图标将跳转至论坛网页端" />
+                        </StackPanel>
+                        <TextBox
+                            Width="220"
+                            VerticalAlignment="Center"
+                            DockPanel.Dock="Right"
+                            Text="{Binding Model.OfficialWebsite}"
+                            TextAlignment="Center" />
+                    </DockPanel>
                 </StackPanel>
             </Expander>
             <TextBlock Margin="0,10,0,0" Text="通用" />
@@ -306,6 +388,116 @@
                             OffContent="关"
                             OnContent="开" />
                     </DockPanel>
+                </StackPanel>
+            </Expander>
+            <TextBlock Margin="0,10,0,0" Text="数据与存储" />
+            <!--  缓存  -->
+            <Expander>
+                <Expander.Header>
+                    <DockPanel Classes="MenuHeader">
+                        <icon:SymbolIcon DockPanel.Dock="Left" Symbol="Database" />
+                        <StackPanel Classes="MenuTitle" DockPanel.Dock="Left">
+                            <TextBlock Text="缓存" />
+                            <TextBlock Classes="Note" Text="在不同设备之间同步配置和数据" />
+                        </StackPanel>
+                        <Button Content="立即同步" DockPanel.Dock="Right" />
+                    </DockPanel>
+                </Expander.Header>
+                <StackPanel Classes="MenuContent">
+                    <DockPanel Classes="MenuItem">
+                        <TextBlock Text="同步模式" />
+                        <ComboBox DockPanel.Dock="Right" SelectedIndex="{Binding Model.SyncMode}">
+                            <ComboBoxItem Content="手动同步" />
+                            <ComboBoxItem Content="应用启动时" />
+                            <ComboBoxItem Content="应用启动时 + 定时" />
+                        </ComboBox>
+                    </DockPanel>
+                    <Separator />
+                    <DockPanel Classes="MenuItem" IsEnabled="{Binding Model.SyncTimeIntervalMinutesEnable}">
+                        <TextBlock Text="时间间隔" />
+                        <TextBlock
+                            Margin="10,0,0,0"
+                            DockPanel.Dock="Right"
+                            Text="分钟" />
+                        <NumericUpDown
+                            Width="80"
+                            DockPanel.Dock="Right"
+                            Increment="1"
+                            Minimum="5"
+                            Value="{Binding Model.SyncTimeIntervalMinutes}" />
+                    </DockPanel>
+                    <Separator />
+                    <DockPanel Classes="MenuItem">
+                        <StackPanel>
+                            <TextBlock Text="AES 密钥" />
+                            <TextBlock Classes="Note" Text="数据将加密后上传至云端" />
+                        </StackPanel>
+                        <TextBox
+                            Width="220"
+                            VerticalAlignment="Center"
+                            Classes="has-reveal-password-button"
+                            DockPanel.Dock="Right"
+                            MaxLength="20"
+                            PasswordChar="{actipro:ThemeResource EditPasswordChar}"
+                            Text="{Binding Model.SyncSecret}" />
+                    </DockPanel>
+                    <Separator />
+                    <Grid
+                        MinHeight="30"
+                        Margin="40,10,0,10"
+                        ColumnDefinitions="100,*"
+                        IsEnabled="{Binding Model.SyncSecret, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
+                        RowDefinitions="*,*,*,*">
+                        <!--  服务器地址  -->
+                        <TextBlock
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Text="服务器地址" />
+                        <TextBox
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            Width="260"
+                            HorizontalAlignment="Left"
+                            Text="{Binding Model.SyncApi}" />
+                        <!--  用户名  -->
+                        <TextBlock
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            Margin="0,10,0,0"
+                            Text="用户名" />
+                        <TextBox
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Width="180"
+                            Margin="0,10,0,0"
+                            HorizontalAlignment="Left"
+                            Text="{Binding Model.SyncUsername}" />
+                        <!--  密码  -->
+                        <TextBlock
+                            Grid.Row="2"
+                            Grid.Column="0"
+                            Margin="0,10,0,0"
+                            Text="密码" />
+                        <TextBox
+                            Grid.Row="2"
+                            Grid.Column="1"
+                            Width="180"
+                            Margin="0,10,0,0"
+                            HorizontalAlignment="Left"
+                            Classes="has-reveal-password-button"
+                            MaxLength="20"
+                            PasswordChar="{actipro:ThemeResource EditPasswordChar}"
+                            Text="{Binding Model.SyncPassword}" />
+                        <!--  验证配置  -->
+                        <Button
+                            Grid.Row="3"
+                            Grid.Column="1"
+                            Width="90"
+                            Margin="0,10,0,0"
+                            HorizontalAlignment="Left"
+                            Content="验证服务器"
+                            DockPanel.Dock="Right" />
+                    </Grid>
                 </StackPanel>
             </Expander>
             <!--  同步  -->
@@ -494,9 +686,12 @@
                         <icon:SymbolIcon DockPanel.Dock="Left" Symbol="ArrowSync" />
                         <StackPanel Classes="MenuTitle" DockPanel.Dock="Left">
                             <TextBlock Text="应用更新" />
-                            <TextBlock Classes="Note" Text="最近检查时间：2024/12/18 17:56" />
+                            <TextBlock Classes="Note" Text="{Binding Model.LastUpgradeCheckTime, StringFormat=最近检查时间：{0}}" />
                         </StackPanel>
-                        <Button Content="检查更新" DockPanel.Dock="Right" />
+                        <Button
+                            Command="{Binding CheckUpgradeCommand}"
+                            Content="检查更新"
+                            DockPanel.Dock="Right" />
                     </DockPanel>
                 </Expander.Header>
                 <StackPanel Classes="MenuContent">

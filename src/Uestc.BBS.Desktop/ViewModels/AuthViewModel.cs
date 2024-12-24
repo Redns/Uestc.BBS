@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
+using Avalonia.Input;
 using Avalonia.Media.Imaging;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -150,12 +151,21 @@ namespace Uestc.BBS.Desktop.ViewModels
             );
         }
 
+        [RelayCommand]
+        private async Task EnterToLoginAsync(KeyEventArgs args)
+        {
+            if(args.PhysicalKey is PhysicalKey.Enter && CanLogin())
+            {
+                await LoginAsync();
+            }
+        }
+
         /// <summary>
         /// 登录
         /// </summary>
         /// <returns></returns>
         [RelayCommand(CanExecute = nameof(CanLogin))]
-        private async Task Login()
+        private async Task LoginAsync()
         {
             IsLoging = true;
 

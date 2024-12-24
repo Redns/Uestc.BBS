@@ -128,6 +128,12 @@ namespace Uestc.BBS.Desktop.ViewModels
                 $"日志文件存储占用：{_logService.LogDirectory.GetFileTotalSize($"*{AppDomain.CurrentDomain.FriendlyName}*.log").FormatFileSize()}";
         }
 
+        [RelayCommand]
+        private void CheckUpgrade()
+        {
+            Model.LastUpgradeCheckTime = DateTime.Now;
+        }
+
         /// <summary>
         /// 保存配置至本地
         /// </summary>

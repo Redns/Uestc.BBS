@@ -130,6 +130,9 @@ namespace Uestc.BBS.Desktop.Models
 
         #region 更新
         [ObservableProperty]
+        private DateTime _lastUpgradeCheckTime;
+
+        [ObservableProperty]
         private bool _acceptBetaVersion;
 
         [ObservableProperty]
@@ -180,8 +183,9 @@ namespace Uestc.BBS.Desktop.Models
             #endregion
 
             #region 更新
-            _acceptBetaVersion = appSetting.Upgrade.AcceptBetaVersion;
             _upgradeMirror = appSetting.Upgrade.Mirror;
+            _lastUpgradeCheckTime = appSetting.Upgrade.LastCheckTime;
+            _acceptBetaVersion = appSetting.Upgrade.AcceptBetaVersion;
             #endregion
 
             // 保存配置至本地
@@ -232,8 +236,9 @@ namespace Uestc.BBS.Desktop.Models
                 #endregion
 
                 #region 更新
-                appSetting.Upgrade.AcceptBetaVersion = _acceptBetaVersion;
                 appSetting.Upgrade.Mirror = _upgradeMirror;
+                appSetting.Upgrade.LastCheckTime = _lastUpgradeCheckTime;
+                appSetting.Upgrade.AcceptBetaVersion = _acceptBetaVersion;
                 #endregion
             };
         }
