@@ -74,11 +74,11 @@
                     </Interaction.Behaviors>
                 </Image>
                 <AutoCompleteBox
-                    Width="460"
+                    Width="480"
                     Margin="30,6,0,4"
                     Classes="Search"
                     DockPanel.Dock="Left"
-                    Watermark="{Binding DailySentence^}">
+                    Watermark="{Binding AppSettingModel.DailySentence^}">
                     <AutoCompleteBox.InnerRightContent>
                         <icon:SymbolIcon
                             Margin="0,0,10,0"

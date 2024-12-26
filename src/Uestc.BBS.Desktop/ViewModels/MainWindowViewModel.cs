@@ -42,9 +42,6 @@ namespace Uestc.BBS.Desktop.ViewModels
         [ObservableProperty]
         private bool _isWindowPinned = false;
 
-        [ObservableProperty]
-        private Task<string> _dailySentence;
-
         /// <summary>
         /// 侧边栏菜单
         /// </summary>
@@ -72,9 +69,6 @@ namespace Uestc.BBS.Desktop.ViewModels
             _topicService = topicService;
             _appSettingModel = appSettingModel;
             _dailySentenceService = dailySentenceService;
-
-            // 获取每日一句
-            DailySentence = dailySentenceService.GetDailySentenceAsync();
 
             Menus = new ObservableCollection<MenuItemViewModel>(
                 appSetting.Apperance.MenuItems.Select(m => new MenuItemViewModel

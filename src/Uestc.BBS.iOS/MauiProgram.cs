@@ -1,7 +1,4 @@
-﻿using Uestc.BBS.Core;
-using UIKit;
-
-namespace Uestc.BBS
+﻿namespace Uestc.BBS
 {
     public static class MauiProgram
     {
@@ -17,9 +14,6 @@ namespace Uestc.BBS
         /// <returns></returns>
         public static MauiAppBuilder ConfigureServices(this MauiAppBuilder builder)
         {
-            // Device id
-            ServiceExtension.ServiceCollection.AddSingleton(deviceId => UIDevice.CurrentDevice.IdentifierForVendor.ToString());
-
             return builder;
         }
     }

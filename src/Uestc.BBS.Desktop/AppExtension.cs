@@ -51,14 +51,6 @@ namespace Uestc.BBS.Desktop
                     Appmanifest.SerializerOptions
                 ) ?? throw new ArgumentNullException(nameof(appmanifest))
             );
-            // 日志
-            ServiceExtension.ServiceCollection.AddSingleton<ILogService>(logger =>
-            {
-                var nlogger = new NLogService(LogManager.GetLogger("*"));
-                var appSetting = ServiceExtension.Services.GetRequiredService<AppSetting>();
-                nlogger.Setup(appSetting.Log);
-                return nlogger;
-            });
             // 自启动
             ServiceExtension.ServiceCollection.AddTransient<IStartupService>(startup =>
             {

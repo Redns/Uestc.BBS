@@ -20,7 +20,9 @@
     </Application.Resources>
 
     <Application.Styles>
-        <actipro:ModernTheme Includes="NativeColorPicker" />
+        <actipro:ModernTheme Includes="NativeColorPicker">
+            <StyleInclude Source="avares://ActiproSoftware.Avalonia.Themes.Native.ColorPicker/Themes/Common.axaml" />
+        </actipro:ModernTheme>
         <StyleInclude Source="/Assets/Styles.axaml" />
         <StyleInclude Source="avares://FluentAvalonia.ProgressRing/Styling/Controls/ProgressRing.axaml" />
     </Application.Styles>

@@ -28,7 +28,10 @@ namespace Uestc.BBS.ViewModels
         [RelayCommand]
         private void ShowMainWindow()
         {
-            if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+            if (
+                Application.Current?.ApplicationLifetime
+                is IClassicDesktopStyleApplicationLifetime desktop
+            )
             {
                 if (desktop.MainWindow is null)
                 {
@@ -43,7 +46,7 @@ namespace Uestc.BBS.ViewModels
                     desktop.MainWindow!.WindowState = WindowState.Normal;
                     desktop.MainWindow.Show();
                 }
-                
+
                 desktop.MainWindow.Activate();
             }
         }

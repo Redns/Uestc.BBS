@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Styling;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -35,6 +36,9 @@ namespace Uestc.BBS.Desktop.ViewModels
             DateTime.Now.Year == _appmanifest.OriginalDate.Year
                 ? $"©{_appmanifest.OriginalDate.Year} Redns. MIT License"
                 : $"©{_appmanifest.OriginalDate.Year}-{DateTime.Now.Year} Redns. MIT License";
+
+        [ObservableProperty]
+        private bool _isCheckUpgrading = false;
 
         [ObservableProperty]
         private AppSettingModel _model;
@@ -129,9 +133,15 @@ namespace Uestc.BBS.Desktop.ViewModels
         }
 
         [RelayCommand]
-        private void CheckUpgrade()
+        private async Task CheckUpgradeAsync()
         {
+            IsCheckUpgrading = true;
+
+            await Task.Delay(1000);
+
             Model.LastUpgradeCheckTime = DateTime.Now;
+
+            IsCheckUpgrading = false;
         }
 
         /// <summary>

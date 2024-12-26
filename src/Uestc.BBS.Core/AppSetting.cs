@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using System.ComponentModel;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.Json.Serialization.Metadata;
@@ -125,6 +126,11 @@ namespace Uestc.BBS.Core
         /// 材质不透明度
         /// </summary>
         public double MaterialOpacity { get; set; } = 1.0;
+
+        /// <summary>
+        /// 每日一句
+        /// </summary>
+        public bool IsDailySentenceShown { get; set; } = true;
 
         /// <summary>
         /// 官方论坛链接
@@ -386,8 +392,11 @@ namespace Uestc.BBS.Core
     /// </summary>
     public enum SyncMode
     {
+        [Description("手动")]
         None = 0,           // 手动
+        [Description("启动时同步")]
         OnStartup,          // 启动时同步
+        [Description("启动时+定时同步")]
         OnStaupAndTiming    // 启动时 + 定时同步
     }
 

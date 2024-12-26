@@ -1,9 +1,9 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using System.Net;
+﻿using NLog;
 using Uestc.BBS.Core.Services;
 using Uestc.BBS.Core.Services.Api.Auth;
 using Uestc.BBS.Core.Services.Api.Forum;
 using Uestc.BBS.Core.Services.Api.User;
+using Uestc.BBS.Core.Services.System;
 
 namespace Uestc.BBS.Core
 {
@@ -29,6 +29,14 @@ namespace Uestc.BBS.Core
         {
             // AppSetting
             ServiceCollection.AddSingleton(settings => AppSetting.Load());
+            // 日志
+            ServiceCollection.AddSingleton<ILogService>(logger =>
+            {
+                var nlogger = new NLogService(LogManager.GetLogger("*"));
+                var appSetting = Services.GetRequiredService<AppSetting>();
+                nlogger.Setup(appSetting.Log);
+                return nlogger;
+            });
             // Forums
             ServiceCollection.AddTransient<IAuthService, AuthService>();
             ServiceCollection.AddTransient<ITopicService, TopicService>();

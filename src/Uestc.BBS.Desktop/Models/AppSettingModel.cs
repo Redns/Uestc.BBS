@@ -1,16 +1,20 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Media;
 using Avalonia.Styling;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Uestc.BBS.Core;
 using Uestc.BBS.Core.Helpers;
+using Uestc.BBS.Core.Services;
 using Uestc.BBS.Core.Services.System;
 
 namespace Uestc.BBS.Desktop.Models
 {
     public partial class AppSettingModel : ObservableObject
     {
+        private readonly IDailySentenceService _dailySentenceService;
+
         #region 外观
         /// <summary>
         /// 主题色
@@ -52,6 +56,18 @@ namespace Uestc.BBS.Desktop.Models
         /// </summary>
         [ObservableProperty]
         private double _materialOpacity;
+
+        /// <summary>
+        /// 每日一句
+        /// </summary>
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(DailySentence))]
+        private bool _isDailySentenceShown;
+
+        public Task<string> DailySentence =>
+            IsDailySentenceShown
+                ? _dailySentenceService.GetDailySentenceAsync()
+                : Task.FromResult(string.Empty);
 
         /// <summary>
         /// 论坛官网
@@ -139,13 +155,20 @@ namespace Uestc.BBS.Desktop.Models
         private string _upgradeMirror;
         #endregion
 
-        public AppSettingModel(AppSetting appSetting, ILogService logService)
+        public AppSettingModel(
+            AppSetting appSetting,
+            ILogService logService,
+            IDailySentenceService dailySentenceService
+        )
         {
+            _dailySentenceService = dailySentenceService;
+
             #region 外观
             _themeColor = appSetting.Apperance.ThemeMode;
             _tintOpacity = appSetting.Apperance.TintOpacity;
             _tintDarkColor = Color.Parse(appSetting.Apperance.TintDarkColor);
             _tintLightColor = Color.Parse(appSetting.Apperance.TintLightColor);
+            _isDailySentenceShown = appSetting.Apperance.IsDailySentenceShown;
             _materialOpacity = appSetting.Apperance.MaterialOpacity;
             _officialWebsite = appSetting.Apperance.OfficialWebsite;
             _windowCloseBehavior = appSetting.Apperance.WindowCloseBehavior;
@@ -197,6 +220,7 @@ namespace Uestc.BBS.Desktop.Models
                 appSetting.Apperance.TintDarkColor = _tintDarkColor.ToString();
                 appSetting.Apperance.TintLightColor = _tintLightColor.ToString();
                 appSetting.Apperance.MaterialOpacity = _materialOpacity;
+                appSetting.Apperance.IsDailySentenceShown = _isDailySentenceShown;
                 appSetting.Apperance.OfficialWebsite = _officialWebsite;
                 appSetting.Apperance.WindowCloseBehavior = _windowCloseBehavior;
                 #endregion

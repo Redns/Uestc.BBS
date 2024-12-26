@@ -13,6 +13,7 @@ public partial class MainWindow : Window
 {
     private readonly AppSetting _appSetting;
 
+#if DEBUG
     /// <summary>
     /// 仅用于设计器预览
     /// </summary>
@@ -20,6 +21,7 @@ public partial class MainWindow : Window
     {
         InitializeComponent();
     }
+#endif
 
     public MainWindow(
         MainWindowViewModel viewModel,

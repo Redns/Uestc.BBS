@@ -5,6 +5,8 @@ namespace Uestc.BBS.Desktop.Views;
 
 public partial class SettingsView : UserControl
 {
+
+#if DEBUG
     /// <summary>
     /// 仅用于设计器预览
     /// </summary>
@@ -12,6 +14,7 @@ public partial class SettingsView : UserControl
     {
         InitializeComponent();
     }
+#endif
 
     public SettingsView(SettingsViewModel viewModel)
     {

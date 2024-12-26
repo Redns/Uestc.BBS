@@ -8,10 +8,13 @@ namespace Uestc.BBS.Desktop.Views;
 
 public partial class AuthWindow : Window
 {
+
+#if DEBUG
     public AuthWindow()
     {
         InitializeComponent();
     }
+#endif
 
     public AuthWindow(AuthViewModel viewModel, AppSettingModel appSettingModel)
     {

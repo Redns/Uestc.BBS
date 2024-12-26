@@ -110,6 +110,13 @@
             <Setter Property="Background" Value="{DynamicResource BtnDefault}" />
             <Setter Property="BorderBrush" Value="{DynamicResource BtnDefaultBorderBrush}" />
         </Style>
+        <!--  ProgressBar  -->
+        <Style Selector="ProgressBar">
+            <Setter Property="Margin" Value="0 2.5" />
+            <Style Selector="^ /template/ Border">
+                <Setter Property="Height" Value="3" />
+            </Style>
+        </Style>
     </UserControl.Styles>
     <ScrollViewer VerticalScrollBarVisibility="Hidden">
         <StackPanel Orientation="Vertical" Spacing="6">
@@ -121,7 +128,7 @@
                         <icon:SymbolIcon DockPanel.Dock="Left" Symbol="Color" />
                         <StackPanel Classes="MenuTitle" DockPanel.Dock="Left">
                             <TextBlock VerticalAlignment="Center" Text="颜色" />
-                            <TextBlock Classes="Note" Text="主题色、透明效果" />
+                            <TextBlock Classes="Note" Text="主题色、背景、透明效果" />
                         </StackPanel>
                     </DockPanel>
                 </Expander.Header>
@@ -224,7 +231,7 @@
                             actipro:ThemeProperties.ToggleSwitchHasFarAffinity="True"
                             Classes="theme-solid accent"
                             DockPanel.Dock="Right"
-                            IsChecked="{Binding Model.StartupOnLaunch}"
+                            IsChecked="{Binding Model.IsDailySentenceShown}"
                             OffContent="关"
                             OnContent="开" />
                     </DockPanel>
@@ -246,7 +253,7 @@
                 </StackPanel>
             </Expander>
             <!--  浏览  -->
-            <Expander>
+            <Expander IsExpanded="True">
                 <Expander.Header>
                     <DockPanel Classes="MenuHeader">
                         <icon:SymbolIcon DockPanel.Dock="Left" Symbol="ArrowAutofitHeight" />
@@ -256,10 +263,25 @@
                         </StackPanel>
                     </DockPanel>
                 </Expander.Header>
-                <StackPanel Classes="MenuContent" />
+                <StackPanel Classes="MenuContent">
+                    <DockPanel Classes="MenuItem">
+                        <StackPanel>
+                            <TextBlock Text="置顶公告" />
+                            <TextBlock Classes="Note" Text="关闭后将无法获取河畔最新通知" />
+                        </StackPanel>
+                        <ToggleSwitch
+                            VerticalAlignment="Center"
+                            actipro:ThemeProperties.ToggleSwitchHasFarAffinity="True"
+                            Classes="theme-solid accent"
+                            DockPanel.Dock="Right"
+                            IsChecked="{Binding Model.StartupOnLaunch}"
+                            OffContent="关"
+                            OnContent="开" />
+                    </DockPanel>
+                </StackPanel>
             </Expander>
             <!--  评论  -->
-            <Expander IsExpanded="True">
+            <Expander>
                 <Expander.Header>
                     <DockPanel Classes="MenuHeader">
                         <icon:SymbolIcon DockPanel.Dock="Left" Symbol="Chat" />
@@ -295,7 +317,6 @@
                             <CheckBox Content="等级" />
                             <CheckBox Content="勋章" />
                             <CheckBox Content="自定义头衔" />
-                            <CheckBox Content="帖子反对数量" />
                             <CheckBox Content="评论反对数量" />
                             <CheckBox Content="用户签名" />
                         </StackPanel>
@@ -701,7 +722,15 @@
                         <icon:SymbolIcon DockPanel.Dock="Left" Symbol="ArrowSync" />
                         <StackPanel Classes="MenuTitle" DockPanel.Dock="Left">
                             <TextBlock Text="应用更新" />
-                            <TextBlock Classes="Note" Text="{Binding Model.LastUpgradeCheckTime, StringFormat=最近检查时间：{0}}" />
+                            <ProgressBar
+                                Width="300"
+                                Classes="accent"
+                                IsIndeterminate="{Binding IsCheckUpgrading}"
+                                IsVisible="{Binding IsCheckUpgrading}" />
+                            <TextBlock
+                                Classes="Note"
+                                IsVisible="{Binding !IsCheckUpgrading}"
+                                Text="{Binding Model.LastUpgradeCheckTime, StringFormat=最近检查时间：{0:yyyy/MM/dd HH:mm:ss}}" />
                         </StackPanel>
                         <Button
                             Command="{Binding CheckUpgradeCommand}"
@@ -709,7 +738,7 @@
                             DockPanel.Dock="Right" />
                     </DockPanel>
                 </Expander.Header>
-                <StackPanel Classes="MenuContent">
+                <StackPanel Classes="MenuContent" IsEnabled="{Binding !IsCheckUpgrading}">
                     <DockPanel Classes="MenuItem">
                         <TextBlock Text="接收预览版" />
                         <ToggleSwitch

@@ -1,29 +1,57 @@
-﻿using System.ComponentModel;
-
-namespace Uestc.BBS.Core.Services.Api.Forum
+﻿namespace Uestc.BBS.Core.Services.Api.Forum
 {
     public interface ITopicService
     {
         Task<TopicResp?> GetTopicsAsync(
-            int page = 1, 
-            int pageSize = 10, 
-            int boardId = 0, 
+            int page = 1,
+            int pageSize = 10,
+            int boardId = 0,
             TopicSortType sortby = TopicSortType.New,
-            TopicTopOrder topOrder = TopicTopOrder.WithoutTop);
+            TopicTopOrder topOrder = TopicTopOrder.WithoutTop
+        );
+    }
+
+    public enum TopicType
+    {
+        NewPosts = 0,
+        NewReply,
+        Hot
     }
 
     public enum TopicSortType
     {
-        New = 0,    // 最新
-        Essence,    // 精华
-        All         // 全部
+        New = 0, // 最新
+        Essence, // 精华
+        All // 全部
     }
 
     public enum TopicTopOrder
     {
-        WithoutTop = 0,             // 不返回置顶帖
-        WithCurrentSectionTop,      // 返回本版置顶帖
-        WithCategorySectionTop,     // 返回分类置顶帖
-        WithGlobalTop               // 返回全局置顶帖
+        WithoutTop = 0, // 不返回置顶帖
+        WithCurrentSectionTop, // 返回本版置顶帖
+        WithCategorySectionTop, // 返回分类置顶帖
+        WithGlobalTop // 返回全局置顶帖
+    }
+
+    public enum Board
+    {
+        Latest = 0, // 最新发表/回复
+        WaterHome = 25, // 水手之家
+        Transportation = 225, //交通出行
+        ExamiHome = 382 //考试之家
+    }
+
+    public static class TopicExtension
+    {
+        public static string GetName(
+            this Board board,
+            TopicSortType sortType = TopicSortType.New
+        ) =>
+            board switch
+            {
+                Board.Latest => sortType is TopicSortType.New ? "最新发表" : "最新回复",
+                Board.WaterHome => "水手之家",
+                _ => string.Empty
+            };
     }
 }

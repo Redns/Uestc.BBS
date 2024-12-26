@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using System.Net;
+﻿using System.Net;
 using System.Text.Json;
 
 namespace Uestc.BBS.Core.Services.Api.Forum
@@ -8,6 +7,15 @@ namespace Uestc.BBS.Core.Services.Api.Forum
     {
         private readonly HttpClient _httpClient = httpClient;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="page"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="boardId"></param>
+        /// <param name="sortby"></param>
+        /// <param name="topOrder"></param>
+        /// <returns></returns>
         public async Task<TopicResp?> GetTopicsAsync(int page = 1, int pageSize = 10, int boardId = 0, TopicSortType sortby = TopicSortType.New, TopicTopOrder topOrder = TopicTopOrder.WithoutTop)
         {
             using var resp = await _httpClient.PostAsync(string.Empty, new FormUrlEncodedContent(new Dictionary<string, string>
