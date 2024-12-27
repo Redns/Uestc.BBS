@@ -806,25 +806,18 @@
                             </ItemsControl.ItemsPanel>
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <Image
+                                    <controls:Avatar
                                         Width="32"
                                         Margin="3"
-                                        ClipToBounds="True"
                                         Cursor="Hand"
-                                        Source="{Binding AvatarImage^}"
-                                        Stretch="Uniform"
+                                        Source="{Binding Avatar}"
                                         ToolTip.Tip="{Binding Name}">
-                                        <Image.Clip>
-                                            <StreamGeometry>
-                                                M 16 16 m -16, 0 a 16,16 0 1,0 32,0 a 16,16 0 1,0 -32,0
-                                            </StreamGeometry>
-                                        </Image.Clip>
                                         <Interaction.Behaviors>
                                             <RoutedEventTriggerBehavior RoutedEvent="{x:Static InputElement.PointerPressedEvent}">
                                                 <InvokeCommandAction Command="{Binding $parent[ItemsControl].((vm:SettingsViewModel)DataContext).OpenUrlCommand}" CommandParameter="{Binding HomePage}" />
                                             </RoutedEventTriggerBehavior>
                                         </Interaction.Behaviors>
-                                    </Image>
+                                    </controls:Avatar>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>

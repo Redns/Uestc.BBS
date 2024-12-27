@@ -27,7 +27,7 @@
         </actipro:ModernTheme>
         <labs:ControlThemes />
         <StyleInclude Source="/Assets/Styles.axaml" />
-        <StyleInclude Source="avares://AsyncImageLoader.Avalonia/AdvancedImage.axaml" />
+        <StyleInclude Source="/Controls/AsyncImageLoader/AdvancedImage.axaml" />
         <StyleInclude Source="avares://FluentAvalonia.ProgressRing/Styling/Controls/ProgressRing.axaml" />
     </Application.Styles>
 

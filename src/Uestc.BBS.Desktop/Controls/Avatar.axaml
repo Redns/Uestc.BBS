@@ -1,7 +1,7 @@
 <ResourceDictionary
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:asyncImageLoader="clr-namespace:AsyncImageLoader;assembly=AsyncImageLoader.Avalonia"
+    xmlns:asyncImageLoader="using:Uestc.BBS.Desktop.Controls.AsyncImageLoader"
     xmlns:controls="using:Uestc.BBS.Desktop.Controls">
 
     <!--
@@ -23,11 +23,12 @@
     <ControlTheme x:Key="{x:Type controls:Avatar}" TargetType="controls:Avatar">
         <Setter Property="Template">
             <ControlTemplate>
-                <Image
+                <asyncImageLoader:AdvancedImage
                     Width="{TemplateBinding Width}"
-                    asyncImageLoader:ImageLoader.Source="{TemplateBinding Source}"
                     Clip="{TemplateBinding StreamGeometry}"
                     ClipToBounds="True"
+                    IsLoadingVisible="{TemplateBinding IsLoadingVisible}"
+                    Source="{TemplateBinding Source}"
                     Stretch="Uniform" />
             </ControlTemplate>
         </Setter>

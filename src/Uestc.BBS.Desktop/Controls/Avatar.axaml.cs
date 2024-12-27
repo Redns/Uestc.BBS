@@ -1,8 +1,6 @@
-using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls.Primitives;
 using Avalonia.Media;
-using Avalonia.Media.Imaging;
 
 namespace Uestc.BBS.Desktop.Controls;
 
@@ -15,6 +13,12 @@ public class Avatar : TemplatedControl
         Avatar,
         double
     >(nameof(Width), defaultValue: 32);
+
+    /// <summary>
+    /// 显示进度条
+    /// </summary>
+    public static readonly StyledProperty<bool> IsLoadingVisibleProperty =
+        AvaloniaProperty.Register<Avatar, bool>(nameof(IsLoadingVisible), defaultValue: false);
 
     /// <summary>
     /// 数据源
@@ -51,6 +55,12 @@ public class Avatar : TemplatedControl
                 StreamGeometry = CreateCircleStreamGeometry(Width);
             }
         }
+    }
+
+    public bool IsLoadingVisible
+    {
+        get => GetValue(IsLoadingVisibleProperty);
+        set => SetValue(IsLoadingVisibleProperty, value);
     }
 
     public string? Source

@@ -1,0 +1,30 @@
+﻿<Styles
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:Uestc.BBS.Desktop.Controls.AsyncImageLoader">
+    <Design.PreviewWith>
+        <controls:AdvancedImage />
+    </Design.PreviewWith>
+
+    <Style Selector="controls|AdvancedImage">
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Grid>
+                    <!--  CurrentImage will be rendered with codebehind, just as it is done in the Image  -->
+                    <ProgressBar
+                        MinWidth="0"
+                        MaxWidth="100"
+                        VerticalAlignment="Center"
+                        IsIndeterminate="True">
+                        <ProgressBar.IsVisible>
+                            <MultiBinding Converter="{x:Static BoolConverters.And}">
+                                <Binding Path="IsLoading" RelativeSource="{RelativeSource TemplatedParent}" />
+                                <Binding Path="IsLoadingVisible" RelativeSource="{RelativeSource TemplatedParent}" />
+                            </MultiBinding>
+                        </ProgressBar.IsVisible>
+                    </ProgressBar>
+                </Grid>
+            </ControlTemplate>
+        </Setter>
+    </Style>
+</Styles>

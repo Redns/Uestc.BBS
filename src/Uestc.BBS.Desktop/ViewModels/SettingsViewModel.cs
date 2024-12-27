@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Net.Http;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
@@ -44,7 +43,7 @@ namespace Uestc.BBS.Desktop.ViewModels
         private AppSettingModel _model;
 
         [ObservableProperty]
-        private IEnumerable<ContributorModel> _contributors;
+        private IEnumerable<Contributor> _contributors;
 
         public SettingsViewModel(
             AppSettingModel model,
@@ -59,14 +58,7 @@ namespace Uestc.BBS.Desktop.ViewModels
             _httpClient = httpClient;
             _logService = logService;
             _appmanifest = appmanifest;
-            _contributors =
-                appmanifest.Contributors.Select(c => new ContributorModel
-                {
-                    Name = c.Name,
-                    Avatar = c.Avatar,
-                    HomePage = c.HomePage,
-                    Description = c.Description,
-                }) ?? [];
+            _contributors = appmanifest.Contributors ?? [];
         }
 
         /// <summary>
