@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -42,19 +41,20 @@ namespace Uestc.BBS.Desktop
                 .With(
                     new FontManagerOptions()
                     {
-                        DefaultFamilyName = "fonts:HarmonyOS Sans#HarmonyOS Sans SC"
+                        DefaultFamilyName = "fonts:HarmonyOS Sans#HarmonyOS Sans SC",
                     }
                 )
                 .WithAppNotifications(
                     new AppNotificationOptions()
                     {
-                        Channels = s_channels,
-                        AppIcon =
-                            Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName)
-                            + "/avalonia-32.png",
-                        AppName = AppDomain.CurrentDomain.FriendlyName
-                        ,
-                        AppUserModelId = $"com.{AppDomain.CurrentDomain.FriendlyName}"
+                        AppIcon = Path.Combine(
+                            Environment.CurrentDirectory,
+                            "Assets",
+                            "Icons",
+                            "app.ico"
+                        ),
+                        AppName = "清水河畔",
+                        AppUserModelId = $"com.{AppDomain.CurrentDomain.FriendlyName}",
                     }
                 )
                 .AfterSetup(builder =>
@@ -65,39 +65,9 @@ namespace Uestc.BBS.Desktop
                             BaseCachePath = Path.Combine(
                                 Path.GetTempPath(),
                                 AppDomain.CurrentDomain.FriendlyName
-                            )
+                            ),
                         }
                     );
                 });
-
-        private static readonly NotificationChannel[] s_channels =
-        [
-            new NotificationChannel("basic", "Send Notifications", NotificationPriority.High),
-            new NotificationChannel(
-                "actions",
-                "Send Notification with Predefined Actions",
-                NotificationPriority.High
-            )
-            {
-                Actions = new List<NativeNotificationAction>
-                {
-                    new("Hello", "hello"),
-                    new("world", "world")
-                }
-            },
-            new NotificationChannel(
-                "custom",
-                "Send Notification with Custom Actions",
-                NotificationPriority.High
-            ),
-            new NotificationChannel(
-                "reply",
-                "Send Notification with Reply Action",
-                NotificationPriority.High
-            )
-            {
-                Actions = [new NativeNotificationAction("Reply", "reply")]
-            },
-        ];
     }
 }

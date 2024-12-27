@@ -8,6 +8,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Input;
+using Avalonia.Labs.Notifications;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.DependencyInjection;
@@ -28,6 +29,8 @@ namespace Uestc.BBS.Desktop.ViewModels
         private readonly ILogService _logService;
 
         private readonly IAuthService _authService;
+
+        private readonly INativeNotification _notification;
 
         [ObservableProperty]
         private AppSettingModel _appSettingModel;
@@ -93,7 +96,8 @@ namespace Uestc.BBS.Desktop.ViewModels
             HttpClient httpClient,
             AppSettingModel appSettingModel,
             ILogService logService,
-            IAuthService authService
+            IAuthService authService,
+            INativeNotification nativeNotification
         )
         {
             _appSetting = appSetting;
@@ -101,6 +105,7 @@ namespace Uestc.BBS.Desktop.ViewModels
             _appSettingModel = appSettingModel;
             _logService = logService;
             _authService = authService;
+            _notification = nativeNotification;
 
             AutoLogin = appSetting.Auth.AutoLogin;
             RememberPassword = appSetting.Auth.RememberPassword;
@@ -199,6 +204,10 @@ namespace Uestc.BBS.Desktop.ViewModels
             catch (Exception ex)
             {
                 _logService.Error("User login failed", ex);
+
+                _notification.Title = "登陆失败";
+                _notification.Message = ex.Message;
+                _notification.Show();
             }
             finally
             {
@@ -226,7 +235,9 @@ namespace Uestc.BBS.Desktop.ViewModels
             var resp = await _authService.LoginAsync(Username!, Password!);
             if (resp?.Success is not true)
             {
-                // NOTI 用户名不存在或密码错误
+                _notification.Title = "登陆失败";
+                _notification.Message = "用户不存在或密码错误";
+                _notification.Show();
                 return null;
             }
 

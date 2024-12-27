@@ -3,6 +3,7 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:asyncImageLoader="clr-namespace:AsyncImageLoader;assembly=AsyncImageLoader.Avalonia"
+    xmlns:controls="using:Uestc.BBS.Desktop.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:icon="using:FluentIcons.Avalonia"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -122,19 +123,11 @@
                     ToolTip.Tip="{DynamicResource TipsThemeSwitch}">
                     <icon:SymbolIcon Classes="ThemeIcon" Symbol="{DynamicResource IconThemeSwitch}" />
                 </Button>
-                <Image
+                <controls:Avatar
                     Width="32"
                     Margin="6,0"
-                    asyncImageLoader:ImageLoader.Source="{Binding Avatar, Mode=OneWay}"
-                    ClipToBounds="True"
                     DockPanel.Dock="Right"
-                    Stretch="Uniform">
-                    <Image.Clip>
-                        <StreamGeometry>
-                            M 16 16 m -16, 0 a 16,16 0 1,0 32,0 a 16,16 0 1,0 -32,0
-                        </StreamGeometry>
-                    </Image.Clip>
-                </Image>
+                    Source="{Binding Avatar, Mode=OneWay}" />
             </DockPanel>
             <ItemsControl
                 Grid.Row="1"

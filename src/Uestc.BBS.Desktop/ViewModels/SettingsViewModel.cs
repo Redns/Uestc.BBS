@@ -73,12 +73,13 @@ namespace Uestc.BBS.Desktop.ViewModels
         /// 主题切换
         /// </summary>
         [RelayCommand]
-        private void SetThemeColor() => Application.Current!.RequestedThemeVariant = Model.ThemeColor switch
-        {
-            ThemeColor.Dark => ThemeVariant.Dark,
-            ThemeColor.Light => ThemeVariant.Light,
-            _ => ThemeVariant.Default,
-        };
+        private void SetThemeColor() =>
+            Application.Current!.RequestedThemeVariant = Model.ThemeColor switch
+            {
+                ThemeColor.Dark => ThemeVariant.Dark,
+                ThemeColor.Light => ThemeVariant.Light,
+                _ => ThemeVariant.Default,
+            };
 
         /// <summary>
         /// 添加用户

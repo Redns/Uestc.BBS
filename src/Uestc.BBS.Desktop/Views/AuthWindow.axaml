@@ -3,7 +3,7 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:actipro="http://schemas.actiprosoftware.com/avaloniaui"
-    xmlns:asyncImageLoader="clr-namespace:AsyncImageLoader;assembly=AsyncImageLoader.Avalonia"
+    xmlns:controls="using:Uestc.BBS.Desktop.Controls"
     xmlns:core="using:Uestc.BBS.Core"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:icon="using:FluentIcons.Avalonia"
@@ -107,19 +107,11 @@
                     </DataTemplate>
                 </AutoCompleteBox.ItemTemplate>
                 <AutoCompleteBox.InnerRightContent>
-                    <Image
-                        Height="32"
+                    <controls:Avatar
+                        Width="32"
                         Margin="2,0"
-                        asyncImageLoader:ImageLoader.Source="{Binding Avatar, Mode=OneWay}"
-                        ClipToBounds="True"
                         DockPanel.Dock="Right"
-                        Stretch="Uniform">
-                        <Image.Clip>
-                            <StreamGeometry>
-                                M 16 16 m -16, 0 a 16,16 0 1,0 32,0 a 16,16 0 1,0 -32,0
-                            </StreamGeometry>
-                        </Image.Clip>
-                    </Image>
+                        Source="{Binding Avatar, Mode=OneWay}" />
                 </AutoCompleteBox.InnerRightContent>
                 <Interaction.Behaviors>
                     <RoutedEventTriggerBehavior RoutedEvent="{x:Static AutoCompleteBox.SelectionChangedEvent}">

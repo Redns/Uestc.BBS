@@ -1,0 +1,35 @@
+<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:asyncImageLoader="clr-namespace:AsyncImageLoader;assembly=AsyncImageLoader.Avalonia"
+    xmlns:controls="using:Uestc.BBS.Desktop.Controls">
+
+    <!--
+        Additional resources
+        Using Control Themes:
+        https://docs.avaloniaui.net/docs/basics/user-interface/styling/control-themes
+        Using Theme Variants:
+        https://docs.avaloniaui.net/docs/guides/styles-and-resources/how-to-use-theme-variants
+    -->
+
+    <Design.PreviewWith>
+        <StackPanel Width="400" Spacing="10">
+            <StackPanel Background="{DynamicResource SystemRegionBrush}">
+                <controls:Avatar />
+            </StackPanel>
+        </StackPanel>
+    </Design.PreviewWith>
+
+    <ControlTheme x:Key="{x:Type controls:Avatar}" TargetType="controls:Avatar">
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Image
+                    Width="{TemplateBinding Width}"
+                    asyncImageLoader:ImageLoader.Source="{TemplateBinding Source}"
+                    Clip="{TemplateBinding StreamGeometry}"
+                    ClipToBounds="True"
+                    Stretch="Uniform" />
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
+</ResourceDictionary>

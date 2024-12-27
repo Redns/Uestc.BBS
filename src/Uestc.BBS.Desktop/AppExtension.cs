@@ -3,7 +3,6 @@ using System.Text.Json;
 using Avalonia;
 using Avalonia.Labs.Notifications;
 using Microsoft.Extensions.DependencyInjection;
-using NLog;
 using Uestc.BBS.Core;
 using Uestc.BBS.Core.Services.System;
 using Uestc.BBS.Desktop.Helpers;
@@ -26,6 +25,11 @@ namespace Uestc.BBS.Desktop
         {
             ServiceExtension.ConfigureCommonServices();
 
+            // Notification
+            ServiceExtension.ServiceCollection.AddTransient(notification =>
+                NativeNotificationManager.Current?.CreateNotification(null)
+                ?? throw new Exception("Failed to create notification")
+            );
             // View & ViewModel
             ServiceExtension.ServiceCollection.AddSingleton<AppViewModel>();
             ServiceExtension.ServiceCollection.AddSingleton<AuthWindow>();
