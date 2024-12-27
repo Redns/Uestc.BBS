@@ -8,14 +8,12 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Input;
-using Avalonia.Media.Imaging;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.DependencyInjection;
 using Uestc.BBS.Core;
 using Uestc.BBS.Core.Services.Api.Auth;
 using Uestc.BBS.Core.Services.System;
-using Uestc.BBS.Desktop.Helpers;
 using Uestc.BBS.Desktop.Models;
 using Uestc.BBS.Desktop.Views;
 
@@ -72,8 +70,7 @@ namespace Uestc.BBS.Desktop.ViewModels
         /// <summary>
         /// 用户头像
         /// </summary>
-        public Task<Bitmap?> Avatar =>
-            ImageHelper.LoadFromWebAsync(_httpClient, SelectedCredential?.Avatar);
+        public string? Avatar => SelectedCredential?.Avatar;
 
         public bool CanLogin() =>
             string.IsNullOrEmpty(Username) is false && string.IsNullOrEmpty(Password) is false;
@@ -154,7 +151,7 @@ namespace Uestc.BBS.Desktop.ViewModels
         [RelayCommand]
         private async Task EnterToLoginAsync(KeyEventArgs args)
         {
-            if(args.PhysicalKey is PhysicalKey.Enter && CanLogin())
+            if (args.PhysicalKey is PhysicalKey.Enter && CanLogin())
             {
                 await LoginAsync();
             }

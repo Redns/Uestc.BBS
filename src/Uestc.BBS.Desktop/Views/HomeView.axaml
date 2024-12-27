@@ -4,11 +4,15 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:actipro="http://schemas.actiprosoftware.com/avaloniaui"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:forum="using:Uestc.BBS.Core.Services.Api.Forum"
     xmlns:ic="using:FluentIcons.Avalonia"
+    xmlns:icon="using:FluentIcons.Avalonia"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="using:FluentAvalonia.UI.Controls"
+    xmlns:vm="using:Uestc.BBS.Desktop.ViewModels"
     d:DesignHeight="3240"
     d:DesignWidth="1440"
+    x:DataType="vm:HomeViewModel"
     mc:Ignorable="d">
     <!--<StackPanel Classes="theme-subtle" Orientation="Vertical">
         <actipro:SegmentedBar HorizontalAlignment="Left" Background="Transparent">
@@ -20,15 +24,18 @@
         </actipro:SegmentedBar>
     </StackPanel>-->
     <StackPanel>
-        <Border Padding="20">
-            <ui:ProgressRing
-                Width="100"
-                Height="100"
-                BorderThickness="5"
-                EndAngle="270"
-                Foreground="Red"
-                StartAngle="90"
-                Value="50" />
-        </Border>
+        <ItemsControl ItemsSource="{Binding Topics^, Mode=OneWay}">
+            <ItemsControl.DataTemplates>
+                <DataTemplate DataType="forum:TopicOverview">
+                    <DockPanel Height="26" LastChildFill="False">
+                        <TextBlock
+                            VerticalAlignment="Center"
+                            DockPanel.Dock="Left"
+                            Text="{Binding Title}" />
+                        <TextBlock Text="{Binding UserId}" />
+                    </DockPanel>
+                </DataTemplate>
+            </ItemsControl.DataTemplates>
+        </ItemsControl>
     </StackPanel>
 </UserControl>

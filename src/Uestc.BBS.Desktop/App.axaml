@@ -3,6 +3,7 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:actipro="http://schemas.actiprosoftware.com/avaloniaui"
+    xmlns:labs="using:Avalonia.Labs.Controls"
     xmlns:system="clr-namespace:System;assembly=mscorlib"
     xmlns:vm="using:Uestc.BBS.ViewModels"
     x:DataType="vm:AppViewModel"
@@ -23,7 +24,9 @@
         <actipro:ModernTheme Includes="NativeColorPicker">
             <StyleInclude Source="avares://ActiproSoftware.Avalonia.Themes.Native.ColorPicker/Themes/Common.axaml" />
         </actipro:ModernTheme>
+        <labs:ControlThemes />
         <StyleInclude Source="/Assets/Styles.axaml" />
+        <StyleInclude Source="avares://AsyncImageLoader.Avalonia/AdvancedImage.axaml" />
         <StyleInclude Source="avares://FluentAvalonia.ProgressRing/Styling/Controls/ProgressRing.axaml" />
     </Application.Styles>
 

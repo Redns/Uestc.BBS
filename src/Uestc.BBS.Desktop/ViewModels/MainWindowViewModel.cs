@@ -30,8 +30,7 @@ namespace Uestc.BBS.Desktop.ViewModels
 
         private readonly IDailySentenceService _dailySentenceService;
 
-        public Task<Bitmap?> Avatar =>
-            ImageHelper.LoadFromWebAsync(_httpClient, _appSetting.Auth.DefaultCredential?.Avatar);
+        public string? Avatar => _appSetting.Auth.DefaultCredential?.Avatar;
 
         [ObservableProperty]
         private AppSettingModel _appSettingModel;

@@ -5,7 +5,7 @@
         Task<TopicResp?> GetTopicsAsync(
             int page = 1,
             int pageSize = 10,
-            int boardId = 0,
+            Board boardId = 0,
             TopicSortType sortby = TopicSortType.New,
             TopicTopOrder topOrder = TopicTopOrder.WithoutTop
         );
@@ -38,6 +38,7 @@
         Latest = 0, // 最新发表/回复
         WaterHome = 25, // 水手之家
         Transportation = 225, //交通出行
+        Anonymous = 371, //密语
         ExamiHome = 382 //考试之家
     }
 
@@ -51,6 +52,9 @@
             {
                 Board.Latest => sortType is TopicSortType.New ? "最新发表" : "最新回复",
                 Board.WaterHome => "水手之家",
+                Board.Transportation => "交通出行",
+                Board.Anonymous => "密语",
+                Board.ExamiHome => "考试之家",
                 _ => string.Empty
             };
     }

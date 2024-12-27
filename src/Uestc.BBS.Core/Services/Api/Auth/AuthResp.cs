@@ -1,6 +1,7 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.Json.Serialization.Metadata;
+using Uestc.BBS.Core.Services.Api.User;
 
 namespace Uestc.BBS.Core.Services.Api.Auth
 {
@@ -12,13 +13,13 @@ namespace Uestc.BBS.Core.Services.Api.Auth
 
         public string Token { get; set; } = string.Empty;
 
-        public string Secret {  get; set; } = string.Empty;
+        public string Secret { get; set; } = string.Empty;
         #endregion
 
         [JsonIgnore]
         public bool Success => Rs is 1;
 
-        public int Score {  get; set; } = 0;
+        public int Score { get; set; } = 0;
 
         public uint Uid { get; set; } = 0;
 
@@ -33,20 +34,24 @@ namespace Uestc.BBS.Core.Services.Api.Auth
         public string UserTitle { get; set; } = string.Empty;
 
         [JsonIgnore]
-        public int UserTitleLevel => int.Parse(UserTitle.Split('.').Last()[0..^1]);
+        public uint UserTitleLevel => UserTitle.GetUserTitleLevel();
 
         [JsonIgnore]
-        public string UserTitleAlias => UserTitle.Split('（').First();
+        public string UserTitleAlias => UserTitle.GetUserTitleAlias();
         #endregion
 
         public Credit[] CreditShowList { get; set; } = [];
 
-        public static readonly JsonSerializerOptions SerializerOptions = new()
-        {
-            WriteIndented = true,
-            PropertyNameCaseInsensitive = true,
-            TypeInfoResolver = JsonTypeInfoResolver.Combine(AuthRespContext.Default, new DefaultJsonTypeInfoResolver())
-        };
+        public static readonly JsonSerializerOptions SerializerOptions =
+            new()
+            {
+                WriteIndented = true,
+                PropertyNameCaseInsensitive = true,
+                TypeInfoResolver = JsonTypeInfoResolver.Combine(
+                    AuthRespContext.Default,
+                    new DefaultJsonTypeInfoResolver()
+                )
+            };
     }
 
     public class Credit
@@ -55,11 +60,9 @@ namespace Uestc.BBS.Core.Services.Api.Auth
 
         public string Title { get; set; } = string.Empty;
 
-        public int Data {  get; set; } = 0;
+        public int Data { get; set; } = 0;
     }
 
     [JsonSerializable(typeof(AuthResp))]
-    public partial class AuthRespContext : JsonSerializerContext
-    {
-    }
+    public partial class AuthRespContext : JsonSerializerContext { }
 }

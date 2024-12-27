@@ -3,6 +3,7 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:actipro="http://schemas.actiprosoftware.com/avaloniaui"
+    xmlns:asyncImageLoader="clr-namespace:AsyncImageLoader;assembly=AsyncImageLoader.Avalonia"
     xmlns:core="using:Uestc.BBS.Core"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:icon="using:FluentIcons.Avalonia"
@@ -109,9 +110,9 @@
                     <Image
                         Height="32"
                         Margin="2,0"
+                        asyncImageLoader:ImageLoader.Source="{Binding Avatar, Mode=OneWay}"
                         ClipToBounds="True"
                         DockPanel.Dock="Right"
-                        Source="{Binding Avatar^, Mode=OneWay}"
                         Stretch="Uniform">
                         <Image.Clip>
                             <StreamGeometry>

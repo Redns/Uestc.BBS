@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text.Json;
 using Avalonia;
+using Avalonia.Labs.Notifications;
 using Microsoft.Extensions.DependencyInjection;
 using NLog;
 using Uestc.BBS.Core;
@@ -32,6 +33,7 @@ namespace Uestc.BBS.Desktop
             ServiceExtension.ServiceCollection.AddSingleton<MainWindow>();
             ServiceExtension.ServiceCollection.AddSingleton<MainWindowViewModel>();
             ServiceExtension.ServiceCollection.AddSingleton<HomeView>();
+            ServiceExtension.ServiceCollection.AddSingleton<HomeViewModel>();
             ServiceExtension.ServiceCollection.AddSingleton<SectionsView>();
             ServiceExtension.ServiceCollection.AddSingleton<ServicesView>();
             ServiceExtension.ServiceCollection.AddSingleton<MomentsView>();
