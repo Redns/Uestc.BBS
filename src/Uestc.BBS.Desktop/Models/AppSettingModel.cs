@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Media;
@@ -66,7 +67,11 @@ namespace Uestc.BBS.Desktop.Models
 
         public Task<string> DailySentence =>
             IsDailySentenceShown
-                ? _dailySentenceService.GetDailySentenceAsync()
+                ? _dailySentenceService
+                    .GetDailySentenceAsync()
+                    .ContinueWith(sentence =>
+                        DailySentenceRegex().Replace(sentence.Result, string.Empty)
+                    )
                 : Task.FromResult(string.Empty);
 
         /// <summary>
@@ -271,5 +276,8 @@ namespace Uestc.BBS.Desktop.Models
         {
             OnPropertyChanged(nameof(TintColor));
         }
+
+        [GeneratedRegex(@"[.,;:，、。；‘“”：]+?$")]
+        private static partial Regex DailySentenceRegex();
     }
 }
