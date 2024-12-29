@@ -363,6 +363,18 @@
                     </DockPanel>
                     <Separator />
                     <DockPanel Classes="MenuItem">
+                        <TextBlock Text="固定窗口" />
+                        <ToggleSwitch
+                            VerticalAlignment="Center"
+                            actipro:ThemeProperties.ToggleSwitchHasFarAffinity="True"
+                            Classes="theme-solid accent"
+                            DockPanel.Dock="Right"
+                            IsChecked="{Binding Model.IsWindowPinned}"
+                            OffContent="关"
+                            OnContent="开" />
+                    </DockPanel>
+                    <Separator />
+                    <DockPanel Classes="MenuItem">
                         <TextBlock Text="窗口关闭行为" />
                         <ComboBox DockPanel.Dock="Right" SelectedIndex="{Binding Model.WindowCloseBehavior}">
                             <ComboBoxItem Content="隐藏窗口" />

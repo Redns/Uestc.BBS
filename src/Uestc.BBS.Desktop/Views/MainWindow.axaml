@@ -21,7 +21,7 @@
     Icon="/Assets/Icons/taskbar.ico"
     SystemDecorations="{OnPlatform Default=Full,
                                    Linux=None}"
-    Topmost="{Binding IsWindowPinned}"
+    Topmost="{Binding AppSettingModel.IsWindowPinned}"
     TransparencyLevelHint="AcrylicBlur"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
@@ -110,7 +110,7 @@
                 </Button>
                 <Button
                     Classes="WindowToolbarButton PinWindowButton"
-                    Classes.IsPinned="{Binding IsWindowPinned}"
+                    Classes.IsPinned="{Binding AppSettingModel.IsWindowPinned}"
                     Command="{Binding SwitchPinWindowCommand}"
                     DockPanel.Dock="Right">
                     <icon:SymbolIcon />

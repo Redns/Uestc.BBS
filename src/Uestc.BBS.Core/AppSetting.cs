@@ -148,6 +148,11 @@ namespace Uestc.BBS.Core
         public bool StartupOnLaunch {  get; set; } = false;
 
         /// <summary>
+        /// 固定窗口
+        /// </summary>
+        public bool IsWindowPinned {  get; set; } = false;
+
+        /// <summary>
         /// 窗口关闭行为
         /// </summary>
         public WindowCloseBehavior WindowCloseBehavior { get; set; } = WindowCloseBehavior.Hide;

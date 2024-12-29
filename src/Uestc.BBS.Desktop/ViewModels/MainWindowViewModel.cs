@@ -36,12 +36,6 @@ namespace Uestc.BBS.Desktop.ViewModels
         private AppSettingModel _appSettingModel;
 
         /// <summary>
-        /// 是否固定窗口至顶部
-        /// </summary>
-        [ObservableProperty]
-        private bool _isWindowPinned = false;
-
-        /// <summary>
         /// 侧边栏菜单
         /// </summary>
         [ObservableProperty]
@@ -132,16 +126,16 @@ namespace Uestc.BBS.Desktop.ViewModels
             CurrentPage = key switch
             {
                 MenuItemKey.Home => ServiceExtension.Services.GetRequiredService<HomeView>(),
-                MenuItemKey.Sections
-                    => ServiceExtension.Services.GetRequiredService<SectionsView>(),
-                MenuItemKey.Services
-                    => ServiceExtension.Services.GetRequiredService<ServicesView>(),
+                MenuItemKey.Sections =>
+                    ServiceExtension.Services.GetRequiredService<SectionsView>(),
+                MenuItemKey.Services =>
+                    ServiceExtension.Services.GetRequiredService<ServicesView>(),
                 MenuItemKey.Moments => ServiceExtension.Services.GetRequiredService<MomentsView>(),
                 MenuItemKey.Post => ServiceExtension.Services.GetRequiredService<PostView>(),
-                MenuItemKey.Messages
-                    => ServiceExtension.Services.GetRequiredService<MessagesView>(),
-                MenuItemKey.Settings
-                    => ServiceExtension.Services.GetRequiredService<SettingsView>(),
+                MenuItemKey.Messages =>
+                    ServiceExtension.Services.GetRequiredService<MessagesView>(),
+                MenuItemKey.Settings =>
+                    ServiceExtension.Services.GetRequiredService<SettingsView>(),
                 _ => CurrentPage,
             };
         }
@@ -167,7 +161,8 @@ namespace Uestc.BBS.Desktop.ViewModels
         /// 窗口固定切换
         /// </summary>
         [RelayCommand]
-        private void SwitchPinWindow() => IsWindowPinned = !IsWindowPinned;
+        private void SwitchPinWindow() =>
+            AppSettingModel.IsWindowPinned = !AppSettingModel.IsWindowPinned;
     }
 
     public partial class MenuItemViewModel : ObservableObject

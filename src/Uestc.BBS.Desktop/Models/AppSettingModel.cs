@@ -81,6 +81,12 @@ namespace Uestc.BBS.Desktop.Models
         private string _officialWebsite;
 
         /// <summary>
+        /// 固定窗口
+        /// </summary>
+        [ObservableProperty]
+        private bool _isWindowPinned;
+
+        /// <summary>
         /// 窗口关闭行为
         /// </summary>
         [ObservableProperty]
@@ -176,6 +182,7 @@ namespace Uestc.BBS.Desktop.Models
             _isDailySentenceShown = appSetting.Apperance.IsDailySentenceShown;
             _materialOpacity = appSetting.Apperance.MaterialOpacity;
             _officialWebsite = appSetting.Apperance.OfficialWebsite;
+            _isWindowPinned = appSetting.Apperance.IsWindowPinned;
             _windowCloseBehavior = appSetting.Apperance.WindowCloseBehavior;
 
             #endregion
@@ -227,6 +234,7 @@ namespace Uestc.BBS.Desktop.Models
                 appSetting.Apperance.MaterialOpacity = _materialOpacity;
                 appSetting.Apperance.IsDailySentenceShown = _isDailySentenceShown;
                 appSetting.Apperance.OfficialWebsite = _officialWebsite;
+                appSetting.Apperance.IsWindowPinned = _isWindowPinned;
                 appSetting.Apperance.WindowCloseBehavior = _windowCloseBehavior;
                 #endregion
 
@@ -277,6 +285,10 @@ namespace Uestc.BBS.Desktop.Models
             OnPropertyChanged(nameof(TintColor));
         }
 
+        /// <summary>
+        /// 去除每日一句末尾特殊字符
+        /// </summary>
+        /// <returns></returns>
         [GeneratedRegex(@"[.,;:，、。；‘“”：]+?$")]
         private static partial Regex DailySentenceRegex();
     }

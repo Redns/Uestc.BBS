@@ -65,7 +65,7 @@ namespace Uestc.BBS.Desktop
                             BaseCachePath = Path.Combine(
                                 Path.GetTempPath(),
                                 AppDomain.CurrentDomain.FriendlyName
-                            ),
+                            )
                         }
                     );
                 });

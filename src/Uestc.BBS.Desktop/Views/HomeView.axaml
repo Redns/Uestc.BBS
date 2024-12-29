@@ -26,15 +26,36 @@
     </StackPanel>-->
     <StackPanel>
         <ItemsControl ItemsSource="{Binding Topics^, Mode=OneWay}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
             <ItemsControl.DataTemplates>
                 <DataTemplate DataType="forum:TopicOverview">
-                    <DockPanel Height="26" LastChildFill="False">
-                        <TextBlock
-                            VerticalAlignment="Center"
-                            DockPanel.Dock="Left"
-                            Text="{Binding Title}" />
-                        <TextBlock Text="{Binding UserId}" />
-                    </DockPanel>
+                    <Border
+                        Margin="10"
+                        Padding="10"
+                        Background="#F9FAFC"
+                        CornerRadius="10">
+                        <StackPanel Spacing="5">
+                            <StackPanel
+                                Height="32"
+                                Orientation="Horizontal"
+                                Spacing="5">
+                                <controls:Avatar Source="{Binding UserAvatar}" />
+                                <StackPanel>
+                                    <TextBlock FontWeight="Bold" Text="{Binding UserNickName}" />
+                                    <TextBlock Foreground="Gray" Text="{Binding LastReplyDate}" />
+                                </StackPanel>
+                            </StackPanel>
+                            <TextBlock
+                                VerticalAlignment="Center"
+                                DockPanel.Dock="Left"
+                                Text="{Binding Title}" />
+                            <TextBlock Text="{Binding Subject}" />
+                        </StackPanel>
+                    </Border>
                 </DataTemplate>
             </ItemsControl.DataTemplates>
         </ItemsControl>
