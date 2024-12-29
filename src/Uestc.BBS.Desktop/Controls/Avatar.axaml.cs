@@ -12,7 +12,7 @@ public class Avatar : TemplatedControl
     public static new readonly StyledProperty<double> WidthProperty = AvaloniaProperty.Register<
         Avatar,
         double
-    >(nameof(Width), defaultValue: 32);
+    >(nameof(Width));
 
     /// <summary>
     /// 显示进度条
@@ -26,30 +26,18 @@ public class Avatar : TemplatedControl
     public static readonly StyledProperty<string?> SourceProperty = AvaloniaProperty.Register<
         Avatar,
         string?
-    >(nameof(Source), defaultValue: null);
+    >(nameof(Source));
 
     /// <summary>
     /// 裁剪几何路径
     /// </summary>
     public static readonly StyledProperty<StreamGeometry?> StreamGeometryProperty =
-        AvaloniaProperty.Register<Avatar, StreamGeometry?>(
-            nameof(StreamGeometry),
-            defaultValue: CreateCircleStreamGeometry(16)
-        );
+        AvaloniaProperty.Register<Avatar, StreamGeometry?>(nameof(StreamGeometry));
 
     public new double Width
     {
         get => GetValue(WidthProperty);
-        set
-        {
-            SetValue(WidthProperty, value);
-            SetValue(HeightProperty, value);
-
-            if ((Width != value) || (StreamGeometry == null))
-            {
-                StreamGeometry = CreateCircleStreamGeometry(Width);
-            }
-        }
+        set => SetValue(WidthProperty, value);
     }
 
     public bool IsLoadingVisible
@@ -68,6 +56,12 @@ public class Avatar : TemplatedControl
     {
         get => GetValue(StreamGeometryProperty);
         set => SetValue(StreamGeometryProperty, value);
+    }
+
+    public override void EndInit()
+    {
+        StreamGeometry ??= CreateCircleStreamGeometry(Width / 2);
+        base.EndInit();
     }
 
     public static StreamGeometry CreateCircleStreamGeometry(double radius)

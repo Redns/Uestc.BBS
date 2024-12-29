@@ -226,17 +226,6 @@ public class AdvancedImage : ContentControl
     {
         var cancellationTokenSource = new CancellationTokenSource();
 
-        var oldCancellationToken = Interlocked.Exchange(
-            ref _updateCancellationToken,
-            cancellationTokenSource
-        );
-
-        try
-        {
-            oldCancellationToken?.Cancel();
-        }
-        catch (ObjectDisposedException) { }
-
         if (source is null && CurrentImage is not ImageWrapper)
         {
             // User provided image himself
@@ -266,7 +255,7 @@ public class AdvancedImage : ContentControl
                         if (AssetLoader.Exists(uri, _baseUri))
                             return new Bitmap(AssetLoader.Open(uri, _baseUri));
                     }
-                    catch (Exception)
+                    catch
                     {
                         // ignored
                     }

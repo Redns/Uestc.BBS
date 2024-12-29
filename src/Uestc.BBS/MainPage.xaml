@@ -35,5 +35,4 @@
                 Text="Click me" />
         </VerticalStackLayout>
     </ScrollView>
-
 </ContentPage>

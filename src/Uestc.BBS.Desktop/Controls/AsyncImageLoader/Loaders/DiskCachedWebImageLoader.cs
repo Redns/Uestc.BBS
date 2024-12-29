@@ -21,8 +21,11 @@ public class DiskCachedWebImageLoader : RamCachedWebImageLoader
         _cacheFolder = cacheFolder;
     }
 
-    public DiskCachedWebImageLoader(HttpClient httpClient, bool disposeHttpClient,
-                                    string cacheFolder = "Cache/Images/")
+    public DiskCachedWebImageLoader(
+        HttpClient httpClient,
+        bool disposeHttpClient,
+        string cacheFolder = "Cache/Images/"
+    )
         : base(httpClient, disposeHttpClient)
     {
         _cacheFolder = cacheFolder;
@@ -33,16 +36,19 @@ public class DiskCachedWebImageLoader : RamCachedWebImageLoader
     {
         var path = Path.Combine(_cacheFolder, CreateMD5(url));
 
-        return File.Exists(path) ? Task.FromResult<Bitmap?>(new Bitmap(path)) : Task.FromResult<Bitmap?>(null);
+        return File.Exists(path)
+            ? Task.FromResult<Bitmap?>(new Bitmap(path))
+            : Task.FromResult<Bitmap?>(null);
     }
 
 #if NETSTANDARD2_1
-        protected override async Task SaveToGlobalCache(string url, byte[] imageBytes) {
-            var path = Path.Combine(_cacheFolder, CreateMD5(url));
+    protected override async Task SaveToGlobalCache(string url, byte[] imageBytes)
+    {
+        var path = Path.Combine(_cacheFolder, CreateMD5(url));
 
-            Directory.CreateDirectory(_cacheFolder);
-            await File.WriteAllBytesAsync(path, imageBytes).ConfigureAwait(false);
-        }
+        Directory.CreateDirectory(_cacheFolder);
+        await File.WriteAllBytesAsync(path, imageBytes).ConfigureAwait(false);
+    }
 #else
     protected override Task SaveToGlobalCache(string url, byte[] imageBytes)
     {
@@ -56,9 +62,8 @@ public class DiskCachedWebImageLoader : RamCachedWebImageLoader
     protected static string CreateMD5(string input)
     {
         // Use input string to calculate MD5 hash
-        using var md5 = MD5.Create();
         var inputBytes = Encoding.ASCII.GetBytes(input);
-        var hashBytes = md5.ComputeHash(inputBytes);
+        var hashBytes = MD5.HashData(inputBytes);
 
         // Convert the byte array to hexadecimal string
         return BitConverter.ToString(hashBytes).Replace("-", "");

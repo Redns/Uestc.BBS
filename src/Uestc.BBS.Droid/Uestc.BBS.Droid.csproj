@@ -7,7 +7,7 @@
 		<RootNamespace>Uestc.BBS</RootNamespace>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
-		<UseMaui>true</UseMaui>
+		<UseMaui>false</UseMaui>
 	</PropertyGroup>
 
 	

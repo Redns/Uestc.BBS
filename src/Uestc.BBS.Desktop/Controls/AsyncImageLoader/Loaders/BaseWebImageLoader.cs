@@ -12,33 +12,30 @@ namespace Uestc.BBS.Desktop.Controls.AsyncImageLoader.Loaders;
 ///     Provides non cached way to asynchronously load images for <see cref="ImageLoader" />
 ///     Can be used as base class if you want to create custom caching mechanism
 /// </summary>
-public class BaseWebImageLoader : IAsyncImageLoader
+/// <remarks>
+///     Initializes a new instance with the provided <see cref="HttpClient" />, and specifies whether that
+///     <see cref="HttpClient" /> should be disposed when this instance is disposed.
+/// </remarks>
+/// <param name="httpClient">The HttpMessageHandler responsible for processing the HTTP response messages.</param>
+/// <param name="disposeHttpClient">
+///     true if the inner handler should be disposed of by Dispose; false if you intend to
+///     reuse the HttpClient.
+/// </param>
+public class BaseWebImageLoader(HttpClient httpClient, bool disposeHttpClient) : IAsyncImageLoader
 {
-    private readonly ParametrizedLogger? _logger;
-    private readonly bool _shouldDisposeHttpClient;
+    private readonly ParametrizedLogger? _logger = Logger.TryGet(
+        LogEventLevel.Error,
+        ImageLoader.AsyncImageLoaderLogArea
+    );
+    private readonly bool _shouldDisposeHttpClient = disposeHttpClient;
 
     /// <summary>
     ///     Initializes a new instance with new <see cref="HttpClient" /> instance
     /// </summary>
-    public BaseWebImageLoader() : this(new HttpClient(), true) { }
+    public BaseWebImageLoader()
+        : this(new HttpClient(), true) { }
 
-    /// <summary>
-    ///     Initializes a new instance with the provided <see cref="HttpClient" />, and specifies whether that
-    ///     <see cref="HttpClient" /> should be disposed when this instance is disposed.
-    /// </summary>
-    /// <param name="httpClient">The HttpMessageHandler responsible for processing the HTTP response messages.</param>
-    /// <param name="disposeHttpClient">
-    ///     true if the inner handler should be disposed of by Dispose; false if you intend to
-    ///     reuse the HttpClient.
-    /// </param>
-    public BaseWebImageLoader(HttpClient httpClient, bool disposeHttpClient)
-    {
-        HttpClient = httpClient;
-        _shouldDisposeHttpClient = disposeHttpClient;
-        _logger = Logger.TryGet(LogEventLevel.Error, ImageLoader.AsyncImageLoaderLogArea);
-    }
-
-    protected HttpClient HttpClient { get; }
+    protected HttpClient HttpClient { get; } = httpClient;
 
     /// <inheritdoc />
     public virtual async Task<Bitmap?> ProvideImageAsync(string url)
@@ -61,14 +58,16 @@ public class BaseWebImageLoader : IAsyncImageLoader
     {
         var internalOrCachedBitmap =
             await LoadFromLocalAsync(url).ConfigureAwait(false)
-         ?? await LoadFromInternalAsync(url).ConfigureAwait(false)
-         ?? await LoadFromGlobalCache(url).ConfigureAwait(false);
-        if (internalOrCachedBitmap != null) return internalOrCachedBitmap;
+            ?? await LoadFromInternalAsync(url).ConfigureAwait(false)
+            ?? await LoadFromGlobalCache(url).ConfigureAwait(false);
+        if (internalOrCachedBitmap != null)
+            return internalOrCachedBitmap;
 
         try
         {
             var externalBytes = await LoadDataFromExternalAsync(url).ConfigureAwait(false);
-            if (externalBytes == null) return null;
+            if (externalBytes == null)
+                return null;
 
             using var memoryStream = new MemoryStream(externalBytes);
             var bitmap = new Bitmap(memoryStream);
@@ -77,7 +76,12 @@ public class BaseWebImageLoader : IAsyncImageLoader
         }
         catch (Exception e)
         {
-            _logger?.Log(this, "Failed to resolve image: {RequestUri}\nException: {Exception}", url, e);
+            _logger?.Log(
+                this,
+                "Failed to resolve image: {RequestUri}\nException: {Exception}",
+                url,
+                e
+            );
 
             return null;
         }
@@ -104,7 +108,7 @@ public class BaseWebImageLoader : IAsyncImageLoader
     {
         try
         {
-            var uri = url.StartsWith("/")
+            var uri = url.StartsWith('/')
                 ? new Uri(url, UriKind.Relative)
                 : new Uri(url, UriKind.RelativeOrAbsolute);
 
@@ -118,8 +122,12 @@ public class BaseWebImageLoader : IAsyncImageLoader
         }
         catch (Exception e)
         {
-            _logger?.Log(this,
-                "Failed to resolve image from request with uri: {RequestUri}\nException: {Exception}", url, e);
+            _logger?.Log(
+                this,
+                "Failed to resolve image from request with uri: {RequestUri}\nException: {Exception}",
+                url,
+                e
+            );
             return Task.FromResult<Bitmap?>(null);
         }
     }
@@ -138,8 +146,12 @@ public class BaseWebImageLoader : IAsyncImageLoader
         }
         catch (Exception e)
         {
-            _logger?.Log(this,
-                "Failed to resolve image from request with uri: {RequestUri}\nException: {Exception}", url, e);
+            _logger?.Log(
+                this,
+                "Failed to resolve image from request with uri: {RequestUri}\nException: {Exception}",
+                url,
+                e
+            );
             return null;
         }
     }
@@ -174,6 +186,7 @@ public class BaseWebImageLoader : IAsyncImageLoader
 
     protected virtual void Dispose(bool disposing)
     {
-        if (disposing && _shouldDisposeHttpClient) HttpClient.Dispose();
+        if (disposing && _shouldDisposeHttpClient)
+            HttpClient.Dispose();
     }
 }
