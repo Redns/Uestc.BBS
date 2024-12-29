@@ -1,0 +1,92 @@
+<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:Uestc.BBS.Desktop.Controls"
+    xmlns:converts="using:Uestc.BBS.Desktop.Converters">
+
+    <!--
+        Additional resources
+        Using Control Themes:
+        https://docs.avaloniaui.net/docs/basics/user-interface/styling/control-themes
+        Using Theme Variants:
+        https://docs.avaloniaui.net/docs/guides/styles-and-resources/how-to-use-theme-variants
+    -->
+
+    <Design.PreviewWith>
+        <StackPanel Width="400" Spacing="10">
+            <StackPanel Background="{DynamicResource SystemRegionBrush}">
+                <controls:TopicOverviewControl />
+            </StackPanel>
+        </StackPanel>
+    </Design.PreviewWith>
+
+    <ControlTheme x:Key="{x:Type controls:TopicOverviewControl}" TargetType="controls:TopicOverviewControl">
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border
+                    Padding="10"
+                    Background="{DynamicResource BgBorder}"
+                    CornerRadius="10">
+                    <StackPanel Spacing="8">
+                        <StackPanel Orientation="Horizontal" Spacing="5">
+                            <controls:Avatar VerticalAlignment="Center" Source="{TemplateBinding Avatar}" />
+                            <StackPanel VerticalAlignment="Center">
+                                <TextBlock
+                                    VerticalAlignment="Center"
+                                    DockPanel.Dock="Top"
+                                    Text="{TemplateBinding Username}" />
+                                <TextBlock
+                                    VerticalAlignment="Center"
+                                    DockPanel.Dock="Top"
+                                    Foreground="Gray"
+                                    Text="{TemplateBinding Date,
+                                                           Converter={x:Static converts:DateToRelativeDateStringConverter.Instance}}" />
+                            </StackPanel>
+                        </StackPanel>
+                        <TextBlock
+                            FontSize="16"
+                            Text="{TemplateBinding Title}"
+                            TextWrapping="Wrap" />
+                        <TextBlock
+                            FontSize="14"
+                            Foreground="Gray"
+                            IsVisible="{TemplateBinding Subject,
+                                                        Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
+                            Text="{TemplateBinding Subject}"
+                            TextWrapping="Wrap" />
+                    </StackPanel>
+                </Border>
+                <!--<Border
+                    Padding="10"
+                    Background="{DynamicResource BgBorder}"
+                    CornerRadius="10">
+                    <StackPanel Spacing="8">
+                        <StackPanel Orientation="Horizontal" Spacing="5">
+                            <controls:Avatar VerticalAlignment="Center" Source="https://bbs.uestc.edu.cn/uc_server/data/avatar/000/25/68/25_avatar_middle.jpg" />
+                            <StackPanel VerticalAlignment="Center">
+                                <TextBlock
+                                    VerticalAlignment="Center"
+                                    DockPanel.Dock="Top"
+                                    Text="Redns" />
+                                <TextBlock
+                                    VerticalAlignment="Center"
+                                    DockPanel.Dock="Top"
+                                    Foreground="Gray"
+                                    Text="刚刚" />
+                            </StackPanel>
+                        </StackPanel>
+                        <TextBlock
+                            FontSize="16"
+                            Text="现场总线技术考试"
+                            TextWrapping="Wrap" />
+                        <TextBlock
+                            FontSize="14"
+                            Foreground="Gray"
+                            Text="有无自动化学院学长说说现场总线技术考试考试吗内容啊？"
+                            TextWrapping="Wrap" />
+                    </StackPanel>
+                </Border>-->
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
+</ResourceDictionary>

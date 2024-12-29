@@ -17,6 +17,7 @@
                 <ResourceInclude Source="/Assets/Themes.axaml" />
                 <ResourceInclude Source="/Controls/Avatar.axaml" />
                 <ResourceInclude Source="/Controls/InfoBar.axaml" />
+                <ResourceInclude Source="/Controls/TopicOverviewControl.axaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

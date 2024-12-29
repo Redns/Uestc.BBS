@@ -11,13 +11,9 @@
         );
     }
 
-    public enum TopicType
-    {
-        NewPosts = 0,
-        NewReply,
-        Hot
-    }
-
+    /// <summary>
+    /// 帖子排序方式
+    /// </summary>
     public enum TopicSortType
     {
         New = 0, // 最新
@@ -25,6 +21,9 @@
         All // 全部
     }
 
+    /// <summary>
+    /// 帖子置顶配置
+    /// </summary>
     public enum TopicTopOrder
     {
         WithoutTop = 0, // 不返回置顶帖
@@ -33,6 +32,9 @@
         WithGlobalTop // 返回全局置顶帖
     }
 
+    /// <summary>
+    /// 板块
+    /// </summary>
     public enum Board
     {
         Latest = 0, // 最新发表/回复

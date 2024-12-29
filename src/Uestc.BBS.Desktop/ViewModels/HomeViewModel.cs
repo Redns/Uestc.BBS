@@ -16,7 +16,7 @@ namespace Uestc.BBS.Desktop.ViewModels
         {
             _topicService = topicService;
             _topics = _topicService
-                .GetTopicsAsync()
+                .GetTopicsAsync(pageSize: 30)
                 .ContinueWith(t => new ObservableCollection<TopicOverview>(t.Result?.List ?? []));
         }
     }

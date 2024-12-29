@@ -25,11 +25,12 @@
             <ControlTemplate>
                 <asyncImageLoader:AdvancedImage
                     Width="{TemplateBinding Width}"
+                    Height="{Binding $self.Width}"
                     Clip="{TemplateBinding StreamGeometry}"
                     ClipToBounds="True"
                     IsLoadingVisible="{TemplateBinding IsLoadingVisible}"
                     Source="{TemplateBinding Source}"
-                    Stretch="Uniform" />
+                    Stretch="UniformToFill" />
             </ControlTemplate>
         </Setter>
     </ControlTheme>

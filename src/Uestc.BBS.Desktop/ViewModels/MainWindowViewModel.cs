@@ -126,16 +126,16 @@ namespace Uestc.BBS.Desktop.ViewModels
             CurrentPage = key switch
             {
                 MenuItemKey.Home => ServiceExtension.Services.GetRequiredService<HomeView>(),
-                MenuItemKey.Sections =>
-                    ServiceExtension.Services.GetRequiredService<SectionsView>(),
-                MenuItemKey.Services =>
-                    ServiceExtension.Services.GetRequiredService<ServicesView>(),
+                MenuItemKey.Sections
+                    => ServiceExtension.Services.GetRequiredService<SectionsView>(),
+                MenuItemKey.Services
+                    => ServiceExtension.Services.GetRequiredService<ServicesView>(),
                 MenuItemKey.Moments => ServiceExtension.Services.GetRequiredService<MomentsView>(),
                 MenuItemKey.Post => ServiceExtension.Services.GetRequiredService<PostView>(),
-                MenuItemKey.Messages =>
-                    ServiceExtension.Services.GetRequiredService<MessagesView>(),
-                MenuItemKey.Settings =>
-                    ServiceExtension.Services.GetRequiredService<SettingsView>(),
+                MenuItemKey.Messages
+                    => ServiceExtension.Services.GetRequiredService<MessagesView>(),
+                MenuItemKey.Settings
+                    => ServiceExtension.Services.GetRequiredService<SettingsView>(),
                 _ => CurrentPage,
             };
         }

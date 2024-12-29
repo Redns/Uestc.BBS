@@ -34,13 +34,8 @@ public class Avatar : TemplatedControl
     public static readonly StyledProperty<StreamGeometry?> StreamGeometryProperty =
         AvaloniaProperty.Register<Avatar, StreamGeometry?>(
             nameof(StreamGeometry),
-            defaultValue: null
+            defaultValue: CreateCircleStreamGeometry(16)
         );
-
-    public Avatar()
-    {
-        Width = double.IsNaN(Width) ? 32 : Width;
-    }
 
     public new double Width
     {
@@ -75,10 +70,9 @@ public class Avatar : TemplatedControl
         set => SetValue(StreamGeometryProperty, value);
     }
 
-    public static StreamGeometry CreateCircleStreamGeometry(double width)
+    public static StreamGeometry CreateCircleStreamGeometry(double radius)
     {
-        var diameter = width;
-        var radius = width / 2;
+        var diameter = radius * 2;
         var streamGeometry = new StreamGeometry();
         using var defaultStreamGeometryContext = streamGeometry.Open();
 

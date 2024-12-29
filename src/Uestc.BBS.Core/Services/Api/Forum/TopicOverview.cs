@@ -32,7 +32,8 @@ namespace Uestc.BBS.Core.Services.Api.Forum
         /// <summary>
         /// 帖子类型
         /// </summary>
-        public string Type { get; set; } = string.Empty;
+        [JsonConverter(typeof(StringToTopicTypeConverter))]
+        public TopicType Type { get; set; } = TopicType.Normal;
 
         /// <summary>
         /// 帖子标题
@@ -70,9 +71,11 @@ namespace Uestc.BBS.Core.Services.Api.Forum
         public DateTime LastReplyDate { get; set; }
 
         /// <summary>
-        /// TODO WHAT'S THIS
+        /// 是否包含投票
         /// </summary>
-        public int Vote { get; set; }
+        [JsonPropertyName("vote")]
+        [JsonConverter(typeof(UintToBoolConverter))]
+        public bool HasVote { get; set; }
 
         /// <summary>
         /// TODO WHAT'S THIS
@@ -194,6 +197,15 @@ namespace Uestc.BBS.Core.Services.Api.Forum
                     new DefaultJsonTypeInfoResolver()
                 )
             };
+    }
+
+    /// <summary>
+    /// 帖子类型
+    /// </summary>
+    public enum TopicType
+    {
+        Normal = 0, // 普通
+        Vote // 投票帖
     }
 
     [JsonSerializable(typeof(TopicOverview))]
