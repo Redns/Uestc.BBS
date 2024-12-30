@@ -3,6 +3,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Input;
 using Avalonia.Interactivity;
+using Avalonia.Rendering;
 using Uestc.BBS.Core;
 using Uestc.BBS.Desktop.Models;
 using Uestc.BBS.Desktop.ViewModels;
@@ -33,6 +34,11 @@ public partial class MainWindow : Window
 
         DataContext = viewModel;
         _appSetting = appSetting;
+
+#if DEBUG
+        RendererDiagnostics.DebugOverlays = RendererDebugOverlays.Fps;
+#endif
+
     }
 
     private void DoubleTappedResizeWindow(object sender, TappedEventArgs e) =>

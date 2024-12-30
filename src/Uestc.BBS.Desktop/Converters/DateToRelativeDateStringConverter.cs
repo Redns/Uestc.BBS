@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using Avalonia.Data.Converters;
+using Uestc.BBS.Core.Helpers;
 
 namespace Uestc.BBS.Desktop.Converters
 {
@@ -20,28 +21,7 @@ namespace Uestc.BBS.Desktop.Converters
         {
             if (value is DateTime date)
             {
-                var timespan = DateTime.Now - date;
-                if (timespan < TimeSpan.FromMinutes(1))
-                {
-                    return "刚刚";
-                }
-
-                if (timespan < TimeSpan.FromHours(1))
-                {
-                    return (uint)timespan.TotalMinutes + " 分钟前";
-                }
-
-                if (timespan < TimeSpan.FromDays(1))
-                {
-                    return (uint)timespan.TotalHours + " 小时前";
-                }
-
-                if (timespan < TimeSpan.FromDays(2))
-                {
-                    return "昨天";
-                }
-
-                return date.ToShortTimeString();
+                return date.ToRelativeDateString();
             }
 
             throw new ArgumentException(
