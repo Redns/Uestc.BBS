@@ -21,7 +21,8 @@
             Grid.RowSpan="2"
             Grid.Column="0"
             BorderThickness="0"
-            ItemsSource="{Binding BoardTabItems^, Mode=OneWay}">
+            ItemsSource="{Binding BoardTabItems, Mode=OneWay}"
+            SelectedItem="{Binding CurrentBoardTabItemModel}">
             <TabControl.ItemTemplate>
                 <DataTemplate DataType="models:BoardTabItemModel">
                     <TextBlock Text="{Binding Key}" />
@@ -30,24 +31,45 @@
             <TabControl.ContentTemplate>
                 <DataTemplate DataType="models:BoardTabItemModel">
                     <ScrollViewer VerticalScrollBarVisibility="Hidden">
-                        <ItemsControl ItemsSource="{Binding Topics^, Mode=OneWay}">
-                            <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <VirtualizingStackPanel />
-                                </ItemsPanelTemplate>
-                            </ItemsControl.ItemsPanel>
-                            <ItemsControl.DataTemplates>
-                                <DataTemplate DataType="forum:TopicOverview">
-                                    <controls:TopicOverviewControl
-                                        Title="{Binding Title, Mode=OneWay}"
-                                        Margin="0,5"
-                                        Avatar="{Binding UserAvatar, Mode=OneWay}"
-                                        Date="{Binding LastReplyDate, Mode=OneWay}"
-                                        Subject="{Binding Subject, Mode=OneWay}"
-                                        Username="{Binding UserNickName, Mode=OneWay}" />
-                                </DataTemplate>
-                            </ItemsControl.DataTemplates>
-                        </ItemsControl>
+                        <StackPanel>
+                            <ui:ProgressRing
+                                Height="20"
+                                Margin="0,5"
+                                BorderThickness="3"
+                                EndAngle="200"
+                                Foreground="{actipro:ThemeResource ControlBackgroundBrushSolidAccentPressed}"
+                                IsIndeterminate="True"
+                                IsVisible="{Binding $parent[TabControl].((vm:HomeViewModel)DataContext).IsLoading, Mode=OneWay}"
+                                StartAngle="50" />
+                            <ItemsControl ItemsSource="{Binding Topics^, Mode=OneWay}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <VirtualizingStackPanel />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.DataTemplates>
+                                    <DataTemplate DataType="forum:TopicOverview">
+                                        <controls:TopicOverviewControl
+                                            Title="{Binding Title, Mode=OneWay}"
+                                            Width="300"
+                                            Margin="0,5"
+                                            Avatar="{Binding UserAvatar, Mode=OneWay}"
+                                            Date="{Binding LastReplyDate, Mode=OneWay}"
+                                            Subject="{Binding Subject, Mode=OneWay}"
+                                            Username="{Binding UserNickName, Mode=OneWay}" />
+                                    </DataTemplate>
+                                </ItemsControl.DataTemplates>
+                            </ItemsControl>
+                            <ui:ProgressRing
+                                Height="20"
+                                Margin="0,5"
+                                BorderThickness="3"
+                                EndAngle="200"
+                                Foreground="{actipro:ThemeResource ControlBackgroundBrushSolidAccentPressed}"
+                                IsIndeterminate="True"
+                                IsVisible="{Binding $parent[TabControl].((vm:HomeViewModel)DataContext).IsLoading, Mode=OneWay}"
+                                StartAngle="50" />
+                        </StackPanel>
                         <Interaction.Behaviors>
                             <RoutedEventTriggerBehavior RoutedEvent="{x:Static ScrollViewer.ScrollChangedEvent}">
                                 <InvokeCommandAction Command="{Binding $parent[TabControl].((vm:HomeViewModel)DataContext).LoadTopicsCommand}" PassEventArgsToCommand="True" />
@@ -56,6 +78,11 @@
                     </ScrollViewer>
                 </DataTemplate>
             </TabControl.ContentTemplate>
+            <TabControl.Styles>
+                <Style Selector="ItemsPresenter">
+                    <Setter Property="HorizontalAlignment" Value="Center" />
+                </Style>
+            </TabControl.Styles>
         </TabControl>
     </Grid>
 
