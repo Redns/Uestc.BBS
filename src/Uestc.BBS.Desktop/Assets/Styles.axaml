@@ -120,8 +120,4 @@
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="Background" Value="{DynamicResource TextBoxDefault}" />
     </Style>
-    <!--  Border  -->
-    <!--<Style Selector="Border">
-        <Setter Property="Background" Value="{DynamicResource BgBorder}" />
-    </Style>-->
 </Styles>

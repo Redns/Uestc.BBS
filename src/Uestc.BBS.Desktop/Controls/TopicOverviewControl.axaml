@@ -26,7 +26,8 @@
                 <Border
                     Padding="10"
                     Background="{DynamicResource BgBorder}"
-                    CornerRadius="10">
+                    CornerRadius="10"
+                    Cursor="Hand">
                     <StackPanel Spacing="8">
                         <StackPanel Orientation="Horizontal" Spacing="5">
                             <controls:Avatar

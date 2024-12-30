@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Uestc.BBS.iOS", "Uestc.BBS.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uestc.BBS", "Uestc.BBS\Uestc.BBS.csproj", "{47DD9FF2-915E-43B7-B71B-0129C4ACF709}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Uestc.BBS.Tests", "Uestc.BBS.Tests\Uestc.BBS.Tests.csproj", "{AF68FE49-EE55-4926-9789-9041058131F0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,6 +45,10 @@ Global
 		{47DD9FF2-915E-43B7-B71B-0129C4ACF709}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{47DD9FF2-915E-43B7-B71B-0129C4ACF709}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{47DD9FF2-915E-43B7-B71B-0129C4ACF709}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF68FE49-EE55-4926-9789-9041058131F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF68FE49-EE55-4926-9789-9041058131F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF68FE49-EE55-4926-9789-9041058131F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF68FE49-EE55-4926-9789-9041058131F0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

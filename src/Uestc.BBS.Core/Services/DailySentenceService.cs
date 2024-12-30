@@ -1,8 +1,8 @@
-﻿using HtmlAgilityPack;
+﻿using System.Text.RegularExpressions;
 
 namespace Uestc.BBS.Core.Services
 {
-    public class DailySentenceService(HttpClient httpClient) : IDailySentenceService
+    public partial class DailySentenceService(HttpClient httpClient) : IDailySentenceService
     {
         private readonly HttpClient _httpClient = httpClient;
 
@@ -18,13 +18,19 @@ namespace Uestc.BBS.Core.Services
                 return string.Empty;
             }
 
-            var dom = new HtmlDocument();
-            dom.LoadHtml(content);
+            var match = DailySentenceRegex().Match(content);
+            if (match.Success)
+            {
+                return match.Groups[1].Value.Trim();
+            }
 
-            return dom
-                .DocumentNode.SelectSingleNode("//div[@class='vanfon_geyan']")
-                .SelectSingleNode(".//span")
-                .InnerText.Trim();
+            return string.Empty;
         }
+
+        [GeneratedRegex(
+            @"<div class=""vanfon_geyan"">.*?<span[^>]*>(.*?)<\/span>.*?<\/div>",
+            RegexOptions.Singleline
+        )]
+        private static partial Regex DailySentenceRegex();
     }
 }
