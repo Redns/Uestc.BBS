@@ -47,9 +47,9 @@
                 <ExperimentalAcrylicMaterial
                     BackgroundSource="Digger"
                     FallbackColor="{DynamicResource BgWindow}"
-                    MaterialOpacity="{Binding AppSettingModel.MaterialOpacity}"
-                    TintColor="{Binding AppSettingModel.TintColor}"
-                    TintOpacity="{Binding AppSettingModel.TintOpacity}" />
+                    MaterialOpacity="{Binding AppSettingModel.MaterialOpacity, Mode=OneWay}"
+                    TintColor="{Binding AppSettingModel.TintColor, Mode=OneWay}"
+                    TintOpacity="{Binding AppSettingModel.TintOpacity, Mode=OneWay}" />
             </ExperimentalAcrylicBorder.Material>
         </ExperimentalAcrylicBorder>
         <Grid ColumnDefinitions="auto,*" RowDefinitions="42,*">
@@ -80,7 +80,7 @@
                     Margin="30,6,0,4"
                     Classes="Search"
                     DockPanel.Dock="Left"
-                    Watermark="{Binding AppSettingModel.DailySentence^}">
+                    Watermark="{Binding AppSettingModel.DailySentence^, Mode=OneWay}">
                     <AutoCompleteBox.InnerRightContent>
                         <icon:SymbolIcon
                             Margin="0,0,10,0"
@@ -110,7 +110,7 @@
                 </Button>
                 <Button
                     Classes="WindowToolbarButton PinWindowButton"
-                    Classes.IsPinned="{Binding AppSettingModel.IsWindowPinned}"
+                    Classes.IsPinned="{Binding AppSettingModel.IsWindowPinned, Mode=OneWay}"
                     Command="{Binding SwitchPinWindowCommand}"
                     DockPanel.Dock="Right">
                     <icon:SymbolIcon />
@@ -132,7 +132,7 @@
             <ItemsControl
                 Grid.Row="1"
                 Grid.Column="0"
-                ItemsSource="{Binding Menus}">
+                ItemsSource="{Binding Menus, Mode=OneWay}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <DockPanel Margin="0,10" LastChildFill="False" />
@@ -142,20 +142,20 @@
                     <DataTemplate>
                         <Button
                             Classes="ToolbarIconButton"
-                            Classes.Active="{Binding IsActive}}"
+                            Classes.Active="{Binding IsActive, Mode=OneWay}}"
                             Command="{Binding MenuClickCommand}"
                             CommandParameter="{Binding}"
-                            DockPanel.Dock="{Binding Dock}">
+                            DockPanel.Dock="{Binding Dock, Mode=OneWay}">
                             <StackPanel>
-                                <icon:SymbolIcon Symbol="{Binding Symbol}" />
-                                <TextBlock Text="{Binding Name}" />
+                                <icon:SymbolIcon Symbol="{Binding Symbol, Mode=OneWay}" />
+                                <TextBlock Text="{Binding Name, Mode=OneWay}" />
                             </StackPanel>
                         </Button>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
                 <ItemsControl.Styles>
                     <Style x:DataType="vm:MenuItemViewModel" Selector="ContentPresenter">
-                        <Setter Property="DockPanel.Dock" Value="{Binding Dock}" />
+                        <Setter Property="DockPanel.Dock" Value="{Binding Dock, Mode=OneWay}" />
                     </Style>
                 </ItemsControl.Styles>
             </ItemsControl>
@@ -164,7 +164,7 @@
                 Grid.Row="1"
                 Grid.Column="1"
                 Margin="20,10,40,10"
-                Content="{Binding CurrentPage}" />
+                Content="{Binding CurrentPage, Mode=OneWay}" />
         </Grid>
     </Panel>
 </Window>

@@ -190,7 +190,7 @@
                         <TextBlock
                             Margin="10,0"
                             DockPanel.Dock="Right"
-                            Text="{Binding Model.TintOpacity, StringFormat=F2}" />
+                            Text="{Binding Model.TintOpacity, StringFormat=F2, Mode=OneWay}" />
                     </DockPanel>
                     <Separator />
                     <DockPanel Classes="MenuItem">
@@ -208,7 +208,7 @@
                         <TextBlock
                             Margin="10,0"
                             DockPanel.Dock="Right"
-                            Text="{Binding Model.MaterialOpacity, StringFormat=F2}" />
+                            Text="{Binding Model.MaterialOpacity, StringFormat=F2, Mode=OneWay}" />
                     </DockPanel>
                 </StackPanel>
             </Expander>
@@ -494,7 +494,7 @@
                         MinHeight="30"
                         Margin="40,10,0,10"
                         ColumnDefinitions="100,*"
-                        IsEnabled="{Binding Model.SyncSecret, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
+                        IsEnabled="{Binding Model.SyncSecret, Converter={x:Static StringConverters.IsNotNullOrEmpty}, Mode=OneWay}"
                         RowDefinitions="*,*,*,*">
                         <!--  服务器地址  -->
                         <TextBlock

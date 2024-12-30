@@ -15,6 +15,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Views\0f3j2f4d.or0~" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="ActiproSoftware.Controls.Avalonia" Version="25.1.0" />
     <PackageReference Include="ActiproSoftware.Controls.Avalonia.Themes.ColorPicker" Version="25.1.0" />
     <PackageReference Include="Avalonia" Version="11.2.3" />

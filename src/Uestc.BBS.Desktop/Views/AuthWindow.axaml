@@ -37,9 +37,9 @@
                 <ExperimentalAcrylicMaterial
                     BackgroundSource="Digger"
                     FallbackColor="{DynamicResource BgWindow}"
-                    MaterialOpacity="{Binding AppSettingModel.MaterialOpacity}"
-                    TintColor="{Binding AppSettingModel.TintColor, Mode=TwoWay}"
-                    TintOpacity="{Binding AppSettingModel.TintOpacity}" />
+                    MaterialOpacity="{Binding AppSettingModel.MaterialOpacity, Mode=OneWay}"
+                    TintColor="{Binding AppSettingModel.TintColor, Mode=OneWay}"
+                    TintOpacity="{Binding AppSettingModel.TintOpacity, Mode=OneWay}" />
             </ExperimentalAcrylicBorder.Material>
         </ExperimentalAcrylicBorder>
         <StackPanel Margin="25,0" Orientation="Vertical">
@@ -48,7 +48,7 @@
                 Background="{OnPlatform Linux=Transparent}"
                 PointerPressed="{OnPlatform Linux=DragWindow}">
                 <Button
-                    Width="{Binding $self.Height}"
+                    Width="{Binding $self.Height, Mode=OneWay}"
                     Height="30"
                     Classes="WindowToolbarButton"
                     Click="CloseWindow"
@@ -80,7 +80,7 @@
             <AutoCompleteBox
                 Margin="0,18,0,0"
                 Classes="Auth"
-                ItemsSource="{Binding Users}"
+                ItemsSource="{Binding Users, Mode=OneTime}"
                 SelectedItem="{Binding SelectedCredential}"
                 Text="{Binding Username}"
                 Watermark="用户名">
@@ -90,7 +90,7 @@
                             <TextBlock
                                 VerticalAlignment="Center"
                                 DockPanel.Dock="Left"
-                                Text="{Binding Name}" />
+                                Text="{Binding Name, Mode=OneTime}" />
                             <Button
                                 Width="32"
                                 Classes="theme-subtle"
@@ -126,7 +126,7 @@
                 Height="16"
                 FontSize="10"
                 Foreground="#3B81F5"
-                Text="{Binding UsernameMessage}" />
+                Text="{Binding UsernameMessage, Mode=OneWay}" />
             <TextBox
                 Classes="Auth has-reveal-password-button"
                 PasswordChar="{actipro:ThemeResource EditPasswordChar}"
@@ -147,7 +147,7 @@
                 Height="16"
                 FontSize="10"
                 Foreground="#3B81F5"
-                Text="{Binding PasswordMessage}" />
+                Text="{Binding PasswordMessage, Mode=OneWay}" />
             <StackPanel Orientation="Horizontal" Spacing="20">
                 <CheckBox
                     Classes="Auth"
@@ -163,19 +163,19 @@
                 Margin="0,18,0,0"
                 Classes="theme-solid accent"
                 Command="{Binding LoginCommand}"
-                IsEnabled="{Binding !IsLoging}">
+                IsEnabled="{Binding !IsLoging, Mode=OneWay}">
                 <StackPanel Orientation="Horizontal">
                     <ui:ProgressRing
                         BorderThickness="3"
                         EndAngle="200"
-                        Foreground="{Binding #LoginButtonText.Foreground}"
+                        Foreground="{Binding #LoginButtonText.Foreground, Mode=OneWay}"
                         IsIndeterminate="True"
-                        IsVisible="{Binding IsLoging}"
+                        IsVisible="{Binding IsLoging, Mode=OneWay}"
                         StartAngle="50" />
                     <TextBlock
                         Name="LoginButtonText"
                         VerticalAlignment="Center"
-                        IsVisible="{Binding !IsLoging}"
+                        IsVisible="{Binding !IsLoging, Mode=OneWay}"
                         Text="登 录" />
                 </StackPanel>
             </Button>

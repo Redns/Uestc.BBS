@@ -1,7 +1,6 @@
 using System;
 using Avalonia;
 using Avalonia.Controls.Primitives;
-using Uestc.BBS.Core.Helpers;
 
 namespace Uestc.BBS.Desktop.Controls;
 
@@ -60,7 +59,7 @@ public class TopicOverviewControl : TemplatedControl
     public string Title
     {
         get => GetValue(TitleProperty);
-        set { SetValue(TitleProperty, value); }
+        set => SetValue(TitleProperty, value);
     }
 
     /// <summary>
@@ -68,6 +67,7 @@ public class TopicOverviewControl : TemplatedControl
     /// </summary>
     public string Subject
     {
-        set => SetValue(SubjectProperty, value.StripMarkdownTags());
+        get => GetValue(SubjectProperty);
+        set => SetValue(SubjectProperty, value);
     }
 }

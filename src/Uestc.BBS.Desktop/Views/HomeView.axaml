@@ -26,7 +26,7 @@
     </StackPanel>-->
     <ScrollViewer Margin="0,10" VerticalScrollBarVisibility="Hidden">
         <StackPanel Orientation="Horizontal">
-            <!--<ItemsControl ItemsSource="{Binding Topics^, Mode=OneWay}">
+            <ItemsControl ItemsSource="{Binding Topics^, Mode=OneWay}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <VirtualizingStackPanel />
@@ -35,36 +35,16 @@
                 <ItemsControl.DataTemplates>
                     <DataTemplate DataType="forum:TopicOverview">
                         <controls:TopicOverviewControl
-                            Title="{Binding Title, Mode=OneTime}"
-                            MaxWidth="360"
+                            Title="{Binding Title, Mode=OneWay}"
+                            Width="320"
                             Margin="0,0,0,20"
-                            Avatar="{Binding UserAvatar, Mode=OneTime}"
-                            Date="{Binding LastReplyDate}"
-                            Subject="{Binding Subject, Mode=OneTime}"
-                            Username="{Binding UserNickName, Mode=OneTime}" />
+                            Avatar="{Binding UserAvatar, Mode=OneWay}"
+                            Date="{Binding LastReplyDate, Mode=OneWay}"
+                            Subject="{Binding Subject, Mode=OneWay}"
+                            Username="{Binding UserNickName, Mode=OneWay}" />
                     </DataTemplate>
                 </ItemsControl.DataTemplates>
-            </ItemsControl>-->
-            <ItemsRepeater ItemsSource="{Binding Topics^, Mode=OneWay}">
-                <ItemsRepeater.Layout>
-                    <UniformGridLayout
-                        MaximumRowsOrColumns="4"
-                        MinColumnSpacing="10"
-                        MinRowSpacing="10"
-                        Orientation="Horizontal" />
-                </ItemsRepeater.Layout>
-                <ItemsRepeater.ItemTemplate>
-                    <DataTemplate DataType="forum:TopicOverview">
-                        <controls:TopicOverviewControl
-                            Title="{Binding Title, Mode=OneTime}"
-                            Margin="0,0,0,20"
-                            Avatar="{Binding UserAvatar, Mode=OneTime}"
-                            Date="{Binding LastReplyDate}"
-                            Subject="{Binding Subject, Mode=OneTime}"
-                            Username="{Binding UserNickName, Mode=OneTime}" />
-                    </DataTemplate>
-                </ItemsRepeater.ItemTemplate>
-            </ItemsRepeater>
+            </ItemsControl>
         </StackPanel>
     </ScrollViewer>
 </UserControl>
