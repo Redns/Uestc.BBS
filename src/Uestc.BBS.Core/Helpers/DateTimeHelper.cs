@@ -64,7 +64,7 @@ namespace Uestc.BBS.Core.Helpers
                 return "上周" + date.DayOfWeek.GetDayOfWeekInChinese();
             }
 
-            return date.ToShortTimeString();
+            return date.ToShortDateString();
         }
     }
 }

@@ -3,8 +3,8 @@
     public interface ITopicService
     {
         Task<TopicResp?> GetTopicsAsync(
-            int page = 1,
-            int pageSize = 10,
+            uint page = 1,
+            uint pageSize = 10,
             Board boardId = 0,
             TopicSortType sortby = TopicSortType.New,
             TopicTopOrder topOrder = TopicTopOrder.WithoutTop

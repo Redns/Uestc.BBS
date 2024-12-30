@@ -17,8 +17,8 @@ namespace Uestc.BBS.Core.Services.Api.Forum
         /// <param name="topOrder"></param>
         /// <returns></returns>
         public async Task<TopicResp?> GetTopicsAsync(
-            int page = 1,
-            int pageSize = 10,
+            uint page = 1,
+            uint pageSize = 10,
             Board boardId = Board.Latest,
             TopicSortType sortby = TopicSortType.New,
             TopicTopOrder topOrder = TopicTopOrder.WithoutTop

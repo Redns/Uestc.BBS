@@ -3,7 +3,7 @@
     x:Class="Uestc.BBS.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:Uestc.BBS"
+    xmlns:local="clr-namespace:Uestc.BBS.Views"
     Shell.FlyoutBehavior="Disabled">
 
     <ShellContent ContentTemplate="{DataTemplate local:MainPage}" Route="MainPage" />
