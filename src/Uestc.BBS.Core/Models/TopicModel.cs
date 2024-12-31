@@ -18,10 +18,10 @@ namespace Uestc.BBS.Core.Models
         private int _topicId;
 
         [ObservableProperty]
-        [NotifyPropertyChangedFor(nameof(BoardName))]
         private Board _board = Board.WaterHome;
 
-        public string BoardName => Board.GetName();
+        [ObservableProperty]
+        private string _boardName = string.Empty;
 
         [ObservableProperty]
         private string _type = string.Empty;
@@ -31,7 +31,5 @@ namespace Uestc.BBS.Core.Models
 
         [ObservableProperty]
         private DateTime _lastReplyDate;
-
-
     }
 }

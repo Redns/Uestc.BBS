@@ -16,6 +16,13 @@
     d:DesignWidth="1920"
     x:DataType="vm:HomeViewModel"
     mc:Ignorable="d">
+    <UserControl.Resources>
+        <Flyout x:Key="Test">
+            <StackPanel>
+                <CheckBox Content="匿名" />
+            </StackPanel>
+        </Flyout>
+    </UserControl.Resources>
     <Grid ColumnDefinitions="320,*" RowDefinitions="40,*">
         <TabControl
             Grid.RowSpan="2"
@@ -37,7 +44,7 @@
                                 Margin="0,5"
                                 BorderThickness="3"
                                 EndAngle="200"
-                                Foreground="{actipro:ThemeResource ControlBackgroundBrushSolidAccentPressed}"
+                                Foreground="{actipro:ThemeResource TabItemBorderBrushSubtleSelected}"
                                 IsIndeterminate="True"
                                 IsVisible="{Binding $parent[TabControl].((vm:HomeViewModel)DataContext).IsLoading, Mode=OneWay}"
                                 StartAngle="50" />
@@ -50,13 +57,14 @@
                                 <ItemsControl.DataTemplates>
                                     <DataTemplate DataType="forum:TopicOverview">
                                         <controls:TopicOverviewControl
-                                            Title="{Binding Title, Mode=OneWay}"
+                                            Title="{Binding Title, Mode=OneTime}"
                                             Width="300"
                                             Margin="0,5"
-                                            Avatar="{Binding UserAvatar, Mode=OneWay}"
-                                            Date="{Binding LastReplyDate, Mode=OneWay}"
-                                            Subject="{Binding Subject, Mode=OneWay}"
-                                            Username="{Binding UserNickName, Mode=OneWay}" />
+                                            Avatar="{Binding UserAvatar, Mode=OneTime}"
+                                            BoardName="{Binding BoardName, Mode=OneTime}"
+                                            Date="{Binding LastReplyDate, Mode=OneTime}"
+                                            Subject="{Binding Subject, Mode=OneTime}"
+                                            Username="{Binding UserNickName, Mode=OneTime}" />
                                     </DataTemplate>
                                 </ItemsControl.DataTemplates>
                             </ItemsControl>
@@ -65,7 +73,7 @@
                                 Margin="0,5"
                                 BorderThickness="3"
                                 EndAngle="200"
-                                Foreground="{actipro:ThemeResource ControlBackgroundBrushSolidAccentPressed}"
+                                Foreground="{actipro:ThemeResource TabItemBorderBrushSubtleSelected}"
                                 IsIndeterminate="True"
                                 IsVisible="{Binding $parent[TabControl].((vm:HomeViewModel)DataContext).IsLoading, Mode=OneWay}"
                                 StartAngle="50" />
@@ -84,6 +92,19 @@
                 </Style>
             </TabControl.Styles>
         </TabControl>
+        <StackPanel
+            Grid.Row="0"
+            Grid.Column="1"
+            VerticalAlignment="Center"
+            Orientation="Horizontal"
+            Spacing="10">
+            <Button Content="刷新" />
+            <DropDownButton
+                Classes="theme-soft"
+                Content="筛选"
+                Flyout="{StaticResource Test}" />
+        </StackPanel>
+
     </Grid>
 
 

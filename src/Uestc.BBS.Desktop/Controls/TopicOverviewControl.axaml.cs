@@ -21,6 +21,11 @@ public class TopicOverviewControl : TemplatedControl
         DateTime
     >(nameof(Date), defaultValue: DateTime.Now);
 
+    public static readonly StyledProperty<string> BoardNameProperty = AvaloniaProperty.Register<
+        TopicOverviewControl,
+        string
+    >(nameof(BoardName), defaultValue: string.Empty);
+
     public static readonly StyledProperty<string> TitleProperty = AvaloniaProperty.Register<
         TopicOverviewControl,
         string
@@ -51,6 +56,15 @@ public class TopicOverviewControl : TemplatedControl
     {
         get => GetValue(DateProperty);
         set => SetValue(DateProperty, value);
+    }
+
+    /// <summary>
+    /// °å¿éÃû³Æ
+    /// </summary>
+    public string BoardName
+    {
+        get => GetValue(BoardNameProperty);
+        set => SetValue(BoardNameProperty, value);
     }
 
     /// <summary>

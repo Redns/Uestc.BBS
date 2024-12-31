@@ -20,8 +20,8 @@ namespace Uestc.BBS.Core.Services.Api.Forum
         /// <summary>
         /// 板块名称
         /// </summary>
-        [JsonIgnore]
-        public string BoardName => BoardId.GetName();
+        [JsonPropertyName("board_name")]
+        public string BoardName { get; set; } = string.Empty;
 
         /// <summary>
         /// 帖子 ID

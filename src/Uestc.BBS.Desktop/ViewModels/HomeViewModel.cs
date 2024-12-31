@@ -1,9 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Avalonia.Controls;
-using Avalonia.Labs.Controls;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Uestc.BBS.Core.Services.Api.Forum;
@@ -91,6 +89,10 @@ namespace Uestc.BBS.Desktop.ViewModels
         {
             if (args.Source is ScrollViewer scrollViewer)
             {
+                // Offset.Length：偏移量
+                // Extent.Height：可滚动范围
+                // DesiredSize.Height：窗体高度
+                // 剩余可滚动内容高度小于窗体高度的两倍时加载数据
                 if (
                     scrollViewer.Offset.Length
                     < scrollViewer.Extent.Height - (scrollViewer.DesiredSize.Height * 2)
@@ -100,8 +102,8 @@ namespace Uestc.BBS.Desktop.ViewModels
                 }
 
                 IsLoading = true;
-                var currentTopics = await CurrentBoardTabItemModel.Topics;
 
+                var currentTopics = await CurrentBoardTabItemModel!.Topics;
                 foreach (
                     var topic in await _topicService
                         .GetTopicsAsync(
@@ -117,8 +119,9 @@ namespace Uestc.BBS.Desktop.ViewModels
                         ))
                 )
                 {
-                    CurrentBoardTabItemModel.Topics.Result.Add(topic);
+                    currentTopics.Add(topic);
                 }
+
                 IsLoading = false;
             }
         }

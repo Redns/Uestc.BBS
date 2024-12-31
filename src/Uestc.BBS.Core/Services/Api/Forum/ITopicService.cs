@@ -43,21 +43,4 @@
         Anonymous = 371, //密语
         ExamiHome = 382 //考试之家
     }
-
-    public static class TopicExtension
-    {
-        public static string GetName(
-            this Board board,
-            TopicSortType sortType = TopicSortType.New
-        ) =>
-            board switch
-            {
-                Board.Latest => sortType is TopicSortType.New ? "最新发表" : "最新回复",
-                Board.WaterHome => "水手之家",
-                Board.Transportation => "交通出行",
-                Board.Anonymous => "密语",
-                Board.ExamiHome => "考试之家",
-                _ => string.Empty
-            };
-    }
 }
