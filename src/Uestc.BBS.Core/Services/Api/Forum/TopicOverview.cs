@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using System.ComponentModel;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.Json.Serialization.Metadata;
 using Uestc.BBS.Core.Helpers.JsonConverters;
@@ -143,9 +144,9 @@ namespace Uestc.BBS.Core.Services.Api.Forum
         public uint UserLevel => UserTitle.GetUserTitleLevel();
 
         /// <summary>
-        /// TODO WHAT'S THIS
+        /// 点赞数
         /// </summary>
-        public int RecommendAdd { get; set; }
+        public uint RecommendAdd { get; set; }
 
         /// <summary>
         /// TODO WHAT'S THIS
@@ -206,6 +207,49 @@ namespace Uestc.BBS.Core.Services.Api.Forum
     {
         Normal = 0, // 普通
         Vote // 投票帖
+    }
+
+    /// <summary>
+    /// 板块
+    /// </summary>
+    public enum Board
+    {
+        [Description("最新发表/回复")]
+        Latest = 0, // 最新发表/回复
+        WaterHome = 25, // 水手之家
+        EmploymentAndEntrepreneurship = 174, //就业创业
+        Transportation = 225, //交通出行
+        Anonymous = 371, //密语
+        ExamiHome = 382 //考试之家
+    }
+
+    /// <summary>
+    /// 板块子分类
+    /// </summary>
+    public enum BoardSubcategory
+    {
+        All = 0
+    }
+
+    /// <summary>
+    /// 帖子排序方式
+    /// </summary>
+    public enum TopicSortType
+    {
+        New = 0, // 最新
+        Essence, // 精华
+        All // 全部
+    }
+
+    /// <summary>
+    /// 帖子置顶配置
+    /// </summary>
+    public enum TopicTopOrder
+    {
+        WithoutTop = 0, // 不返回置顶帖
+        WithCurrentSectionTop, // 返回本版置顶帖
+        WithCategorySectionTop, // 返回分类置顶帖
+        WithGlobalTop // 返回全局置顶帖
     }
 
     [JsonSerializable(typeof(TopicOverview))]

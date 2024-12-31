@@ -7,40 +7,9 @@
             uint pageSize = 10,
             Board boardId = 0,
             TopicSortType sortby = TopicSortType.New,
-            TopicTopOrder topOrder = TopicTopOrder.WithoutTop
+            TopicTopOrder topOrder = TopicTopOrder.WithoutTop,
+            bool getPreviewImages = false,
+            bool getPartialReply = false
         );
-    }
-
-    /// <summary>
-    /// 帖子排序方式
-    /// </summary>
-    public enum TopicSortType
-    {
-        New = 0, // 最新
-        Essence, // 精华
-        All // 全部
-    }
-
-    /// <summary>
-    /// 帖子置顶配置
-    /// </summary>
-    public enum TopicTopOrder
-    {
-        WithoutTop = 0, // 不返回置顶帖
-        WithCurrentSectionTop, // 返回本版置顶帖
-        WithCategorySectionTop, // 返回分类置顶帖
-        WithGlobalTop // 返回全局置顶帖
-    }
-
-    /// <summary>
-    /// 板块
-    /// </summary>
-    public enum Board
-    {
-        Latest = 0, // 最新发表/回复
-        WaterHome = 25, // 水手之家
-        Transportation = 225, //交通出行
-        Anonymous = 371, //密语
-        ExamiHome = 382 //考试之家
     }
 }

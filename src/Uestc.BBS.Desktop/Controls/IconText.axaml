@@ -1,0 +1,32 @@
+<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:Uestc.BBS.Desktop"
+    xmlns:icon="using:FluentIcons.Avalonia">
+
+    <Design.PreviewWith>
+        <StackPanel Width="400" Spacing="10">
+            <StackPanel Background="{DynamicResource SystemRegionBrush}">
+                <controls:IconText />
+            </StackPanel>
+        </StackPanel>
+    </Design.PreviewWith>
+
+    <ControlTheme x:Key="{x:Type controls:IconText}" TargetType="controls:IconText">
+        <Setter Property="Template">
+            <ControlTemplate>
+                <StackPanel
+                    Height="30"
+                    Orientation="Horizontal"
+                    Spacing="5">
+                    <icon:SymbolIcon Symbol="Camera" />
+                    <TextBlock
+                        Padding="0,0,0,3"
+                        VerticalAlignment="Center"
+                        FontSize="20"
+                        Text="你好" />
+                </StackPanel>
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
+</ResourceDictionary>

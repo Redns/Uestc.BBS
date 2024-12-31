@@ -4,14 +4,6 @@
     xmlns:asyncImageLoader="using:Uestc.BBS.Desktop.Controls.AsyncImageLoader"
     xmlns:controls="using:Uestc.BBS.Desktop.Controls">
 
-    <!--
-        Additional resources
-        Using Control Themes:
-        https://docs.avaloniaui.net/docs/basics/user-interface/styling/control-themes
-        Using Theme Variants:
-        https://docs.avaloniaui.net/docs/guides/styles-and-resources/how-to-use-theme-variants
-    -->
-
     <Design.PreviewWith>
         <StackPanel Width="400" Spacing="10">
             <StackPanel Background="{DynamicResource SystemRegionBrush}">

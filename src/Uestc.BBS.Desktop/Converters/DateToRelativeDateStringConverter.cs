@@ -19,15 +19,15 @@ namespace Uestc.BBS.Desktop.Converters
             CultureInfo culture
         )
         {
-            if (value is DateTime date)
+            if (value is not DateTime date)
             {
-                return date.ToRelativeDateString();
+                throw new ArgumentException(
+                    "Converter requires a DateTime type parameter",
+                    nameof(value)
+                );
             }
 
-            throw new ArgumentException(
-                "Converter requires a DateTime type parameter",
-                nameof(value)
-            );
+            return date.ToRelativeDateString();
         }
 
         public object? ConvertBack(

@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:actipro="http://schemas.actiprosoftware.com/avaloniaui"
     xmlns:controls="using:Uestc.BBS.Desktop.Controls"
+    xmlns:converts="using:Uestc.BBS.Desktop.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:forum="using:Uestc.BBS.Core.Services.Api.Forum"
     xmlns:ic="using:FluentIcons.Avalonia"
@@ -46,7 +47,7 @@
                                 EndAngle="200"
                                 Foreground="{actipro:ThemeResource TabItemBorderBrushSubtleSelected}"
                                 IsIndeterminate="True"
-                                IsVisible="{Binding $parent[TabControl].((vm:HomeViewModel)DataContext).IsLoading, Mode=OneWay}"
+                                IsVisible="{Binding IsLoading, Mode=OneWay}"
                                 StartAngle="50" />
                             <ItemsControl ItemsSource="{Binding Topics^, Mode=OneWay}">
                                 <ItemsControl.ItemsPanel>
@@ -75,8 +76,14 @@
                                 EndAngle="200"
                                 Foreground="{actipro:ThemeResource TabItemBorderBrushSubtleSelected}"
                                 IsIndeterminate="True"
-                                IsVisible="{Binding $parent[TabControl].((vm:HomeViewModel)DataContext).IsLoading, Mode=OneWay}"
-                                StartAngle="50" />
+                                StartAngle="50">
+                                <ui:ProgressRing.IsVisible>
+                                    <MultiBinding Converter="{x:Static BoolConverters.And}">
+                                        <Binding Mode="OneWay" Path="IsLoading" />
+                                        <Binding Converter="{x:Static vm:HomeViewModel.TopicOverviewObservableCollectionIsNotEmptyConverter}" Path="Topics" />
+                                    </MultiBinding>
+                                </ui:ProgressRing.IsVisible>
+                            </ui:ProgressRing>
                         </StackPanel>
                         <Interaction.Behaviors>
                             <RoutedEventTriggerBehavior RoutedEvent="{x:Static ScrollViewer.ScrollChangedEvent}">
@@ -106,38 +113,5 @@
         </StackPanel>
 
     </Grid>
-
-
-
-    <!--  虚拟化失效  -->
-    <!--<StackPanel Orientation="Horizontal">
-        <ItemsControl Margin="0,10" ItemsSource="{Binding Topics^, Mode=OneWay}">
-            <ItemsControl.Template>
-                <ControlTemplate>
-                    <ScrollViewer VerticalScrollBarVisibility="Hidden">
-                        <ItemsPresenter />
-                    </ScrollViewer>
-                </ControlTemplate>
-
-            </ItemsControl.Template>
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <VirtualizingStackPanel />
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-            <ItemsControl.DataTemplates>
-                <DataTemplate DataType="forum:TopicOverview">
-                    <controls:TopicOverviewControl
-                        Title="{Binding Title, Mode=OneWay}"
-                        Width="320"
-                        Margin="0,0,0,20"
-                        Avatar="{Binding UserAvatar, Mode=OneWay}"
-                        Date="{Binding LastReplyDate, Mode=OneWay}"
-                        Subject="{Binding Subject, Mode=OneWay}"
-                        Username="{Binding UserNickName, Mode=OneWay}" />
-                </DataTemplate>
-            </ItemsControl.DataTemplates>
-        </ItemsControl>
-    </StackPanel>-->
 
 </UserControl>

@@ -1,8 +1,9 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.Json.Serialization.Metadata;
+using Microsoft.Extensions.DependencyInjection;
+using Uestc.BBS.Core.Services.Api.Forum;
 using Uestc.BBS.Core.Services.System;
 
 namespace Uestc.BBS.Core
@@ -46,19 +47,28 @@ namespace Uestc.BBS.Core
 
             try
             {
-                path ??= Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), AppDomain.CurrentDomain.FriendlyName, "appsettings.json");
+                path ??= Path.Combine(
+                    Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                    AppDomain.CurrentDomain.FriendlyName,
+                    "appsettings.json"
+                );
                 if (File.Exists(path))
                 {
-                    appSetting = JsonSerializer.Deserialize<AppSetting>(File.ReadAllText(path), SerializerOptions);
+                    appSetting = JsonSerializer.Deserialize<AppSetting>(
+                        File.ReadAllText(path),
+                        SerializerOptions
+                    );
                     if (appSetting is not null)
                     {
                         return appSetting;
                     }
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-                ServiceExtension.Services.GetRequiredService<ILogService>().Error(string.Format("Appsetting file {0} load failed", path), e);
+                ServiceExtension
+                    .Services.GetRequiredService<ILogService>()
+                    .Error(string.Format("Appsetting file {0} load failed", path), e);
             }
 
             var dir = Path.GetDirectoryName(path);
@@ -79,8 +89,15 @@ namespace Uestc.BBS.Core
         /// <param name="secret">配置文件加密密钥</param>
         public void Save(string? path = null)
         {
-            File.WriteAllText(path ?? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), 
-                AppDomain.CurrentDomain.FriendlyName, "appsettings.json"), ToString());
+            File.WriteAllText(
+                path
+                    ?? Path.Combine(
+                        Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                        AppDomain.CurrentDomain.FriendlyName,
+                        "appsettings.json"
+                    ),
+                ToString()
+            );
         }
 
         public override string ToString()
@@ -88,13 +105,17 @@ namespace Uestc.BBS.Core
             return JsonSerializer.Serialize(this, SerializerOptions);
         }
 
-        public static readonly JsonSerializerOptions SerializerOptions = new()
-        {
-            WriteIndented = true,
-            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-            PropertyNameCaseInsensitive = true,
-            TypeInfoResolver = JsonTypeInfoResolver.Combine(AppSettingContext.Default, new DefaultJsonTypeInfoResolver())
-        };
+        public static readonly JsonSerializerOptions SerializerOptions =
+            new()
+            {
+                WriteIndented = true,
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                PropertyNameCaseInsensitive = true,
+                TypeInfoResolver = JsonTypeInfoResolver.Combine(
+                    AppSettingContext.Default,
+                    new DefaultJsonTypeInfoResolver()
+                )
+            };
     }
 
     /// <summary>
@@ -145,12 +166,12 @@ namespace Uestc.BBS.Core
         /// <summary>
         /// 开机自启动
         /// </summary>
-        public bool StartupOnLaunch {  get; set; } = false;
+        public bool StartupOnLaunch { get; set; } = false;
 
         /// <summary>
         /// 固定窗口
         /// </summary>
-        public bool IsWindowPinned {  get; set; } = false;
+        public bool IsWindowPinned { get; set; } = false;
 
         /// <summary>
         /// 窗口关闭行为
@@ -160,65 +181,104 @@ namespace Uestc.BBS.Core
         /// <summary>
         /// 菜单列表
         /// </summary>
-        public MenuItem[] MenuItems { get; set; } = 
-        [
-            new MenuItem
-            {
-                Key = "Home",
-                Name = "主 页",
-                Symbol = "Home",
-                IsActive = true,
-                DockTop = true
-            },
-            new MenuItem
-            {
-                Key = "Sections",
-                Name = "版 块",
-                Symbol = "Apps",
-                IsActive = false,
-                DockTop = true
-            },
-            new MenuItem
-            {
-                Key = "Services",
-                Name = "服 务",
-                Symbol = "Rocket",
-                IsActive = false,
-                DockTop = true
-            },
-            new MenuItem
-            {
-                Key = "Moments",
-                Name = "动 态",
-                Symbol = "Scan",
-                IsActive = false,
-                DockTop = true
-            },
-            new MenuItem
-            {
-                Key = "Post",
-                Name = "发 布",
-                Symbol = "SaveCopy",
-                IsActive = false,
-                DockTop = true
-            },
-            new MenuItem
-            {
-                Key = "Settings",
-                Name = "设 置",
-                Symbol = "Settings",
-                IsActive = false,
-                DockTop = false
-            },
-            new MenuItem
-            {
-                Key = "Messages",
-                Name = "消 息",
-                Symbol = "Mail",
-                IsActive = false,
-                DockTop = false
-            }
-        ];
+        public MenuItem[] MenuItems { get; set; } =
+            [
+                new MenuItem
+                {
+                    Key = "Home",
+                    Name = "主 页",
+                    Symbol = "Home",
+                    IsActive = true,
+                    DockTop = true
+                },
+                new MenuItem
+                {
+                    Key = "Sections",
+                    Name = "版 块",
+                    Symbol = "Apps",
+                    IsActive = false,
+                    DockTop = true
+                },
+                new MenuItem
+                {
+                    Key = "Services",
+                    Name = "服 务",
+                    Symbol = "Rocket",
+                    IsActive = false,
+                    DockTop = true
+                },
+                new MenuItem
+                {
+                    Key = "Moments",
+                    Name = "动 态",
+                    Symbol = "Scan",
+                    IsActive = false,
+                    DockTop = true
+                },
+                new MenuItem
+                {
+                    Key = "Post",
+                    Name = "发 布",
+                    Symbol = "SaveCopy",
+                    IsActive = false,
+                    DockTop = true
+                },
+                new MenuItem
+                {
+                    Key = "Settings",
+                    Name = "设 置",
+                    Symbol = "Settings",
+                    IsActive = false,
+                    DockTop = false
+                },
+                new MenuItem
+                {
+                    Key = "Messages",
+                    Name = "消 息",
+                    Symbol = "Mail",
+                    IsActive = false,
+                    DockTop = false
+                }
+            ];
+
+        public BoardTabItem[] BoardTabItems { get; set; } =
+            [
+                new()
+                {
+                    Name = "最新发表",
+                    Board = Board.Latest,
+                    SortType = TopicSortType.New,
+                    PageSize = 15,
+                },
+                new()
+                {
+                    Name = "最新回复",
+                    Board = Board.Latest,
+                    SortType = TopicSortType.All,
+                    PageSize = 15,
+                },
+                new()
+                {
+                    Name = "热门",
+                    Board = Board.Anonymous,
+                    SortType = TopicSortType.All,
+                    PageSize = 15,
+                },
+                new()
+                {
+                    Name = "精华",
+                    Board = Board.Transportation,
+                    SortType = TopicSortType.Essence,
+                    PageSize = 15,
+                },
+                new()
+                {
+                    Name = "淘专辑",
+                    Board = Board.ExamiHome,
+                    SortType = TopicSortType.New,
+                    PageSize = 15,
+                }
+            ];
     }
 
     /// <summary>
@@ -264,6 +324,29 @@ namespace Uestc.BBS.Core
         public bool DockTop { get; set; } = true;
     }
 
+    public class BoardTabItem
+    {
+        /// <summary>
+        /// 板块名称
+        /// </summary>
+        public string Name { get; set; } = string.Empty;
+
+        /// <summary>
+        /// 板块编号
+        /// </summary>
+        public Board Board { get; set; } = Board.Latest;
+
+        /// <summary>
+        /// 排序类型
+        /// </summary>
+        public TopicSortType SortType { get; set; } = TopicSortType.New;
+
+        /// <summary>
+        /// 分页大小
+        /// </summary>
+        public uint PageSize { get; set; } = 15;
+    }
+
     /// <summary>
     /// 授权设置
     /// </summary>
@@ -282,19 +365,22 @@ namespace Uestc.BBS.Core
         /// <summary>
         /// 默认授权信息 Uid
         /// </summary>
-        public uint DefaultCredentialUid {  get; set; }
+        public uint DefaultCredentialUid { get; set; }
 
         /// <summary>
         /// 默认授权信息
         /// </summary>
         [JsonIgnore]
-        public AuthCredential? DefaultCredential => Credentials.FirstOrDefault(c => c.Uid == DefaultCredentialUid);
+        public AuthCredential? DefaultCredential =>
+            Credentials.FirstOrDefault(c => c.Uid == DefaultCredentialUid);
 
         /// <summary>
         /// 用戶是否授权
         /// </summary>
         [JsonIgnore]
-        public bool IsUserAuthed => !string.IsNullOrEmpty(DefaultCredential?.Token) && !string.IsNullOrEmpty(DefaultCredential.Secret); 
+        public bool IsUserAuthed =>
+            !string.IsNullOrEmpty(DefaultCredential?.Token)
+            && !string.IsNullOrEmpty(DefaultCredential.Secret);
 
         /// <summary>
         /// 授权信息列表（保存本地所有授权信息）
@@ -310,7 +396,7 @@ namespace Uestc.BBS.Core
         /// <summary>
         /// 用户唯一识别码
         /// </summary>
-        public uint Uid {  get; set; }
+        public uint Uid { get; set; }
 
         /// <summary>
         /// 用户名
@@ -384,7 +470,7 @@ namespace Uestc.BBS.Core
         /// <summary>
         /// WebDAV 服务用户名
         /// </summary>
-        public string Username {  get; set; } = string.Empty;
+        public string Username { get; set; } = string.Empty;
 
         /// <summary>
         /// WebDAV 服务密码
@@ -398,11 +484,13 @@ namespace Uestc.BBS.Core
     public enum SyncMode
     {
         [Description("手动")]
-        None = 0,           // 手动
+        None = 0, // 手动
+
         [Description("启动时同步")]
-        OnStartup,          // 启动时同步
+        OnStartup, // 启动时同步
+
         [Description("启动时+定时同步")]
-        OnStaupAndTiming    // 启动时 + 定时同步
+        OnStaupAndTiming // 启动时 + 定时同步
     }
 
     public class LogSetting
@@ -420,7 +508,8 @@ namespace Uestc.BBS.Core
         /// <summary>
         /// 输出格式
         /// </summary>
-        public string OutputFormat { get; set; } = "${date:format=yyyy-MM-dd HH\\:mm\\:ss} [Uestc.BBS ${level}] ${message}${onexception:${newline}${exception:format=toString}${exception:format=StackTrace}}";
+        public string OutputFormat { get; set; } =
+            "${date:format=yyyy-MM-dd HH\\:mm\\:ss} [Uestc.BBS ${level}] ${message}${onexception:${newline}${exception:format=toString}${exception:format=StackTrace}}";
     }
 
     public class UpgradeSetting
@@ -433,7 +522,7 @@ namespace Uestc.BBS.Core
         /// <summary>
         /// 上次更新检查时间
         /// </summary>
-        public DateTime LastCheckTime {  get; set; } = DateTime.MinValue;
+        public DateTime LastCheckTime { get; set; } = DateTime.MinValue;
 
         /// <summary>
         /// 更新地址
@@ -442,7 +531,5 @@ namespace Uestc.BBS.Core
     }
 
     [JsonSerializable(typeof(AppSetting))]
-    public partial class AppSettingContext : JsonSerializerContext
-    {
-    }
+    public partial class AppSettingContext : JsonSerializerContext { }
 }

@@ -5,6 +5,7 @@ using Avalonia.Controls;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Uestc.BBS.Core.Services.Api.Forum;
+using Uestc.BBS.Desktop.Converters;
 using Uestc.BBS.Desktop.Models;
 
 namespace Uestc.BBS.Desktop.ViewModels
@@ -13,8 +14,8 @@ namespace Uestc.BBS.Desktop.ViewModels
     {
         private readonly ITopicService _topicService;
 
-        [ObservableProperty]
-        private bool _isLoading = false;
+        public static readonly ObservableCollectionIsNotEmptyConverter<TopicOverview> TopicOverviewObservableCollectionIsNotEmptyConverter =
+            new();
 
         [ObservableProperty]
         private BoardTabItemModel? _currentBoardTabItemModel;
@@ -61,27 +62,30 @@ namespace Uestc.BBS.Desktop.ViewModels
                     Board = Board.ExamiHome,
                     SortType = TopicSortType.New,
                     PageSize = 15,
-                },
+                }
             ];
 
             // 加载板块帖子
-            Task.Run(async () =>
-            {
-                IsLoading = true;
-
-                var tabItemLoadTopicsTasks = _boardTabItems.Select(tabItem =>
+            var tabItemLoadTopicsTasks = _boardTabItems.Select(tabItem =>
+                Task.Run(() =>
+                {
+                    tabItem.IsLoading = true;
                     tabItem.Topics = _topicService
                         .GetTopicsAsync(
                             pageSize: tabItem.PageSize,
                             boardId: tabItem.Board,
                             sortby: tabItem.SortType
                         )
-                        .ContinueWith(t => new ObservableCollection<TopicOverview>(
-                            t.Result?.List ?? []
-                        ))
-                );
-                await Task.WhenAll(tabItemLoadTopicsTasks).ContinueWith(t => IsLoading = false);
-            });
+                        .ContinueWith(t =>
+                        {
+                            tabItem.IsLoading = false;
+                            return new ObservableCollection<TopicOverview>(
+                                t.Result?.List.Length > 0 ? t.Result.List : []
+                            );
+                        });
+                })
+            );
+            Task.WhenAll(tabItemLoadTopicsTasks);
         }
 
         [RelayCommand]
@@ -93,17 +97,16 @@ namespace Uestc.BBS.Desktop.ViewModels
                 // Extent.Height：可滚动范围
                 // DesiredSize.Height：窗体高度
                 // 剩余可滚动内容高度小于窗体高度的两倍时加载数据
-                if (
-                    scrollViewer.Offset.Length
-                    < scrollViewer.Extent.Height - (scrollViewer.DesiredSize.Height * 2)
-                )
+                var remainContentHeight = scrollViewer.Extent.Height - scrollViewer.Offset.Length;
+                if (remainContentHeight > scrollViewer.DesiredSize.Height * 2)
                 {
                     return;
                 }
 
-                IsLoading = true;
+                CurrentBoardTabItemModel!.IsLoading = true;
 
-                var currentTopics = await CurrentBoardTabItemModel!.Topics;
+                // 加载帖子
+                var currentTopics = await CurrentBoardTabItemModel.Topics;
                 foreach (
                     var topic in await _topicService
                         .GetTopicsAsync(
@@ -122,7 +125,7 @@ namespace Uestc.BBS.Desktop.ViewModels
                     currentTopics.Add(topic);
                 }
 
-                IsLoading = false;
+                CurrentBoardTabItemModel.IsLoading = false;
             }
         }
     }

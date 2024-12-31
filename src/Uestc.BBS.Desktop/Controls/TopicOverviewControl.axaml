@@ -3,7 +3,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:actipro="http://schemas.actiprosoftware.com/avaloniaui"
     xmlns:controls="using:Uestc.BBS.Desktop.Controls"
-    xmlns:converts="using:Uestc.BBS.Desktop.Converters">
+    xmlns:converts="using:Uestc.BBS.Desktop.Converters"
+    xmlns:icon="using:FluentIcons.Avalonia">
 
     <Design.PreviewWith>
         <StackPanel Width="400" Spacing="10">
@@ -55,6 +56,14 @@
                                                         Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
                             Text="{TemplateBinding Subject}"
                             TextWrapping="Wrap" />
+                        <StackPanel
+                            HorizontalAlignment="Center"
+                            Orientation="Horizontal"
+                            Spacing="100">
+                            <icon:SymbolIcon Symbol="Camera" />
+                            <icon:SymbolIcon Symbol="Camera" />
+                            <icon:SymbolIcon Symbol="Camera" />
+                        </StackPanel>
                     </StackPanel>
                 </Border>
             </ControlTemplate>
