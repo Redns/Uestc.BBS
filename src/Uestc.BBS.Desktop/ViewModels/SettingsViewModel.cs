@@ -16,50 +16,32 @@ using Uestc.BBS.Desktop.Models;
 
 namespace Uestc.BBS.Desktop.ViewModels
 {
-    public partial class SettingsViewModel : ObservableObject
+    public partial class SettingsViewModel(
+        AppSettingModel model,
+        AppSetting appSetting,
+        HttpClient httpClient,
+        Appmanifest appmanifest,
+        ILogService logService
+        ) : ObservableObject
     {
-        private readonly AppSetting _appSetting;
-
-        private readonly HttpClient _httpClient;
-
-        private readonly ILogService _logService;
-
-        private readonly Appmanifest _appmanifest;
-
-        public string AppVersion => _appmanifest.Version;
+        public string AppVersion => appmanifest.Version;
 
         /// <summary>
         /// Copyright
         /// </summary>
         public string Copyright =>
-            DateTime.Now.Year == _appmanifest.OriginalDate.Year
-                ? $"©{_appmanifest.OriginalDate.Year} Redns. MIT License"
-                : $"©{_appmanifest.OriginalDate.Year}-{DateTime.Now.Year} Redns. MIT License";
+            DateTime.Now.Year == appmanifest.OriginalDate.Year
+                ? $"©{appmanifest.OriginalDate.Year} Redns. MIT License"
+                : $"©{appmanifest.OriginalDate.Year}-{DateTime.Now.Year} Redns. MIT License";
 
         [ObservableProperty]
         private bool _isCheckUpgrading = false;
 
         [ObservableProperty]
-        private AppSettingModel _model;
+        private AppSettingModel _model = model;
 
         [ObservableProperty]
-        private IEnumerable<Contributor> _contributors;
-
-        public SettingsViewModel(
-            AppSettingModel model,
-            AppSetting appSetting,
-            HttpClient httpClient,
-            Appmanifest appmanifest,
-            ILogService logService
-        )
-        {
-            _model = model;
-            _appSetting = appSetting;
-            _httpClient = httpClient;
-            _logService = logService;
-            _appmanifest = appmanifest;
-            _contributors = appmanifest.Contributors ?? [];
-        }
+        private IEnumerable<Contributor> _contributors = appmanifest.Contributors ?? [];
 
         /// <summary>
         /// 主题切换
@@ -85,26 +67,26 @@ namespace Uestc.BBS.Desktop.ViewModels
         [RelayCommand]
         private void OpenLogDirectory()
         {
-            if (!Directory.Exists(_logService.LogDirectory))
+            if (!Directory.Exists(logService.LogDirectory))
             {
-                Directory.CreateDirectory(_logService.LogDirectory);
+                Directory.CreateDirectory(logService.LogDirectory);
             }
 
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                Process.Start("explorer.exe", _logService.LogDirectory);
+                Process.Start("explorer.exe", logService.LogDirectory);
                 return;
             }
 
             if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
-                Process.Start("explorer", $"-R {_logService.LogDirectory}");
+                Process.Start("explorer", $"-R {logService.LogDirectory}");
                 return;
             }
 
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             {
-                Process.Start("xdg-open", _logService.LogDirectory);
+                Process.Start("xdg-open", logService.LogDirectory);
             }
         }
 
@@ -114,15 +96,15 @@ namespace Uestc.BBS.Desktop.ViewModels
         [RelayCommand]
         private void ClearLogs()
         {
-            if (!Directory.Exists(_logService.LogDirectory))
+            if (!Directory.Exists(logService.LogDirectory))
             {
                 return;
             }
 
-            _logService.LogDirectory.DeleteFiles($"*{AppDomain.CurrentDomain.FriendlyName}*.log");
+            logService.LogDirectory.DeleteFiles($"*{AppDomain.CurrentDomain.FriendlyName}*.log");
 
             Model.LogSizeContent =
-                $"日志文件存储占用：{_logService.LogDirectory.GetFileTotalSize($"*{AppDomain.CurrentDomain.FriendlyName}*.log").FormatFileSize()}";
+                $"日志文件存储占用：{logService.LogDirectory.GetFileTotalSize($"*{AppDomain.CurrentDomain.FriendlyName}*.log").FormatFileSize()}";
         }
 
         [RelayCommand]
@@ -143,9 +125,9 @@ namespace Uestc.BBS.Desktop.ViewModels
         [RelayCommand]
         private void SaveAppSetting()
         {
-            _appSetting.Save();
+            appSetting.Save();
             Model.LogSizeContent =
-                $"日志文件存储占用：{_logService.LogDirectory.GetFileTotalSize($"*{AppDomain.CurrentDomain.FriendlyName}*.log").FormatFileSize()}";
+                $"日志文件存储占用：{logService.LogDirectory.GetFileTotalSize($"*{AppDomain.CurrentDomain.FriendlyName}*.log").FormatFileSize()}";
         }
 
         [RelayCommand]

@@ -9,17 +9,12 @@ namespace Uestc.BBS.Desktop.Controls.AsyncImageLoader
 {
     public static class ImageBrushLoader
     {
-        private static readonly ParametrizedLogger? Logger;
         public static IAsyncImageLoader AsyncImageLoader { get; set; } =
             new RamCachedWebImageLoader();
 
         static ImageBrushLoader()
         {
             SourceProperty.Changed.AddClassHandler<ImageBrush>(OnSourceChanged);
-            Logger = Avalonia.Logging.Logger.TryGet(
-                LogEventLevel.Error,
-                ImageLoader.AsyncImageLoaderLogArea
-            );
         }
 
         private static async void OnSourceChanged(
@@ -41,10 +36,7 @@ namespace Uestc.BBS.Desktop.Controls.AsyncImageLoader
                     bitmap = await AsyncImageLoader.ProvideImageAsync(newValue);
                 }
             }
-            catch (Exception e)
-            {
-                Logger?.Log("ImageBrushLoader", "ImageBrushLoader image resolution failed: {0}", e);
-            }
+            catch { }
 
             if (GetSource(imageBrush) != newValue)
                 return;

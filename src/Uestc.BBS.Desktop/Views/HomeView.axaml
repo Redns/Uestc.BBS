@@ -33,7 +33,7 @@
             SelectedItem="{Binding CurrentBoardTabItemModel}">
             <TabControl.ItemTemplate>
                 <DataTemplate DataType="models:BoardTabItemModel">
-                    <TextBlock Text="{Binding Key}" />
+                    <TextBlock Text="{Binding Name}" />
                 </DataTemplate>
             </TabControl.ItemTemplate>
             <TabControl.ContentTemplate>
@@ -64,8 +64,12 @@
                                             Avatar="{Binding UserAvatar, Mode=OneTime}"
                                             BoardName="{Binding BoardName, Mode=OneTime}"
                                             Date="{Binding LastReplyDate, Mode=OneTime}"
-                                            Subject="{Binding Subject, Mode=OneTime}"
-                                            Username="{Binding UserNickName, Mode=OneTime}" />
+                                            Likes="{Binding RecommendAdd, Mode=OneTime}"
+                                            PreviewSource="{Binding PreviewSource}"
+                                            Replies="{Binding Replies, Mode=OneTime}"
+                                            Subject="{Binding Subject, Mode=OneTime, Converter={x:Static converts:StringTrimConverter.Instance}}"
+                                            Username="{Binding UserNickName, Mode=OneTime}"
+                                            Views="{Binding Views, Mode=OneTime}" />
                                     </DataTemplate>
                                 </ItemsControl.DataTemplates>
                             </ItemsControl>
@@ -111,7 +115,6 @@
                 Content="筛选"
                 Flyout="{StaticResource Test}" />
         </StackPanel>
-
     </Grid>
 
 </UserControl>

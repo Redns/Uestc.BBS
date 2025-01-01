@@ -8,7 +8,7 @@
             Board boardId = 0,
             TopicSortType sortby = TopicSortType.New,
             TopicTopOrder topOrder = TopicTopOrder.WithoutTop,
-            bool getPreviewImages = false,
+            bool getPreviewSources = false,
             bool getPartialReply = false
         );
     }

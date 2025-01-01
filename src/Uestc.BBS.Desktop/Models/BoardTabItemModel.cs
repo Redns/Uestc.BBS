@@ -8,7 +8,7 @@ namespace Uestc.BBS.Desktop.Models
     public partial class BoardTabItemModel : ObservableObject
     {
         [ObservableProperty]
-        private string _key = string.Empty;
+        private string _name = string.Empty;
 
         [ObservableProperty]
         private Board _board = Board.Latest;
@@ -18,6 +18,9 @@ namespace Uestc.BBS.Desktop.Models
 
         [ObservableProperty]
         private uint _pageSize = 15;
+
+        [ObservableProperty]
+        private bool _requirePreviewSources = false;
 
         /// <summary>
         /// 是否正在加载数据

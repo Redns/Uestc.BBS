@@ -2,7 +2,6 @@
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Avalonia.Logging;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
 
@@ -23,10 +22,6 @@ namespace Uestc.BBS.Desktop.Controls.AsyncImageLoader.Loaders;
 /// </param>
 public class BaseWebImageLoader(HttpClient httpClient, bool disposeHttpClient) : IAsyncImageLoader
 {
-    private readonly ParametrizedLogger? _logger = Logger.TryGet(
-        LogEventLevel.Error,
-        ImageLoader.AsyncImageLoaderLogArea
-    );
     private readonly bool _shouldDisposeHttpClient = disposeHttpClient;
 
     /// <summary>
@@ -54,8 +49,13 @@ public class BaseWebImageLoader(HttpClient httpClient, bool disposeHttpClient) :
     /// </summary>
     /// <param name="url">Target url</param>
     /// <returns>Bitmap</returns>
-    protected virtual async Task<Bitmap?> LoadAsync(string url)
+    protected virtual async Task<Bitmap?> LoadAsync(string? url)
     {
+        if (string.IsNullOrEmpty(url))
+        {
+            return null;
+        }
+
         var internalOrCachedBitmap =
             await LoadFromLocalAsync(url).ConfigureAwait(false)
             ?? await LoadFromInternalAsync(url).ConfigureAwait(false)
@@ -74,15 +74,8 @@ public class BaseWebImageLoader(HttpClient httpClient, bool disposeHttpClient) :
             await SaveToGlobalCache(url, externalBytes).ConfigureAwait(false);
             return bitmap;
         }
-        catch (Exception e)
+        catch
         {
-            _logger?.Log(
-                this,
-                "Failed to resolve image: {RequestUri}\nException: {Exception}",
-                url,
-                e
-            );
-
             return null;
         }
     }
@@ -108,6 +101,11 @@ public class BaseWebImageLoader(HttpClient httpClient, bool disposeHttpClient) :
     {
         try
         {
+            if (string.IsNullOrEmpty(url))
+            {
+                return Task.FromResult<Bitmap?>(null);
+            }
+
             var uri = url.StartsWith('/')
                 ? new Uri(url, UriKind.Relative)
                 : new Uri(url, UriKind.RelativeOrAbsolute);
@@ -120,14 +118,8 @@ public class BaseWebImageLoader(HttpClient httpClient, bool disposeHttpClient) :
 
             return Task.FromResult(new Bitmap(AssetLoader.Open(uri)))!;
         }
-        catch (Exception e)
+        catch
         {
-            _logger?.Log(
-                this,
-                "Failed to resolve image from request with uri: {RequestUri}\nException: {Exception}",
-                url,
-                e
-            );
             return Task.FromResult<Bitmap?>(null);
         }
     }
@@ -144,14 +136,8 @@ public class BaseWebImageLoader(HttpClient httpClient, bool disposeHttpClient) :
         {
             return await HttpClient.GetByteArrayAsync(url).ConfigureAwait(false);
         }
-        catch (Exception e)
+        catch
         {
-            _logger?.Log(
-                this,
-                "Failed to resolve image from request with uri: {RequestUri}\nException: {Exception}",
-                url,
-                e
-            );
             return null;
         }
     }

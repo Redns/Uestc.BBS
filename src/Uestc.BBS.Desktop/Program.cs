@@ -3,7 +3,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using Avalonia;
-using Avalonia.Labs.Controls.Cache;
 using Avalonia.Labs.Notifications;
 using Avalonia.Media;
 using Uestc.BBS.Desktop.Services;
@@ -56,18 +55,6 @@ namespace Uestc.BBS.Desktop
                         AppName = "清水河畔",
                         AppUserModelId = $"com.{AppDomain.CurrentDomain.FriendlyName}",
                     }
-                )
-                .AfterSetup(builder =>
-                {
-                    CacheOptions.SetDefault(
-                        new CacheOptions()
-                        {
-                            BaseCachePath = Path.Combine(
-                                Path.GetTempPath(),
-                                AppDomain.CurrentDomain.FriendlyName
-                            )
-                        }
-                    );
-                });
+                );
     }
 }

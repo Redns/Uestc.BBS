@@ -1,7 +1,9 @@
 ﻿using System.ComponentModel;
+using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.Json.Serialization.Metadata;
+using System.Text.Unicode;
 using Microsoft.Extensions.DependencyInjection;
 using Uestc.BBS.Core.Services.Api.Forum;
 using Uestc.BBS.Core.Services.System;
@@ -105,17 +107,17 @@ namespace Uestc.BBS.Core
             return JsonSerializer.Serialize(this, SerializerOptions);
         }
 
-        public static readonly JsonSerializerOptions SerializerOptions =
-            new()
-            {
-                WriteIndented = true,
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-                PropertyNameCaseInsensitive = true,
-                TypeInfoResolver = JsonTypeInfoResolver.Combine(
-                    AppSettingContext.Default,
-                    new DefaultJsonTypeInfoResolver()
-                )
-            };
+        public static readonly JsonSerializerOptions SerializerOptions = new()
+        {
+            WriteIndented = true,
+            Encoder = JavaScriptEncoder.Create(UnicodeRanges.All),
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+            PropertyNameCaseInsensitive = true,
+            TypeInfoResolver = JsonTypeInfoResolver.Combine(
+                AppSettingContext.Default,
+                new DefaultJsonTypeInfoResolver()
+            ),
+        };
     }
 
     /// <summary>
@@ -189,7 +191,7 @@ namespace Uestc.BBS.Core
                     Name = "主 页",
                     Symbol = "Home",
                     IsActive = true,
-                    DockTop = true
+                    DockTop = true,
                 },
                 new MenuItem
                 {
@@ -197,7 +199,7 @@ namespace Uestc.BBS.Core
                     Name = "版 块",
                     Symbol = "Apps",
                     IsActive = false,
-                    DockTop = true
+                    DockTop = true,
                 },
                 new MenuItem
                 {
@@ -205,7 +207,7 @@ namespace Uestc.BBS.Core
                     Name = "服 务",
                     Symbol = "Rocket",
                     IsActive = false,
-                    DockTop = true
+                    DockTop = true,
                 },
                 new MenuItem
                 {
@@ -213,7 +215,7 @@ namespace Uestc.BBS.Core
                     Name = "动 态",
                     Symbol = "Scan",
                     IsActive = false,
-                    DockTop = true
+                    DockTop = true,
                 },
                 new MenuItem
                 {
@@ -221,7 +223,7 @@ namespace Uestc.BBS.Core
                     Name = "发 布",
                     Symbol = "SaveCopy",
                     IsActive = false,
-                    DockTop = true
+                    DockTop = true,
                 },
                 new MenuItem
                 {
@@ -229,7 +231,7 @@ namespace Uestc.BBS.Core
                     Name = "设 置",
                     Symbol = "Settings",
                     IsActive = false,
-                    DockTop = false
+                    DockTop = false,
                 },
                 new MenuItem
                 {
@@ -237,10 +239,13 @@ namespace Uestc.BBS.Core
                     Name = "消 息",
                     Symbol = "Mail",
                     IsActive = false,
-                    DockTop = false
-                }
+                    DockTop = false,
+                },
             ];
 
+        /// <summary>
+        /// 首页版块 Tab 栏
+        /// </summary>
         public BoardTabItem[] BoardTabItems { get; set; } =
             [
                 new()
@@ -249,6 +254,7 @@ namespace Uestc.BBS.Core
                     Board = Board.Latest,
                     SortType = TopicSortType.New,
                     PageSize = 15,
+                    RequirePreviewSources = true,
                 },
                 new()
                 {
@@ -256,6 +262,7 @@ namespace Uestc.BBS.Core
                     Board = Board.Latest,
                     SortType = TopicSortType.All,
                     PageSize = 15,
+                    RequirePreviewSources = true,
                 },
                 new()
                 {
@@ -263,6 +270,7 @@ namespace Uestc.BBS.Core
                     Board = Board.Anonymous,
                     SortType = TopicSortType.All,
                     PageSize = 15,
+                    RequirePreviewSources = true,
                 },
                 new()
                 {
@@ -270,6 +278,7 @@ namespace Uestc.BBS.Core
                     Board = Board.Transportation,
                     SortType = TopicSortType.Essence,
                     PageSize = 15,
+                    RequirePreviewSources = true,
                 },
                 new()
                 {
@@ -277,7 +286,8 @@ namespace Uestc.BBS.Core
                     Board = Board.ExamiHome,
                     SortType = TopicSortType.New,
                     PageSize = 15,
-                }
+                    RequirePreviewSources = true,
+                },
             ];
     }
 
@@ -288,7 +298,7 @@ namespace Uestc.BBS.Core
     {
         Light = 0,
         Dark,
-        System
+        System,
     }
 
     /// <summary>
@@ -297,7 +307,7 @@ namespace Uestc.BBS.Core
     public enum WindowCloseBehavior
     {
         Hide,
-        Exit
+        Exit,
     }
 
     public enum MenuItemKey
@@ -308,7 +318,7 @@ namespace Uestc.BBS.Core
         Moments,
         Post,
         Messages,
-        Settings
+        Settings,
     }
 
     public class MenuItem
@@ -345,6 +355,11 @@ namespace Uestc.BBS.Core
         /// 分页大小
         /// </summary>
         public uint PageSize { get; set; } = 15;
+
+        /// <summary>
+        /// 获取预览图
+        /// </summary>
+        public bool RequirePreviewSources { get; set; } = false;
     }
 
     /// <summary>
@@ -491,6 +506,7 @@ namespace Uestc.BBS.Core
 
         [Description("启动时+定时同步")]
         OnStaupAndTiming // 启动时 + 定时同步
+        ,
     }
 
     public class LogSetting

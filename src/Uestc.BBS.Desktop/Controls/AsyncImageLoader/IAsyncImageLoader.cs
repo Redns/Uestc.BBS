@@ -7,9 +7,9 @@ namespace Uestc.BBS.Desktop.Controls.AsyncImageLoader;
 public interface IAsyncImageLoader : IDisposable
 {
     /// <summary>
-    ///     Loads image
+    /// 加载图片
     /// </summary>
-    /// <param name="url">Target url</param>
-    /// <returns>Bitmap</returns>
+    /// <param name="url">图片地址</param>
+    /// <returns></returns>
     public Task<Bitmap?> ProvideImageAsync(string url);
 }

@@ -3,7 +3,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Logging;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
@@ -11,16 +10,20 @@ using Avalonia.Platform;
 
 namespace Uestc.BBS.Desktop.Controls.AsyncImageLoader;
 
-public class AdvancedImage : ContentControl
+/// <summary>
+///     Initializes a new instance of the <see cref="AdvancedImage" /> class.
+/// </summary>
+/// <param name="baseUri">The base URL for the XAML context.</param>
+public class AdvancedImage(Uri? baseUri) : ContentControl
 {
     /// <summary>
-    ///     Defines the <see cref="Loader" /> property.
+    /// 图片加载器
     /// </summary>
     public static readonly StyledProperty<IAsyncImageLoader?> LoaderProperty =
         AvaloniaProperty.Register<AdvancedImage, IAsyncImageLoader?>(nameof(Loader));
 
     /// <summary>
-    ///     Defines the <see cref="Source" /> property.
+    /// 图片地址
     /// </summary>
     public static readonly StyledProperty<string?> SourceProperty = AvaloniaProperty.Register<
         AdvancedImage,
@@ -28,7 +31,7 @@ public class AdvancedImage : ContentControl
     >(nameof(Source));
 
     /// <summary>
-    ///     Defines the <see cref="ShouldLoaderChangeTriggerUpdate" /> property.
+    /// 是否在更改加载器时触发更新
     /// </summary>
     public static readonly DirectProperty<
         AdvancedImage,
@@ -43,7 +46,7 @@ public class AdvancedImage : ContentControl
     );
 
     /// <summary>
-    ///     Defines the <see cref="IsLoading" /> property.
+    /// 是否正在加载
     /// </summary>
     public static readonly DirectProperty<AdvancedImage, bool> IsLoadingProperty =
         AvaloniaProperty.RegisterDirect<AdvancedImage, bool>(
@@ -51,6 +54,9 @@ public class AdvancedImage : ContentControl
             image => image._isLoading
         );
 
+    /// <summary>
+    /// 是否显示加载动画
+    /// </summary>
     public static readonly StyledProperty<bool> IsLoadingVisibleProperty =
         AvaloniaProperty.Register<AdvancedImage, bool>(
             nameof(IsLoadingVisible),
@@ -58,7 +64,7 @@ public class AdvancedImage : ContentControl
         );
 
     /// <summary>
-    ///     Defines the <see cref="CurrentImage" /> property.
+    /// 当前加载的图片
     /// </summary>
     public static readonly DirectProperty<AdvancedImage, IImage?> CurrentImageProperty =
         AvaloniaProperty.RegisterDirect<AdvancedImage, IImage?>(
@@ -67,18 +73,18 @@ public class AdvancedImage : ContentControl
         );
 
     /// <summary>
-    ///     Defines the <see cref="Stretch" /> property.
+    /// 图片拉伸方式
     /// </summary>
     public static readonly StyledProperty<Stretch> StretchProperty =
         Image.StretchProperty.AddOwner<AdvancedImage>();
 
     /// <summary>
-    ///     Defines the <see cref="StretchDirection" /> property.
+    /// 图片拉伸方向
     /// </summary>
     public static readonly StyledProperty<StretchDirection> StretchDirectionProperty =
         Image.StretchDirectionProperty.AddOwner<AdvancedImage>();
 
-    private readonly Uri? _baseUri;
+    private readonly Uri? _baseUri = baseUri;
 
     private RoundedRect _cornerRadiusClip;
 
@@ -88,9 +94,6 @@ public class AdvancedImage : ContentControl
     private bool _isLoading;
 
     private bool _shouldLoaderChangeTriggerUpdate;
-
-    private CancellationTokenSource? _updateCancellationToken;
-    private readonly ParametrizedLogger? _logger;
 
     static AdvancedImage()
     {
@@ -105,16 +108,6 @@ public class AdvancedImage : ContentControl
             StretchProperty,
             StretchDirectionProperty
         );
-    }
-
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="AdvancedImage" /> class.
-    /// </summary>
-    /// <param name="baseUri">The base URL for the XAML context.</param>
-    public AdvancedImage(Uri? baseUri)
-    {
-        _baseUri = baseUri;
-        _logger = Logger.TryGet(LogEventLevel.Error, ImageLoader.AsyncImageLoaderLogArea);
     }
 
     /// <summary>
@@ -267,10 +260,8 @@ public class AdvancedImage : ContentControl
                 {
                     return null;
                 }
-                catch (Exception e)
+                catch
                 {
-                    _logger?.Log(this, "AdvancedImage image resolution failed: {0}", e);
-
                     return null;
                 }
                 finally

@@ -2,12 +2,13 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:actipro="http://schemas.actiprosoftware.com/avaloniaui"
+    xmlns:asyncImageLoader="using:Uestc.BBS.Desktop.Controls.AsyncImageLoader"
     xmlns:controls="using:Uestc.BBS.Desktop.Controls"
     xmlns:converts="using:Uestc.BBS.Desktop.Converters"
     xmlns:icon="using:FluentIcons.Avalonia">
 
     <Design.PreviewWith>
-        <StackPanel Width="400" Spacing="10">
+        <StackPanel Width="300" Spacing="10">
             <StackPanel Background="{DynamicResource SystemRegionBrush}">
                 <controls:TopicOverviewControl />
             </StackPanel>
@@ -22,7 +23,8 @@
                     Background="{DynamicResource BgBorder}"
                     CornerRadius="10"
                     Cursor="Hand">
-                    <StackPanel Spacing="6">
+                    <StackPanel Spacing="8">
+                        <!--  头像、昵称、发布/回复时间、分区  -->
                         <DockPanel>
                             <controls:Avatar
                                 Width="36"
@@ -41,11 +43,13 @@
                                                            Converter={x:Static converts:DateToRelativeDateStringConverter.Instance}}" />
                             </StackPanel>
                             <TextBlock
+                                VerticalAlignment="Center"
                                 FontSize="12"
                                 Foreground="{actipro:ThemeResource TabItemBorderBrushSubtleSelected}"
                                 Text="{TemplateBinding BoardName}"
                                 TextAlignment="Right" />
                         </DockPanel>
+                        <!--  标题、摘要  -->
                         <TextBlock
                             FontSize="16"
                             Text="{TemplateBinding Title}"
@@ -56,14 +60,32 @@
                                                         Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
                             Text="{TemplateBinding Subject}"
                             TextWrapping="Wrap" />
-                        <StackPanel
-                            HorizontalAlignment="Center"
-                            Orientation="Horizontal"
-                            Spacing="100">
-                            <icon:SymbolIcon Symbol="Camera" />
-                            <icon:SymbolIcon Symbol="Camera" />
-                            <icon:SymbolIcon Symbol="Camera" />
-                        </StackPanel>
+                        <!--  预览图  -->
+                        <asyncImageLoader:AdvancedImage
+                            Height="160"
+                            HorizontalAlignment="Left"
+                            CornerRadius="10"
+                            IsVisible="{TemplateBinding PreviewSource,
+                                                        Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
+                            Source="{TemplateBinding PreviewSource}"
+                            Stretch="UniformToFill" />
+                        <Grid Margin="10,0" ColumnDefinitions="*,*,*">
+                            <controls:IconText
+                                Grid.Column="0"
+                                HorizontalAlignment="Left"
+                                Symbol="Eye"
+                                Text="{TemplateBinding Views}" />
+                            <controls:IconText
+                                Grid.Column="1"
+                                HorizontalAlignment="Center"
+                                Symbol="Chat"
+                                Text="{TemplateBinding Replies}" />
+                            <controls:IconText
+                                Grid.Column="2"
+                                HorizontalAlignment="Right"
+                                Symbol="ThumbLike"
+                                Text="{TemplateBinding Likes}" />
+                        </Grid>
                     </StackPanel>
                 </Border>
             </ControlTemplate>

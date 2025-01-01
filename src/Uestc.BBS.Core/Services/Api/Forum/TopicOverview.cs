@@ -86,7 +86,8 @@ namespace Uestc.BBS.Core.Services.Api.Forum
         /// <summary>
         /// 浏览量
         /// </summary>
-        public uint Hits { get; set; }
+        [JsonPropertyName("hits")]
+        public uint Views { get; set; }
 
         /// <summary>
         /// 评论数量
@@ -121,7 +122,7 @@ namespace Uestc.BBS.Core.Services.Api.Forum
         /// 预览图链接
         /// </summary>
         [JsonPropertyName("pic_path")]
-        public string PicPath { get; set; } = string.Empty;
+        public string? PicPath { get; set; }
 
         /// <summary>
         /// TODO WHAT'S THIS
@@ -162,6 +163,9 @@ namespace Uestc.BBS.Core.Services.Api.Forum
         /// TODO WHAT'S THIS
         /// </summary>
         public string[] ImageList { get; set; } = [];
+
+        [JsonIgnore]
+        public string? PreviewSource => ImageList.FirstOrDefault(); 
 
         /// <summary>
         /// 源链接

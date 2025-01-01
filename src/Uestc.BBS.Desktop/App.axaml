@@ -17,6 +17,7 @@
                 <ResourceInclude Source="/Assets/Themes.axaml" />
                 <ResourceInclude Source="/Controls/Avatar.axaml" />
                 <ResourceInclude Source="/Controls/InfoBar.axaml" />
+                <ResourceInclude Source="/Controls/IconText.axaml" />
                 <ResourceInclude Source="/Controls/TopicOverviewControl.axaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
@@ -40,17 +41,19 @@
                 ToolTipText="清水河畔">
                 <TrayIcon.Menu>
                     <NativeMenu>
-                        <NativeMenuItem Command="{Binding ShowMainWindowCommand}" Header="打开主窗口" />
+                        <NativeMenuItem Header="关于" />
                         <NativeMenuItem Header="检查更新" />
+
                         <NativeMenuItemSeparator />
-                        <NativeMenuItem
-                            Header="开机自启动"
-                            IsChecked="{Binding Model.StartupOnLaunch, Mode=TwoWay}"
-                            ToggleType="CheckBox" />
                         <NativeMenuItem
                             Header="静默启动"
                             IsChecked="{Binding Model.SlientStartup, Mode=TwoWay}"
                             ToggleType="CheckBox" />
+                        <NativeMenuItem
+                            Header="开机自启动"
+                            IsChecked="{Binding Model.StartupOnLaunch, Mode=TwoWay}"
+                            ToggleType="CheckBox" />
+
                         <NativeMenuItemSeparator />
                         <NativeMenuItem Command="{Binding RestartCommand}" Header="重新启动" />
                         <NativeMenuItem Command="{Binding ExitCommand}" Header="退出" />

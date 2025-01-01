@@ -3,10 +3,8 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
-using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Media.Imaging;
 using Avalonia.Styling;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -14,7 +12,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Uestc.BBS.Core;
 using Uestc.BBS.Core.Services;
 using Uestc.BBS.Core.Services.Api.Forum;
-using Uestc.BBS.Desktop.Helpers;
 using Uestc.BBS.Desktop.Models;
 using Uestc.BBS.Desktop.Views;
 
