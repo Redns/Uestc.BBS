@@ -11,6 +11,9 @@ namespace Uestc.BBS.Desktop.Models
         private string _name = string.Empty;
 
         [ObservableProperty]
+        private string _route = string.Empty;
+
+        [ObservableProperty]
         private Board _board = Board.Latest;
 
         [ObservableProperty]
@@ -21,6 +24,9 @@ namespace Uestc.BBS.Desktop.Models
 
         [ObservableProperty]
         private bool _requirePreviewSources = false;
+
+        [ObservableProperty]
+        private uint _moduleId = 0;
 
         /// <summary>
         /// 是否正在加载数据

@@ -43,10 +43,12 @@ namespace Uestc.BBS.Desktop.ViewModels
                 appSetting.Apperance.BoardTabItems.Select(item => new BoardTabItemModel
                 {
                     Name = item.Name,
+                    Route = item.Route,
                     Board = item.Board,
                     SortType = item.SortType,
                     PageSize = item.PageSize,
                     RequirePreviewSources = item.RequirePreviewSources,
+                    ModuleId = item.ModuleId,
                 })
             );
 
@@ -58,9 +60,11 @@ namespace Uestc.BBS.Desktop.ViewModels
                         tabItem.IsLoading = true;
                         tabItem.Topics = _topicService
                             .GetTopicsAsync(
+                                route: tabItem.Route,
                                 pageSize: tabItem.PageSize,
                                 boardId: tabItem.Board,
                                 sortby: tabItem.SortType,
+                                moduleId: tabItem.ModuleId,
                                 getPreviewSources: tabItem.RequirePreviewSources
                             )
                             .ContinueWith(t =>
@@ -81,13 +85,13 @@ namespace Uestc.BBS.Desktop.ViewModels
         /// <param name="args"></param>
         /// <returns></returns>
         [RelayCommand]
-        private async Task LoadTopicsAsync(ScrollChangedEventArgs args)
+        private async Task ScrollToLoadTopicsAsync(ScrollChangedEventArgs args)
         {
             if (args.Source is not ScrollViewer scrollViewer)
             {
                 return;
             }
-
+            
             // Offset.Length：偏移量
             // Extent.Height：可滚动范围
             // DesiredSize.Height：窗体高度
@@ -97,7 +101,13 @@ namespace Uestc.BBS.Desktop.ViewModels
             {
                 return;
             }
+   
+            await LoadTopicsAsync();
+        }
 
+        [RelayCommand]
+        private async Task LoadTopicsAsync()
+        {
             CurrentBoardTabItemModel!.IsLoading = true;
 
             // 加载帖子
@@ -122,6 +132,26 @@ namespace Uestc.BBS.Desktop.ViewModels
             }
 
             CurrentBoardTabItemModel.IsLoading = false;
+        }
+
+        /// <summary>
+        /// 刷新当前板块帖子
+        /// </summary>
+        [RelayCommand]
+        private async Task RefreshCurrentBoardTopicsAsync(BoardTabItemModel model)
+        {
+            if (model.Equals(CurrentBoardTabItemModel) != true)
+            {
+                return;
+            }
+
+            if (CurrentBoardTabItemModel.IsLoading)
+            {
+                return;
+            }
+
+            CurrentBoardTabItemModel.Topics.Result.Clear();
+            await LoadTopicsAsync();
         }
     }
 }

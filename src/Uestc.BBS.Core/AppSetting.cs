@@ -251,42 +251,52 @@ namespace Uestc.BBS.Core
                 new()
                 {
                     Name = "最新发表",
+                    Route = "forum/topiclist",
                     Board = Board.Latest,
                     SortType = TopicSortType.New,
                     PageSize = 15,
                     RequirePreviewSources = true,
+                    ModuleId = 0,
                 },
                 new()
                 {
                     Name = "最新回复",
+                    Route = "forum/topiclist",
                     Board = Board.Latest,
                     SortType = TopicSortType.All,
                     PageSize = 15,
                     RequirePreviewSources = true,
+                    ModuleId = 0,
                 },
                 new()
                 {
                     Name = "热门",
+                    Route = "portal/newslist",
                     Board = Board.Anonymous,
                     SortType = TopicSortType.All,
                     PageSize = 15,
                     RequirePreviewSources = true,
+                    ModuleId = 2,
                 },
                 new()
                 {
                     Name = "精华",
-                    Board = Board.Transportation,
+                    Route = "forum/topiclist",
+                    Board = Board.Latest,
                     SortType = TopicSortType.Essence,
                     PageSize = 15,
                     RequirePreviewSources = true,
+                    ModuleId = 0,
                 },
                 new()
                 {
                     Name = "淘专辑",
+                    Route = "forum/topiclist",
                     Board = Board.ExamiHome,
                     SortType = TopicSortType.New,
                     PageSize = 15,
                     RequirePreviewSources = true,
+                    ModuleId = 0,
                 },
             ];
     }
@@ -340,6 +350,16 @@ namespace Uestc.BBS.Core
         /// 板块名称
         /// </summary>
         public string Name { get; set; } = string.Empty;
+
+        /// <summary>
+        /// 路由地址
+        /// </summary>
+        public string Route { get; set; } = string.Empty;
+
+        /// <summary>
+        /// 我也不知道这是什么
+        /// </summary>
+        public uint ModuleId { get; set; } = 0;
 
         /// <summary>
         /// 板块编号

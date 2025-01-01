@@ -65,11 +65,12 @@ namespace Uestc.BBS.Core.Services.Api.Forum
         public bool IsAnonymous => UserId is 0;
 
         /// <summary>
-        /// 最新回复日期（Unix 毫秒级时间戳）
+        /// 最新日期（Unix 毫秒级时间戳）
+        /// 热门帖子为发表时间，其余帖子为最新回复时间
         /// </summary>
         [JsonPropertyName("last_reply_date")]
         [JsonConverter(typeof(UnixTimestampStringToDateTimeConverter))]
-        public DateTime LastReplyDate { get; set; }
+        public DateTime DateTime { get; set; }
 
         /// <summary>
         /// 是否包含投票
@@ -119,6 +120,11 @@ namespace Uestc.BBS.Core.Services.Api.Forum
         public string Subject { get; set; } = string.Empty;
 
         /// <summary>
+        /// 摘要（为什么两个字段不能合起来）
+        /// </summary>
+        public string Summary { get; set; } = string.Empty;
+
+        /// <summary>
         /// 预览图链接
         /// </summary>
         [JsonPropertyName("pic_path")]
@@ -165,7 +171,7 @@ namespace Uestc.BBS.Core.Services.Api.Forum
         public string[] ImageList { get; set; } = [];
 
         [JsonIgnore]
-        public string? PreviewSource => ImageList.FirstOrDefault(); 
+        public string? PreviewSource => ImageList.FirstOrDefault();
 
         /// <summary>
         /// 源链接
@@ -191,17 +197,16 @@ namespace Uestc.BBS.Core.Services.Api.Forum
         /// <summary>
         /// 序列化参数
         /// </summary>
-        public static readonly JsonSerializerOptions SerializeOptions =
-            new()
-            {
-                WriteIndented = true,
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-                PropertyNameCaseInsensitive = true,
-                TypeInfoResolver = JsonTypeInfoResolver.Combine(
-                    TopicOverviewContext.Default,
-                    new DefaultJsonTypeInfoResolver()
-                )
-            };
+        public static readonly JsonSerializerOptions SerializeOptions = new()
+        {
+            WriteIndented = true,
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+            PropertyNameCaseInsensitive = true,
+            TypeInfoResolver = JsonTypeInfoResolver.Combine(
+                TopicOverviewContext.Default,
+                new DefaultJsonTypeInfoResolver()
+            ),
+        };
     }
 
     /// <summary>
@@ -211,6 +216,7 @@ namespace Uestc.BBS.Core.Services.Api.Forum
     {
         Normal = 0, // 普通
         Vote // 投票帖
+        ,
     }
 
     /// <summary>
@@ -218,13 +224,14 @@ namespace Uestc.BBS.Core.Services.Api.Forum
     /// </summary>
     public enum Board
     {
-        [Description("最新发表/回复")]
         Latest = 0, // 最新发表/回复
         WaterHome = 25, // 水手之家
         EmploymentAndEntrepreneurship = 174, //就业创业
         Transportation = 225, //交通出行
         Anonymous = 371, //密语
-        ExamiHome = 382 //考试之家
+        ExamiHome =
+            382 //考试之家
+        ,
     }
 
     /// <summary>
@@ -232,7 +239,7 @@ namespace Uestc.BBS.Core.Services.Api.Forum
     /// </summary>
     public enum BoardSubcategory
     {
-        All = 0
+        All = 0,
     }
 
     /// <summary>
@@ -243,6 +250,7 @@ namespace Uestc.BBS.Core.Services.Api.Forum
         New = 0, // 最新
         Essence, // 精华
         All // 全部
+        ,
     }
 
     /// <summary>
@@ -254,6 +262,7 @@ namespace Uestc.BBS.Core.Services.Api.Forum
         WithCurrentSectionTop, // 返回本版置顶帖
         WithCategorySectionTop, // 返回分类置顶帖
         WithGlobalTop // 返回全局置顶帖
+        ,
     }
 
     [JsonSerializable(typeof(TopicOverview))]

@@ -33,7 +33,13 @@
             SelectedItem="{Binding CurrentBoardTabItemModel}">
             <TabControl.ItemTemplate>
                 <DataTemplate DataType="models:BoardTabItemModel">
-                    <TextBlock Text="{Binding Name}" />
+                    <TextBlock Text="{Binding Name}">
+                        <Interaction.Behaviors>
+                            <RoutedEventTriggerBehavior RoutedEvent="{x:Static InputElement.PointerPressedEvent}">
+                                <InvokeCommandAction Command="{Binding $parent[TabControl].((vm:HomeViewModel)DataContext).RefreshCurrentBoardTopicsCommand}" CommandParameter="{Binding}" />
+                            </RoutedEventTriggerBehavior>
+                        </Interaction.Behaviors>
+                    </TextBlock>
                 </DataTemplate>
             </TabControl.ItemTemplate>
             <TabControl.ContentTemplate>
@@ -63,7 +69,7 @@
                                             Margin="0,5"
                                             Avatar="{Binding UserAvatar, Mode=OneTime}"
                                             BoardName="{Binding BoardName, Mode=OneTime}"
-                                            Date="{Binding LastReplyDate, Mode=OneTime}"
+                                            Date="{Binding DateTime, Mode=OneTime}"
                                             Likes="{Binding RecommendAdd, Mode=OneTime}"
                                             PreviewSource="{Binding PreviewSource}"
                                             Replies="{Binding Replies, Mode=OneTime}"
@@ -91,7 +97,7 @@
                         </StackPanel>
                         <Interaction.Behaviors>
                             <RoutedEventTriggerBehavior RoutedEvent="{x:Static ScrollViewer.ScrollChangedEvent}">
-                                <InvokeCommandAction Command="{Binding $parent[TabControl].((vm:HomeViewModel)DataContext).LoadTopicsCommand}" PassEventArgsToCommand="True" />
+                                <InvokeCommandAction Command="{Binding $parent[TabControl].((vm:HomeViewModel)DataContext).ScrollToLoadTopicsCommand}" PassEventArgsToCommand="True" />
                             </RoutedEventTriggerBehavior>
                         </Interaction.Behaviors>
                     </ScrollViewer>
@@ -116,5 +122,4 @@
                 Flyout="{StaticResource Test}" />
         </StackPanel>
     </Grid>
-
 </UserControl>

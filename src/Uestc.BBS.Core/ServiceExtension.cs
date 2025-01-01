@@ -59,7 +59,7 @@ namespace Uestc.BBS.Core
                     var appSetting = services.GetService<AppSetting>();
                     var credential = appSetting?.Auth.DefaultCredential;
                     client.BaseAddress = new Uri(
-                        $"https://bbs.uestc.edu.cn/mobcent/app/web/index.php?r=forum/topiclist&accessToken={credential?.Token}&accessSecret={credential?.Secret}"
+                        $"https://bbs.uestc.edu.cn/mobcent/app/web/index.php?accessToken={credential?.Token}&accessSecret={credential?.Secret}"
                     );
                 }
             );
