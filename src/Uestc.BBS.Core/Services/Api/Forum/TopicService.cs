@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using System.Text.Json;
+using Uestc.BBS.Core.Helpers;
 
 namespace Uestc.BBS.Core.Services.Api.Forum
 {
@@ -39,10 +40,10 @@ namespace Uestc.BBS.Core.Services.Api.Forum
                         { "r", string.IsNullOrEmpty(route) ? "forum/topiclist" : route },
                         { nameof(page), page.ToString() },
                         { nameof(pageSize), pageSize.ToString() },
-                        { nameof(boardId), ((int)boardId).ToString() },
+                        { nameof(boardId), boardId.ToInt32String() },
                         { nameof(moduleId), moduleId.ToString() },
-                        { nameof(sortby), sortby.ToString().ToLower() },
-                        { nameof(topOrder), ((int)topOrder).ToString() },
+                        { nameof(sortby), sortby.ToLowerString() },
+                        { nameof(topOrder), topOrder.ToInt32String() },
                         { "circle", getPartialReply ? "1" : "0" },
                         { "isImageList", getPreviewImages ? "1" : "0" },
                     }

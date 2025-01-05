@@ -2,6 +2,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.Json.Serialization.Metadata;
+using FastEnumUtility;
 using Uestc.BBS.Core.Helpers.JsonConverters;
 using Uestc.BBS.Core.Services.Api.User;
 
@@ -214,9 +215,11 @@ namespace Uestc.BBS.Core.Services.Api.Forum
     /// </summary>
     public enum TopicType
     {
-        Normal = 0, // 普通
-        Vote // 投票帖
-        ,
+        [Label("普通")]
+        Normal = 0,
+
+        [Label("投票")]
+        Vote,
     }
 
     /// <summary>
@@ -224,14 +227,24 @@ namespace Uestc.BBS.Core.Services.Api.Forum
     /// </summary>
     public enum Board
     {
-        Latest = 0, // 最新发表/回复
-        WaterHome = 25, // 水手之家
-        EmploymentAndEntrepreneurship = 174, //就业创业
-        Transportation = 225, //交通出行
-        Anonymous = 371, //密语
-        ExamiHome =
-            382 //考试之家
-        ,
+        [Label("最新发表", (int)TopicSortType.New)]
+        [Label("最新回复", (int)TopicSortType.All)]
+        Latest = 0,
+
+        [Label("水手之家")]
+        WaterHome = 25,
+
+        [Label("就业创业")]
+        EmploymentAndEntrepreneurship = 174,
+
+        [Label("交通出行")]
+        Transportation = 225,
+
+        [Label("密语")]
+        Anonymous = 371,
+
+        [Label("考试之家")]
+        ExamiHome = 382,
     }
 
     /// <summary>
@@ -239,6 +252,7 @@ namespace Uestc.BBS.Core.Services.Api.Forum
     /// </summary>
     public enum BoardSubcategory
     {
+        [Label("全部")]
         All = 0,
     }
 
@@ -247,10 +261,14 @@ namespace Uestc.BBS.Core.Services.Api.Forum
     /// </summary>
     public enum TopicSortType
     {
-        New = 0, // 最新
-        Essence, // 精华
-        All // 全部
-        ,
+        [Label("最新")]
+        New = 0,
+
+        [Label("精华")]
+        Essence,
+
+        [Label("全部")]
+        All,
     }
 
     /// <summary>
@@ -258,11 +276,17 @@ namespace Uestc.BBS.Core.Services.Api.Forum
     /// </summary>
     public enum TopicTopOrder
     {
-        WithoutTop = 0, // 不返回置顶帖
-        WithCurrentSectionTop, // 返回本版置顶帖
-        WithCategorySectionTop, // 返回分类置顶帖
-        WithGlobalTop // 返回全局置顶帖
-        ,
+        [Label("不返回置顶帖")]
+        WithoutTop = 0,
+
+        [Label("返回本版置顶帖")]
+        WithCurrentSectionTop,
+
+        [Label("返回分类置顶帖")]
+        WithCategorySectionTop,
+
+        [Label("返回全局置顶帖")]
+        WithGlobalTop,
     }
 
     [JsonSerializable(typeof(TopicOverview))]
