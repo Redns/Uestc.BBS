@@ -8,11 +8,11 @@
   IgnorableNamespaces="uap rescap">
 
   <Identity
-    Name="8667478f-9bba-4cb2-b3fe-8cad64d19cf6"
+    Name="5ad0e410-7e69-4144-99fa-6231b7a13097"
     Publisher="CN=Jing"
     Version="1.0.0.0" />
 
-  <mp:PhoneIdentity PhoneProductId="8667478f-9bba-4cb2-b3fe-8cad64d19cf6" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+  <mp:PhoneIdentity PhoneProductId="5ad0e410-7e69-4144-99fa-6231b7a13097" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
     <DisplayName>Uestc.BBS.WinUI</DisplayName>

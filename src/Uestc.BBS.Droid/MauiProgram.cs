@@ -4,9 +4,7 @@
     {
         public static MauiApp CreateMauiApp()
         {
-            return MauiApp.CreateBuilder()
-                .UseSharedMauiApp()
-                .Build();
+            return MauiApp.CreateBuilder().UseSharedMauiApp().Build();
         }
     }
 }

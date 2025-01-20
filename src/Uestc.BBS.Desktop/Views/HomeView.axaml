@@ -10,6 +10,7 @@
     xmlns:ic="using:FluentIcons.Avalonia"
     xmlns:icon="using:FluentIcons.Avalonia"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:md="https://github.com/whistyun/Markdown.Avalonia"
     xmlns:models="using:Uestc.BBS.Desktop.Models"
     xmlns:ui="using:FluentAvalonia.UI.Controls"
     xmlns:vm="using:Uestc.BBS.Desktop.ViewModels"
@@ -121,5 +122,10 @@
                 Content="筛选"
                 Flyout="{StaticResource Test}" />
         </StackPanel>
+        <md:MarkdownScrollViewer
+            Grid.Row="1"
+            Grid.Column="1"
+            Markdown="{Binding MarkdownContent}"
+            ScrollViewer.VerticalScrollBarVisibility="Hidden" />
     </Grid>
 </UserControl>

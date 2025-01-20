@@ -6,6 +6,15 @@
     xmlns:local="clr-namespace:Uestc.BBS.Views"
     Shell.FlyoutBehavior="Disabled">
 
-    <ShellContent ContentTemplate="{DataTemplate local:MainPage}" Route="MainPage" />
-
+    <FlyoutItem FlyoutDisplayOptions="AsMultipleItems">
+        <Tab Title="首页">
+            <ShellContent ContentTemplate="{DataTemplate local:MainPage}" Route="MainPage" />
+        </Tab>
+        <Tab Title="板块" >
+            <ShellContent ContentTemplate="{DataTemplate local:HomePage}" Route="HomePage" />
+        </Tab>
+        <Tab Title="动态" />
+        <Tab Title="我的" />
+    </FlyoutItem>
+    <ShellContent ContentTemplate="{DataTemplate local:MessagesPage}" Route="MessagesPage" />
 </Shell>

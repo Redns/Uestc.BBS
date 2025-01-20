@@ -6,85 +6,55 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Uestc.BBS.WinUI"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Title="Uestc.BBS.WinUI"
+    Title="清水河畔"
     mc:Ignorable="d">
+
+    <Window.SystemBackdrop>
+        <MicaBackdrop Kind="Base" />
+    </Window.SystemBackdrop>
+
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-
-        <Grid x:Name="AppTitleBar" Height="48">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition x:Name="LeftPaddingColumn" Width="0" />
-                <ColumnDefinition x:Name="IconColumn" Width="Auto" />
-                <ColumnDefinition x:Name="TitleColumn" Width="Auto" />
-                <ColumnDefinition x:Name="LeftDragColumn" Width="*" />
-                <ColumnDefinition
-                    x:Name="SearchColumn"
-                    Width="4*"
-                    MinWidth="220" />
-                <ColumnDefinition
-                    x:Name="RightDragColumn"
-                    Width="*"
-                    MinWidth="48" />
-                <ColumnDefinition x:Name="AccountColumn" Width="Auto" />
-                <ColumnDefinition x:Name="RightPaddingColumn" Width="0" />
-            </Grid.ColumnDefinitions>
-            <Image
-                x:Name="TitleBarIcon"
-                Grid.Column="1"
-                Width="16"
-                Height="16"
-                Margin="8,0,4,0"
-                Source="ms-appx:///Assets/StoreLogo.png" />
-            <TextBlock
-                x:Name="TitleBarTextBlock"
-                Grid.Column="2"
-                VerticalAlignment="Center"
-                Style="{StaticResource CaptionTextBlockStyle}"
-                Text="App title" />
-            <AutoSuggestBox
-                x:Name="TitleBarSearchBox"
-                Grid.Column="4"
-                MaxWidth="600"
-                VerticalAlignment="Center"
-                PlaceholderText="Search"
-                QueryIcon="Find" />
+        <StackPanel
+            Grid.Row="0"
+            VerticalAlignment="Center"
+            Orientation="Horizontal">
+            <TextBlock Text="清水河畔" />
+            <TextBox Width="500" PlaceholderText="我曾天真地以为，小时候的梦想每一个都会实现，直到我慢慢地长大……" />
             <PersonPicture
-                x:Name="PersonPic"
-                Grid.Column="6"
-                Height="32"
-                Margin="0,0,16,0" />
-        </Grid>
-
+                Height="35"
+                HorizontalAlignment="Right"
+                ProfilePicture="https://image.krins.cloud/%E5%A4%B4%E5%83%8F.jpg" />
+        </StackPanel>
         <NavigationView
+            x:Name="nvSample"
             Grid.Row="1"
+            CompositeMode="Inherit"
             IsBackButtonVisible="Collapsed"
-            IsSettingsVisible="False">
-            <StackPanel>
-                <TextBlock
-                    Margin="32,0,0,0"
-                    Style="{ThemeResource TitleTextBlockStyle}"
-                    Text="Content" />
-                <StackPanel Grid.Row="1" VerticalAlignment="Center">
-                    <Button
-                        x:Name="CompactoverlaytBtn"
-                        Margin="4"
-                        Click="SwitchPresenter"
-                        Content="Enter CompactOverlay" />
-                    <Button
-                        x:Name="FullscreenBtn"
-                        Margin="4"
-                        Click="SwitchPresenter"
-                        Content="Enter FullScreen" />
-                    <Button
-                        x:Name="OverlappedBtn"
-                        Margin="4"
-                        Click="SwitchPresenter"
-                        Content="Revert to default (Overlapped)" />
-                </StackPanel>
-            </StackPanel>
+            IsPaneOpen="False">
+            <NavigationView.MenuItems>
+                <NavigationViewItem
+                    Content="Menu Item1"
+                    Icon="Play"
+                    IsSelected="True"
+                    Tag="SamplePage1" />
+                <NavigationViewItem
+                    Content="Menu Item2"
+                    Icon="Save"
+                    Tag="SamplePage2" />
+                <NavigationViewItem
+                    Content="Menu Item3"
+                    Icon="Refresh"
+                    Tag="SamplePage3" />
+                <NavigationViewItem
+                    Content="Menu Item4"
+                    Icon="Download"
+                    Tag="SamplePage4" />
+            </NavigationView.MenuItems>
+            <Frame x:Name="contentFrame" />
         </NavigationView>
     </Grid>
 

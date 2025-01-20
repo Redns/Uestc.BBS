@@ -8,14 +8,15 @@
     <ContentPage.Behaviors>
         <toolkit:StatusBarBehavior StatusBarStyle="DarkContent" />
     </ContentPage.Behaviors>
+
     <ScrollView>
         <VerticalStackLayout Padding="30,0" Spacing="25">
+
             <Image
                 Aspect="AspectFit"
                 HeightRequest="185"
                 SemanticProperties.Description="dot net bot in a race car number eight"
                 Source="dotnet_bot.png" />
-
             <Label
                 SemanticProperties.HeadingLevel="Level1"
                 Style="{StaticResource Headline}"
@@ -27,10 +28,10 @@
                 Style="{StaticResource SubHeadline}"
                 Text="Welcome to &#10;.NET Multi-platform App UI" />
 
-            <Button
+            <!-- <Button
                 HorizontalOptions="Fill"
                 SemanticProperties.Hint="Counts the number of times you click"
-                Text="{Binding DailySentence}" />
+                Text="{Binding DailySentence}" />-->
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>
