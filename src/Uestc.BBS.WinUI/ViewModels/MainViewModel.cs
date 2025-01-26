@@ -60,9 +60,15 @@ namespace Uestc.BBS.WinUI.ViewModels
                 {
                     // 获取每日一句
                     // TODO 设置中可配置轮询频率
-                    await _dispatcherQueue.EnqueueAsync(async () =>
+                    var sentence = await _dailySentenceService.GetDailySentenceAsync();
+                    if (string.IsNullOrEmpty(sentence) || sentence == SearchPlaceholderText)
                     {
-                        SearchPlaceholderText = await _dailySentenceService.GetDailySentenceAsync();
+                        return;
+                    }
+
+                    await _dispatcherQueue.EnqueueAsync(() =>
+                    {
+                        SearchPlaceholderText = sentence;
                     });
                 },
                 null,

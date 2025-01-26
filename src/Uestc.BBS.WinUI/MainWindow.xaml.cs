@@ -21,7 +21,7 @@ namespace Uestc.BBS.WinUI
         {
             _viewModel = viewModel;
             _navigateService = navigateService;
-
+            
             InitializeComponent();
             ExtendsContentIntoTitleBar = true;
             navigateView.SelectedItem = navigateView.MenuItems[0];

@@ -22,7 +22,7 @@
 	<!-- Unpackaged -->
 	<WindowsPackageType>None</WindowsPackageType>
 	<!-- 打包运行时 -->
-	<WindowsAppSDKSelfContained>false</WindowsAppSDKSelfContained>
+	<WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
 </PropertyGroup>
 
 <ItemGroup>
@@ -60,9 +60,9 @@
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.WinUI.Controls.Primitives" Version="8.2.241112-preview1" />
     <PackageReference Include="CommunityToolkit.WinUI.Controls.Segmented" Version="8.2.241112-preview1" />
-    <PackageReference Include="FluentIcons.WinUI" Version="1.1.271" />
+    <PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.2.241112-preview1" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1742" />
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.6.250108002" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.7.250109001-experimental2" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Uestc.BBS.Core\Uestc.BBS.Core.csproj" />

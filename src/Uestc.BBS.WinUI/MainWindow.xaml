@@ -6,7 +6,6 @@
     xmlns:controls="using:CommunityToolkit.WinUI.Controls"
     xmlns:core="using:Uestc.BBS.Core"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:ic="using:FluentIcons.WinUI"
     xmlns:local="using:Uestc.BBS.WinUI"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="using:CommunityToolkit.WinUI"
@@ -57,109 +56,88 @@
             ItemInvoked="NavigateToPage">
             <NavigationView.MenuItems>
                 <!--  首页  -->
-                <NavigationViewItem
-                    Height="68"
-                    Margin="0,0,0,5"
-                    Tag="Home">
+                <NavigationViewItem Height="65" Tag="Home">
                     <NavigationViewItem.Content>
                         <StackPanel
                             Padding="-10,0,0,0"
                             HorizontalAlignment="Center"
                             Spacing="4">
-                            <ic:SymbolIcon FontSize="26" Symbol="Home" />
-                            <TextBlock FontSize="14" Text="首 页" />
+                            <FontIcon FontSize="23" Glyph="&#xE80F;" />
+                            <TextBlock FontSize="13" Text="首页" />
                         </StackPanel>
                     </NavigationViewItem.Content>
                 </NavigationViewItem>
                 <!--  版块  -->
-                <NavigationViewItem
-                    Height="68"
-                    Margin="0,0,0,5"
-                    Tag="Sections">
+                <NavigationViewItem Height="65" Tag="Sections">
                     <NavigationViewItem.Content>
                         <StackPanel
                             Padding="-10,0,0,0"
                             HorizontalAlignment="Center"
                             Spacing="4">
-                            <ic:SymbolIcon FontSize="26" Symbol="Apps" />
-                            <TextBlock FontSize="14" Text="板 块" />
+                            <FontIcon FontSize="23" Glyph="&#xE74C;" />
+                            <TextBlock FontSize="13" Text="版块" />
                         </StackPanel>
                     </NavigationViewItem.Content>
                 </NavigationViewItem>
                 <!--  服务  -->
-                <NavigationViewItem
-                    Height="68"
-                    Margin="0,0,0,5"
-                    Tag="Services">
+                <NavigationViewItem Height="65" Tag="Services">
                     <NavigationViewItem.Content>
                         <StackPanel
                             Padding="-10,0,0,0"
                             HorizontalAlignment="Center"
                             Spacing="4">
-                            <ic:SymbolIcon FontSize="26" Symbol="Rocket" />
-                            <TextBlock FontSize="14" Text="服 务" />
+                            <FontIcon FontSize="23" Glyph="&#xE81E;" />
+                            <TextBlock FontSize="13" Text="服务" />
                         </StackPanel>
                     </NavigationViewItem.Content>
                 </NavigationViewItem>
                 <!--  动态  -->
-                <NavigationViewItem
-                    Height="68"
-                    Margin="0,0,0,5"
-                    Tag="Moments">
+                <NavigationViewItem Height="65" Tag="Moments">
                     <NavigationViewItem.Content>
                         <StackPanel
                             Padding="-10,0,0,0"
                             HorizontalAlignment="Center"
                             Spacing="4">
-                            <ic:SymbolIcon FontSize="26" Symbol="Scan" />
-                            <TextBlock FontSize="14" Text="动 态" />
+                            <FontIcon FontSize="23" Glyph="&#xE909;" />
+                            <TextBlock FontSize="13" Text="动态" />
                         </StackPanel>
                     </NavigationViewItem.Content>
                 </NavigationViewItem>
                 <!--  发布  -->
-                <NavigationViewItem
-                    Height="68"
-                    Margin="0,0,0,5"
-                    Tag="Post">
+                <NavigationViewItem Height="65" Tag="Post">
                     <NavigationViewItem.Content>
                         <StackPanel
                             Padding="-10,0,0,0"
                             HorizontalAlignment="Center"
                             Spacing="4">
-                            <ic:SymbolIcon FontSize="26" Symbol="SaveCopy" />
-                            <TextBlock FontSize="14" Text="发 布" />
+                            <FontIcon FontSize="23" Glyph="&#xECCD;" />
+                            <TextBlock FontSize="13" Text="发布" />
                         </StackPanel>
                     </NavigationViewItem.Content>
                 </NavigationViewItem>
             </NavigationView.MenuItems>
             <NavigationView.FooterMenuItems>
                 <!--  消息  -->
-                <NavigationViewItem
-                    Height="68"
-                    Margin="0,5,0,0"
-                    Tag="Messages">
+                <NavigationViewItem Height="65" Tag="Messages">
                     <NavigationViewItem.Content>
                         <StackPanel
                             Padding="-10,0,0,0"
                             HorizontalAlignment="Center"
                             Spacing="4">
-                            <ic:SymbolIcon FontSize="26" Symbol="Mail" />
-                            <TextBlock FontSize="14" Text="消 息" />
+                            <FontIcon FontSize="23" Glyph="&#xE715;" />
+                            <TextBlock FontSize="13" Text="消息" />
                         </StackPanel>
                     </NavigationViewItem.Content>
                 </NavigationViewItem>
                 <!--  设置  -->
-                <NavigationViewItem
-                    Height="68"
-                    Margin="0,5,0,0"
-                    Tag="Settings">
+                <NavigationViewItem Height="65" Tag="Settings">
                     <NavigationViewItem.Content>
                         <StackPanel
                             Padding="-10,0,0,0"
                             HorizontalAlignment="Center"
                             Spacing="4">
-                            <ic:SymbolIcon FontSize="26" Symbol="Settings" />
-                            <TextBlock FontSize="14" Text="设 置" />
+                            <FontIcon FontSize="23" Glyph="&#xE713;" />
+                            <TextBlock FontSize="13" Text="设置" />
                         </StackPanel>
                     </NavigationViewItem.Content>
                 </NavigationViewItem>
