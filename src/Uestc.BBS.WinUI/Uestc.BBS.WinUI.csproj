@@ -22,12 +22,17 @@
 	<!-- Unpackaged -->
 	<WindowsPackageType>None</WindowsPackageType>
 	<!-- 打包运行时 -->
-	<WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
+	<WindowsAppSDKSelfContained>false</WindowsAppSDKSelfContained>
 </PropertyGroup>
 
 <ItemGroup>
   <None Remove="Controls\TopicOverview.xaml" />
-  <None Remove="Views\HomePage.xaml" />
+  <None Remove="Pages\HomePage.xaml" />
+  <None Remove="Pages\MessagesPage.xaml" />
+  <None Remove="Pages\MomentsPage.xaml" />
+  <None Remove="Pages\SectionsPage.xaml" />
+  <None Remove="Pages\ServicesPage.xaml" />
+  <None Remove="Pages\SettingsPage.xaml" />
 </ItemGroup>
 
   <ItemGroup>
@@ -53,7 +58,8 @@
     <ProjectCapability Include="Msix" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="CommunityToolkit.WinUI.Controls.Primitives" Version="8.1.240916" />
+    <PackageReference Include="CommunityToolkit.WinUI.Controls.Primitives" Version="8.2.241112-preview1" />
+    <PackageReference Include="CommunityToolkit.WinUI.Controls.Segmented" Version="8.2.241112-preview1" />
     <PackageReference Include="FluentIcons.WinUI" Version="1.1.271" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1742" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.6.250108002" />
@@ -67,13 +73,31 @@
   </ItemGroup>
   <ItemGroup>
     <Content Update="Assets\Icons\app.ico">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>
     <None Update="Assets\Icons\app.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Page Update="Pages\MessagesPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Pages\PostPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Pages\MomentsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Views\SectionsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Views\ServicesPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Views\SettingsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Controls\TopicOverview.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

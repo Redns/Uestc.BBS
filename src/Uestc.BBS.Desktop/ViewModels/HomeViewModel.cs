@@ -18,12 +18,6 @@ namespace Uestc.BBS.Desktop.ViewModels
         private readonly ITopicService _topicService;
 
         /// <summary>
-        /// 集合非空转换器
-        /// </summary>
-        public static readonly ObservableCollectionIsNotEmptyConverter<TopicOverview> TopicOverviewObservableCollectionIsNotEmptyConverter =
-            new();
-
-        /// <summary>
         /// 当前选中的 Tab 栏
         /// </summary>
         [ObservableProperty]
@@ -32,8 +26,10 @@ namespace Uestc.BBS.Desktop.ViewModels
         /// <summary>
         /// 版块 Tab 栏集合
         /// </summary>
+        //[ObservableProperty]
+        //private ObservableCollection<BoardTabItemModel> _boardTabItems;
         [ObservableProperty]
-        private ObservableCollection<BoardTabItemModel> _boardTabItems;
+        public partial ObservableCollection<BoardTabItemModel> BoardTabItems { get; set; }
 
         [ObservableProperty]
         private string _markdownContent =
@@ -43,7 +39,7 @@ namespace Uestc.BBS.Desktop.ViewModels
         {
             _appSetting = appSetting;
             _topicService = topicService;
-            _boardTabItems =
+            BoardTabItems =
             [
                 .. appSetting.Apperance.BoardTabItems.Select(item => new BoardTabItemModel
                 {
@@ -59,26 +55,26 @@ namespace Uestc.BBS.Desktop.ViewModels
 
             // 加载板块帖子
             Task.WhenAll(
-                _boardTabItems.Select(tabItem =>
+                BoardTabItems.Select(tabItem =>
                     Task.Run(async () =>
                     {
-                        // tabItem.IsLoading = true;
+                        tabItem.IsLoading = true;
 
-                        // var topics = await _topicService.GetTopicsAsync(
-                        //     route: tabItem.Route,
-                        //     pageSize: tabItem.PageSize,
-                        //     boardId: tabItem.Board,
-                        //     sortby: tabItem.SortType,
-                        //     moduleId: tabItem.ModuleId,
-                        //     getPreviewSources: tabItem.RequirePreviewSources
-                        // );
+                        var topics = await _topicService.GetTopicsAsync(
+                            route: tabItem.Route,
+                            pageSize: tabItem.PageSize,
+                            boardId: tabItem.Board,
+                            sortby: tabItem.SortType,
+                            moduleId: tabItem.ModuleId,
+                            getPreviewSources: tabItem.RequirePreviewSources
+                        );
 
-                        // if (topics?.List.Length > 0)
-                        // {
-                        //     tabItem.Topics = [.. topics.List];
-                        // }
+                        if (topics?.List.Length > 0)
+                        {
+                            tabItem.Topics = [.. topics.List];
+                        }
 
-                        // tabItem.IsLoading = false;
+                        tabItem.IsLoading = false;
                     })
                 )
             );
@@ -114,42 +110,30 @@ namespace Uestc.BBS.Desktop.ViewModels
         {
             CurrentBoardTabItemModel!.IsLoading = true;
 
-            CurrentBoardTabItemModel.Topics = await _topicService
-                .GetTopicsAsync(
-                    page: (uint)CurrentBoardTabItemModel.Topics.Count
-                        / CurrentBoardTabItemModel.PageSize
-                        + 1,
-                    pageSize: CurrentBoardTabItemModel.PageSize,
-                    boardId: CurrentBoardTabItemModel.Board,
-                    sortby: CurrentBoardTabItemModel.SortType,
-                    getPreviewSources: CurrentBoardTabItemModel.RequirePreviewSources
-                )
-                .ContinueWith(t => new ObservableCollection<TopicOverview>(t.Result?.List ?? []));
-
             // 加载帖子
-            // var currentTopics = CurrentBoardTabItemModel.Topics;
-            // foreach (
-            //     var topic in await _topicService
-            //         .GetTopicsAsync(
-            //             page: (uint)CurrentBoardTabItemModel.Topics.Count
-            //                 / CurrentBoardTabItemModel.PageSize
-            //                 + 1,
-            //             pageSize: CurrentBoardTabItemModel.PageSize,
-            //             boardId: CurrentBoardTabItemModel.Board,
-            //             sortby: CurrentBoardTabItemModel.SortType,
-            //             getPreviewSources: CurrentBoardTabItemModel.RequirePreviewSources
-            //         )
-            //         .ContinueWith(t => new ObservableCollection<TopicOverview>(
-            //             t.Result?.List ?? []
-            //         ))
-            // )
-            // {
-            //     if (currentTopics.Any(t => t.TopicId == topic.TopicId))
-            //     {
-            //         continue;
-            //     }
-            //     currentTopics.Add(topic);
-            // }
+            var currentTopics = CurrentBoardTabItemModel.Topics;
+            foreach (
+                var topic in await _topicService
+                    .GetTopicsAsync(
+                        page: (uint)CurrentBoardTabItemModel.Topics.Count
+                            / CurrentBoardTabItemModel.PageSize
+                            + 1,
+                        pageSize: CurrentBoardTabItemModel.PageSize,
+                        boardId: CurrentBoardTabItemModel.Board,
+                        sortby: CurrentBoardTabItemModel.SortType,
+                        getPreviewSources: CurrentBoardTabItemModel.RequirePreviewSources
+                    )
+                    .ContinueWith(t => new ObservableCollection<TopicOverview>(
+                        t.Result?.List ?? []
+                    ))
+            )
+            {
+                if (currentTopics.Any(t => t.TopicId == topic.TopicId))
+                {
+                    continue;
+                }
+                currentTopics.Add(topic);
+            }
 
             CurrentBoardTabItemModel.IsLoading = false;
         }
@@ -170,7 +154,7 @@ namespace Uestc.BBS.Desktop.ViewModels
                 return;
             }
 
-            // CurrentBoardTabItemModel.Topics.Clear();
+            CurrentBoardTabItemModel.Topics.Clear();
             await LoadTopicsAsync();
         }
     }

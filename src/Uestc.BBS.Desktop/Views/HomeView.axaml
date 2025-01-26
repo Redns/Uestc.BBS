@@ -13,6 +13,7 @@
     xmlns:md="https://github.com/whistyun/Markdown.Avalonia"
     xmlns:models="using:Uestc.BBS.Desktop.Models"
     xmlns:ui="using:FluentAvalonia.UI.Controls"
+    xmlns:view="using:Uestc.BBS.Desktop.Views"
     xmlns:vm="using:Uestc.BBS.Desktop.ViewModels"
     d:DesignHeight="1440"
     d:DesignWidth="1920"
@@ -90,7 +91,7 @@
                                 <ui:ProgressRing.IsVisible>
                                     <MultiBinding Converter="{x:Static BoolConverters.And}">
                                         <Binding Mode="OneWay" Path="IsLoading" />
-                                        <Binding Converter="{x:Static vm:HomeViewModel.TopicOverviewObservableCollectionIsNotEmptyConverter}" Path="Topics" />
+                                        <Binding Converter="{x:Static view:HomeView.TopicOverviewObservableCollectionIsNotEmptyConverter}" Path="Topics" />
                                     </MultiBinding>
                                 </ui:ProgressRing.IsVisible>
                             </ui:ProgressRing>

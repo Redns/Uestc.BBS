@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
 using Uestc.BBS.Core;
+using Uestc.BBS.WinUI.Pages;
+using Uestc.BBS.WinUI.Services.NavigateService;
 using Uestc.BBS.WinUI.ViewModels;
 
 namespace Uestc.BBS.WinUI
@@ -19,8 +21,18 @@ namespace Uestc.BBS.WinUI
             InitializeComponent();
 
             ServiceExtension.ConfigureCommonServices();
+            // Windows & Pages & ViewModels
             ServiceExtension.ServiceCollection.AddTransient<MainWindow>();
             ServiceExtension.ServiceCollection.AddTransient<MainViewModel>();
+            ServiceExtension.ServiceCollection.AddTransient<HomePage>();
+            ServiceExtension.ServiceCollection.AddTransient<SectionsPage>();
+            ServiceExtension.ServiceCollection.AddTransient<ServicesPage>();
+            ServiceExtension.ServiceCollection.AddTransient<MomentsPage>();
+            ServiceExtension.ServiceCollection.AddTransient<PostPage>();
+            ServiceExtension.ServiceCollection.AddTransient<MessagesPage>();
+            ServiceExtension.ServiceCollection.AddTransient<SettingsPage>();
+            // Navigate
+            ServiceExtension.ServiceCollection.AddSingleton<INavigateService, NavigateService>();
         }
 
         /// <summary>

@@ -9,6 +9,7 @@
     xmlns:ic="using:FluentIcons.WinUI"
     xmlns:local="using:Uestc.BBS.WinUI"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="using:CommunityToolkit.WinUI"
     Title="清水河畔"
     mc:Ignorable="d">
 
@@ -34,6 +35,8 @@
             <PersonPicture
                 Height="35"
                 controls:DockPanel.Dock="Right"
+                Background="Transparent"
+                BorderBrush="Transparent"
                 ProfilePicture="https://bbs.uestc.edu.cn/uc_server/data/avatar/000/28/89/65_avatar_middle.jpg" />
             <AutoSuggestBox
                 MaxWidth="500"
@@ -43,16 +46,21 @@
         </controls:DockPanel>
         <!--  导航栏  -->
         <NavigationView
-            x:Name="nvSample"
+            x:Name="navigateView"
             Grid.Row="1"
             CompactPaneLength="70"
             CompositeMode="Inherit"
             IsBackButtonVisible="Collapsed"
             IsPaneOpen="False"
             IsPaneToggleButtonVisible="False"
-            IsSettingsVisible="False">
+            IsSettingsVisible="False"
+            ItemInvoked="NavigateToPage">
             <NavigationView.MenuItems>
-                <NavigationViewItem Height="68" Margin="0,0,0,5">
+                <!--  首页  -->
+                <NavigationViewItem
+                    Height="68"
+                    Margin="0,0,0,5"
+                    Tag="Home">
                     <NavigationViewItem.Content>
                         <StackPanel
                             Padding="-10,0,0,0"
@@ -63,7 +71,11 @@
                         </StackPanel>
                     </NavigationViewItem.Content>
                 </NavigationViewItem>
-                <NavigationViewItem Height="68" Margin="0,0,0,5">
+                <!--  版块  -->
+                <NavigationViewItem
+                    Height="68"
+                    Margin="0,0,0,5"
+                    Tag="Sections">
                     <NavigationViewItem.Content>
                         <StackPanel
                             Padding="-10,0,0,0"
@@ -74,7 +86,11 @@
                         </StackPanel>
                     </NavigationViewItem.Content>
                 </NavigationViewItem>
-                <NavigationViewItem Height="68" Margin="0,0,0,5">
+                <!--  服务  -->
+                <NavigationViewItem
+                    Height="68"
+                    Margin="0,0,0,5"
+                    Tag="Services">
                     <NavigationViewItem.Content>
                         <StackPanel
                             Padding="-10,0,0,0"
@@ -85,7 +101,11 @@
                         </StackPanel>
                     </NavigationViewItem.Content>
                 </NavigationViewItem>
-                <NavigationViewItem Height="68" Margin="0,0,0,5">
+                <!--  动态  -->
+                <NavigationViewItem
+                    Height="68"
+                    Margin="0,0,0,5"
+                    Tag="Moments">
                     <NavigationViewItem.Content>
                         <StackPanel
                             Padding="-10,0,0,0"
@@ -96,7 +116,11 @@
                         </StackPanel>
                     </NavigationViewItem.Content>
                 </NavigationViewItem>
-                <NavigationViewItem Height="68" Margin="0,0,0,5">
+                <!--  发布  -->
+                <NavigationViewItem
+                    Height="68"
+                    Margin="0,0,0,5"
+                    Tag="Post">
                     <NavigationViewItem.Content>
                         <StackPanel
                             Padding="-10,0,0,0"
@@ -110,7 +134,10 @@
             </NavigationView.MenuItems>
             <NavigationView.FooterMenuItems>
                 <!--  消息  -->
-                <NavigationViewItem Height="68" Margin="0,0,0,5">
+                <NavigationViewItem
+                    Height="68"
+                    Margin="0,5,0,0"
+                    Tag="Messages">
                     <NavigationViewItem.Content>
                         <StackPanel
                             Padding="-10,0,0,0"
@@ -122,7 +149,10 @@
                     </NavigationViewItem.Content>
                 </NavigationViewItem>
                 <!--  设置  -->
-                <NavigationViewItem Height="68">
+                <NavigationViewItem
+                    Height="68"
+                    Margin="0,5,0,0"
+                    Tag="Settings">
                     <NavigationViewItem.Content>
                         <StackPanel
                             Padding="-10,0,0,0"
@@ -134,7 +164,7 @@
                     </NavigationViewItem.Content>
                 </NavigationViewItem>
             </NavigationView.FooterMenuItems>
-            <Frame x:Name="contentFrame" />
+            <Frame x:Name="navigateFrame" />
         </NavigationView>
     </Grid>
 </Window>
