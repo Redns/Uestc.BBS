@@ -146,9 +146,4 @@ public class TopicOverviewControl : TemplatedControl
         get => GetValue(ViewsProperty);
         set => SetValue(ViewsProperty, value);
     }
-
-    public override void EndInit()
-    {
-        base.EndInit();
-    }
 }

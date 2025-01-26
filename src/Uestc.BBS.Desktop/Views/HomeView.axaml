@@ -25,9 +25,8 @@
             </StackPanel>
         </Flyout>
     </UserControl.Resources>
-    <Grid ColumnDefinitions="320,*" RowDefinitions="40,*">
+    <Grid ColumnDefinitions="320,*">
         <TabControl
-            Grid.RowSpan="2"
             Grid.Column="0"
             BorderThickness="0"
             ItemsSource="{Binding BoardTabItems, Mode=OneWay}"
@@ -56,7 +55,7 @@
                                 IsIndeterminate="True"
                                 IsVisible="{Binding IsLoading, Mode=OneWay}"
                                 StartAngle="50" />
-                            <ItemsControl ItemsSource="{Binding Topics^, Mode=OneWay}">
+                            <ItemsControl ItemsSource="{Binding Topics, Mode=OneWay}">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <VirtualizingStackPanel />
@@ -110,22 +109,6 @@
                 </Style>
             </TabControl.Styles>
         </TabControl>
-        <StackPanel
-            Grid.Row="0"
-            Grid.Column="1"
-            VerticalAlignment="Center"
-            Orientation="Horizontal"
-            Spacing="10">
-            <Button Content="刷新" />
-            <DropDownButton
-                Classes="theme-soft"
-                Content="筛选"
-                Flyout="{StaticResource Test}" />
-        </StackPanel>
-        <md:MarkdownScrollViewer
-            Grid.Row="1"
-            Grid.Column="1"
-            Markdown="{Binding MarkdownContent}"
-            ScrollViewer.VerticalScrollBarVisibility="Hidden" />
+        <md:MarkdownScrollViewer Grid.Column="1" Markdown="{Binding MarkdownContent}" />
     </Grid>
 </UserControl>

@@ -5,7 +5,6 @@
     <Design.PreviewWith>
         <Border Padding="20" />
     </Design.PreviewWith>
-
     <!--  隐藏获得焦点状态下控件周围黑边  -->
     <Styles>
         <Style Selector="TextBox,Button,CheckBox">
@@ -46,13 +45,13 @@
     <!--  窗口固定按钮图标 & Tips  -->
     <Style Selector="Button.PinWindowButton">
         <Setter Property="ToolTip.Placement" Value="Pointer" />
-        <Setter Property="ToolTip.Tip" Value="固定窗口" />
+        <Setter Property="ToolTip.Tip" Value="置顶窗口" />
     </Style>
     <Style Selector="Button.PinWindowButton ic|SymbolIcon">
         <Setter Property="Symbol" Value="Pin" />
     </Style>
     <Style Selector="Button.PinWindowButton.IsPinned">
-        <Setter Property="ToolTip.Tip" Value="取消固定窗口" />
+        <Setter Property="ToolTip.Tip" Value="取消置顶窗口" />
     </Style>
     <Style Selector="Button.PinWindowButton.IsPinned ic|SymbolIcon">
         <Setter Property="Symbol" Value="PinOff" />

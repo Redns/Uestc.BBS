@@ -1,10 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Uestc.BBS.Core;
-
-// To learn more about WinUI, the WinUI project structure,
-// and more about our project templates, see: http://aka.ms/winui-project-info.
+using Uestc.BBS.WinUI.ViewModels;
 
 namespace Uestc.BBS.WinUI
 {
@@ -23,6 +20,7 @@ namespace Uestc.BBS.WinUI
 
             ServiceExtension.ConfigureCommonServices();
             ServiceExtension.ServiceCollection.AddTransient<MainWindow>();
+            ServiceExtension.ServiceCollection.AddTransient<MainViewModel>();
         }
 
         /// <summary>

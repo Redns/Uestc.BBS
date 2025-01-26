@@ -185,7 +185,7 @@
                             Width="150"
                             VerticalAlignment="Center"
                             DockPanel.Dock="Right"
-                            Maximum="5.0"
+                            Maximum="2.0"
                             Minimum="0"
                             Value="{Binding Model.TintOpacity}" />
                         <TextBlock

@@ -11,6 +11,7 @@
     <UseWinUI>true</UseWinUI>
     <EnableMsixTooling>true</EnableMsixTooling>
     <Nullable>enable</Nullable>
+	<LangVersion>preview</LangVersion>
   </PropertyGroup>
 
 <PropertyGroup>
@@ -23,6 +24,11 @@
 	<!-- 打包运行时 -->
 	<WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
 </PropertyGroup>
+
+<ItemGroup>
+  <None Remove="Controls\TopicOverview.xaml" />
+  <None Remove="Views\HomePage.xaml" />
+</ItemGroup>
 
   <ItemGroup>
     <Content Include="Assets\SplashScreen.scale-200.png" />
@@ -48,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.WinUI.Controls.Primitives" Version="8.1.240916" />
+    <PackageReference Include="FluentIcons.WinUI" Version="1.1.271" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1742" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.6.250108002" />
   </ItemGroup>
@@ -55,7 +62,6 @@
     <ProjectReference Include="..\Uestc.BBS.Core\Uestc.BBS.Core.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Views\" />
     <Folder Include="ViewModels\" />
     <Folder Include="Models\" />
   </ItemGroup>
@@ -68,6 +74,12 @@
     <None Update="Assets\Icons\app.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Page Update="Controls\TopicOverview.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Views\HomePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 
   <!--

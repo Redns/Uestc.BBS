@@ -1,8 +1,9 @@
+using System;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
-using System;
-using Uestc.BBS.Core.Services;
+using Uestc.BBS.WinUI.ViewModels;
+using Uestc.BBS.WinUI.Views;
 using WinRT.Interop;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -12,18 +13,23 @@ namespace Uestc.BBS.WinUI
 {
     public sealed partial class MainWindow : Window
     {
-        private AppWindow m_AppWindow;
+        private readonly AppWindow m_AppWindow;
 
-        private readonly IDailySentenceService _dailySentenceService;
-        public MainWindow(IDailySentenceService dailySentenceService)
+        private readonly MainViewModel _viewModel;
+
+        public MainWindow(MainViewModel viewModel)
         {
             InitializeComponent();
             ExtendsContentIntoTitleBar = true;
-
+            
             m_AppWindow = GetAppWindowForCurrentWindow();
             m_AppWindow.TitleBar.PreferredHeightOption = TitleBarHeightOption.Tall;
+            m_AppWindow.Resize(new Windows.Graphics.SizeInt32(1500, 900));
 
-            _dailySentenceService = dailySentenceService;
+            _viewModel = viewModel;
+
+            nvSample.SelectedItem = nvSample.MenuItems[0];
+            contentFrame.Navigate(typeof(HomePage));
         }
 
         private AppWindow GetAppWindowForCurrentWindow()

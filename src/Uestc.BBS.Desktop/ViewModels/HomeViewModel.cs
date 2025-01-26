@@ -43,8 +43,9 @@ namespace Uestc.BBS.Desktop.ViewModels
         {
             _appSetting = appSetting;
             _topicService = topicService;
-            _boardTabItems = new ObservableCollection<BoardTabItemModel>(
-                appSetting.Apperance.BoardTabItems.Select(item => new BoardTabItemModel
+            _boardTabItems =
+            [
+                .. appSetting.Apperance.BoardTabItems.Select(item => new BoardTabItemModel
                 {
                     Name = item.Name,
                     Route = item.Route,
@@ -53,31 +54,31 @@ namespace Uestc.BBS.Desktop.ViewModels
                     PageSize = item.PageSize,
                     RequirePreviewSources = item.RequirePreviewSources,
                     ModuleId = item.ModuleId,
-                })
-            );
+                }),
+            ];
 
             // 加载板块帖子
             Task.WhenAll(
                 _boardTabItems.Select(tabItem =>
-                    Task.Run(() =>
+                    Task.Run(async () =>
                     {
-                        tabItem.IsLoading = true;
-                        tabItem.Topics = _topicService
-                            .GetTopicsAsync(
-                                route: tabItem.Route,
-                                pageSize: tabItem.PageSize,
-                                boardId: tabItem.Board,
-                                sortby: tabItem.SortType,
-                                moduleId: tabItem.ModuleId,
-                                getPreviewSources: tabItem.RequirePreviewSources
-                            )
-                            .ContinueWith(t =>
-                            {
-                                tabItem.IsLoading = false;
-                                return new ObservableCollection<TopicOverview>(
-                                    t.Result?.List.Length > 0 ? t.Result.List : []
-                                );
-                            });
+                        // tabItem.IsLoading = true;
+
+                        // var topics = await _topicService.GetTopicsAsync(
+                        //     route: tabItem.Route,
+                        //     pageSize: tabItem.PageSize,
+                        //     boardId: tabItem.Board,
+                        //     sortby: tabItem.SortType,
+                        //     moduleId: tabItem.ModuleId,
+                        //     getPreviewSources: tabItem.RequirePreviewSources
+                        // );
+
+                        // if (topics?.List.Length > 0)
+                        // {
+                        //     tabItem.Topics = [.. topics.List];
+                        // }
+
+                        // tabItem.IsLoading = false;
                     })
                 )
             );
@@ -109,31 +110,46 @@ namespace Uestc.BBS.Desktop.ViewModels
             await LoadTopicsAsync();
         }
 
-        [RelayCommand]
         private async Task LoadTopicsAsync()
         {
             CurrentBoardTabItemModel!.IsLoading = true;
 
+            CurrentBoardTabItemModel.Topics = await _topicService
+                .GetTopicsAsync(
+                    page: (uint)CurrentBoardTabItemModel.Topics.Count
+                        / CurrentBoardTabItemModel.PageSize
+                        + 1,
+                    pageSize: CurrentBoardTabItemModel.PageSize,
+                    boardId: CurrentBoardTabItemModel.Board,
+                    sortby: CurrentBoardTabItemModel.SortType,
+                    getPreviewSources: CurrentBoardTabItemModel.RequirePreviewSources
+                )
+                .ContinueWith(t => new ObservableCollection<TopicOverview>(t.Result?.List ?? []));
+
             // 加载帖子
-            var currentTopics = await CurrentBoardTabItemModel.Topics;
-            foreach (
-                var topic in await _topicService
-                    .GetTopicsAsync(
-                        page: (uint)CurrentBoardTabItemModel.Topics.Result.Count
-                            / CurrentBoardTabItemModel.PageSize
-                            + 1,
-                        pageSize: CurrentBoardTabItemModel.PageSize,
-                        boardId: CurrentBoardTabItemModel.Board,
-                        sortby: CurrentBoardTabItemModel.SortType,
-                        getPreviewSources: CurrentBoardTabItemModel.RequirePreviewSources
-                    )
-                    .ContinueWith(t => new ObservableCollection<TopicOverview>(
-                        t.Result?.List ?? []
-                    ))
-            )
-            {
-                currentTopics.Add(topic);
-            }
+            // var currentTopics = CurrentBoardTabItemModel.Topics;
+            // foreach (
+            //     var topic in await _topicService
+            //         .GetTopicsAsync(
+            //             page: (uint)CurrentBoardTabItemModel.Topics.Count
+            //                 / CurrentBoardTabItemModel.PageSize
+            //                 + 1,
+            //             pageSize: CurrentBoardTabItemModel.PageSize,
+            //             boardId: CurrentBoardTabItemModel.Board,
+            //             sortby: CurrentBoardTabItemModel.SortType,
+            //             getPreviewSources: CurrentBoardTabItemModel.RequirePreviewSources
+            //         )
+            //         .ContinueWith(t => new ObservableCollection<TopicOverview>(
+            //             t.Result?.List ?? []
+            //         ))
+            // )
+            // {
+            //     if (currentTopics.Any(t => t.TopicId == topic.TopicId))
+            //     {
+            //         continue;
+            //     }
+            //     currentTopics.Add(topic);
+            // }
 
             CurrentBoardTabItemModel.IsLoading = false;
         }
@@ -154,7 +170,7 @@ namespace Uestc.BBS.Desktop.ViewModels
                 return;
             }
 
-            CurrentBoardTabItemModel.Topics.Result.Clear();
+            // CurrentBoardTabItemModel.Topics.Clear();
             await LoadTopicsAsync();
         }
     }

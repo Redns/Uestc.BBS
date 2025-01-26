@@ -35,8 +35,6 @@ namespace Uestc.BBS.Desktop.Models
         private bool _isLoading = false;
 
         [ObservableProperty]
-        private Task<ObservableCollection<TopicOverview>> _topics = Task.FromResult(
-            new ObservableCollection<TopicOverview>()
-        );
+        private ObservableCollection<TopicOverview> _topics = [];
     }
 }

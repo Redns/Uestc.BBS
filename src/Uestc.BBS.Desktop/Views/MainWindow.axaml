@@ -10,8 +10,8 @@
     xmlns:views="clr-namespace:Uestc.BBS.Desktop.Views"
     xmlns:vm="using:Uestc.BBS.Desktop.ViewModels"
     Title="清水河畔"
-    Width="1000"
-    Height="650"
+    Width="1100"
+    Height="750"
     MinWidth="1000"
     MinHeight="650"
     x:DataType="vm:MainWindowViewModel"
@@ -59,13 +59,11 @@
                 Grid.ColumnSpan="2"
                 Background="{OnPlatform Linux=Transparent}"
                 DoubleTapped="{OnPlatform Linux=DoubleTappedResizeWindow}"
-                LastChildFill="False"
                 PointerPressed="{OnPlatform Linux=DragWindow}">
                 <Image
                     Margin="10,5"
                     Cursor="Hand"
                     DockPanel.Dock="Left"
-                    RenderOptions.BitmapInterpolationMode="{OnPlatform Linux=HighQuality}"
                     Source="/Assets/Icons/titlebar_icon.png"
                     ToolTip.Placement="RightEdgeAlignedBottom"
                     ToolTip.Tip="前往官方论坛">
@@ -75,21 +73,7 @@
                         </RoutedEventTriggerBehavior>
                     </Interaction.Behaviors>
                 </Image>
-                <AutoCompleteBox
-                    Width="480"
-                    Margin="30,6,0,4"
-                    Classes="Search"
-                    DockPanel.Dock="Left"
-                    Watermark="{Binding AppSettingModel.DailySentence^, Mode=OneWay}">
-                    <AutoCompleteBox.InnerRightContent>
-                        <icon:SymbolIcon
-                            Margin="0,0,10,0"
-                            VerticalAlignment="Center"
-                            FontSize="18"
-                            Foreground="#748185"
-                            Symbol="Search" />
-                    </AutoCompleteBox.InnerRightContent>
-                </AutoCompleteBox>
+
                 <Button
                     Classes="WindowToolbarButton CloseButton"
                     Click="CloseWindow"
@@ -128,6 +112,20 @@
                     Margin="6,0"
                     DockPanel.Dock="Right"
                     Source="{Binding Avatar, Mode=OneWay}" />
+                <AutoCompleteBox
+                    Width="480"
+                    Margin="0,6,0,4"
+                    Classes="Search"
+                    Watermark="{Binding AppSettingModel.DailySentence^, Mode=OneWay}">
+                    <AutoCompleteBox.InnerRightContent>
+                        <icon:SymbolIcon
+                            Margin="0,0,10,0"
+                            VerticalAlignment="Center"
+                            FontSize="18"
+                            Foreground="#748185"
+                            Symbol="Search" />
+                    </AutoCompleteBox.InnerRightContent>
+                </AutoCompleteBox>
             </DockPanel>
             <ItemsControl
                 Grid.Row="1"
@@ -163,7 +161,7 @@
             <ContentControl
                 Grid.Row="1"
                 Grid.Column="1"
-                Margin="20,10,40,10"
+                Margin="10"
                 Content="{Binding CurrentPage, Mode=OneWay}" />
         </Grid>
     </Panel>

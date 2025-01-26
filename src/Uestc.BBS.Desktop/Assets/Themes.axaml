@@ -39,7 +39,7 @@
         <ResourceDictionary x:Key="Dark">
             <!--  Background  -->
             <Color x:Key="BgWindow">#181818</Color>
-            <Color x:Key="BgBorder">#3A3A3A</Color>
+            <Color x:Key="BgBorder">#3F3F3F</Color>
             <!--  Text  -->
             <SolidColorBrush x:Key="TextPrimary" Color="#FFFFFF" />
             <SolidColorBrush x:Key="TextSecondary" Color="#606062" />
