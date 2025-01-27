@@ -74,10 +74,13 @@
             </controls:SettingsExpander>
             <!--  评论  -->
             <controls:SettingsExpander
-                Description="强制置顶"
+                Description="楼中楼、强制置顶、热评"
                 Header="评论"
                 HeaderIcon="{ui:FontIcon Glyph=&#xE8BD;}">
                 <controls:SettingsExpander.Items>
+                    <controls:SettingsCard Header="楼中楼">
+                        <ToggleSwitch OffContent="关" OnContent="开" />
+                    </controls:SettingsCard>
                     <controls:SettingsCard Description="置顶评论将显示在热评上方" Header="强制置顶">
                         <ToggleSwitch OffContent="关" OnContent="开" />
                     </controls:SettingsCard>
@@ -110,14 +113,14 @@
             </controls:SettingsExpander>
             <!--  通知  -->
             <controls:SettingsExpander
-                Description=""
+                Description="置顶公告、系统通知、回复等"
                 Header="通知"
                 HeaderIcon="{ui:FontIcon Glyph=&#xEA8F;}">
                 <controls:SettingsExpander.Items>
                     <controls:SettingsCard Description="关闭后将无法获取官方最新通知" Header="置顶公告">
                         <ToggleSwitch OffContent="关" OnContent="开" />
                     </controls:SettingsCard>
-                    <controls:SettingsCard Header="系统通知">
+                    <controls:SettingsCard Description="等级晋升、水滴评分、红包楼奖励等" Header="系统通知">
                         <ToggleSwitch OffContent="关" OnContent="开" />
                     </controls:SettingsCard>
                     <controls:SettingsCard Header="私信">
@@ -189,6 +192,7 @@
                 Description=""
                 Header="缓存"
                 HeaderIcon="{ui:FontIcon Glyph=&#xEE94;}">
+                <Button Content="清除缓存" />
                 <controls:SettingsExpander.Items>
                     <controls:SettingsCard Header="双击头像清除缓存">
                         <ToggleSwitch OffContent="关" OnContent="开" />
@@ -283,7 +287,7 @@
                 HeaderIcon="{ui:FontIcon Glyph=&#xF0E3;}">
                 <Button Content="打开文件夹" />
                 <controls:SettingsExpander.Items>
-                    <controls:SettingsCard Header="启用服务">
+                    <controls:SettingsCard Description="日志服务不会记录敏感信息" Header="启用服务">
                         <ToggleSwitch OffContent="关" OnContent="开" />
                     </controls:SettingsCard>
                     <controls:SettingsCard Description="低于此等级的日志不会输出至文件" Header="记录等级">
@@ -306,6 +310,24 @@
                             FontSize="15"
                             Text="${date:format=yyyy-MM-dd HH:mm:ss} [Uestc.BBS ${level}] ${message}${onexception:${newline}${exception:format=toString}${exception:format=StackTrace}}"
                             TextWrapping="Wrap" />
+                    </controls:SettingsCard>
+                    <controls:SettingsCard Description="日志达到最大尺寸后将自动创建新文件" Header="存档大小">
+                        <StackPanel Orientation="Horizontal" Spacing="10">
+                            <TextBlock VerticalAlignment="Center" Text="1 MB" />
+                            <Slider
+                                Width="160"
+                                Maximum="1024"
+                                Minimum="1" />
+                        </StackPanel>
+                    </controls:SettingsCard>
+                    <controls:SettingsCard Header="存档数量">
+                        <StackPanel Orientation="Horizontal" Spacing="10">
+                            <TextBlock VerticalAlignment="Center" Text="10" />
+                            <Slider
+                                Width="160"
+                                Maximum="128"
+                                Minimum="1" />
+                        </StackPanel>
                     </controls:SettingsCard>
                     <controls:SettingsCard Description="日志文件存储占用 13.10 KB" Header="清除日志记录">
                         <Button Content="全部清除" />

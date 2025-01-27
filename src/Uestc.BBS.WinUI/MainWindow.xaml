@@ -31,6 +31,13 @@
                 FontFamily="Consolas"
                 FontSize="13"
                 Text="清水河畔" />
+            <controls:Segmented Margin="10,0,0,0" SelectedIndex="0">
+                <controls:SegmentedItem Icon="{ui:FontIcon Glyph=&#xE728;}" ToolTipService.ToolTip="我的收藏" />
+                <controls:SegmentedItem Icon="{ui:FontIcon Glyph=&#xE932;}" ToolTipService.ToolTip="我的发表" />
+                <controls:SegmentedItem Icon="{ui:FontIcon Glyph=&#xE90A;}" ToolTipService.ToolTip="我的回复" />
+                <controls:SegmentedItem Icon="{ui:FontIcon Glyph=&#xE7B3;}" ToolTipService.ToolTip="插眼" />
+            </controls:Segmented>
+
             <PersonPicture
                 Height="35"
                 controls:DockPanel.Dock="Right"
