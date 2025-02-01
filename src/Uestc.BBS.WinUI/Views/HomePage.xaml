@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Page
-    x:Class="Uestc.BBS.WinUI.Pages.HomePage"
+    x:Class="Uestc.BBS.WinUI.Views.HomePage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="using:CommunityToolkit.WinUI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="using:Uestc.BBS.WinUI.Pages"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="using:CommunityToolkit.WinUI"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
@@ -41,5 +40,36 @@
                 Margin="-3,0"
                 Text="淘专辑" />
         </SelectorBar>
+        <StackPanel Grid.Column="1">
+            <StackPanel Orientation="Horizontal" Spacing="10">
+                <PersonPicture
+                    Height="48"
+                    VerticalAlignment="Top"
+                    controls:DockPanel.Dock="Left"
+                    ProfilePicture="https://bbs.uestc.edu.cn/uc_server/data/avatar/000/25/68/25_avatar_big.jpg" />
+                <StackPanel VerticalAlignment="Center" Spacing="3">
+                    <StackPanel Orientation="Horizontal" Spacing="5">
+                        <TextBlock FontWeight="SemiBold" Text="Redns" />
+                        <Border Background="{ThemeResource SystemFillColorSuccessBackgroundBrush}" CornerRadius="3">
+                            <TextBlock
+                                Margin="3,0"
+                                Padding="0,0,0,1"
+                                FontSize="12"
+                                Foreground="White"
+                                Text="Lv.6" />
+                        </Border>
+                    </StackPanel>
+                    <TextBlock
+                        FontSize="12"
+                        Foreground="Gray"
+                        Text="早熟的人通常都晚熟，骄傲的人又很急性" />
+                    <TextBlock
+                        Margin="0,5"
+                        FontSize="12"
+                        Foreground="#003E92"
+                        Text="退出登录" />
+                </StackPanel>
+            </StackPanel>
+        </StackPanel>
     </Grid>
 </Page>

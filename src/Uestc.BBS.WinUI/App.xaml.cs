@@ -1,9 +1,15 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using System;
+using System.Diagnostics;
+using H.NotifyIcon;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
 using Uestc.BBS.Core;
-using Uestc.BBS.WinUI.Pages;
-using Uestc.BBS.WinUI.Services.NavigateService;
+using Uestc.BBS.Core.Services.NavigateService;
+using Uestc.BBS.Core.Services.System;
+using Uestc.BBS.Core.ViewModels;
+using Uestc.BBS.WinUI.Services;
 using Uestc.BBS.WinUI.ViewModels;
+using Uestc.BBS.WinUI.Views;
 
 namespace Uestc.BBS.WinUI
 {
@@ -12,25 +18,29 @@ namespace Uestc.BBS.WinUI
     /// </summary>
     public partial class App : Application
     {
-        /// <summary>
-        /// Initializes the singleton application object.  This is the first line of authored code
-        /// executed, and as such is the logical equivalent of main() or WinMain().
-        /// </summary>
         public App()
         {
+            // 防多开
+            if (Process.GetProcessesByName(AppDomain.CurrentDomain.FriendlyName).Length > 1)
+            {
+                Environment.Exit(0);
+            }
+
             InitializeComponent();
 
             ServiceExtension.ConfigureCommonServices();
             // Windows & Pages & ViewModels
-            ServiceExtension.ServiceCollection.AddTransient<MainWindow>();
-            ServiceExtension.ServiceCollection.AddTransient<MainViewModel>();
-            ServiceExtension.ServiceCollection.AddTransient<HomePage>();
-            ServiceExtension.ServiceCollection.AddTransient<SectionsPage>();
-            ServiceExtension.ServiceCollection.AddTransient<ServicesPage>();
-            ServiceExtension.ServiceCollection.AddTransient<MomentsPage>();
-            ServiceExtension.ServiceCollection.AddTransient<PostPage>();
-            ServiceExtension.ServiceCollection.AddTransient<MessagesPage>();
-            ServiceExtension.ServiceCollection.AddTransient<SettingsPage>();
+            ServiceExtension.ServiceCollection.AddTransient<AuthWindow>();
+            ServiceExtension.ServiceCollection.AddTransient<AuthViewModel>();
+            ServiceExtension.ServiceCollection.AddSingleton<MainWindow>();
+            ServiceExtension.ServiceCollection.AddSingleton<MainViewModel>();
+            ServiceExtension.ServiceCollection.AddSingleton<HomePage>();
+            ServiceExtension.ServiceCollection.AddSingleton<SectionsPage>();
+            ServiceExtension.ServiceCollection.AddSingleton<ServicesPage>();
+            ServiceExtension.ServiceCollection.AddSingleton<MomentsPage>();
+            ServiceExtension.ServiceCollection.AddSingleton<PostPage>();
+            ServiceExtension.ServiceCollection.AddSingleton<MessagesPage>();
+            ServiceExtension.ServiceCollection.AddSingleton<SettingsPage>();
             // Navigate
             ServiceExtension.ServiceCollection.AddSingleton<INavigateService, NavigateService>();
         }
@@ -41,8 +51,29 @@ namespace Uestc.BBS.WinUI
         /// <param name="args">Details about the launch request and process.</param>
         protected override void OnLaunched(LaunchActivatedEventArgs args)
         {
-            var mainWindow = ServiceExtension.Services.GetRequiredService<MainWindow>();
-            mainWindow.Activate();
+            try
+            {
+                var appSetting = ServiceExtension.Services.GetRequiredService<AppSetting>();
+                if (!appSetting.Auth.IsUserAuthed)
+                {
+                    // 托盘图标附加于主窗口，未登录时如果不显示主窗口，程序将无法退出
+                    ServiceExtension.Services.GetRequiredService<AuthWindow>().Activate();
+                    return;
+                }
+
+                if (appSetting.Apperance.SlientStart)
+                {
+                    ServiceExtension.Services.GetRequiredService<MainWindow>().Hide();
+                    return;
+                }
+                ServiceExtension.Services.GetRequiredService<MainWindow>().Activate();
+            }
+            catch (Exception e)
+            {
+                ServiceExtension
+                    .Services.GetRequiredService<ILogService>()
+                    .Error("Application launched failed", e);
+            }
         }
     }
 }

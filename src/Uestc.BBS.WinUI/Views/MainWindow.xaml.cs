@@ -3,11 +3,12 @@ using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Uestc.BBS.WinUI.Services.NavigateService;
+using Microsoft.UI.Xaml.Controls.Primitives;
+using Uestc.BBS.Core.Services.NavigateService;
 using Uestc.BBS.WinUI.ViewModels;
 using WinRT.Interop;
 
-namespace Uestc.BBS.WinUI
+namespace Uestc.BBS.WinUI.Views
 {
     public sealed partial class MainWindow : Window
     {
@@ -61,6 +62,11 @@ namespace Uestc.BBS.WinUI
                 return;
             }
             navigateFrame.Content = _navigateService.Navigate(page);
+        }
+
+        private void PersonPicture_PointerPressed(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
+        {
+            FlyoutBase.ShowAttachedFlyout(sender as FrameworkElement);
         }
     }
 }

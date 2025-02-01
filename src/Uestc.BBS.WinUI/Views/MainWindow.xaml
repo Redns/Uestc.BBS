@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Window
-    x:Class="Uestc.BBS.WinUI.MainWindow"
+    x:Class="Uestc.BBS.WinUI.Views.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="using:CommunityToolkit.WinUI.Controls"
@@ -8,6 +8,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Uestc.BBS.WinUI"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:tb="using:H.NotifyIcon"
     xmlns:ui="using:CommunityToolkit.WinUI"
     Title="清水河畔"
     mc:Ignorable="d">
@@ -21,29 +22,92 @@
             <RowDefinition Height="47" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
+        <tb:TaskbarIcon
+            IconSource="/Assets/Icons/app.ico"
+            ToolTipService.Placement="Mouse"
+            ToolTipText="清水河畔">
+            <tb:TaskbarIcon.ContextFlyout>
+                <MenuFlyout AreOpenCloseAnimationsEnabled="False">
+                    <MenuFlyoutItem Text="关于" />
+                    <MenuFlyoutItem Text="检查更新" />
+                    <MenuFlyoutSeparator />
+                    <ToggleMenuFlyoutItem Text="静默启动" />
+                    <ToggleMenuFlyoutItem Text="开机自启动" />
+                    <MenuFlyoutSeparator />
+                    <MenuFlyoutItem Text="重新启动" />
+                    <MenuFlyoutItem Text="退出" />
+                </MenuFlyout>
+            </tb:TaskbarIcon.ContextFlyout>
+        </tb:TaskbarIcon>
         <!--  标题栏  -->
-        <controls:DockPanel Grid.Row="0" Margin="10,0,160,0">
-            <ImageIcon Height="18" Source="Assets/Icons/app.ico" />
+        <controls:DockPanel Grid.Row="0" Margin="0,0,160,0">
+            <AppBarButton
+                Width="40"
+                Margin="5,0,10,0"
+                ToolTipService.ToolTip="返回"
+                Visibility="Collapsed">
+                <FontIcon Glyph="&#xEC52;" />
+            </AppBarButton>
+            <ImageIcon
+                Height="18"
+                Margin="15,0,10,0"
+                Source="Assets/Icons/app.ico" />
             <TextBlock
-                Margin="10,0"
                 Padding="0,0,0,1"
                 VerticalAlignment="Center"
                 FontFamily="Consolas"
                 FontSize="13"
                 Text="清水河畔" />
-            <controls:Segmented Margin="10,0,0,0" SelectedIndex="0">
+            <Button Command="{x:Bind _viewModel.RestartCommand}" Content="重启" />
+            <controls:Segmented Margin="20,0" SelectedIndex="0">
                 <controls:SegmentedItem Icon="{ui:FontIcon Glyph=&#xE728;}" ToolTipService.ToolTip="我的收藏" />
                 <controls:SegmentedItem Icon="{ui:FontIcon Glyph=&#xE932;}" ToolTipService.ToolTip="我的发表" />
                 <controls:SegmentedItem Icon="{ui:FontIcon Glyph=&#xE90A;}" ToolTipService.ToolTip="我的回复" />
                 <controls:SegmentedItem Icon="{ui:FontIcon Glyph=&#xE7B3;}" ToolTipService.ToolTip="插眼" />
             </controls:Segmented>
-
             <PersonPicture
                 Height="35"
                 controls:DockPanel.Dock="Right"
                 Background="Transparent"
                 BorderBrush="Transparent"
-                ProfilePicture="https://bbs.uestc.edu.cn/uc_server/data/avatar/000/28/89/65_avatar_middle.jpg" />
+                PointerPressed="PersonPicture_PointerPressed"
+                ProfilePicture="https://bbs.uestc.edu.cn/uc_server/data/avatar/000/25/68/25_avatar_middle.jpg">
+                <FlyoutBase.AttachedFlyout>
+                    <Flyout Placement="BottomEdgeAlignedRight">
+                        <StackPanel Orientation="Horizontal" Spacing="10">
+                            <PersonPicture
+                                Height="48"
+                                VerticalAlignment="Top"
+                                controls:DockPanel.Dock="Left"
+                                Background="Transparent"
+                                BorderBrush="Transparent"
+                                ProfilePicture="https://bbs.uestc.edu.cn/uc_server/data/avatar/000/25/68/25_avatar_middle.jpg" />
+                            <StackPanel VerticalAlignment="Center" Spacing="3">
+                                <StackPanel Orientation="Horizontal" Spacing="5">
+                                    <TextBlock FontWeight="SemiBold" Text="Redns" />
+                                    <Border Background="{ThemeResource SystemColorButtonTextColor}" CornerRadius="3">
+                                        <TextBlock
+                                            Margin="3,0"
+                                            Padding="0,0,0,1"
+                                            FontSize="12"
+                                            Foreground="White"
+                                            Text="Lv.6" />
+                                    </Border>
+                                </StackPanel>
+                                <TextBlock
+                                    FontSize="12"
+                                    Foreground="Gray"
+                                    Text="早熟的人通常都晚熟，骄傲的人又很急性" />
+                                <TextBlock
+                                    Margin="0,5"
+                                    FontSize="12"
+                                    Foreground="#003E92"
+                                    Text="退出登录" />
+                            </StackPanel>
+                        </StackPanel>
+                    </Flyout>
+                </FlyoutBase.AttachedFlyout>
+            </PersonPicture>
             <AutoSuggestBox
                 MaxWidth="500"
                 VerticalAlignment="Center"

@@ -1,11 +1,13 @@
 ﻿using System.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.Windows.AppLifecycle;
 using Uestc.BBS.Core;
 using Uestc.BBS.Core.Services;
-using Uestc.BBS.WinUI.Services.NavigateService;
+using Uestc.BBS.Core.Services.NavigateService;
 
 namespace Uestc.BBS.WinUI.ViewModels
 {
@@ -75,6 +77,12 @@ namespace Uestc.BBS.WinUI.ViewModels
                 0,
                 60 * 1000
             );
+        }
+
+        [RelayCommand]
+        private void Restart()
+        {
+            AppInstance.Restart("restart");
         }
     }
 }

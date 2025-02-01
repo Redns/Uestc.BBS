@@ -26,13 +26,18 @@
 </PropertyGroup>
 
 <ItemGroup>
+  <Content Remove="Assets\Icons\auth_icon.png" />
+</ItemGroup>
+
+<ItemGroup>
   <None Remove="Controls\TopicOverview.xaml" />
-  <None Remove="Pages\HomePage.xaml" />
-  <None Remove="Pages\MessagesPage.xaml" />
-  <None Remove="Pages\MomentsPage.xaml" />
-  <None Remove="Pages\SectionsPage.xaml" />
-  <None Remove="Pages\ServicesPage.xaml" />
-  <None Remove="Pages\SettingsPage.xaml" />
+  <None Remove="Views\AuthWindow.xaml" />
+  <None Remove="Views\HomePage.xaml" />
+  <None Remove="Views\MessagesPage.xaml" />
+  <None Remove="Views\MomentsPage.xaml" />
+  <None Remove="Views\SectionsPage.xaml" />
+  <None Remove="Views\ServicesPage.xaml" />
+  <None Remove="Views\SettingsPage.xaml" />
 </ItemGroup>
 
   <ItemGroup>
@@ -58,28 +63,34 @@
     <ProjectCapability Include="Msix" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="CommunityToolkit.WinUI.Controls.Primitives" Version="8.2.241112-preview1" />
-    <PackageReference Include="CommunityToolkit.WinUI.Controls.Segmented" Version="8.2.241112-preview1" />
-    <PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.2.241112-preview1" />
+    <PackageReference Include="CommunityToolkit.WinUI.Controls.Primitives" Version="8.2.250129-preview2" />
+    <PackageReference Include="CommunityToolkit.WinUI.Controls.Segmented" Version="8.2.250129-preview2" />
+    <PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.2.250129-preview2" />
+    <PackageReference Include="H.NotifyIcon.WinUI" Version="2.2.0" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1742" />
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.7.250109001-experimental2" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.6.250108002" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Uestc.BBS.Core\Uestc.BBS.Core.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="ViewModels\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Update="Assets\Icons\app.ico">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>
     <None Update="Assets\Icons\app.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Assets\Icons\auth_icon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <Page Update="Views\AuthWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Pages\MessagesPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -122,5 +133,6 @@
     <PublishTrimmed Condition="'$(Configuration)' == 'Debug'">False</PublishTrimmed>
     <PublishTrimmed Condition="'$(Configuration)' != 'Debug'">True</PublishTrimmed>
     <ApplicationIcon>Assets\Icons\app.ico</ApplicationIcon>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 </Project>
