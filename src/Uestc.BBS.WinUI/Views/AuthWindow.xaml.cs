@@ -1,37 +1,41 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
+using Uestc.BBS.Core;
 using Uestc.BBS.Core.ViewModels;
-using Uestc.BBS.WinUI.Helpers;
-using Windows.UI;
+using Windows.Graphics;
 
 namespace Uestc.BBS.WinUI.Views
 {
     public sealed partial class AuthWindow : Window
     {
+        private readonly AppSetting _appSetting;
+
         private readonly AuthViewModel _viewModel;
 
-        public AuthWindow(AuthViewModel viewModel)
+        public AuthWindow(AppSetting appSetting, AuthViewModel viewModel)
         {
-            Init();
             InitializeComponent();
+            InitCustomizeWindow();
 
             _viewModel = viewModel;
+            _appSetting = appSetting;
         }
 
-        private void Init()
+        private void InitCustomizeWindow()
         {
-            var appWindow = this.GetCurrentWindow();
-
-            // 自定义标题栏
-            SetTitleBar(AppTitleBar);
             // 内容拓展至标题栏
             ExtendsContentIntoTitleBar = true;
             // 设置窗口大小
-            appWindow.Resize(new Windows.Graphics.SizeInt32(480, 400));
-            appWindow.TitleBar.BackgroundColor = Color.FromArgb(0, 0, 0, 0);
-            appWindow.TitleBar.IconShowOptions = Microsoft.UI.Windowing.IconShowOptions.HideIconAndSystemMenu;
+            AppWindow.Resize(new SizeInt32(480, 400));
+            // 隐藏标题栏
+            AppWindow.TitleBar.PreferredHeightOption = TitleBarHeightOption.Collapsed;
+            // 设置可拖动区域
+            SetTitleBar(AppTitleBar);
         }
 
         private void Username_AutoSuggestBox_TextChanged(
@@ -44,10 +48,21 @@ namespace Uestc.BBS.WinUI.Views
                 return;
             }
 
-            sender.ItemsSource = _viewModel
-                .Users.Where(u => u.Name.Contains(sender.Text, StringComparison.OrdinalIgnoreCase))
-                //.Select(u => u.Name)
+            var newCredentials = _appSetting
+                .Auth.Credentials.Where(u =>
+                    u.Name.Contains(sender.Text, StringComparison.OrdinalIgnoreCase)
+                )
                 .ToList();
+            if (
+                sender.ItemsSource is not List<AuthCredential> oldCredentials
+                || oldCredentials.Count != newCredentials.Count
+                || newCredentials.Except(oldCredentials).Any()
+            )
+            {
+                sender.ItemsSource = newCredentials;
+            }
         }
+
+        private void CloseWindow(object sender, PointerRoutedEventArgs e) => Close();
     }
 }

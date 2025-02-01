@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Diagnostics;
 using H.NotifyIcon;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
+using Microsoft.Windows.AppLifecycle;
 using Uestc.BBS.Core;
 using Uestc.BBS.Core.Services.NavigateService;
 using Uestc.BBS.Core.Services.System;
@@ -20,13 +20,13 @@ namespace Uestc.BBS.WinUI
     {
         public App()
         {
+            InitializeComponent();
+
             // 防多开
-            if (Process.GetProcessesByName(AppDomain.CurrentDomain.FriendlyName).Length > 1)
+            if (!AppInstance.FindOrRegisterForKey(AppDomain.CurrentDomain.FriendlyName).IsCurrent)
             {
                 Environment.Exit(0);
             }
-
-            InitializeComponent();
 
             ServiceExtension.ConfigureCommonServices();
             // Windows & Pages & ViewModels
