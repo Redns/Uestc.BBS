@@ -26,10 +26,8 @@ namespace Uestc.BBS.Desktop.ViewModels
         /// <summary>
         /// 版块 Tab 栏集合
         /// </summary>
-        //[ObservableProperty]
-        //private ObservableCollection<BoardTabItemModel> _boardTabItems;
         [ObservableProperty]
-        public partial ObservableCollection<BoardTabItemModel> BoardTabItems { get; set; }
+        private ObservableCollection<BoardTabItemModel> _boardTabItems;
 
         [ObservableProperty]
         private string _markdownContent =

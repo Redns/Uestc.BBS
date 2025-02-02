@@ -29,11 +29,10 @@ namespace Uestc.BBS.WinUI
             }
 
             ServiceExtension.ConfigureCommonServices();
-            // Windows & Pages & ViewModels
+            // Windows & Pages
             ServiceExtension.ServiceCollection.AddTransient<AuthWindow>();
-            ServiceExtension.ServiceCollection.AddTransient<AuthViewModel>();
             ServiceExtension.ServiceCollection.AddSingleton<MainWindow>();
-            ServiceExtension.ServiceCollection.AddSingleton<MainViewModel>();
+            ServiceExtension.ServiceCollection.AddTransient<AuthPage>();
             ServiceExtension.ServiceCollection.AddSingleton<HomePage>();
             ServiceExtension.ServiceCollection.AddSingleton<SectionsPage>();
             ServiceExtension.ServiceCollection.AddSingleton<ServicesPage>();
@@ -41,6 +40,9 @@ namespace Uestc.BBS.WinUI
             ServiceExtension.ServiceCollection.AddSingleton<PostPage>();
             ServiceExtension.ServiceCollection.AddSingleton<MessagesPage>();
             ServiceExtension.ServiceCollection.AddSingleton<SettingsPage>();
+            // ViewModels
+            ServiceExtension.ServiceCollection.AddTransient<AuthViewModel>();
+            ServiceExtension.ServiceCollection.AddSingleton<MainViewModel>();
             // Navigate
             ServiceExtension.ServiceCollection.AddSingleton<INavigateService, NavigateService>();
         }

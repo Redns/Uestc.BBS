@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace Uestc.BBS.Core.Helpers
 {
@@ -50,6 +51,15 @@ namespace Uestc.BBS.Core.Helpers
                 throw new PlatformNotSupportedException();
             }
             return "x86";
+        }
+
+        public static void OpenWebsite(string url)
+        {
+            if (string.IsNullOrEmpty(url))
+            {
+                return;
+            }
+            Process.Start(new ProcessStartInfo() { FileName = url, UseShellExecute = true });
         }
     }
 }

@@ -1,41 +1,25 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.UI.Windowing;
-using Microsoft.UI.Xaml;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Input;
 using Uestc.BBS.Core;
-using Uestc.BBS.Core.ViewModels;
-using Windows.Graphics;
+using Uestc.BBS.WinUI.ViewModels;
 
 namespace Uestc.BBS.WinUI.Views
 {
-    public sealed partial class AuthWindow : Window
+    public partial class AuthPage : Page
     {
         private readonly AppSetting _appSetting;
 
         private readonly AuthViewModel _viewModel;
 
-        public AuthWindow(AppSetting appSetting, AuthViewModel viewModel)
+        public AuthPage()
         {
             InitializeComponent();
-            InitCustomizeWindow();
 
-            _viewModel = viewModel;
-            _appSetting = appSetting;
-        }
-
-        private void InitCustomizeWindow()
-        {
-            // 内容拓展至标题栏
-            ExtendsContentIntoTitleBar = true;
-            // 设置窗口大小
-            AppWindow.Resize(new SizeInt32(480, 400));
-            // 隐藏标题栏
-            AppWindow.TitleBar.PreferredHeightOption = TitleBarHeightOption.Collapsed;
-            // 设置可拖动区域
-            SetTitleBar(AppTitleBar);
+            _viewModel = ServiceExtension.Services.GetRequiredService<AuthViewModel>();
+            _appSetting = ServiceExtension.Services.GetRequiredService<AppSetting>();
         }
 
         private void Username_AutoSuggestBox_TextChanged(
@@ -62,7 +46,5 @@ namespace Uestc.BBS.WinUI.Views
                 sender.ItemsSource = newCredentials;
             }
         }
-
-        private void CloseWindow(object sender, PointerRoutedEventArgs e) => Close();
     }
 }

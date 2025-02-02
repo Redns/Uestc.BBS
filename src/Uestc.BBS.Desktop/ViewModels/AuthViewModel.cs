@@ -13,6 +13,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.DependencyInjection;
 using Uestc.BBS.Core;
+using Uestc.BBS.Core.Helpers;
 using Uestc.BBS.Core.Services.Api.Auth;
 using Uestc.BBS.Core.Services.System;
 using Uestc.BBS.Desktop.Models;
@@ -66,9 +67,6 @@ namespace Uestc.BBS.Desktop.ViewModels
         /// </summary>
         [ObservableProperty]
         private bool _autoLogin;
-
-        [ObservableProperty]
-        private bool _isLoging = false;
 
         /// <summary>
         /// 用户头像
@@ -144,13 +142,7 @@ namespace Uestc.BBS.Desktop.ViewModels
         [RelayCommand]
         private void OpenOfficialWebsite()
         {
-            Process.Start(
-                new ProcessStartInfo()
-                {
-                    FileName = _appSetting.Apperance.OfficialWebsite,
-                    UseShellExecute = true,
-                }
-            );
+            OperatingSystemHelper.OpenWebsite(_appSetting.Apperance.OfficialWebsite);
         }
 
         [RelayCommand]
@@ -169,8 +161,6 @@ namespace Uestc.BBS.Desktop.ViewModels
         [RelayCommand(CanExecute = nameof(CanLogin))]
         private async Task LoginAsync()
         {
-            IsLoging = true;
-
             try
             {
                 var credential = await GetAuthCredentialAsync();
@@ -208,10 +198,6 @@ namespace Uestc.BBS.Desktop.ViewModels
                 _notification.Title = "登陆失败";
                 _notification.Message = ex.Message;
                 _notification.Show();
-            }
-            finally
-            {
-                IsLoging = false;
             }
         }
 
