@@ -90,8 +90,8 @@
             <CheckBox
                 Margin="0,0,-15,0"
                 Content="记住密码"
-                IsChecked="{x:Bind _viewModel.RememberPassword}" />
-            <CheckBox Content="自动登录" IsChecked="{x:Bind _viewModel.AutoLogin}" />
+                IsChecked="{x:Bind _viewModel.RememberPassword, Mode=TwoWay}" />
+            <CheckBox Content="自动登录" IsChecked="{x:Bind _viewModel.AutoLogin, Mode=TwoWay}" />
         </StackPanel>
         <Button
             Height="38"

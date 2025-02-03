@@ -37,16 +37,8 @@ namespace Uestc.BBS.WinUI.Views
             }
 
             // 设置窗口大小
-            m_AppWindow = GetCurrentWindow();
-            m_AppWindow.TitleBar.PreferredHeightOption = TitleBarHeightOption.Tall;
-            m_AppWindow.Resize(new Windows.Graphics.SizeInt32(1500, 900));
-        }
-
-        private AppWindow GetCurrentWindow()
-        {
-            IntPtr hWnd = WindowNative.GetWindowHandle(this);
-            WindowId wndId = Win32Interop.GetWindowIdFromWindow(hWnd);
-            return AppWindow.GetFromWindowId(wndId);
+            AppWindow.TitleBar.PreferredHeightOption = TitleBarHeightOption.Tall;
+            AppWindow.Resize(new Windows.Graphics.SizeInt32(1500, 900));
         }
 
         /// <summary>

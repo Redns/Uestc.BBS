@@ -110,9 +110,9 @@ namespace Uestc.BBS.Core.ViewModels
 
                 // TODO 跳转至主页
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                _logService.Error("User login failed", ex);
+                _logService.Error("User login failed", e);
 
                 // TODO
                 //_notification.Title = "登陆失败";

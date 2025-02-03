@@ -6,7 +6,6 @@ using Microsoft.Windows.AppLifecycle;
 using Uestc.BBS.Core;
 using Uestc.BBS.Core.Services.NavigateService;
 using Uestc.BBS.Core.Services.System;
-using Uestc.BBS.Core.ViewModels;
 using Uestc.BBS.WinUI.Services;
 using Uestc.BBS.WinUI.ViewModels;
 using Uestc.BBS.WinUI.Views;
