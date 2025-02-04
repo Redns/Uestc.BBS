@@ -7,7 +7,6 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.Windows.AppLifecycle;
 using Uestc.BBS.Core;
 using Uestc.BBS.Core.Services;
-using Uestc.BBS.Core.Services.NavigateService;
 
 namespace Uestc.BBS.WinUI.ViewModels
 {
@@ -29,11 +28,6 @@ namespace Uestc.BBS.WinUI.ViewModels
         private readonly AppSetting _appSetting;
 
         /// <summary>
-        /// 导航服务
-        /// </summary>
-        private readonly INavigateService _navigateService;
-
-        /// <summary>
         /// 每日一句
         /// </summary>
         private readonly IDailySentenceService _dailySentenceService;
@@ -49,12 +43,10 @@ namespace Uestc.BBS.WinUI.ViewModels
 
         public MainViewModel(
             AppSetting appSetting,
-            INavigateService navigateService,
             IDailySentenceService dailySentenceService
         )
         {
             _appSetting = appSetting;
-            _navigateService = navigateService;
             _dailySentenceService = dailySentenceService;
             _dispatcherQueue = DispatcherQueue.GetForCurrentThread();
             _searchPlaceholderTextUpdateTimer = new Timer(

@@ -4,9 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
 using Microsoft.Windows.AppLifecycle;
 using Uestc.BBS.Core;
-using Uestc.BBS.Core.Services.NavigateService;
 using Uestc.BBS.Core.Services.System;
-using Uestc.BBS.WinUI.Services;
 using Uestc.BBS.WinUI.ViewModels;
 using Uestc.BBS.WinUI.Views;
 
@@ -29,21 +27,21 @@ namespace Uestc.BBS.WinUI
 
             ServiceExtension.ConfigureCommonServices();
             // Windows & Pages
-            ServiceExtension.ServiceCollection.AddTransient<AuthWindow>();
-            ServiceExtension.ServiceCollection.AddSingleton<MainWindow>();
-            ServiceExtension.ServiceCollection.AddTransient<AuthPage>();
-            ServiceExtension.ServiceCollection.AddSingleton<HomePage>();
-            ServiceExtension.ServiceCollection.AddSingleton<SectionsPage>();
-            ServiceExtension.ServiceCollection.AddSingleton<ServicesPage>();
-            ServiceExtension.ServiceCollection.AddSingleton<MomentsPage>();
-            ServiceExtension.ServiceCollection.AddSingleton<PostPage>();
-            ServiceExtension.ServiceCollection.AddSingleton<MessagesPage>();
-            ServiceExtension.ServiceCollection.AddSingleton<SettingsPage>();
+            ServiceExtension
+                .ServiceCollection.AddSingleton<AuthWindow>()
+                .AddSingleton<MainWindow>()
+                .AddSingleton<AuthPage>()
+                .AddSingleton<HomePage>()
+                .AddSingleton<SectionsPage>()
+                .AddSingleton<ServicesPage>()
+                .AddSingleton<MomentsPage>()
+                .AddSingleton<PostPage>()
+                .AddSingleton<MessagesPage>()
+                .AddSingleton<SettingsPage>();
             // ViewModels
-            ServiceExtension.ServiceCollection.AddTransient<AuthViewModel>();
-            ServiceExtension.ServiceCollection.AddSingleton<MainViewModel>();
-            // Navigate
-            ServiceExtension.ServiceCollection.AddSingleton<INavigateService, NavigateService>();
+            ServiceExtension
+                .ServiceCollection.AddSingleton<AuthViewModel>()
+                .AddSingleton<MainViewModel>();
         }
 
         /// <summary>

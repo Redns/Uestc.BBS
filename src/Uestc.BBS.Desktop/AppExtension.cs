@@ -31,21 +31,22 @@ namespace Uestc.BBS.Desktop
                 ?? throw new Exception("Failed to create notification")
             );
             // View & ViewModel
-            ServiceExtension.ServiceCollection.AddSingleton<AppViewModel>();
-            ServiceExtension.ServiceCollection.AddSingleton<AuthWindow>();
-            ServiceExtension.ServiceCollection.AddSingleton<AuthViewModel>();
-            ServiceExtension.ServiceCollection.AddSingleton<MainWindow>();
-            ServiceExtension.ServiceCollection.AddSingleton<MainWindowViewModel>();
-            ServiceExtension.ServiceCollection.AddSingleton<HomeView>();
-            ServiceExtension.ServiceCollection.AddSingleton<HomeViewModel>();
-            ServiceExtension.ServiceCollection.AddSingleton<SectionsView>();
-            ServiceExtension.ServiceCollection.AddSingleton<ServicesView>();
-            ServiceExtension.ServiceCollection.AddSingleton<MomentsView>();
-            ServiceExtension.ServiceCollection.AddSingleton<PostView>();
-            ServiceExtension.ServiceCollection.AddSingleton<MessagesView>();
-            ServiceExtension.ServiceCollection.AddSingleton<SettingsView>();
-            ServiceExtension.ServiceCollection.AddSingleton<AppSettingModel>();
-            ServiceExtension.ServiceCollection.AddSingleton<SettingsViewModel>();
+            ServiceExtension
+                .ServiceCollection.AddSingleton<AppViewModel>()
+                .AddSingleton<AuthWindow>()
+                .AddSingleton<AuthViewModel>()
+                .AddSingleton<MainWindow>()
+                .AddSingleton<MainWindowViewModel>()
+                .AddSingleton<HomeView>()
+                .AddSingleton<HomeViewModel>()
+                .AddSingleton<SectionsView>()
+                .AddSingleton<ServicesView>()
+                .AddSingleton<MomentsView>()
+                .AddSingleton<PostView>()
+                .AddSingleton<MessagesView>()
+                .AddSingleton<SettingsView>()
+                .AddSingleton<AppSettingModel>()
+                .AddSingleton<SettingsViewModel>();
             // HttpClient
             ServiceExtension.ServiceCollection.AddHttpClient<AuthViewModel>();
             ServiceExtension.ServiceCollection.AddHttpClient<MainWindowViewModel>();

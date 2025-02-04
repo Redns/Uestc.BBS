@@ -5,6 +5,7 @@ using Uestc.BBS.Core.Services.Api.Auth;
 using Uestc.BBS.Core.Services.Api.Forum;
 using Uestc.BBS.Core.Services.Api.User;
 using Uestc.BBS.Core.Services.System;
+using Uestc.BBS.Core.ViewModels;
 
 namespace Uestc.BBS.Core
 {
@@ -25,21 +26,24 @@ namespace Uestc.BBS.Core
         /// <returns></returns>
         public static ServiceCollection ConfigureCommonServices()
         {
-            // AppSetting
-            ServiceCollection.AddSingleton(settings => AppSetting.Load());
-            // 日志
-            ServiceCollection.AddSingleton<ILogService>(logger =>
-            {
-                var nlogger = new NLogService(LogManager.GetLogger("*"));
-                var appSetting = Services.GetRequiredService<AppSetting>();
-                nlogger.Setup(appSetting.Log);
-                return nlogger;
-            });
-            // Forums
-            ServiceCollection.AddTransient<IAuthService, AuthService>();
-            ServiceCollection.AddTransient<ITopicService, TopicService>();
-            // 每日一句
-            ServiceCollection.AddTransient<IDailySentenceService, DailySentenceService>();
+            ServiceCollection
+                // AppSetting
+                .AddSingleton(settings => AppSetting.Load())
+                // 日志
+                .AddSingleton<ILogService>(logger =>
+                {
+                    var nlogger = new NLogService(LogManager.GetLogger("*"));
+                    var appSetting = Services.GetRequiredService<AppSetting>();
+                    nlogger.Setup(appSetting.Log);
+                    return nlogger;
+                })
+                // Forums
+                .AddTransient<IAuthService, AuthService>()
+                .AddTransient<ITopicService, TopicService>()
+                // 每日一句
+                .AddSingleton<IDailySentenceService, DailySentenceService>()
+                // ViewModels
+                .AddSingleton<HomeViewModel>();
             // HttpClient
             ServiceCollection.AddHttpClient();
             ServiceCollection.AddHttpClient<IDailySentenceService, DailySentenceService>(client =>

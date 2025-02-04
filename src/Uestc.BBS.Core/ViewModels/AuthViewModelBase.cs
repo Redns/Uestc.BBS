@@ -19,11 +19,11 @@ namespace Uestc.BBS.Core.ViewModels
         IAuthService authService
     ) : ObservableObject
     {
-        private readonly ILogService _logService = logService;
+        public readonly ILogService _logService = logService;
 
-        private readonly AppSetting _appSetting = appSetting;
+        public readonly AppSetting _appSetting = appSetting;
 
-        private readonly IAuthService _authService = authService;
+        public readonly IAuthService _authService = authService;
 
         /// <summary>
         /// 用户名
@@ -108,7 +108,8 @@ namespace Uestc.BBS.Core.ViewModels
                 _appSetting.Auth.RememberPassword = RememberPassword;
                 _appSetting.Save();
 
-                // TODO 跳转至主页
+                // 跳转至主页
+                NavigateToMainView();
             }
             catch (Exception e)
             {
@@ -162,5 +163,10 @@ namespace Uestc.BBS.Core.ViewModels
 
             return credential;
         }
+
+        /// <summary>
+        /// 导航至首页
+        /// </summary>
+        public abstract void NavigateToMainView();
     }
 }

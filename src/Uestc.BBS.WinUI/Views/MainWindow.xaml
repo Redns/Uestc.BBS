@@ -51,14 +51,13 @@
             <ImageIcon
                 Height="18"
                 Margin="15,0,10,0"
-                Source="Assets/Icons/app.ico" />
+                Source="/Assets/Icons/app.ico" />
             <TextBlock
                 Padding="0,0,0,1"
                 VerticalAlignment="Center"
                 FontFamily="Consolas"
                 FontSize="13"
                 Text="清水河畔" />
-            <Button Command="{x:Bind _viewModel.RestartCommand}" Content="重启" />
             <controls:Segmented Margin="20,0" SelectedIndex="0">
                 <controls:SegmentedItem Icon="{ui:FontIcon Glyph=&#xE728;}" ToolTipService.ToolTip="我的收藏" />
                 <controls:SegmentedItem Icon="{ui:FontIcon Glyph=&#xE932;}" ToolTipService.ToolTip="我的发表" />
@@ -127,7 +126,7 @@
             ItemInvoked="NavigateToPage">
             <NavigationView.MenuItems>
                 <!--  首页  -->
-                <NavigationViewItem Height="65" Tag="Home">
+                <NavigationViewItem Height="65" Tag="HomePage">
                     <NavigationViewItem.Content>
                         <StackPanel
                             Padding="-10,0,0,0"
@@ -139,7 +138,7 @@
                     </NavigationViewItem.Content>
                 </NavigationViewItem>
                 <!--  版块  -->
-                <NavigationViewItem Height="65" Tag="Sections">
+                <NavigationViewItem Height="65" Tag="SectionsPage">
                     <NavigationViewItem.Content>
                         <StackPanel
                             Padding="-10,0,0,0"
@@ -151,7 +150,7 @@
                     </NavigationViewItem.Content>
                 </NavigationViewItem>
                 <!--  服务  -->
-                <NavigationViewItem Height="65" Tag="Services">
+                <NavigationViewItem Height="65" Tag="ServicesPage">
                     <NavigationViewItem.Content>
                         <StackPanel
                             Padding="-10,0,0,0"
@@ -163,7 +162,7 @@
                     </NavigationViewItem.Content>
                 </NavigationViewItem>
                 <!--  动态  -->
-                <NavigationViewItem Height="65" Tag="Moments">
+                <NavigationViewItem Height="65" Tag="MomentsPage">
                     <NavigationViewItem.Content>
                         <StackPanel
                             Padding="-10,0,0,0"
@@ -175,7 +174,7 @@
                     </NavigationViewItem.Content>
                 </NavigationViewItem>
                 <!--  发布  -->
-                <NavigationViewItem Height="65" Tag="Post">
+                <NavigationViewItem Height="65" Tag="PostPage">
                     <NavigationViewItem.Content>
                         <StackPanel
                             Padding="-10,0,0,0"
@@ -189,7 +188,7 @@
             </NavigationView.MenuItems>
             <NavigationView.FooterMenuItems>
                 <!--  消息  -->
-                <NavigationViewItem Height="65" Tag="Messages">
+                <NavigationViewItem Height="65" Tag="MessagesPage">
                     <NavigationViewItem.Content>
                         <StackPanel
                             Padding="-10,0,0,0"
@@ -201,7 +200,7 @@
                     </NavigationViewItem.Content>
                 </NavigationViewItem>
                 <!--  设置  -->
-                <NavigationViewItem Height="65" Tag="Settings">
+                <NavigationViewItem Height="65" Tag="SettingsPage">
                     <NavigationViewItem.Content>
                         <StackPanel
                             Padding="-10,0,0,0"

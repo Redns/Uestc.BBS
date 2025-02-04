@@ -2,7 +2,5 @@
 
 namespace Uestc.BBS.Core.ViewModels
 {
-    public class HomeViewModel:ObservableObject
-    {
-    }
+    public class HomeViewModel : ObservableObject { }
 }
