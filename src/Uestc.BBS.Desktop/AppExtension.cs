@@ -23,16 +23,15 @@ namespace Uestc.BBS.Desktop
         /// <returns></returns>
         public static AppBuilder ConfigureServices(this AppBuilder builder)
         {
-            ServiceExtension.ConfigureCommonServices();
-
-            // Notification
-            ServiceExtension.ServiceCollection.AddTransient(notification =>
-                NativeNotificationManager.Current?.CreateNotification(null)
-                ?? throw new Exception("Failed to create notification")
-            );
-            // View & ViewModel
             ServiceExtension
-                .ServiceCollection.AddSingleton<AppViewModel>()
+                .ConfigureCommonServices()
+                // Notification
+                .AddTransient(notification =>
+                    NativeNotificationManager.Current?.CreateNotification(null)
+                    ?? throw new Exception("Failed to create notification")
+                )
+                // View & ViewModel
+                .AddSingleton<AppViewModel>()
                 .AddSingleton<AuthWindow>()
                 .AddSingleton<AuthViewModel>()
                 .AddSingleton<MainWindow>()
@@ -46,43 +45,43 @@ namespace Uestc.BBS.Desktop
                 .AddSingleton<MessagesView>()
                 .AddSingleton<SettingsView>()
                 .AddSingleton<AppSettingModel>()
-                .AddSingleton<SettingsViewModel>();
+                .AddSingleton<SettingsViewModel>()
+                // Appmanifest
+                .AddSingleton(appmanifest =>
+                    JsonSerializer.Deserialize<Appmanifest>(
+                        ResourceHelper.Load("/Assets/appmanifest.json"),
+                        Appmanifest.SerializerOptions
+                    ) ?? throw new ArgumentNullException(nameof(appmanifest))
+                )
+                // 自启动
+                .AddTransient<IStartupService>(startup =>
+                {
+                    var startupInfo = new StartupInfo
+                    {
+                        Name = AppDomain.CurrentDomain.FriendlyName,
+                        Description = $"{AppDomain.CurrentDomain.FriendlyName} startup service",
+                        ApplicationName = AppDomain.CurrentDomain.FriendlyName,
+                        WorkingDirectory = AppDomain.CurrentDomain.BaseDirectory,
+                        ApplicationPath = Environment.ProcessPath!,
+                    };
+
+                    if (OperatingSystem.IsWindows())
+                    {
+                        return new WindowsStartupService(startupInfo);
+                    }
+                    else if (OperatingSystem.IsLinux())
+                    {
+                        return new LinuxStartupService(startupInfo);
+                    }
+                    else
+                    {
+                        return new MacCatalystStartupService();
+                    }
+                });
             // HttpClient
             ServiceExtension.ServiceCollection.AddHttpClient<AuthViewModel>();
             ServiceExtension.ServiceCollection.AddHttpClient<MainWindowViewModel>();
             ServiceExtension.ServiceCollection.AddHttpClient<SettingsViewModel>();
-            // Appmanifest
-            ServiceExtension.ServiceCollection.AddSingleton(appmanifest =>
-                JsonSerializer.Deserialize<Appmanifest>(
-                    ResourceHelper.Load("/Assets/appmanifest.json"),
-                    Appmanifest.SerializerOptions
-                ) ?? throw new ArgumentNullException(nameof(appmanifest))
-            );
-            // 自启动
-            ServiceExtension.ServiceCollection.AddTransient<IStartupService>(startup =>
-            {
-                var startupInfo = new StartupInfo
-                {
-                    Name = AppDomain.CurrentDomain.FriendlyName,
-                    Description = $"{AppDomain.CurrentDomain.FriendlyName} startup service",
-                    ApplicationName = AppDomain.CurrentDomain.FriendlyName,
-                    WorkingDirectory = AppDomain.CurrentDomain.BaseDirectory,
-                    ApplicationPath = Environment.ProcessPath!,
-                };
-
-                if (OperatingSystem.IsWindows())
-                {
-                    return new WindowsStartupService(startupInfo);
-                }
-                else if (OperatingSystem.IsLinux())
-                {
-                    return new LinuxStartupService(startupInfo);
-                }
-                else
-                {
-                    return new MacCatalystStartupService();
-                }
-            });
 
             return builder;
         }

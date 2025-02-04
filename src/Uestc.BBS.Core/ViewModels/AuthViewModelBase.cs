@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using Uestc.BBS.Core.Helpers;
 using Uestc.BBS.Core.Services.Api.Auth;
+using Uestc.BBS.Core.Services.Notification;
 using Uestc.BBS.Core.Services.System;
 
 namespace Uestc.BBS.Core.ViewModels
@@ -16,7 +17,8 @@ namespace Uestc.BBS.Core.ViewModels
     public abstract partial class AuthViewModelBase(
         AppSetting appSetting,
         ILogService logService,
-        IAuthService authService
+        IAuthService authService,
+        INotificationService notificationService
     ) : ObservableObject
     {
         public readonly ILogService _logService = logService;
@@ -24,6 +26,8 @@ namespace Uestc.BBS.Core.ViewModels
         public readonly AppSetting _appSetting = appSetting;
 
         public readonly IAuthService _authService = authService;
+
+        public readonly INotificationService _notificationService = notificationService;
 
         /// <summary>
         /// 用户名
@@ -113,12 +117,8 @@ namespace Uestc.BBS.Core.ViewModels
             }
             catch (Exception e)
             {
-                _logService.Error("User login failed", e);
-
-                // TODO
-                //_notification.Title = "登陆失败";
-                //_notification.Message = ex.Message;
-                //_notification.Show();
+                _logService.Error("Login failed", e);
+                _notificationService.Show("登陆失败", e.Message);
             }
         }
 
@@ -142,10 +142,7 @@ namespace Uestc.BBS.Core.ViewModels
             var resp = await _authService.LoginAsync(Username!, Password!);
             if (resp?.Success is not true)
             {
-                // TODO
-                //_notification.Title = "登陆失败";
-                //_notification.Message = "用户不存在或密码错误";
-                //_notification.Show();
+                _notificationService.Show("登陆失败", "用户不存在或密码错误");
                 return null;
             }
 

@@ -1,10 +1,14 @@
 ﻿using System;
+using System.IO;
+using System.Text.Json;
 using H.NotifyIcon;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
 using Microsoft.Windows.AppLifecycle;
 using Uestc.BBS.Core;
+using Uestc.BBS.Core.Services.Notification;
 using Uestc.BBS.Core.Services.System;
+using Uestc.BBS.WinUI.Services.Notifications;
 using Uestc.BBS.WinUI.ViewModels;
 using Uestc.BBS.WinUI.Views;
 
@@ -17,6 +21,13 @@ namespace Uestc.BBS.WinUI
     {
         public App()
         {
+            var s = Path.Combine(
+                "file://",
+                AppDomain.CurrentDomain.BaseDirectory,
+                "Assets",
+                "Icons",
+                "app.ico"
+            );
             InitializeComponent();
 
             // 防多开
@@ -25,10 +36,10 @@ namespace Uestc.BBS.WinUI
                 Environment.Exit(0);
             }
 
-            ServiceExtension.ConfigureCommonServices();
-            // Windows & Pages
             ServiceExtension
-                .ServiceCollection.AddSingleton<AuthWindow>()
+                .ConfigureCommonServices()
+                // Windows & Pages
+                .AddSingleton<AuthWindow>()
                 .AddSingleton<MainWindow>()
                 .AddSingleton<AuthPage>()
                 .AddSingleton<HomePage>()
@@ -37,11 +48,32 @@ namespace Uestc.BBS.WinUI
                 .AddSingleton<MomentsPage>()
                 .AddSingleton<PostPage>()
                 .AddSingleton<MessagesPage>()
-                .AddSingleton<SettingsPage>();
-            // ViewModels
-            ServiceExtension
-                .ServiceCollection.AddSingleton<AuthViewModel>()
-                .AddSingleton<MainViewModel>();
+                .AddSingleton<SettingsPage>()
+                // ViewModels
+                .AddSingleton<AuthViewModel>()
+                .AddSingleton<MainViewModel>()
+                // Appmanifest
+                .AddSingleton(appmanifest =>
+                    JsonSerializer.Deserialize<Appmanifest>(
+                        File.ReadAllText("Assets/appmanifest.json"),
+                        Appmanifest.SerializerOptions
+                    ) ?? throw new ArgumentNullException(nameof(appmanifest))
+                )
+                // Notification
+                .AddSingleton<INotificationService>(n =>
+                {
+                    var appmanifest = ServiceExtension.Services.GetRequiredService<Appmanifest>();
+                    var appIconUri = new Uri(
+                        Path.Combine(
+                            "file://",
+                            AppDomain.CurrentDomain.BaseDirectory,
+                            "Assets",
+                            "Icons",
+                            "app.ico"
+                        )
+                    );
+                    return new NotificationService(appmanifest.Name, appIconUri);
+                });
         }
 
         /// <summary>

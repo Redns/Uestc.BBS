@@ -5,7 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="using:CommunityToolkit.WinUI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="using:Uestc.BBS.WinUI.Pages"
+    xmlns:local="using:Uestc.BBS.WinUI.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="using:CommunityToolkit.WinUI"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
@@ -399,10 +399,9 @@
                 <TextBlock Text="0.0.0.113-beta" />
                 <controls:SettingsExpander.Items>
                     <controls:SettingsCard Header="源代码">
-                        <HyperlinkButton
-                            Margin="-10,0"
-                            Content="https://github.com/Redns/Uestc.BBS"
-                            NavigateUri="https://github.com/Redns/Uestc.BBS" />
+                        <TextBlock>
+                            <Hyperlink ui:HyperlinkExtensions.CommandParameter="{x:Bind}">https://github.com/Redns/Uestc.BBS</Hyperlink>
+                        </TextBlock>
                     </controls:SettingsCard>
                     <controls:SettingsCard Header="贡献者">
                         <controls:SettingsCard.Resources>

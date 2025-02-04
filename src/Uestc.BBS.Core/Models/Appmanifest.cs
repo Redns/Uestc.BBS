@@ -7,6 +7,11 @@ namespace Uestc.BBS.Core.Services.System
     public class Appmanifest
     {
         /// <summary>
+        /// 应用名称
+        /// </summary>
+        public string Name { get; init; } = string.Empty;
+
+        /// <summary>
         /// 应用版本号
         /// </summary>
         public string Version { get; init; } = string.Empty;
