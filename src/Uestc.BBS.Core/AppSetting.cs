@@ -316,8 +316,9 @@ namespace Uestc.BBS.Core
     /// </summary>
     public enum WindowCloseBehavior
     {
-        Hide,
         Exit,
+        Hide,
+        HideWithEfficiencyMode,
     }
 
     public enum MenuItemKey

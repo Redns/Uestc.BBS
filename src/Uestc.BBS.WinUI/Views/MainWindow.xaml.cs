@@ -1,4 +1,7 @@
 using System;
+using System.Threading.Tasks;
+using CommunityToolkit.Mvvm.Input;
+using H.NotifyIcon;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
@@ -7,27 +10,29 @@ using Microsoft.UI.Xaml.Controls.Primitives;
 using Uestc.BBS.Core;
 using Uestc.BBS.WinUI.Helpers;
 using Uestc.BBS.WinUI.ViewModels;
-using Windows.Graphics;
+using WinUIEx;
 
 namespace Uestc.BBS.WinUI.Views
 {
-    public sealed partial class MainWindow : Window
+    public sealed partial class MainWindow : WindowEx
     {
+        private readonly AppSetting _appSetting;
+
         private readonly MainViewModel _viewModel;
 
-        public MainWindow(MainViewModel viewModel)
+        public MainWindow(MainViewModel viewModel, AppSetting appSetting)
         {
             _viewModel = viewModel;
+            _appSetting = appSetting;
 
             InitializeComponent();
 
+            // 设置窗口位置
+            this.CenterOnScreen();
             // 拓展内容至标题栏
             ExtendsContentIntoTitleBar = true;
             // 设置标题栏高度
             AppWindow.TitleBar.PreferredHeightOption = TitleBarHeightOption.Tall;
-            // 设置窗口大小
-            var dpi = this.GetDpi();
-            AppWindow.Resize(new SizeInt32(1200 * dpi / 96, 800 * dpi / 96));
 
             // 设置侧边栏默认导航选项
             navigateView.SelectedItem = navigateView.MenuItems[0];
@@ -35,6 +40,21 @@ namespace Uestc.BBS.WinUI.Views
             {
                 navigateFrame.Content = NavigateToPage(page);
             }
+
+            // 设置窗口关闭策略
+            AppWindow.Closing += (window, args) =>
+            {
+                if (_appSetting.Apperance.WindowCloseBehavior is WindowCloseBehavior.Exit)
+                {
+                    return;
+                }
+
+                args.Cancel = true;
+                this.Hide(
+                    _appSetting.Apperance.WindowCloseBehavior
+                        is WindowCloseBehavior.HideWithEfficiencyMode
+                );
+            };
         }
 
         /// <summary>
@@ -83,6 +103,39 @@ namespace Uestc.BBS.WinUI.Views
         )
         {
             FlyoutBase.ShowAttachedFlyout(sender as FrameworkElement);
+        }
+
+        [RelayCommand]
+        private void Restart() => WindowsHelper.Restart();
+
+        [RelayCommand]
+        private void Exit() => WindowsHelper.Exit();
+
+        [RelayCommand]
+        private void ShowMainView()
+        {
+            if (AppWindow.IsVisible)
+            {
+                BringToFront();
+                return;
+            }
+            this.Show();
+        }
+
+        [RelayCommand]
+        private Task OpenAboutDialogAsync()
+        {
+            //var dialog = new ContentDialog
+            //{
+            //    XamlRoot = Content.XamlRoot,
+            //    Title = "Save your work?",
+            //    PrimaryButtonText = "确定",
+            //    DefaultButton = ContentDialogButton.Primary,
+            //    Content = "aaa",
+            //};
+
+            //var result = await dialog.ShowAsync();
+            return ShowMessageDialogAsync("Hello World!", "Dialog title");
         }
     }
 }

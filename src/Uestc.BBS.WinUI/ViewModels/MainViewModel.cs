@@ -2,11 +2,13 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI;
+using H.NotifyIcon;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.Windows.AppLifecycle;
 using Uestc.BBS.Core;
 using Uestc.BBS.Core.Services;
+using Uestc.BBS.WinUI.Views;
 
 namespace Uestc.BBS.WinUI.ViewModels
 {
@@ -41,10 +43,13 @@ namespace Uestc.BBS.WinUI.ViewModels
         [ObservableProperty]
         public partial Page? Page { get; set; }
 
-        public MainViewModel(
-            AppSetting appSetting,
-            IDailySentenceService dailySentenceService
-        )
+        [ObservableProperty]
+        public partial bool SliceStart { get; set; }
+
+        [ObservableProperty]
+        public partial bool StartupOnLaunch { get; set; }
+
+        public MainViewModel(AppSetting appSetting, IDailySentenceService dailySentenceService)
         {
             _appSetting = appSetting;
             _dailySentenceService = dailySentenceService;
@@ -69,12 +74,15 @@ namespace Uestc.BBS.WinUI.ViewModels
                 0,
                 60 * 1000
             );
+
+            SliceStart = appSetting.Apperance.SlientStart;
+            StartupOnLaunch = appSetting.Apperance.StartupOnLaunch;
         }
 
         [RelayCommand]
-        private void Restart()
-        {
-            AppInstance.Restart("restart");
-        }
+        private void SwitchSliceStart() => SliceStart = !SliceStart;
+
+        [RelayCommand]
+        private void SwitchStartupOnLaunch() => StartupOnLaunch = !StartupOnLaunch;
     }
 }

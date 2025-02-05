@@ -1,17 +1,22 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<Window
+<winex:WindowEx
     x:Class="Uestc.BBS.WinUI.AuthWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Uestc.BBS.WinUI.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:winex="using:WinUIEx"
     Title="清水河畔"
+    Width="350"
+    Height="316"
+    IsResizable="False"
+    IsTitleBarVisible="False"
     mc:Ignorable="d">
 
-    <Window.SystemBackdrop>
+    <winex:WindowEx.SystemBackdrop>
         <MicaBackdrop Kind="Base" />
-    </Window.SystemBackdrop>
+    </winex:WindowEx.SystemBackdrop>
 
     <Grid>
         <Grid.RowDefinitions>
@@ -31,4 +36,4 @@
         </Border>
         <local:AuthPage Grid.Row="1" />
     </Grid>
-</Window>
+</winex:WindowEx>

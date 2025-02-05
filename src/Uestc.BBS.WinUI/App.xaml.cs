@@ -11,7 +11,7 @@ using Uestc.BBS.Core.Services.System;
 using Uestc.BBS.WinUI.Services.Notifications;
 using Uestc.BBS.WinUI.ViewModels;
 using Uestc.BBS.WinUI.Views;
-using Windows.Graphics.Display;
+using WinUIEx;
 
 namespace Uestc.BBS.WinUI
 {
@@ -81,17 +81,22 @@ namespace Uestc.BBS.WinUI
                 var appSetting = ServiceExtension.Services.GetRequiredService<AppSetting>();
                 if (!appSetting.Auth.IsUserAuthed)
                 {
-                    // 托盘图标附加于主窗口，未登录时如果不显示主窗口，程序将无法退出
+                    // 未授权时强制显示登录页面，不受静默启动选项影响
+                    // 托盘图标附加于主窗口，未登录时如果不显示登录窗口，程序将无法退出
                     ServiceExtension.Services.GetRequiredService<AuthWindow>().Activate();
                     return;
                 }
 
+                var mainWindow = ServiceExtension.Services.GetRequiredService<MainWindow>();
                 if (appSetting.Apperance.SlientStart)
                 {
-                    ServiceExtension.Services.GetRequiredService<MainWindow>().Hide();
+                    mainWindow.Hide(
+                        appSetting.Apperance.WindowCloseBehavior
+                            is WindowCloseBehavior.HideWithEfficiencyMode
+                    );
                     return;
                 }
-                ServiceExtension.Services.GetRequiredService<MainWindow>().Activate();
+                mainWindow.Activate();
             }
             catch (Exception e)
             {
