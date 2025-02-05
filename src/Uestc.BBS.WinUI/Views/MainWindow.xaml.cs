@@ -5,7 +5,9 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Uestc.BBS.Core;
+using Uestc.BBS.WinUI.Helpers;
 using Uestc.BBS.WinUI.ViewModels;
+using Windows.Graphics;
 
 namespace Uestc.BBS.WinUI.Views
 {
@@ -24,7 +26,8 @@ namespace Uestc.BBS.WinUI.Views
             // 设置标题栏高度
             AppWindow.TitleBar.PreferredHeightOption = TitleBarHeightOption.Tall;
             // 设置窗口大小
-            AppWindow.Resize(new Windows.Graphics.SizeInt32(1500, 900));
+            var dpi = this.GetDpi();
+            AppWindow.Resize(new SizeInt32(1200 * dpi / 96, 800 * dpi / 96));
 
             // 设置侧边栏默认导航选项
             navigateView.SelectedItem = navigateView.MenuItems[0];

@@ -1,6 +1,7 @@
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Input;
+using Uestc.BBS.WinUI.Helpers;
 using Windows.Graphics;
 
 namespace Uestc.BBS.WinUI
@@ -14,7 +15,8 @@ namespace Uestc.BBS.WinUI
             // 内容拓展至标题栏
             ExtendsContentIntoTitleBar = true;
             // 设置窗口大小
-            AppWindow.Resize(new SizeInt32(480, 400));
+            var dpi = this.GetDpi();
+            AppWindow.Resize(new SizeInt32(380 * dpi / 96, 320 * dpi / 96));
             // 隐藏标题栏
             AppWindow.TitleBar.PreferredHeightOption = TitleBarHeightOption.Collapsed;
             // 设置可拖动区域

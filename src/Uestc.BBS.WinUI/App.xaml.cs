@@ -11,6 +11,7 @@ using Uestc.BBS.Core.Services.System;
 using Uestc.BBS.WinUI.Services.Notifications;
 using Uestc.BBS.WinUI.ViewModels;
 using Uestc.BBS.WinUI.Views;
+using Windows.Graphics.Display;
 
 namespace Uestc.BBS.WinUI
 {
@@ -21,13 +22,6 @@ namespace Uestc.BBS.WinUI
     {
         public App()
         {
-            var s = Path.Combine(
-                "file://",
-                AppDomain.CurrentDomain.BaseDirectory,
-                "Assets",
-                "Icons",
-                "app.ico"
-            );
             InitializeComponent();
 
             // 防多开

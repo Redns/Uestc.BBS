@@ -799,11 +799,12 @@
                 <StackPanel Classes="MenuContent">
                     <DockPanel Classes="MenuItem">
                         <TextBlock Text="源代码" />
-                        <actipro:HyperlinkTextBlock
-                            VerticalAlignment="Center"
+                        <HyperlinkButton
                             DockPanel.Dock="Right"
-                            Foreground="Gray"
-                            Text="https://github.com/Redns/Uestc.BBS" />
+                            IsVisited="True"
+                            NavigateUri="https://github.com/Redns/Uestc.BBS">
+                            https://github.com/Redns/Uestc.BBS
+                        </HyperlinkButton>
                     </DockPanel>
                     <Separator />
                     <StackPanel
