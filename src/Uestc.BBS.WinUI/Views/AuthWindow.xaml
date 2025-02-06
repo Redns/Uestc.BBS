@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <winex:WindowEx
-    x:Class="Uestc.BBS.WinUI.AuthWindow"
+    x:Class="Uestc.BBS.WinUI.Views.AuthWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -8,8 +8,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:winex="using:WinUIEx"
     Title="清水河畔"
-    Width="350"
-    Height="316"
+    Width="360"
+    Height="320"
     IsResizable="False"
     IsTitleBarVisible="False"
     mc:Ignorable="d">
@@ -27,12 +27,14 @@
             x:Name="AppTitleBar"
             Grid.Row="0"
             HorizontalAlignment="Stretch">
-            <FontIcon
-                Margin="5"
+            <AppBarButton
+                Width="40"
+                Height="47"
+                Margin="0,-6,-2,-13"
                 HorizontalAlignment="Right"
-                FontSize="16"
-                Glyph="&#xE711;"
-                PointerPressed="CloseWindow" />
+                Click="CloseWindow"
+                CornerRadius="0"
+                Icon="Cancel" />
         </Border>
         <local:AuthPage Grid.Row="1" />
     </Grid>

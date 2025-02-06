@@ -55,14 +55,14 @@
         <controls:DockPanel Grid.Row="0" Margin="0,0,160,0">
             <AppBarButton
                 Width="40"
-                Margin="5,0,10,0"
+                Margin="5,0"
                 ToolTipService.ToolTip="返回"
-                Visibility="Collapsed">
+                Visibility="Visible">
                 <FontIcon Glyph="&#xEC52;" />
             </AppBarButton>
             <ImageIcon
                 Height="18"
-                Margin="15,0,10,0"
+                Margin="10,0"
                 Source="/Assets/Icons/app.ico" />
             <TextBlock
                 Padding="0,0,0,1"
@@ -70,11 +70,11 @@
                 FontFamily="Consolas"
                 FontSize="13"
                 Text="清水河畔" />
-            <controls:Segmented Margin="15,0,0,0" SelectedIndex="0">
+            <controls:Segmented Margin="15,0" SelectedIndex="0">
                 <controls:SegmentedItem Icon="{ui:FontIcon Glyph=&#xE728;}" ToolTipService.ToolTip="我的收藏" />
                 <controls:SegmentedItem Icon="{ui:FontIcon Glyph=&#xE932;}" ToolTipService.ToolTip="我的发表" />
                 <controls:SegmentedItem Icon="{ui:FontIcon Glyph=&#xE90A;}" ToolTipService.ToolTip="我的回复" />
-                <controls:SegmentedItem Icon="{ui:FontIcon Glyph=&#xE7B3;}" ToolTipService.ToolTip="插眼" />
+                <controls:SegmentedItem Icon="{ui:FontIcon Glyph=&#xE7B3;}" ToolTipService.ToolTip="我的插眼" />
             </controls:Segmented>
             <PersonPicture
                 Height="35"
@@ -85,42 +85,52 @@
                 ProfilePicture="https://bbs.uestc.edu.cn/uc_server/data/avatar/000/25/68/25_avatar_middle.jpg">
                 <FlyoutBase.AttachedFlyout>
                     <Flyout Placement="BottomEdgeAlignedRight">
-                        <StackPanel Orientation="Horizontal" Spacing="10">
-                            <PersonPicture
-                                Height="48"
-                                VerticalAlignment="Top"
-                                controls:DockPanel.Dock="Left"
-                                Background="Transparent"
-                                BorderBrush="Transparent"
-                                ProfilePicture="https://bbs.uestc.edu.cn/uc_server/data/avatar/000/25/68/25_avatar_middle.jpg" />
-                            <StackPanel VerticalAlignment="Center" Spacing="3">
-                                <StackPanel Orientation="Horizontal" Spacing="5">
-                                    <TextBlock FontWeight="SemiBold" Text="Redns" />
-                                    <Border Background="{ThemeResource SystemColorButtonTextColor}" CornerRadius="3">
-                                        <TextBlock
-                                            Margin="3,0"
-                                            Padding="0,0,0,1"
-                                            FontSize="12"
-                                            Foreground="White"
-                                            Text="Lv.6" />
-                                    </Border>
+                        <StackPanel MaxWidth="300">
+                            <StackPanel Orientation="Horizontal" Spacing="10">
+                                <PersonPicture
+                                    Height="48"
+                                    VerticalAlignment="Top"
+                                    controls:DockPanel.Dock="Left"
+                                    ProfilePicture="https://bbs.uestc.edu.cn/uc_server/data/avatar/000/25/68/25_avatar_big.jpg" />
+                                <!--  昵称、签名  -->
+                                <StackPanel VerticalAlignment="Center" Spacing="3">
+                                    <StackPanel Orientation="Horizontal" Spacing="5">
+                                        <TextBlock FontWeight="SemiBold" Text="Redns" />
+                                        <Border Background="{ThemeResource SystemFillColorSuccessBrush}" CornerRadius="3">
+                                            <TextBlock
+                                                Margin="3,0"
+                                                Padding="0,1,0,0"
+                                                FontSize="12"
+                                                Foreground="White"
+                                                Text="Lv.6" />
+                                        </Border>
+                                        <Border Background="{ThemeResource AccentTextFillColorTertiaryBrush}" CornerRadius="3">
+                                            <TextBlock
+                                                Margin="3,0"
+                                                Padding="0,1,0,0"
+                                                FontSize="11"
+                                                Foreground="White"
+                                                Text="成电校友" />
+                                        </Border>
+                                    </StackPanel>
+                                    <TextBlock
+                                        FontSize="12"
+                                        Foreground="Gray"
+                                        Text="早熟的人通常都晚熟，骄傲的人又很急性" />
+                                    <!--  退出登录  -->
+                                    <HyperlinkButton
+                                        Margin="-5,0"
+                                        Padding="5"
+                                        Content="退出登录"
+                                        FontSize="12" />
                                 </StackPanel>
-                                <TextBlock
-                                    FontSize="12"
-                                    Foreground="Gray"
-                                    Text="早熟的人通常都晚熟，骄傲的人又很急性" />
-                                <TextBlock
-                                    Margin="0,5"
-                                    FontSize="12"
-                                    Foreground="#003E92"
-                                    Text="退出登录" />
                             </StackPanel>
                         </StackPanel>
                     </Flyout>
                 </FlyoutBase.AttachedFlyout>
             </PersonPicture>
             <AutoSuggestBox
-                MaxWidth="500"
+                MaxWidth="520"
                 Margin="15,0"
                 VerticalAlignment="Center"
                 PlaceholderText="{x:Bind _viewModel.SearchPlaceholderText, Mode=OneWay}"

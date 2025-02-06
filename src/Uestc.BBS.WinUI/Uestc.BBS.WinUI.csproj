@@ -33,7 +33,7 @@
 <ItemGroup>
   <None Remove="Controls\TopicOverview.xaml" />
   <None Remove="Views\AuthPage.xaml" />
-  <None Remove="Views\AuthWindow.xaml" />
+  <None Remove="Views\ContentDialogs\AboutContentDialog.xaml" />
   <None Remove="Views\HomePage.xaml" />
   <None Remove="Views\MessagesPage.xaml" />
   <None Remove="Views\MomentsPage.xaml" />
@@ -55,6 +55,7 @@
     <ProjectCapability Include="Msix" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Labs.WinUI.Shimmer" Version="0.1.250129-build.2033" />
     <PackageReference Include="CommunityToolkit.WinUI.Controls.Primitives" Version="8.2.250129-preview2" />
     <PackageReference Include="CommunityToolkit.WinUI.Controls.Segmented" Version="8.2.250129-preview2" />
     <PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.2.250129-preview2" />
@@ -86,6 +87,9 @@
     <None Update="Assets\Icons\auth_icon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Page Update="Views\ContentDialogs\AboutContentDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Views\AuthPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -10,6 +10,7 @@ using Microsoft.UI.Xaml.Controls.Primitives;
 using Uestc.BBS.Core;
 using Uestc.BBS.WinUI.Helpers;
 using Uestc.BBS.WinUI.ViewModels;
+using Uestc.BBS.WinUI.Views.ContentDialogs;
 using WinUIEx;
 
 namespace Uestc.BBS.WinUI.Views
@@ -123,19 +124,18 @@ namespace Uestc.BBS.WinUI.Views
         }
 
         [RelayCommand]
-        private Task OpenAboutDialogAsync()
+        private async Task OpenAboutDialogAsync()
         {
-            //var dialog = new ContentDialog
-            //{
-            //    XamlRoot = Content.XamlRoot,
-            //    Title = "Save your work?",
-            //    PrimaryButtonText = "确定",
-            //    DefaultButton = ContentDialogButton.Primary,
-            //    Content = "aaa",
-            //};
+            var dialog = new ContentDialog
+            {
+                XamlRoot = Content.XamlRoot,
+                Title = "关于",
+                PrimaryButtonText = "确定",
+                DefaultButton = ContentDialogButton.Primary,
+                Content = new AboutContentDialog(),
+            };
 
-            //var result = await dialog.ShowAsync();
-            return ShowMessageDialogAsync("Hello World!", "Dialog title");
+            var result = await dialog.ShowAsync();
         }
     }
 }

@@ -11,7 +11,7 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
 
-    <ScrollView Margin="10" VerticalScrollBarVisibility="Hidden">
+    <ScrollViewer Margin="10" VerticalScrollBarVisibility="Hidden">
         <StackPanel Spacing="5">
             <TextBlock
                 Margin="1,0,0,0"
@@ -225,7 +225,7 @@
                 Text="数据与存储" />
             <!--  缓存  -->
             <controls:SettingsExpander
-                Description=""
+                Description="存储图像、视频等临时数据（当前已占用 178 MB）"
                 Header="缓存"
                 HeaderIcon="{ui:FontIcon Glyph=&#xEE94;}">
                 <Button Content="清除缓存" />
@@ -317,6 +317,7 @@
                     </controls:SettingsCard>
                 </controls:SettingsExpander.Items>
             </controls:SettingsExpander>
+            <!--  日志记录  -->
             <controls:SettingsExpander
                 Description="查看应用日志或清除日志记录"
                 Header="日志记录"
@@ -370,6 +371,11 @@
                     </controls:SettingsCard>
                 </controls:SettingsExpander.Items>
             </controls:SettingsExpander>
+            <!--  应用更新  -->
+            <InfoBar
+                IsOpen="True"
+                Message="错误的输出格式可能导致日志服务失效"
+                Severity="Warning" />
             <controls:SettingsExpander
                 Description="最近检查时间：2025/01/25 19:28:47"
                 Header="应用更新"
@@ -407,7 +413,7 @@
                         <controls:SettingsCard.Resources>
                             <x:Double x:Key="SettingsCardWrapThreshold">10000</x:Double>
                         </controls:SettingsCard.Resources>
-                        <PersonPicture Height="36" ProfilePicture="https://image.krins.cloud/%E5%A4%B4%E5%83%8F.jpg" />
+                        <PersonPicture Height="36" ProfilePicture="https://image.krins.cloud/头像.jpg" />
                     </controls:SettingsCard>
                     <controls:SettingsCard
                         ActionIcon="{ui:FontIcon Glyph=&#xE8A7;}"
@@ -416,5 +422,5 @@
                 </controls:SettingsExpander.Items>
             </controls:SettingsExpander>
         </StackPanel>
-    </ScrollView>
+    </ScrollViewer>
 </Page>

@@ -52,23 +52,21 @@
                         Margin="0,5"
                         HorizontalSpacing="10"
                         LastChildFill="False">
-                        <PersonPicture
-                            Height="32"
-                            controls:DockPanel.Dock="Left"
-                            ProfilePicture="{x:Bind Avatar, Mode=OneTime}" />
-                        <StackPanel VerticalAlignment="Center" controls:DockPanel.Dock="Left">
+                        <PersonPicture Width="32" ProfilePicture="{x:Bind Avatar, Mode=OneTime}" />
+                        <StackPanel VerticalAlignment="Center">
                             <TextBlock VerticalAlignment="Center" Text="{x:Bind Name, Mode=OneTime}" />
                             <TextBlock
                                 FontSize="12"
                                 Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                                 Text="{x:Bind Uid, Mode=OneTime}" />
                         </StackPanel>
-                        <FontIcon
+                        <AppBarButton
+                            Width="40"
+                            Height="47"
                             controls:DockPanel.Dock="Right"
-                            FontSize="16"
-                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                            Glyph="&#xE74D;"
-                            ToolTipService.ToolTip="删除账号信息" />
+                            ToolTipService.ToolTip="删除账号信息">
+                            <FontIcon Glyph="&#xE74D;" />
+                        </AppBarButton>
                     </controls:DockPanel>
                 </DataTemplate>
             </AutoSuggestBox.ItemTemplate>

@@ -1,7 +1,6 @@
-using Microsoft.UI.Xaml.Input;
 using WinUIEx;
 
-namespace Uestc.BBS.WinUI
+namespace Uestc.BBS.WinUI.Views
 {
     public sealed partial class AuthWindow : WindowEx
     {
@@ -17,6 +16,6 @@ namespace Uestc.BBS.WinUI
             SetTitleBar(AppTitleBar);
         }
 
-        private void CloseWindow(object sender, PointerRoutedEventArgs e) => Close();
+        private void CloseWindow(object sender, Microsoft.UI.Xaml.RoutedEventArgs e) => Close();
     }
 }
