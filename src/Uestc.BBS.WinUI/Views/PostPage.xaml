@@ -4,10 +4,17 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="using:Uestc.BBS.WinUI.Pages"
+    xmlns:local="using:Uestc.BBS.WinUI.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
 
-    <TextBlock Text="Post" />
+    <ScrollViewer
+        x:Name="sc"
+        Background="Pink"
+        HorizontalScrollBarVisibility="Hidden"
+        VerticalScrollBarVisibility="Hidden"
+        ZoomMode="Enabled">
+        <Image Source="https://bbs.uestc.edu.cn/thumb/data/attachment/forum/202502/06/222729o1o7v1vhnsq8x8n8.png?variant=summary" Stretch="UniformToFill" />
+    </ScrollViewer>
 </Page>

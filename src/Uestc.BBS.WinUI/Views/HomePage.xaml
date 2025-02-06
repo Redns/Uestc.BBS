@@ -5,6 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="using:CommunityToolkit.WinUI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:lc="using:Uestc.BBS.WinUI.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="using:CommunityToolkit.WinUI"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
@@ -15,32 +16,42 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <SelectorBar
-            x:Name="SelectorBar2"
-            Grid.Column="0"
-            HorizontalAlignment="Center">
-            <SelectorBarItem
-                x:Name="SelectorBarItemPage1"
-                Margin="-3,0"
-                IsSelected="True"
-                Text="最新发表" />
-            <SelectorBarItem
-                x:Name="SelectorBarItemPage2"
-                Margin="-3,0"
-                Text="最新回复" />
-            <SelectorBarItem
-                x:Name="SelectorBarItemPage3"
-                Margin="-3,0"
-                Text="热门" />
-            <SelectorBarItem
-                x:Name="SelectorBarItemPage4"
-                Margin="-3,0"
-                Text="精华" />
-            <SelectorBarItem
-                x:Name="SelectorBarItemPage5"
-                Margin="-3,0"
-                Text="淘专辑" />
-        </SelectorBar>
+        <StackPanel Margin="10,0">
+            <SelectorBar
+                x:Name="SelectorBar2"
+                Grid.Column="0"
+                HorizontalAlignment="Center">
+                <SelectorBarItem
+                    x:Name="SelectorBarItemPage1"
+                    Margin="-3,0"
+                    IsSelected="True"
+                    Text="最新发表" />
+                <SelectorBarItem
+                    x:Name="SelectorBarItemPage2"
+                    Margin="-3,0"
+                    Text="最新回复" />
+                <SelectorBarItem
+                    x:Name="SelectorBarItemPage3"
+                    Margin="-3,0"
+                    Text="热门" />
+                <SelectorBarItem
+                    x:Name="SelectorBarItemPage4"
+                    Margin="-3,0"
+                    Text="精华" />
+                <SelectorBarItem
+                    x:Name="SelectorBarItemPage5"
+                    Margin="-3,0"
+                    Text="淘专辑" />
+            </SelectorBar>
+            <lc:TopicOverview
+                Title="请畔友吃饭清补凉"
+                Avatar="https://bbs.uestc.edu.cn/uc_server/data/avatar/000/26/19/83_avatar_middle.jpg"
+                BoardName="水手之家"
+                PreviewSource="https://bbs.uestc.edu.cn/thumb/data/attachment/forum/202502/06/231848nwevyioto3283oi8.png"
+                Subject="水果炫完版 懒人会点外卖 我以为我妈会骂我 结果让我给她也带一份 我第一次吃清..."
+                Username="活泼的懒猫" />
+        </StackPanel>
+
         <StackPanel Grid.Column="1">
             <StackPanel MaxWidth="300">
                 <StackPanel Orientation="Horizontal" Spacing="10">

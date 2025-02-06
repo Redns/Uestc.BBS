@@ -8,6 +8,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Uestc.BBS.Core;
+using Uestc.BBS.Core.Services.System;
 using Uestc.BBS.WinUI.Helpers;
 using Uestc.BBS.WinUI.ViewModels;
 using Uestc.BBS.WinUI.Views.ContentDialogs;
@@ -19,17 +20,22 @@ namespace Uestc.BBS.WinUI.Views
     {
         private readonly AppSetting _appSetting;
 
+        private readonly Appmanifest _appmanifest;
+
         private readonly MainViewModel _viewModel;
 
-        public MainWindow(MainViewModel viewModel, AppSetting appSetting)
+        public MainWindow(MainViewModel viewModel, Appmanifest appmanifest, AppSetting appSetting)
         {
             _viewModel = viewModel;
             _appSetting = appSetting;
+            _appmanifest = appmanifest;
 
             InitializeComponent();
 
             // 设置窗口位置
             this.CenterOnScreen();
+            // 设置窗口图标
+            this.SetIcon("Assets/Icons/app.ico");
             // 拓展内容至标题栏
             ExtendsContentIntoTitleBar = true;
             // 设置标题栏高度
@@ -129,7 +135,7 @@ namespace Uestc.BBS.WinUI.Views
             var dialog = new ContentDialog
             {
                 XamlRoot = Content.XamlRoot,
-                Title = "关于",
+                Title = _appmanifest.Name,
                 PrimaryButtonText = "确定",
                 DefaultButton = ContentDialogButton.Primary,
                 Content = new AboutContentDialog(),
