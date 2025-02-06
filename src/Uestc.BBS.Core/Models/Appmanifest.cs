@@ -17,9 +17,27 @@ namespace Uestc.BBS.Core.Services.System
         public string Version { get; init; } = string.Empty;
 
         /// <summary>
+        /// 作者
+        /// </summary>
+        public string Author { get; init; } = string.Empty;
+
+        /// <summary>
+        /// 开源协议
+        /// </summary>
+        public string License { get; init; } = string.Empty;
+
+        /// <summary>
         /// 项目起始日期
         /// </summary>
         public DateTime OriginalDate { get; init; } = DateTime.MinValue;
+
+        /// <summary>
+        /// 版权信息
+        /// </summary>
+        public string CopyRight =>
+            OriginalDate.Year == DateTime.Now.Year
+                ? $"©{OriginalDate.Year} {Author}. {License} License"
+                : $"©{OriginalDate.Year}-{DateTime.Now.Year} {Author}. {License} License";
 
         /// <summary>
         /// 贡献者列表

@@ -1,4 +1,4 @@
-using System;
+Ôªøusing System;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.Input;
 using H.NotifyIcon;
@@ -32,23 +32,23 @@ namespace Uestc.BBS.WinUI.Views
 
             InitializeComponent();
 
-            // …Ë÷√¥∞ø⁄Œª÷√
+            // ËÆæÁΩÆÁ™óÂè£‰ΩçÁΩÆ
             this.CenterOnScreen();
-            // …Ë÷√¥∞ø⁄Õº±Í
+            // ËÆæÁΩÆÁ™óÂè£ÂõæÊ†á
             this.SetIcon("Assets/Icons/app.ico");
-            // Õÿ’πƒ⁄»›÷¡±ÍÃ‚¿∏
+            // ÊãìÂ±ïÂÜÖÂÆπËá≥Ê†áÈ¢òÊ†è
             ExtendsContentIntoTitleBar = true;
-            // …Ë÷√±ÍÃ‚¿∏∏ﬂ∂»
+            // ËÆæÁΩÆÊ†áÈ¢òÊ†èÈ´òÂ∫¶
             AppWindow.TitleBar.PreferredHeightOption = TitleBarHeightOption.Tall;
 
-            // …Ë÷√≤‡±ﬂ¿∏ƒ¨»œµº∫Ω—°œÓ
+            // ËÆæÁΩÆ‰æßËæπÊ†èÈªòËÆ§ÂØºËà™ÈÄâÈ°π
             navigateView.SelectedItem = navigateView.MenuItems[0];
             if (navigateView.SelectedItem is NavigationViewItem menu && menu.Tag is string page)
             {
                 navigateFrame.Content = NavigateToPage(page);
             }
 
-            // …Ë÷√¥∞ø⁄πÿ±’≤ﬂ¬‘
+            // ËÆæÁΩÆÁ™óÂè£ÂÖ≥Èó≠Á≠ñÁï•
             AppWindow.Closing += (window, args) =>
             {
                 if (_appSetting.Apperance.WindowCloseBehavior is WindowCloseBehavior.Exit)
@@ -65,7 +65,7 @@ namespace Uestc.BBS.WinUI.Views
         }
 
         /// <summary>
-        /// µº∫Ω÷¡“≥√Ê
+        /// ÂØºËà™Ëá≥È°µÈù¢
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="args"></param>
@@ -79,7 +79,7 @@ namespace Uestc.BBS.WinUI.Views
         }
 
         /// <summary>
-        /// µº∫Ω÷¡“≥√Ê
+        /// ÂØºËà™Ëá≥È°µÈù¢
         /// </summary>
         /// <param name="page"></param>
         /// <returns></returns>
@@ -130,18 +130,18 @@ namespace Uestc.BBS.WinUI.Views
         }
 
         [RelayCommand]
-        private async Task OpenAboutDialogAsync()
-        {
-            var dialog = new ContentDialog
+        private async Task OpenAboutDialogAsync() =>
+            await new ContentDialog
             {
                 XamlRoot = Content.XamlRoot,
                 Title = _appmanifest.Name,
-                PrimaryButtonText = "»∑∂®",
+                PrimaryButtonText = "Á°ÆÂÆö",
                 DefaultButton = ContentDialogButton.Primary,
-                Content = new AboutContentDialog(),
-            };
-
-            var result = await dialog.ShowAsync();
-        }
+                Content = new AboutContentDialog()
+                {
+                    Version = _appmanifest.Version,
+                    CopyRight = _appmanifest.CopyRight,
+                },
+            }.ShowAsync();
     }
 }
