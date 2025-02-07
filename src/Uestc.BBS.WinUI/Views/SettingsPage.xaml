@@ -31,7 +31,10 @@
                     </controls:SettingsCard>
                     <controls:SettingsCard Description="云母背景的整体不透明度" Header="材质不透明度">
                         <StackPanel Orientation="Horizontal" Spacing="10">
-                            <TextBlock VerticalAlignment="Center" Text="{x:Bind MicaOpacity.Value, Mode=OneWay}" />
+                            <TextBlock
+                                Padding="0,0,0,1"
+                                VerticalAlignment="Center"
+                                Text="{x:Bind MicaOpacity.Value, Mode=OneWay}" />
                             <Slider
                                 x:Name="MicaOpacity"
                                 Width="160"
@@ -78,10 +81,42 @@
             </controls:SettingsExpander>
             <!--  浏览  -->
             <controls:SettingsExpander
-                Description="置顶公告、点赞评论"
+                Description="热门主题、置顶公告、点赞评论"
                 Header="浏览"
                 HeaderIcon="{ui:FontIcon Glyph=&#xE8A1;}">
-                <controls:SettingsExpander.Items />
+                <controls:SettingsExpander.Items>
+                    <controls:SettingsCard Description="高亮显示热门主题的浏览量和图标" Header="标记热门主题">
+                        <ToggleSwitch />
+                    </controls:SettingsCard>
+                    <controls:SettingsCard Description="加权系数高于阈值的主题将进行特殊高亮" Header="热门主题阈值">
+                        <StackPanel Orientation="Horizontal" Spacing="10">
+                            <TextBlock
+                                Padding="0,0,0,1"
+                                VerticalAlignment="Center"
+                                Text="{x:Bind TopicHotThreshold.Value, Mode=OneWay}" />
+                            <Slider
+                                x:Name="TopicHotThreshold"
+                                Width="160"
+                                Maximum="10000"
+                                Minimum="100" />
+                        </StackPanel>
+                    </controls:SettingsCard>
+                    <controls:SettingsCard Header="热门系数加权方案">
+                        <StackPanel Orientation="Horizontal" Spacing="5">
+                            <TextBlock VerticalAlignment="Center" Text="浏览量" />
+                            <TextBlock VerticalAlignment="Center" Text="×" />
+                            <NumberBox Maximum="10" Minimum="0" />
+                            <TextBlock VerticalAlignment="Center" Text="＋" />
+                            <TextBlock VerticalAlignment="Center" Text="回复" />
+                            <TextBlock VerticalAlignment="Center" Text="×" />
+                            <NumberBox Maximum="10" Minimum="0" />
+                            <TextBlock VerticalAlignment="Center" Text="＋" />
+                            <TextBlock VerticalAlignment="Center" Text="点赞" />
+                            <TextBlock VerticalAlignment="Center" Text="×" />
+                            <NumberBox Maximum="10" Minimum="0" />
+                        </StackPanel>
+                    </controls:SettingsCard>
+                </controls:SettingsExpander.Items>
             </controls:SettingsExpander>
             <!--  评论  -->
             <controls:SettingsExpander

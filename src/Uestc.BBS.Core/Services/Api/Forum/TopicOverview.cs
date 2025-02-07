@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-using System.Text.Json;
+﻿using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.Json.Serialization.Metadata;
 using FastEnumUtility;
@@ -154,7 +153,8 @@ namespace Uestc.BBS.Core.Services.Api.Forum
         /// <summary>
         /// 点赞数
         /// </summary>
-        public uint RecommendAdd { get; set; }
+        [JsonPropertyName("recommendadd")]
+        public uint Likes { get; set; }
 
         /// <summary>
         /// TODO WHAT'S THIS
@@ -172,7 +172,7 @@ namespace Uestc.BBS.Core.Services.Api.Forum
         public string[] ImageList { get; set; } = [];
 
         [JsonIgnore]
-        public string? PreviewSource => ImageList.FirstOrDefault();
+        public string? PreviewSource => ImageList.FirstOrDefault() ?? " ";
 
         /// <summary>
         /// 源链接

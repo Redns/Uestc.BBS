@@ -15,6 +15,8 @@ namespace Uestc.BBS.WinUI.Controls
 
         public DateTime Date { get; set; } = DateTime.Today;
 
+        public bool IsHot { get; set; } = false;
+
         public string BoardName { get; set; } = string.Empty;
 
         public string Title { get; set; } = string.Empty;
@@ -22,6 +24,12 @@ namespace Uestc.BBS.WinUI.Controls
         public string Subject { get; set; } = string.Empty;
 
         public string PreviewSource { get; set; } = string.Empty;
+
+        public uint Views { get; set; }
+
+        public uint Replies { get; set; }
+
+        public uint Likes { get; set; }
 
         public TopicOverview()
         {
@@ -33,21 +41,46 @@ namespace Uestc.BBS.WinUI.Controls
             Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e
         )
         {
+            var imageScrollViewer = new ScrollViewer
+            {
+                HorizontalScrollBarVisibility = ScrollBarVisibility.Hidden,
+                VerticalScrollBarVisibility = ScrollBarVisibility.Hidden,
+                ZoomMode = ZoomMode.Enabled,
+                Content = new Image()
+                {
+                    Source = new BitmapImage(new Uri(PreviewSource)),
+                    Stretch = Stretch.Uniform,
+                    MaxWidth = 1100,
+                    MaxHeight = 700,
+                },
+            };
+
+            // Êó±ê¹öÂÖËõ·Å
+            //imageScrollViewer.PointerWheelChanged += (sender, args) =>
+            //{
+            //    if (sender is not ScrollViewer scrollViewer)
+            //    {
+            //        return;
+            //    }
+
+            //    var delta = args.GetCurrentPoint(scrollViewer).Properties.MouseWheelDelta;
+            //    var zoomFactor =
+            //        delta > 0 ? scrollViewer.ZoomFactor * 1.25f : scrollViewer.ZoomFactor / 1.25f;
+            //    scrollViewer.ChangeView(
+            //        null,
+            //        null,
+            //        Math.Max(
+            //            scrollViewer.MinZoomFactor,
+            //            Math.Min(zoomFactor, scrollViewer.MaxZoomFactor)
+            //        )
+            //    );
+
+            //    args.Handled = true;
+            //};
+
             var window = new WindowEx
             {
-                Content = new ScrollViewer
-                {
-                    HorizontalScrollBarVisibility = ScrollBarVisibility.Hidden,
-                    VerticalScrollBarVisibility = ScrollBarVisibility.Hidden,
-                    ZoomMode = ZoomMode.Enabled,
-                    Content = new Image()
-                    {
-                        Source = new BitmapImage(new Uri(PreviewSource)),
-                        Stretch = Stretch.Uniform,
-                        MaxWidth = 1100,
-                        MaxHeight = 700,
-                    },
-                },
+                Content = imageScrollViewer,
                 ExtendsContentIntoTitleBar = true,
                 SystemBackdrop = new MicaBackdrop(),
                 PresenterKind = AppWindowPresenterKind.CompactOverlay,

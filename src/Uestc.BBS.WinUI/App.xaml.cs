@@ -46,6 +46,7 @@ namespace Uestc.BBS.WinUI
                 // ViewModels
                 .AddSingleton<AuthViewModel>()
                 .AddSingleton<MainViewModel>()
+                .AddSingleton<HomeViewModel>()
                 // Appmanifest
                 .AddSingleton(appmanifest =>
                     JsonSerializer.Deserialize<Appmanifest>(

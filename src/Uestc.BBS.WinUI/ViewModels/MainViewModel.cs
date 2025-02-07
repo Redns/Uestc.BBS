@@ -2,13 +2,10 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI;
-using H.NotifyIcon;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml.Controls;
 using Uestc.BBS.Core;
 using Uestc.BBS.Core.Services;
-using Uestc.BBS.WinUI.Views;
 
 namespace Uestc.BBS.WinUI.ViewModels
 {

@@ -5,6 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="using:CommunityToolkit.WinUI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:forum="using:Uestc.BBS.Core.Services.Api.Forum"
     xmlns:lc="using:Uestc.BBS.WinUI.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="using:CommunityToolkit.WinUI"
@@ -15,7 +16,11 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <StackPanel Margin="10,0" Spacing="10">
+        <Grid Margin="10,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
             <SelectorBar
                 x:Name="SelectorBar2"
                 Grid.Column="0"
@@ -42,14 +47,35 @@
                     Margin="-3,0"
                     Text="淘专辑" />
             </SelectorBar>
-            <lc:TopicOverview
-                Title="请畔友吃饭清补凉"
-                Avatar="https://bbs.uestc.edu.cn/uc_server/data/avatar/000/26/19/83_avatar_middle.jpg"
-                BoardName="水手之家"
-                PreviewSource="https://bbs.uestc.edu.cn/thumb/data/attachment/forum/202502/06/231848nwevyioto3283oi8.png"
-                Subject="水果炫完版 懒人会点外卖 我以为我妈会骂我 结果让我给她也带一份 我第一次吃清..."
-                Username="活泼的懒猫" />
-        </StackPanel>
+            <ScrollViewer
+                Grid.Row="1"
+                Margin="0,10"
+                VerticalScrollBarVisibility="Hidden">
+                <ItemsControl ItemsSource="{x:Bind _viewModel.BoardTabItems[0].Topics}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <ItemsStackPanel />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="forum:TopicOverview">
+                            <lc:TopicOverview
+                                Title="{x:Bind Title}"
+                                Margin="0,0,0,10"
+                                Avatar="{x:Bind UserAvatar}"
+                                BoardName="{x:Bind BoardName}"
+                                Date="{x:Bind DateTime}"
+                                Likes="{x:Bind Likes}"
+                                PreviewSource="{x:Bind PreviewSource}"
+                                Replies="{x:Bind Replies}"
+                                Subject="{x:Bind Subject}"
+                                Username="{x:Bind UserNickName}"
+                                Views="{x:Bind Views}" />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </Grid>
 
         <StackPanel Grid.Column="1">
             <StackPanel MaxWidth="300">
