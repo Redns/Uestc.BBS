@@ -13,6 +13,8 @@
                 <ResourceDictionary Source="ms-appx:///CommunityToolkit.WinUI.Controls.Segmented/Segmented/Segmented.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <!--  Other app resources here  -->
+            <SolidColorBrush x:Key="NavigationViewContentBackground" Color="Transparent" />
+            <SolidColorBrush x:Key="NavigationViewContentGridBorderBrush" Color="Transparent" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

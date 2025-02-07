@@ -8,7 +8,6 @@
     xmlns:local="using:Uestc.BBS.WinUI.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="using:CommunityToolkit.WinUI"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
 
     <ScrollViewer Margin="10" VerticalScrollBarVisibility="Hidden">

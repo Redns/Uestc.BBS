@@ -67,10 +67,10 @@
     <PackageReference Include="WinUIEx" Version="2.5.1" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Uestc.BBS.Core\Uestc.BBS.Core.csproj" />
+    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Models\" />
+    <ProjectReference Include="..\Uestc.BBS.Mvvm\Uestc.BBS.Mvvm.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Content Update="Assets\Icons\app.ico">

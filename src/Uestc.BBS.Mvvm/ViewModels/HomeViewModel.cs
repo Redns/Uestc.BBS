@@ -1,14 +1,10 @@
 ﻿using System.Collections.ObjectModel;
-using System.Linq;
-using System.Threading.Tasks;
-using Avalonia.Controls;
 using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
 using Uestc.BBS.Core;
 using Uestc.BBS.Core.Services.Api.Forum;
 using Uestc.BBS.Mvvm.Models;
 
-namespace Uestc.BBS.Desktop.ViewModels
+namespace Uestc.BBS.Mvvm.ViewModels
 {
     public partial class HomeViewModel : ObservableObject
     {
@@ -20,13 +16,13 @@ namespace Uestc.BBS.Desktop.ViewModels
         /// 当前选中的 Tab 栏
         /// </summary>
         [ObservableProperty]
-        public partial BoardTabItemModel? CurrentBoardTabItemModel { get; set; }
+        private BoardTabItemModel? _currentBoardTabItemModel;
 
         /// <summary>
         /// 版块 Tab 栏集合
         /// </summary>
         [ObservableProperty]
-        public partial ObservableCollection<BoardTabItemModel> BoardTabItems { get; set; }
+        private ObservableCollection<BoardTabItemModel> _boardTabItems;
 
         [ObservableProperty]
         private string _markdownContent =
@@ -75,84 +71,6 @@ namespace Uestc.BBS.Desktop.ViewModels
                     })
                 )
             );
-        }
-
-        /// <summary>
-        /// 滚动加载帖子
-        /// </summary>
-        /// <param name="args"></param>
-        /// <returns></returns>
-        [RelayCommand]
-        private async Task ScrollToLoadTopicsAsync(ScrollChangedEventArgs args)
-        {
-            if (args.Source is not ScrollViewer scrollViewer)
-            {
-                return;
-            }
-
-            // Offset.Length：偏移量
-            // Extent.Height：可滚动范围
-            // DesiredSize.Height：窗体高度
-            // 剩余可滚动内容高度小于窗体高度的两倍时加载数据
-            var remainContentHeight = scrollViewer.Extent.Height - scrollViewer.Offset.Length;
-            if (remainContentHeight > scrollViewer.DesiredSize.Height * 2)
-            {
-                return;
-            }
-
-            await LoadTopicsAsync();
-        }
-
-        private async Task LoadTopicsAsync()
-        {
-            CurrentBoardTabItemModel!.IsLoading = true;
-
-            // 加载帖子
-            var currentTopics = CurrentBoardTabItemModel.Topics;
-            foreach (
-                var topic in await _topicService
-                    .GetTopicsAsync(
-                        page: (uint)CurrentBoardTabItemModel.Topics.Count
-                            / CurrentBoardTabItemModel.PageSize
-                            + 1,
-                        pageSize: CurrentBoardTabItemModel.PageSize,
-                        boardId: CurrentBoardTabItemModel.Board,
-                        sortby: CurrentBoardTabItemModel.SortType,
-                        getPreviewSources: CurrentBoardTabItemModel.RequirePreviewSources
-                    )
-                    .ContinueWith(t => new ObservableCollection<TopicOverview>(
-                        t.Result?.List ?? []
-                    ))
-            )
-            {
-                if (currentTopics.Any(t => t.TopicId == topic.TopicId))
-                {
-                    continue;
-                }
-                currentTopics.Add(topic);
-            }
-
-            CurrentBoardTabItemModel.IsLoading = false;
-        }
-
-        /// <summary>
-        /// 刷新当前板块帖子
-        /// </summary>
-        [RelayCommand]
-        private async Task RefreshCurrentBoardTopicsAsync(BoardTabItemModel model)
-        {
-            if (model.Equals(CurrentBoardTabItemModel) != true)
-            {
-                return;
-            }
-
-            if (CurrentBoardTabItemModel.IsLoading)
-            {
-                return;
-            }
-
-            CurrentBoardTabItemModel.Topics.Clear();
-            await LoadTopicsAsync();
         }
     }
 }

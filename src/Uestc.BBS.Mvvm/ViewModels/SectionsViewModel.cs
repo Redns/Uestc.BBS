@@ -1,6 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace Uestc.BBS.Core.ViewModels
+namespace Uestc.BBS.Mvvm.ViewModels
 {
     public class SectionsViewModel : ObservableObject { }
 }

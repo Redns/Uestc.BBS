@@ -1,11 +1,12 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Uestc.BBS.Core;
 using Uestc.BBS.Core.Helpers;
 using Uestc.BBS.Core.Services.Api.Auth;
 using Uestc.BBS.Core.Services.Notification;
 using Uestc.BBS.Core.Services.System;
 
-namespace Uestc.BBS.Core.ViewModels
+namespace Uestc.BBS.Mvvm.ViewModels
 {
     /// <summary>
     ///

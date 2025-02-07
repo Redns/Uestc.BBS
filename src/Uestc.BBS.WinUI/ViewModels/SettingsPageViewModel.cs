@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.Input;
-using Uestc.BBS.Core.ViewModels;
+using Uestc.BBS.Mvvm.ViewModels;
 using Windows.System;
 
 namespace Uestc.BBS.WinUI.ViewModels

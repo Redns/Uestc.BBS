@@ -8,7 +8,6 @@
     xmlns:lc="using:Uestc.BBS.WinUI.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="using:CommunityToolkit.WinUI"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
     <Grid>
         <Grid.ColumnDefinitions>
@@ -16,7 +15,7 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <StackPanel Margin="10,0">
+        <StackPanel Margin="10,0" Spacing="10">
             <SelectorBar
                 x:Name="SelectorBar2"
                 Grid.Column="0"

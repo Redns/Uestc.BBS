@@ -11,7 +11,7 @@
     xmlns:icon="using:FluentIcons.Avalonia"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:md="https://github.com/whistyun/Markdown.Avalonia"
-    xmlns:models="using:Uestc.BBS.Desktop.Models"
+    xmlns:models="using:Uestc.BBS.Mvvm.Models"
     xmlns:ui="using:FluentAvalonia.UI.Controls"
     xmlns:view="using:Uestc.BBS.Desktop.Views"
     xmlns:vm="using:Uestc.BBS.Desktop.ViewModels"

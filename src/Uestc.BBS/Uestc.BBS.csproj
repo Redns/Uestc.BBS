@@ -35,7 +35,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\Uestc.BBS.Core\Uestc.BBS.Core.csproj" />
+	  <ProjectReference Include="..\Uestc.BBS.Mvvm\Uestc.BBS.Mvvm.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

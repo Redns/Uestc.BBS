@@ -6,7 +6,7 @@ using Uestc.BBS.Core;
 using Uestc.BBS.Core.Services.Api.Auth;
 using Uestc.BBS.Core.Services.Notification;
 using Uestc.BBS.Core.Services.System;
-using Uestc.BBS.Core.ViewModels;
+using Uestc.BBS.Mvvm.ViewModels;
 using Uestc.BBS.WinUI.Views;
 
 namespace Uestc.BBS.WinUI.ViewModels

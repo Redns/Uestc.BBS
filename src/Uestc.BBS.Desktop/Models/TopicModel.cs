@@ -5,12 +5,12 @@ namespace Uestc.BBS.Desktop.Models
     public partial class TopicModel : ObservableObject
     {
         [ObservableProperty]
-        private int _userId;
+        public partial int UserId { get; set; }
 
         [ObservableProperty]
-        private int _topicId;
+        public partial int TopicId { get; set; }
 
         [ObservableProperty]
-        private string _title = string.Empty;
+        public partial string Title { get; set; } = string.Empty;
     }
 }

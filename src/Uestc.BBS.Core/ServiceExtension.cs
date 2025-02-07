@@ -5,7 +5,6 @@ using Uestc.BBS.Core.Services.Api.Auth;
 using Uestc.BBS.Core.Services.Api.Forum;
 using Uestc.BBS.Core.Services.Api.User;
 using Uestc.BBS.Core.Services.System;
-using Uestc.BBS.Core.ViewModels;
 
 namespace Uestc.BBS.Core
 {
@@ -41,9 +40,7 @@ namespace Uestc.BBS.Core
                 .AddTransient<IAuthService, AuthService>()
                 .AddTransient<ITopicService, TopicService>()
                 // 每日一句
-                .AddSingleton<IDailySentenceService, DailySentenceService>()
-                // ViewModels
-                .AddSingleton<HomeViewModel>();
+                .AddSingleton<IDailySentenceService, DailySentenceService>();
             // HttpClient
             ServiceCollection.AddHttpClient();
             ServiceCollection.AddHttpClient<IDailySentenceService, DailySentenceService>(client =>
