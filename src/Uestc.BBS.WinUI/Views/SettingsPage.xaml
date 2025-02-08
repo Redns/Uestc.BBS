@@ -4,11 +4,18 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="using:CommunityToolkit.WinUI.Controls"
+    xmlns:core="using:Uestc.BBS.Core"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Uestc.BBS.WinUI.Views"
+    xmlns:local_converters="using:Uestc.BBS.WinUI.Converters"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="using:CommunityToolkit.WinUI"
     mc:Ignorable="d">
+
+    <Page.Resources>
+        <local_converters:ThemeColor2LabelConverter x:Key="ThemeColor2LabelConverter" />
+        <local_converters:WindowCloseBehavior2LabelConverter x:Key="WindowCloseBehavior2LabelConverter" />
+    </Page.Resources>
 
     <ScrollViewer Margin="10" VerticalScrollBarVisibility="Hidden">
         <StackPanel Spacing="5">
@@ -17,41 +24,26 @@
                 FontSize="14"
                 Text="显示" />
             <!--  颜色  -->
-            <controls:SettingsExpander
-                Description="主题色、背景、透明效果"
-                Header="颜色"
-                HeaderIcon="{ui:FontIcon Glyph=&#xE790;}">
-                <controls:SettingsExpander.Items>
-                    <controls:SettingsCard Description="更改应用中显示的颜色" Header="主题">
-                        <ComboBox SelectedIndex="0">
-                            <ComboBoxItem>浅色</ComboBoxItem>
-                            <ComboBoxItem>深色</ComboBoxItem>
-                            <ComboBoxItem>跟随系统</ComboBoxItem>
-                        </ComboBox>
-                    </controls:SettingsCard>
-                    <controls:SettingsCard Description="云母背景的整体不透明度" Header="材质不透明度">
-                        <StackPanel Orientation="Horizontal" Spacing="10">
-                            <TextBlock
-                                Padding="0,0,0,1"
-                                VerticalAlignment="Center"
-                                Text="{x:Bind MicaOpacity.Value, Mode=OneWay}" />
-                            <Slider
-                                x:Name="MicaOpacity"
-                                Width="160"
-                                Maximum="100"
-                                Minimum="0" />
-                        </StackPanel>
-                    </controls:SettingsCard>
-                </controls:SettingsExpander.Items>
-            </controls:SettingsExpander>
             <controls:SettingsCard
-                Description="是否显示顶部导航栏（包括我的收藏/发布/回复/插眼）"
+                Description="更改应用中显示的颜色"
+                Header="主题"
+                HeaderIcon="{ui:FontIcon Glyph=&#xE790;}">
+                <ComboBox ItemsSource="{x:Bind ThemeColors}" SelectedItem="{x:Bind ViewModel.AppSettingModel.Apperance.ThemeColor, Mode=TwoWay}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Converter={StaticResource ThemeColor2LabelConverter}}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </controls:SettingsCard>
+            <controls:SettingsCard
+                Description="是否显示顶部导航栏（我的收藏/发布/回复/插眼）"
                 Header="顶部导航栏"
                 HeaderIcon="{ui:FontIcon Glyph=&#xF596;}">
-                <ToggleSwitch />
+                <ToggleSwitch IsOn="{x:Bind ViewModel.AppSettingModel.Apperance.IsTopNavigateBarEnabled, Mode=TwoWay}" />
             </controls:SettingsCard>
             <controls:SettingsExpander
-                Description="开启、关闭或调整导航区块"
+                Description="启用、关闭或调整导航区块"
                 Header="侧边导航栏"
                 HeaderIcon="{ui:FontIcon Glyph=&#xE700;}">
                 <controls:SettingsExpander.Items />
@@ -62,20 +54,23 @@
                 Header="搜索栏"
                 HeaderIcon="{ui:FontIcon Glyph=&#xE721;}">
                 <controls:SettingsExpander.Items>
-                    <controls:SettingsCard Header="每日一句">
-                        <ToggleSwitch />
+                    <controls:SettingsCard Description="关闭后不会清除现有搜索记录" Header="搜索历史">
+                        <ToggleSwitch IsOn="{x:Bind ViewModel.AppSettingModel.Apperance.SearchBar.IsSearchHistoryEnabled, Mode=TwoWay}" />
                     </controls:SettingsCard>
-                    <controls:SettingsCard Description="轮询获取每日一句的周期" Header="更新间隔">
+                    <controls:SettingsCard Description="数据从旧版河畔首页抓取" Header="每日一句">
+                        <ToggleSwitch IsOn="{x:Bind ViewModel.AppSettingModel.Apperance.SearchBar.IsDailySentenceEnabled, Mode=TwoWay}" />
+                    </controls:SettingsCard>
+                    <controls:SettingsCard
+                        Description="轮询获取每日一句的周期"
+                        Header="更新间隔"
+                        IsEnabled="{x:Bind ViewModel.AppSettingModel.Apperance.SearchBar.IsDailySentenceEnabled, Mode=OneWay}">
                         <StackPanel Orientation="Horizontal" Spacing="10">
                             <NumberBox
                                 Maximum="3600"
-                                Minimum="1"
-                                Value="60" />
+                                Minimum="10"
+                                Value="{x:Bind ViewModel.AppSettingModel.Apperance.SearchBar.DailySentenceUpdateTimeInterval, Mode=TwoWay}" />
                             <TextBlock VerticalAlignment="Center" Text="秒" />
                         </StackPanel>
-                    </controls:SettingsCard>
-                    <controls:SettingsCard Description="关闭后不会清除现有搜索记录" Header="搜索历史">
-                        <ToggleSwitch />
                     </controls:SettingsCard>
                 </controls:SettingsExpander.Items>
             </controls:SettingsExpander>
@@ -86,34 +81,46 @@
                 HeaderIcon="{ui:FontIcon Glyph=&#xE8A1;}">
                 <controls:SettingsExpander.Items>
                     <controls:SettingsCard Description="高亮显示热门主题的浏览量和图标" Header="标记热门主题">
-                        <ToggleSwitch />
+                        <ToggleSwitch IsOn="{x:Bind ViewModel.AppSettingModel.Apperance.Browsing.HighlightHotTopic, Mode=TwoWay}" />
                     </controls:SettingsCard>
-                    <controls:SettingsCard Description="加权系数高于阈值的主题将进行特殊高亮" Header="热门主题阈值">
+                    <controls:SettingsCard
+                        Description="加权系数高于阈值的主题将进行特殊高亮"
+                        Header="热门主题阈值"
+                        IsEnabled="{x:Bind ViewModel.AppSettingModel.Apperance.Browsing.HighlightHotTopic, Mode=OneWay}">
                         <StackPanel Orientation="Horizontal" Spacing="10">
                             <TextBlock
                                 Padding="0,0,0,1"
                                 VerticalAlignment="Center"
-                                Text="{x:Bind TopicHotThreshold.Value, Mode=OneWay}" />
+                                Text="{x:Bind ViewModel.AppSettingModel.Apperance.Browsing.TopicHotThreshold, Mode=OneWay}" />
                             <Slider
-                                x:Name="TopicHotThreshold"
                                 Width="160"
                                 Maximum="10000"
-                                Minimum="100" />
+                                Minimum="100"
+                                Value="{x:Bind ViewModel.AppSettingModel.Apperance.Browsing.TopicHotThreshold, Mode=TwoWay}" />
                         </StackPanel>
                     </controls:SettingsCard>
-                    <controls:SettingsCard Header="热门系数加权方案">
+                    <controls:SettingsCard Header="热门指数加权方案" IsEnabled="{x:Bind ViewModel.AppSettingModel.Apperance.Browsing.HighlightHotTopic, Mode=OneWay}">
                         <StackPanel Orientation="Horizontal" Spacing="5">
                             <TextBlock VerticalAlignment="Center" Text="浏览量" />
                             <TextBlock VerticalAlignment="Center" Text="×" />
-                            <NumberBox Maximum="10" Minimum="0" />
+                            <NumberBox
+                                Maximum="10"
+                                Minimum="0"
+                                Value="{x:Bind ViewModel.AppSettingModel.Apperance.Browsing.TopicHotIndexWeightingScheme.ViewsCoefficient, Mode=TwoWay}" />
                             <TextBlock VerticalAlignment="Center" Text="＋" />
                             <TextBlock VerticalAlignment="Center" Text="回复" />
                             <TextBlock VerticalAlignment="Center" Text="×" />
-                            <NumberBox Maximum="10" Minimum="0" />
+                            <NumberBox
+                                Maximum="10"
+                                Minimum="0"
+                                Value="{x:Bind ViewModel.AppSettingModel.Apperance.Browsing.TopicHotIndexWeightingScheme.RepliesCoefficient, Mode=TwoWay}" />
                             <TextBlock VerticalAlignment="Center" Text="＋" />
                             <TextBlock VerticalAlignment="Center" Text="点赞" />
                             <TextBlock VerticalAlignment="Center" Text="×" />
-                            <NumberBox Maximum="10" Minimum="0" />
+                            <NumberBox
+                                Maximum="10"
+                                Minimum="0"
+                                Value="{x:Bind ViewModel.AppSettingModel.Apperance.Browsing.TopicHotIndexWeightingScheme.LikesCoefficient, Mode=TwoWay}" />
                         </StackPanel>
                     </controls:SettingsCard>
                 </controls:SettingsExpander.Items>
@@ -124,23 +131,23 @@
                 Header="评论"
                 HeaderIcon="{ui:FontIcon Glyph=&#xE8BD;}">
                 <controls:SettingsExpander.Items>
-                    <controls:SettingsCard Header="楼中楼">
-                        <ToggleSwitch />
+                    <controls:SettingsCard Description="聚合对单个评论的所有回复" Header="楼中楼">
+                        <ToggleSwitch IsOn="{x:Bind ViewModel.AppSettingModel.Apperance.Comment.IsNested, Mode=TwoWay}" />
                     </controls:SettingsCard>
                     <controls:SettingsCard Description="置顶评论将显示在热评上方" Header="强制置顶">
-                        <ToggleSwitch />
+                        <ToggleSwitch IsOn="{x:Bind ViewModel.AppSettingModel.Apperance.Comment.ForcedPinned, Mode=TwoWay}" />
                     </controls:SettingsCard>
                     <controls:SettingsCard Description="点赞数超过阈值的评论将标记为热门" Header="热门评论点赞数阈值">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock
                                 Margin="10,0"
                                 VerticalAlignment="Center"
-                                Text="{x:Bind HotCommentThousold.Value, Mode=OneWay}" />
+                                Text="{x:Bind ViewModel.AppSettingModel.Apperance.Comment.HotCommentLikesThreshold, Mode=OneWay}" />
                             <Slider
-                                x:Name="HotCommentThousold"
                                 Width="160"
                                 Maximum="100"
-                                Minimum="5" />
+                                Minimum="5"
+                                Value="{x:Bind ViewModel.AppSettingModel.Apperance.Comment.HotCommentLikesThreshold, Mode=TwoWay}" />
                         </StackPanel>
                     </controls:SettingsCard>
                     <controls:SettingsCard Header="显示内容">
@@ -148,11 +155,23 @@
                             <x:Double x:Key="SettingsCardWrapThreshold">10000</x:Double>
                         </controls:SettingsCard.Resources>
                         <StackPanel Orientation="Horizontal">
-                            <CheckBox Margin="0,0,-40,0" Content="楼层" />
-                            <CheckBox Margin="0,0,-40,0" Content="等级" />
-                            <CheckBox Margin="0,0,-40,0" Content="勋章" />
-                            <CheckBox Margin="0,0,-40,0" Content="签名" />
-                            <CheckBox Content="自定义头衔" />
+                            <CheckBox
+                                Margin="0,0,-40,0"
+                                Content="楼层"
+                                IsChecked="{x:Bind ViewModel.AppSettingModel.Apperance.Comment.IsCommentFloorVisible, Mode=TwoWay}" />
+                            <CheckBox
+                                Margin="0,0,-40,0"
+                                Content="等级"
+                                IsChecked="{x:Bind ViewModel.AppSettingModel.Apperance.Comment.IsUserLevelVisible, Mode=TwoWay}" />
+                            <CheckBox
+                                Margin="0,0,-40,0"
+                                Content="勋章"
+                                IsChecked="{x:Bind ViewModel.AppSettingModel.Apperance.Comment.IsUserBadgeVisible, Mode=TwoWay}" />
+                            <CheckBox
+                                Margin="0,0,-40,0"
+                                Content="签名"
+                                IsChecked="{x:Bind ViewModel.AppSettingModel.Apperance.Comment.IsUserSignatureVisible, Mode=TwoWay}" />
+                            <CheckBox Content="用户组" IsChecked="{x:Bind ViewModel.AppSettingModel.Apperance.Comment.IsUserGroupVisible, Mode=TwoWay}" />
                         </StackPanel>
                     </controls:SettingsCard>
                 </controls:SettingsExpander.Items>
@@ -198,16 +217,18 @@
                 HeaderIcon="{ui:FontIcon Glyph=&#xE7B5;}">
                 <controls:SettingsExpander.Items>
                     <controls:SettingsCard Header="自启动">
-                        <ToggleSwitch />
+                        <ToggleSwitch IsOn="{x:Bind ViewModel.AppSettingModel.Apperance.StartupAndShutdown.StartupOnLaunch, Mode=TwoWay}" />
                     </controls:SettingsCard>
                     <controls:SettingsCard Description="启动后仅显示托盘图标" Header="静默启动">
-                        <ToggleSwitch />
+                        <ToggleSwitch IsOn="{x:Bind ViewModel.AppSettingModel.Apperance.StartupAndShutdown.SlientStart, Mode=TwoWay}" />
                     </controls:SettingsCard>
                     <controls:SettingsCard Description="效率模式可减少后台进程对 CPU 的占用（仅 Win11 支持）" Header="窗口关闭行为">
-                        <ComboBox>
-                            <ComboBoxItem Content="退出应用" />
-                            <ComboBoxItem Content="隐藏窗口" />
-                            <ComboBoxItem Content="隐藏窗口 + 效率模式" />
+                        <ComboBox ItemsSource="{x:Bind WindowCloseBehaviors}" SelectedItem="{x:Bind ViewModel.AppSettingModel.Apperance.StartupAndShutdown.WindowCloseBehavior, Mode=TwoWay}">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Converter={StaticResource WindowCloseBehavior2LabelConverter}}" />
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
                         </ComboBox>
                     </controls:SettingsCard>
                     <controls:SettingsCard Description="点击应用图标将跳转至此链接" Header="论坛跳转链接">

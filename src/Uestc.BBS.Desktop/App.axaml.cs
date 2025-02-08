@@ -9,6 +9,7 @@ using Uestc.BBS.Core;
 using Uestc.BBS.Core.Services.System;
 using Uestc.BBS.Desktop.Models;
 using Uestc.BBS.Desktop.Views;
+using Uestc.BBS.Mvvm;
 using Uestc.BBS.ViewModels;
 
 namespace Uestc.BBS.Desktop;

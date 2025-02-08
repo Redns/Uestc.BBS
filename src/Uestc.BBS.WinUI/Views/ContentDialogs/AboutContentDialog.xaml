@@ -7,13 +7,14 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Uestc.BBS.WinUI.Views.ContentDialogs"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="using:CommunityToolkit.WinUI"
     mc:Ignorable="d">
     <StackPanel Spacing="10">
         <Image Width="48" Source="/Assets/Icons/app.ico" />
         <TextBlock HorizontalAlignment="Center" Text="{x:Bind Version}" />
         <TextBlock HorizontalAlignment="Center" Text="{x:Bind CopyRight}" />
         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-            <HyperlinkButton Content="源码仓库" />
+            <HyperlinkButton Content="源码仓库" NavigateUri="{x:Bind SourceRepositoryUrl}" />
             <HyperlinkButton Content="问题反馈" />
             <HyperlinkButton Content="阅读文档" />
             <HyperlinkButton Content="联系作者" />

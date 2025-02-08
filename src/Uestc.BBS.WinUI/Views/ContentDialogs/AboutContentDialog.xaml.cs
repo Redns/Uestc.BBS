@@ -14,6 +14,11 @@ namespace Uestc.BBS.WinUI.Views.ContentDialogs
         /// </summary>
         public string CopyRight { get; set; } = string.Empty;
 
+        /// <summary>
+        /// Ô´Âë²Ö¿âµØÖ·
+        /// </summary>
+        public string SourceRepositoryUrl { get; set; } = "https://github.com/Redns/Uestc.BBS";
+
         public AboutContentDialog()
         {
             InitializeComponent();

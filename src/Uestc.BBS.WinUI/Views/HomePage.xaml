@@ -6,7 +6,7 @@
     xmlns:controls="using:CommunityToolkit.WinUI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:forum="using:Uestc.BBS.Core.Services.Api.Forum"
-    xmlns:lc="using:Uestc.BBS.WinUI.Controls"
+    xmlns:local_controls="using:Uestc.BBS.WinUI.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="using:CommunityToolkit.WinUI"
     mc:Ignorable="d">
@@ -59,7 +59,7 @@
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate x:DataType="forum:TopicOverview">
-                            <lc:TopicOverview
+                            <local_controls:TopicOverview
                                 Title="{x:Bind Title}"
                                 Margin="0,0,0,10"
                                 Avatar="{x:Bind UserAvatar}"
@@ -78,47 +78,13 @@
         </Grid>
 
         <StackPanel Grid.Column="1">
-            <StackPanel MaxWidth="300">
-                <StackPanel Orientation="Horizontal" Spacing="10">
-                    <PersonPicture
-                        Height="48"
-                        VerticalAlignment="Top"
-                        controls:DockPanel.Dock="Left"
-                        ProfilePicture="https://bbs.uestc.edu.cn/uc_server/data/avatar/000/25/68/25_avatar_big.jpg" />
-                    <!--  昵称、签名  -->
-                    <StackPanel VerticalAlignment="Center" Spacing="3">
-                        <StackPanel Orientation="Horizontal" Spacing="5">
-                            <TextBlock FontWeight="SemiBold" Text="Redns" />
-                            <Border Background="{ThemeResource SystemFillColorSuccessBrush}" CornerRadius="3">
-                                <TextBlock
-                                    Margin="3,0"
-                                    Padding="0,1,0,0"
-                                    FontSize="12"
-                                    Foreground="White"
-                                    Text="Lv.6" />
-                            </Border>
-                            <Border Background="{ThemeResource AccentTextFillColorTertiaryBrush}" CornerRadius="3">
-                                <TextBlock
-                                    Margin="3,0"
-                                    Padding="0,1,0,0"
-                                    FontSize="11"
-                                    Foreground="White"
-                                    Text="成电校友" />
-                            </Border>
-                        </StackPanel>
-                        <TextBlock
-                            FontSize="12"
-                            Foreground="Gray"
-                            Text="早熟的人通常都晚熟，骄傲的人又很急性" />
-                        <!--  退出登录  -->
-                        <HyperlinkButton
-                            Margin="-5,0"
-                            Padding="5"
-                            Content="退出登录"
-                            FontSize="12" />
-                    </StackPanel>
-                </StackPanel>
-            </StackPanel>
+            <local_controls:PersonProfile
+                Name="Redns"
+                MaxWidth="300"
+                Avatar="https://bbs.uestc.edu.cn/uc_server/data/avatar/000/25/68/25_avatar_big.jpg"
+                Group="成电校友"
+                Level="8"
+                Signature="早熟的人通常都晚熟，骄傲的人又很急性" />
         </StackPanel>
     </Grid>
 </Page>

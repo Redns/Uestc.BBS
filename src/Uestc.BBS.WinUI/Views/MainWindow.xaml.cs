@@ -18,16 +18,13 @@ namespace Uestc.BBS.WinUI.Views
 {
     public sealed partial class MainWindow : WindowEx
     {
-        private readonly AppSetting _appSetting;
-
         private readonly Appmanifest _appmanifest;
 
         private readonly MainViewModel _viewModel;
 
-        public MainWindow(MainViewModel viewModel, Appmanifest appmanifest, AppSetting appSetting)
+        public MainWindow(MainViewModel viewModel, Appmanifest appmanifest)
         {
             _viewModel = viewModel;
-            _appSetting = appSetting;
             _appmanifest = appmanifest;
 
             InitializeComponent();
@@ -48,19 +45,37 @@ namespace Uestc.BBS.WinUI.Views
                 navigateFrame.Content = NavigateToPage(page);
             }
 
+            // 设置主题色
+            if (Content is FrameworkElement element)
+            {
+                element.RequestedTheme =
+                    viewModel.AppSettingModel.Apperance.ThemeColor.GetElementTheme();
+                viewModel.AppSettingModel.Apperance.PropertyChanged += (sender, args) =>
+                {
+                    if (args.PropertyName == nameof(viewModel.AppSettingModel.Apperance.ThemeColor))
+                    {
+                        element.RequestedTheme =
+                            viewModel.AppSettingModel.Apperance.ThemeColor.GetElementTheme();
+                    }
+                };
+            }
+
             // 设置窗口关闭策略
             AppWindow.Closing += (window, args) =>
             {
-                if (_appSetting.Apperance.WindowCloseBehavior is WindowCloseBehavior.Exit)
+                if (
+                    viewModel.AppSettingModel.Apperance.StartupAndShutdown.WindowCloseBehavior
+                    is WindowCloseBehavior.Exit
+                )
                 {
                     return;
                 }
 
-                args.Cancel = true;
                 this.Hide(
-                    _appSetting.Apperance.WindowCloseBehavior
+                    viewModel.AppSettingModel.Apperance.StartupAndShutdown.WindowCloseBehavior
                         is WindowCloseBehavior.HideWithEfficiencyMode
                 );
+                args.Cancel = true;
             };
         }
 
@@ -135,12 +150,12 @@ namespace Uestc.BBS.WinUI.Views
             {
                 XamlRoot = Content.XamlRoot,
                 Title = _appmanifest.Name,
-                PrimaryButtonText = "确定",
-                DefaultButton = ContentDialogButton.Primary,
+                PrimaryButtonText = "确 定",
                 Content = new AboutContentDialog()
                 {
                     Version = _appmanifest.Version,
                     CopyRight = _appmanifest.CopyRight,
+                    SourceRepositoryUrl = _appmanifest.SourceRepositoryUrl,
                 },
             }.ShowAsync();
     }

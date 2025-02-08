@@ -1,18 +1,36 @@
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using FastEnumUtility;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-
-// To learn more about WinUI, the WinUI project structure,
-// and more about our project templates, see: http://aka.ms/winui-project-info.
+using Uestc.BBS.Core;
+using Uestc.BBS.WinUI.ViewModels;
 
 namespace Uestc.BBS.WinUI.Views
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
     public sealed partial class SettingsPage : Page
     {
-        public SettingsPage()
+        private SettingsViewModel ViewModel { get; init; }
+
+        private List<ThemeColor> ThemeColors { get; init; } = [.. FastEnum.GetValues<ThemeColor>()];
+
+        private List<WindowCloseBehavior> WindowCloseBehaviors { get; init; } =
+            [.. FastEnum.GetValues<WindowCloseBehavior>()];
+
+        public SettingsPage(SettingsViewModel viewModel)
         {
             InitializeComponent();
+
+            ViewModel = viewModel;
+        }
+
+        protected override void OnLostFocus(RoutedEventArgs e)
+        {
+            _ = Task.Run(() =>
+            {
+                ViewModel.AppSettingModel.Save();
+            });
+            base.OnLostFocus(e);
         }
     }
 }

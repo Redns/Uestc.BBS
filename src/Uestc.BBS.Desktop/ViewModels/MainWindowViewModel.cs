@@ -14,6 +14,7 @@ using Uestc.BBS.Core.Services;
 using Uestc.BBS.Core.Services.Api.Forum;
 using Uestc.BBS.Desktop.Models;
 using Uestc.BBS.Desktop.Views;
+using Uestc.BBS.Mvvm;
 
 namespace Uestc.BBS.Desktop.ViewModels
 {

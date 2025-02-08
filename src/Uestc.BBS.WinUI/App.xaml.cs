@@ -8,6 +8,7 @@ using Microsoft.Windows.AppLifecycle;
 using Uestc.BBS.Core;
 using Uestc.BBS.Core.Services.Notification;
 using Uestc.BBS.Core.Services.System;
+using Uestc.BBS.Mvvm.Models;
 using Uestc.BBS.WinUI.Services.Notifications;
 using Uestc.BBS.WinUI.ViewModels;
 using Uestc.BBS.WinUI.Views;
@@ -15,9 +16,6 @@ using WinUIEx;
 
 namespace Uestc.BBS.WinUI
 {
-    /// <summary>
-    /// Provides application-specific behavior to supplement the default Application class.
-    /// </summary>
     public partial class App : Application
     {
         public App()
@@ -47,6 +45,9 @@ namespace Uestc.BBS.WinUI
                 .AddSingleton<AuthViewModel>()
                 .AddSingleton<MainViewModel>()
                 .AddSingleton<HomeViewModel>()
+                .AddSingleton<SettingsViewModel>()
+                // Models
+                .AddSingleton<AppSettingModel>()
                 // Appmanifest
                 .AddSingleton(appmanifest =>
                     JsonSerializer.Deserialize<Appmanifest>(
@@ -71,10 +72,6 @@ namespace Uestc.BBS.WinUI
                 });
         }
 
-        /// <summary>
-        /// Invoked when the application is launched.
-        /// </summary>
-        /// <param name="args">Details about the launch request and process.</param>
         protected override void OnLaunched(LaunchActivatedEventArgs args)
         {
             try
@@ -89,10 +86,10 @@ namespace Uestc.BBS.WinUI
                 }
 
                 var mainWindow = ServiceExtension.Services.GetRequiredService<MainWindow>();
-                if (appSetting.Apperance.SlientStart)
+                if (appSetting.Apperance.StartupAndShutdown.SlientStart)
                 {
                     mainWindow.Hide(
-                        appSetting.Apperance.WindowCloseBehavior
+                        appSetting.Apperance.StartupAndShutdown.WindowCloseBehavior
                             is WindowCloseBehavior.HideWithEfficiencyMode
                     );
                     return;

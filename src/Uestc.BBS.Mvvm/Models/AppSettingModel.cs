@@ -1,178 +1,570 @@
-﻿//using System.Drawing;
-//using CommunityToolkit.Mvvm.ComponentModel;
-//using static System.Net.Mime.MediaTypeNames;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using Uestc.BBS.Core;
+using Uestc.BBS.Core.Services.Api.Forum;
 
-//namespace Uestc.BBS.Core.Models
-//{
-//    public partial class AppSettingModel(AppSetting setting) : ObservableObject
-//    {
-//        private readonly AppSetting _setting = setting;
+namespace Uestc.BBS.Mvvm.Models
+{
+    public partial class AppSettingModel(AppSetting setting) : ObservableObject
+    {
+        private readonly AppSetting _setting = setting;
 
-//        #region 外观
-//        /// <summary>
-//        /// 主题色
-//        /// </summary>
-//        public ThemeColor ThemeColor
-//        {
-//            get => _setting.Apperance.ThemeMode;
-//            set =>
-//                SetProperty(
-//                    _setting.Apperance.ThemeMode,
-//                    value,
-//                    _setting,
-//                    (setting, color) => setting.Apperance.ThemeMode = color
-//                );
-//        }
+        public ApperanceSettingModel Apperance { get; init; } =
+            new ApperanceSettingModel(setting.Apperance);
 
-//        /// <summary>
-//        /// 颜色不透明度
-//        /// </summary>
-//        public double TintOpacity
-//        {
-//            get => _setting.Apperance.TintOpacity;
-//            set =>
-//                SetProperty(
-//                    _setting.Apperance.TintOpacity,
-//                    value,
-//                    _setting,
-//                    (setting, opacity) => setting.Apperance.TintOpacity = opacity
-//                );
-//        }
+        public void Save(string? path = null) => _setting.Save(path);
+    }
 
-//        /// <summary>
-//        /// 亚克力材质亮色
-//        /// </summary>
-//        [ObservableProperty]
-//        [NotifyPropertyChangedFor(nameof(TintColor))]
-//        private Color _tintLightColor;
+    /// <summary>
+    /// 外观设置
+    /// </summary>
+    public class ApperanceSettingModel(ApperanceSetting apperanceSetting) : ObservableObject
+    {
+        private readonly ApperanceSetting _apperanceSetting = apperanceSetting;
 
-//        /// <summary>
-//        /// 亚克力主题暗色
-//        /// </summary>
-//        [ObservableProperty]
-//        [NotifyPropertyChangedFor(nameof(TintColor))]
-//        private Color _tintDarkColor;
+        /// <summary>
+        /// 主题
+        /// </summary>
+        public ThemeColor ThemeColor
+        {
+            get => _apperanceSetting.ThemeColor;
+            set =>
+                SetProperty(
+                    _apperanceSetting.ThemeColor,
+                    value,
+                    _apperanceSetting,
+                    (setting, theme) => setting.ThemeColor = theme
+                );
+        }
 
-//        /// <summary>
-//        /// 亚克力材质颜色
-//        /// </summary>
-//        public Color TintColor =>
-//            Application.Current!.ActualThemeVariant == ThemeVariant.Light
-//                ? TintLightColor
-//                : TintDarkColor;
+        /// <summary>
+        /// 顶部导航栏是否可见
+        /// </summary>
+        public bool IsTopNavigateBarEnabled
+        {
+            get => _apperanceSetting.IsTopNavigateBarEnabled;
+            set =>
+                SetProperty(
+                    _apperanceSetting.IsTopNavigateBarEnabled,
+                    value,
+                    _apperanceSetting,
+                    (setting, enabled) => setting.IsTopNavigateBarEnabled = enabled
+                );
+        }
 
-//        /// <summary>
-//        /// 材质不透明度
-//        /// </summary>
-//        [ObservableProperty]
-//        private double _materialOpacity;
+        /// <summary>
+        /// 搜索栏
+        /// </summary>
+        public SearchBarSettingModel SearchBar { get; set; } = new(apperanceSetting.SearchBar);
 
-//        /// <summary>
-//        /// 每日一句
-//        /// </summary>
-//        [ObservableProperty]
-//        [NotifyPropertyChangedFor(nameof(DailySentence))]
-//        private bool _isDailySentenceShown;
+        /// <summary>
+        /// 启动和关闭设置
+        /// </summary>
+        public StartupAndShutdownSettingModel StartupAndShutdown { get; set; } =
+            new(apperanceSetting.StartupAndShutdown);
 
-//        public Task<string> DailySentence =>
-//            IsDailySentenceShown
-//                ? _dailySentenceService
-//                    .GetDailySentenceAsync()
-//                    .ContinueWith(sentence =>
-//                        DailySentenceRegex().Replace(sentence.Result, string.Empty)
-//                    )
-//                : Task.FromResult(string.Empty);
+        /// <summary>
+        /// 浏览设置
+        /// </summary>
+        public BrowsingSettingModel Browsing { get; set; } = new(apperanceSetting.Browsing);
 
-//        /// <summary>
-//        /// 论坛官网
-//        /// </summary>
-//        [ObservableProperty]
-//        private string _officialWebsite;
+        /// <summary>
+        /// 评论设置
+        /// </summary>
+        public CommentSettingModel Comment { get; set; } = new(apperanceSetting.Comment);
 
-//        /// <summary>
-//        /// 固定窗口
-//        /// </summary>
-//        [ObservableProperty]
-//        private bool _isWindowPinned;
+        /// <summary>
+        /// 侧边栏菜单列表
+        /// </summary>
+        public MenuItem[] MenuItems { get; set; } =
+            [
+                new MenuItem
+                {
+                    Key = "Home",
+                    Name = "主 页",
+                    Symbol = "Home",
+                    IsActive = true,
+                    DockTop = true,
+                },
+                new MenuItem
+                {
+                    Key = "Sections",
+                    Name = "版 块",
+                    Symbol = "Apps",
+                    IsActive = false,
+                    DockTop = true,
+                },
+                new MenuItem
+                {
+                    Key = "Services",
+                    Name = "服 务",
+                    Symbol = "Rocket",
+                    IsActive = false,
+                    DockTop = true,
+                },
+                new MenuItem
+                {
+                    Key = "Moments",
+                    Name = "动 态",
+                    Symbol = "Scan",
+                    IsActive = false,
+                    DockTop = true,
+                },
+                new MenuItem
+                {
+                    Key = "Post",
+                    Name = "发 布",
+                    Symbol = "SaveCopy",
+                    IsActive = false,
+                    DockTop = true,
+                },
+                new MenuItem
+                {
+                    Key = "Settings",
+                    Name = "设 置",
+                    Symbol = "Settings",
+                    IsActive = false,
+                    DockTop = false,
+                },
+                new MenuItem
+                {
+                    Key = "Messages",
+                    Name = "消 息",
+                    Symbol = "Mail",
+                    IsActive = false,
+                    DockTop = false,
+                },
+            ];
 
-//        /// <summary>
-//        /// 窗口关闭行为
-//        /// </summary>
-//        [ObservableProperty]
-//        private WindowCloseBehavior _windowCloseBehavior;
-//        #endregion
+        /// <summary>
+        /// 首页版块 Tab 栏
+        /// </summary>
+        public BoardTabItem[] BoardTabItems { get; set; } =
+            [
+                new()
+                {
+                    Name = "最新发表",
+                    Route = "forum/topiclist",
+                    Board = Board.Latest,
+                    SortType = TopicSortType.New,
+                    PageSize = 15,
+                    RequirePreviewSources = true,
+                    ModuleId = 0,
+                },
+                new()
+                {
+                    Name = "最新回复",
+                    Route = "forum/topiclist",
+                    Board = Board.Latest,
+                    SortType = TopicSortType.All,
+                    PageSize = 15,
+                    RequirePreviewSources = true,
+                    ModuleId = 0,
+                },
+                new()
+                {
+                    Name = "热门",
+                    Route = "portal/newslist",
+                    Board = Board.Anonymous,
+                    SortType = TopicSortType.All,
+                    PageSize = 15,
+                    RequirePreviewSources = true,
+                    ModuleId = 2,
+                },
+                new()
+                {
+                    Name = "精华",
+                    Route = "forum/topiclist",
+                    Board = Board.Latest,
+                    SortType = TopicSortType.Essence,
+                    PageSize = 15,
+                    RequirePreviewSources = true,
+                    ModuleId = 0,
+                },
+                new()
+                {
+                    Name = "淘专辑",
+                    Route = "forum/topiclist",
+                    Board = Board.ExamiHome,
+                    SortType = TopicSortType.New,
+                    PageSize = 15,
+                    RequirePreviewSources = true,
+                    ModuleId = 0,
+                },
+            ];
 
-//        #region 账号
-//        [ObservableProperty]
-//        private bool _autoLogin;
+        /// <summary>
+        /// 官方论坛链接
+        /// </summary>
+        public string OfficialWebsite
+        {
+            get => _apperanceSetting.OfficialWebsite;
+            set =>
+                SetProperty(
+                    _apperanceSetting.OfficialWebsite,
+                    value,
+                    _apperanceSetting,
+                    (setting, website) => setting.OfficialWebsite = website
+                );
+        }
+    }
 
-//        [ObservableProperty]
-//        private bool _rememberPassword;
-//        #endregion
+    /// <summary>
+    /// 每日一句设置
+    /// </summary>
+    public class SearchBarSettingModel(SearchBarSetting searchBarSetting) : ObservableObject
+    {
+        private readonly SearchBarSetting _searchBarSetting = searchBarSetting;
 
-//        #region 同步
-//        [ObservableProperty]
-//        [NotifyPropertyChangedFor(nameof(SyncTimeIntervalMinutesEnable))]
-//        private SyncMode _syncMode;
+        /// <summary>
+        /// 启用每日一句
+        /// </summary>
+        public bool IsDailySentenceEnabled
+        {
+            get => _searchBarSetting.IsDailySentenceEnabled;
+            set =>
+                SetProperty(
+                    _searchBarSetting.IsDailySentenceEnabled,
+                    value,
+                    _searchBarSetting,
+                    (setting, enabled) => setting.IsDailySentenceEnabled = enabled
+                );
+        }
 
-//        [ObservableProperty]
-//        private string _syncSecret;
+        /// <summary>
+        /// 每日一句更新周期（秒）
+        /// </summary>
+        public uint DailySentenceUpdateTimeInterval
+        {
+            get => _searchBarSetting.DailySentenceUpdateTimeInterval;
+            set =>
+                SetProperty(
+                    _searchBarSetting.DailySentenceUpdateTimeInterval,
+                    value,
+                    _searchBarSetting,
+                    (setting, interval) => setting.DailySentenceUpdateTimeInterval = interval
+                );
+        }
 
-//        [ObservableProperty]
-//        private double _syncTimeIntervalMinutes;
+        /// <summary>
+        /// 搜索历史
+        /// </summary>
+        public bool IsSearchHistoryEnabled
+        {
+            get => _searchBarSetting.IsSearchHistoryEnabled;
+            set =>
+                SetProperty(
+                    _searchBarSetting.IsSearchHistoryEnabled,
+                    value,
+                    _searchBarSetting,
+                    (setting, enabled) => setting.IsSearchHistoryEnabled = enabled
+                );
+        }
+    }
 
-//        public bool SyncTimeIntervalMinutesEnable => SyncMode is SyncMode.OnStaupAndTiming;
+    /// <summary>
+    /// 启动和关闭设置
+    /// </summary>
+    public class StartupAndShutdownSettingModel(StartupAndShutdownSetting startupAndShutdownSetting)
+        : ObservableObject
+    {
+        private readonly StartupAndShutdownSetting _startupAndShutdownSetting =
+            startupAndShutdownSetting;
 
-//        /// <summary>
-//        /// WebDAV 服务地址
-//        /// </summary>
-//        [ObservableProperty]
-//        private string _syncApi;
+        /// <summary>
+        /// 静默启动
+        /// </summary>
+        public bool SlientStart
+        {
+            get => _startupAndShutdownSetting.SlientStart;
+            set =>
+                SetProperty(
+                    _startupAndShutdownSetting.SlientStart,
+                    value,
+                    _startupAndShutdownSetting,
+                    (setting, enabled) => setting.SlientStart = enabled
+                );
+        }
 
-//        /// <summary>
-//        /// WebDAV 服务用户名
-//        /// </summary>
-//        [ObservableProperty]
-//        private string _syncUsername;
+        /// <summary>
+        /// 开机自启动
+        /// </summary>
+        public bool StartupOnLaunch
+        {
+            get => _startupAndShutdownSetting.StartupOnLaunch;
+            set =>
+                SetProperty(
+                    _startupAndShutdownSetting.StartupOnLaunch,
+                    value,
+                    _startupAndShutdownSetting,
+                    (setting, enabled) => setting.StartupOnLaunch = enabled
+                );
+        }
 
-//        /// <summary>
-//        /// WebDAV 服务密码
-//        /// </summary>
-//        [ObservableProperty]
-//        private string _syncPassword;
-//        #endregion
+        /// <summary>
+        /// 固定窗口
+        /// </summary>
+        public bool IsWindowPinned
+        {
+            get => _startupAndShutdownSetting.IsWindowPinned;
+            set =>
+                SetProperty(
+                    _startupAndShutdownSetting.IsWindowPinned,
+                    value,
+                    _startupAndShutdownSetting,
+                    (setting, pinned) => setting.IsWindowPinned = pinned
+                );
+        }
 
-//        #region 启动
-//        [ObservableProperty]
-//        private bool _startupOnLaunch;
+        /// <summary>
+        /// 窗口关闭行为
+        /// </summary>
+        public WindowCloseBehavior WindowCloseBehavior
+        {
+            get => _startupAndShutdownSetting.WindowCloseBehavior;
+            set =>
+                SetProperty(
+                    _startupAndShutdownSetting.WindowCloseBehavior,
+                    value,
+                    _startupAndShutdownSetting,
+                    (setting, behavior) => setting.WindowCloseBehavior = behavior
+                );
+        }
+    }
 
-//        [ObservableProperty]
-//        private bool _slientStartup;
-//        #endregion
+    /// <summary>
+    /// 浏览设置
+    /// </summary>
+    public class BrowsingSettingModel(BrowsingSetting browsingSetting) : ObservableObject
+    {
+        private readonly BrowsingSetting _browsingSetting = browsingSetting;
 
-//        #region 日志
-//        [ObservableProperty]
-//        private bool _logEnable;
+        /// <summary>
+        /// 高亮热门主题
+        /// </summary>
+        public bool HighlightHotTopic
+        {
+            get => _browsingSetting.HighlightHotTopic;
+            set =>
+                SetProperty(
+                    _browsingSetting.HighlightHotTopic,
+                    value,
+                    _browsingSetting,
+                    (setting, highlight) => setting.HighlightHotTopic = highlight
+                );
+        }
 
-//        [ObservableProperty]
-//        private LogLevel _logMinLevel;
+        /// <summary>
+        /// 热门主题阈值
+        /// </summary>
+        public uint TopicHotThreshold
+        {
+            get => _browsingSetting.TopicHotThreshold;
+            set =>
+                SetProperty(
+                    _browsingSetting.TopicHotThreshold,
+                    value,
+                    _browsingSetting,
+                    (setting, threshold) => setting.TopicHotThreshold = threshold
+                );
+        }
 
-//        [ObservableProperty]
-//        private string _logOutputFormat;
+        /// <summary>
+        /// 主题热度指数加权方案
+        /// </summary>
+        public TopicHotWeightingScheme TopicHotIndexWeightingScheme
+        {
+            get => _browsingSetting.TopicHotIndexWeightingScheme;
+            set =>
+                SetProperty(
+                    _browsingSetting.TopicHotIndexWeightingScheme,
+                    value,
+                    _browsingSetting,
+                    (setting, scheme) => setting.TopicHotIndexWeightingScheme = scheme
+                );
+        }
+    }
 
-//        [ObservableProperty]
-//        private string _logSizeContent;
-//        #endregion
+    /// <summary>
+    /// 主题热度指数加权方案
+    /// </summary>
+    public class TopicHotWeightingSchemeModel(TopicHotWeightingScheme topicHotWeightingScheme)
+        : ObservableObject
+    {
+        private readonly TopicHotWeightingScheme _topicHotWeightingScheme = topicHotWeightingScheme;
 
-//        #region 更新
-//        [ObservableProperty]
-//        private DateTime _lastUpgradeCheckTime;
+        /// <summary>
+        /// 浏览量系数
+        /// </summary>
+        public uint ViewsCoefficient
+        {
+            get => _topicHotWeightingScheme.ViewsCoefficient;
+            set =>
+                SetProperty(
+                    _topicHotWeightingScheme.ViewsCoefficient,
+                    value,
+                    _topicHotWeightingScheme,
+                    (scheme, coefficient) => scheme.ViewsCoefficient = coefficient
+                );
+        }
 
-//        [ObservableProperty]
-//        private bool _acceptBetaVersion;
+        /// <summary>
+        /// 回复系数
+        /// </summary>
+        public uint RepliesCoefficient
+        {
+            get => _topicHotWeightingScheme.RepliesCoefficient;
+            set =>
+                SetProperty(
+                    _topicHotWeightingScheme.RepliesCoefficient,
+                    value,
+                    _topicHotWeightingScheme,
+                    (scheme, coefficient) => scheme.RepliesCoefficient = coefficient
+                );
+        }
 
-//        [ObservableProperty]
-//        private string _upgradeMirror;
-//        #endregion
-//    }
-//}
+        /// <summary>
+        /// 点赞系数
+        /// </summary>
+        public uint LikesCoefficient
+        {
+            get => _topicHotWeightingScheme.LikesCoefficient;
+            set =>
+                SetProperty(
+                    _topicHotWeightingScheme.LikesCoefficient,
+                    value,
+                    _topicHotWeightingScheme,
+                    (scheme, coefficient) => scheme.LikesCoefficient = coefficient
+                );
+        }
+    }
+
+    /// <summary>
+    /// 评论设置
+    /// </summary>
+    public class CommentSettingModel(CommentSetting commentSetting) : ObservableObject
+    {
+        private readonly CommentSetting _commentSetting = commentSetting;
+
+        /// <summary>
+        /// 楼中楼
+        /// </summary>
+        public bool IsNested
+        {
+            get => _commentSetting.IsNested;
+            set =>
+                SetProperty(
+                    _commentSetting.IsNested,
+                    value,
+                    _commentSetting,
+                    (setting, nested) => setting.IsNested = nested
+                );
+        }
+
+        /// <summary>
+        /// 强制置顶（置顶评论将显示在热评上方）
+        /// </summary>
+        public bool ForcedPinned
+        {
+            get => _commentSetting.ForcedPinned;
+            set =>
+                SetProperty(
+                    _commentSetting.ForcedPinned,
+                    value,
+                    _commentSetting,
+                    (setting, pinned) => setting.ForcedPinned = pinned
+                );
+        }
+
+        /// <summary>
+        /// 热评点赞阈值
+        /// </summary>
+        public uint HotCommentLikesThreshold
+        {
+            get => _commentSetting.HotCommentLikesThreshold;
+            set =>
+                SetProperty(
+                    _commentSetting.HotCommentLikesThreshold,
+                    value,
+                    _commentSetting,
+                    (setting, threshold) => setting.HotCommentLikesThreshold = threshold
+                );
+        }
+
+        #region 评论区显示内容
+        /// <summary>
+        /// 评论楼层是否可见
+        /// </summary>
+        public bool IsCommentFloorVisible
+        {
+            get => _commentSetting.IsCommentFloorVisible;
+            set =>
+                SetProperty(
+                    _commentSetting.IsCommentFloorVisible,
+                    value,
+                    _commentSetting,
+                    (setting, visible) => setting.IsCommentFloorVisible = visible
+                );
+        }
+
+        /// <summary>
+        /// 用户等级是否可见
+        /// </summary>
+        public bool IsUserLevelVisible
+        {
+            get => _commentSetting.IsUserLevelVisible;
+            set =>
+                SetProperty(
+                    _commentSetting.IsUserLevelVisible,
+                    value,
+                    _commentSetting,
+                    (setting, visible) => setting.IsUserLevelVisible = visible
+                );
+        }
+
+        /// <summary>
+        /// 用户勋章是否可见
+        /// </summary>
+        public bool IsUserBadgeVisible
+        {
+            get => _commentSetting.IsUserBadgeVisible;
+            set =>
+                SetProperty(
+                    _commentSetting.IsUserBadgeVisible,
+                    value,
+                    _commentSetting,
+                    (setting, visible) => setting.IsUserBadgeVisible = visible
+                );
+        }
+
+        /// <summary>
+        /// 用户组是否可见
+        /// </summary>
+        public bool IsUserGroupVisible
+        {
+            get => _commentSetting.IsUserGroupVisible;
+            set =>
+                SetProperty(
+                    _commentSetting.IsUserGroupVisible,
+                    value,
+                    _commentSetting,
+                    (setting, visible) => setting.IsUserGroupVisible = visible
+                );
+        }
+
+        /// <summary>
+        /// 用户签名是否可见
+        /// </summary>
+        public bool IsUserSignatureVisible
+        {
+            get => _commentSetting.IsUserSignatureVisible;
+            set =>
+                SetProperty(
+                    _commentSetting.IsUserSignatureVisible,
+                    value,
+                    _commentSetting,
+                    (setting, visible) => setting.IsUserSignatureVisible = visible
+                );
+        }
+        #endregion
+    }
+}

@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Uestc.BBS.Core;
 using Uestc.BBS.Desktop.Models;
 using Uestc.BBS.Desktop.Views;
+using Uestc.BBS.Mvvm;
 
 namespace Uestc.BBS.ViewModels
 {

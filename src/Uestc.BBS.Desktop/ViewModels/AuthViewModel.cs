@@ -18,6 +18,7 @@ using Uestc.BBS.Core.Services.Api.Auth;
 using Uestc.BBS.Core.Services.System;
 using Uestc.BBS.Desktop.Models;
 using Uestc.BBS.Desktop.Views;
+using Uestc.BBS.Mvvm;
 
 namespace Uestc.BBS.Desktop.ViewModels
 {

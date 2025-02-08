@@ -31,6 +31,7 @@
 </ItemGroup>
 
 <ItemGroup>
+  <None Remove="Controls\PersonProfile.xaml" />
   <None Remove="Controls\TopicOverview.xaml" />
   <None Remove="Views\AuthPage.xaml" />
   <None Remove="Views\ContentDialogs\AboutContentDialog.xaml" />
@@ -87,6 +88,9 @@
     <None Update="Assets\Icons\auth_icon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Page Update="Controls\PersonProfile.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Views\ContentDialogs\AboutContentDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -4,6 +4,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.Json.Serialization.Metadata;
 using System.Text.Unicode;
+using FastEnumUtility;
 using Microsoft.Extensions.DependencyInjection;
 using Uestc.BBS.Core.Services.Api.Forum;
 using Uestc.BBS.Core.Services.System;
@@ -128,60 +129,35 @@ namespace Uestc.BBS.Core
         /// <summary>
         /// 主题
         /// </summary>
-        public ThemeColor ThemeMode { get; set; } = ThemeColor.System;
+        public ThemeColor ThemeColor { get; set; } = ThemeColor.System;
 
         /// <summary>
-        /// 颜色不透明度
+        /// 顶部导航栏是否可见
         /// </summary>
-        public double TintOpacity { get; set; } = 2.0;
+        public bool IsTopNavigateBarEnabled { get; set; } = true;
 
         /// <summary>
-        /// 亮色主题背景颜色
+        /// 搜索栏
         /// </summary>
-        public string TintLightColor { get; set; } = "#FFFFFF";
+        public SearchBarSetting SearchBar { get; set; } = new();
 
         /// <summary>
-        /// 暗色主题背景颜色
+        /// 启动和关闭设置
         /// </summary>
-        public string TintDarkColor { get; set; } = "#181818";
+        public StartupAndShutdownSetting StartupAndShutdown { get; set; } = new();
 
         /// <summary>
-        /// 材质不透明度
+        /// 浏览设置
         /// </summary>
-        public double MaterialOpacity { get; set; } = 1.0;
+        public BrowsingSetting Browsing { get; set; } = new();
 
         /// <summary>
-        /// 每日一句
+        /// 评论设置
         /// </summary>
-        public bool IsDailySentenceShown { get; set; } = true;
+        public CommentSetting Comment {  get; set; } = new();
 
         /// <summary>
-        /// 官方论坛链接
-        /// </summary>
-        public string OfficialWebsite { get; set; } = "https://bbs.uestc.edu.cn/new";
-
-        /// <summary>
-        /// 静默启动
-        /// </summary>
-        public bool SlientStart { get; set; } = false;
-
-        /// <summary>
-        /// 开机自启动
-        /// </summary>
-        public bool StartupOnLaunch { get; set; } = false;
-
-        /// <summary>
-        /// 固定窗口
-        /// </summary>
-        public bool IsWindowPinned { get; set; } = false;
-
-        /// <summary>
-        /// 窗口关闭行为
-        /// </summary>
-        public WindowCloseBehavior WindowCloseBehavior { get; set; } = WindowCloseBehavior.Hide;
-
-        /// <summary>
-        /// 菜单列表
+        /// 侧边栏菜单列表
         /// </summary>
         public MenuItem[] MenuItems { get; set; } =
             [
@@ -299,6 +275,148 @@ namespace Uestc.BBS.Core
                     ModuleId = 0,
                 },
             ];
+
+        /// <summary>
+        /// 官方论坛链接
+        /// </summary>
+        public string OfficialWebsite { get; set; } = "https://bbs.uestc.edu.cn/new";
+    }
+
+    /// <summary>
+    /// 每日一句设置
+    /// </summary>
+    public class SearchBarSetting
+    {
+        /// <summary>
+        /// 启用每日一句
+        /// </summary>
+        public bool IsDailySentenceEnabled { get; set; } = true;
+
+        /// <summary>
+        /// 每日一句更新周期（秒）
+        /// </summary>
+        public uint DailySentenceUpdateTimeInterval { get; set; } = 60;
+
+        /// <summary>
+        /// 搜索历史
+        /// </summary>
+        public bool IsSearchHistoryEnabled { get; set; } = true;
+    }
+
+    /// <summary>
+    /// 启动和关闭设置
+    /// </summary>
+    public class StartupAndShutdownSetting
+    {
+        /// <summary>
+        /// 静默启动
+        /// </summary>
+        public bool SlientStart { get; set; } = false;
+
+        /// <summary>
+        /// 开机自启动
+        /// </summary>
+        public bool StartupOnLaunch { get; set; } = false;
+
+        /// <summary>
+        /// 固定窗口
+        /// </summary>
+        public bool IsWindowPinned { get; set; } = false;
+
+        /// <summary>
+        /// 窗口关闭行为
+        /// </summary>
+        public WindowCloseBehavior WindowCloseBehavior { get; set; } = WindowCloseBehavior.Hide;
+    }
+
+    /// <summary>
+    /// 浏览设置
+    /// </summary>
+    public class BrowsingSetting
+    {
+        /// <summary>
+        /// 高亮热门主题
+        /// </summary>
+        public bool HighlightHotTopic { get; set; } = true;
+
+        /// <summary>
+        /// 热门主题阈值
+        /// </summary>
+        public uint TopicHotThreshold { get; set; } = 1000;
+
+        /// <summary>
+        /// 主题热度指数加权方案
+        /// </summary>
+        public TopicHotWeightingScheme TopicHotIndexWeightingScheme { get; set; } = new();
+    }
+
+    /// <summary>
+    /// 主题热度指数加权方案
+    /// </summary>
+    public class TopicHotWeightingScheme
+    {
+        /// <summary>
+        /// 浏览量系数
+        /// </summary>
+        public uint ViewsCoefficient { get; set; } = 1;
+
+        /// <summary>
+        /// 回复系数
+        /// </summary>
+        public uint RepliesCoefficient { get; set; } = 10;
+
+        /// <summary>
+        /// 点赞系数
+        /// </summary>
+        public uint LikesCoefficient { get; set; } = 8;
+    }
+
+    /// <summary>
+    /// 评论设置
+    /// </summary>
+    public class CommentSetting
+    {
+        /// <summary>
+        /// 楼中楼
+        /// </summary>
+        public bool IsNested { get; set; } = true;
+
+        /// <summary>
+        /// 强制置顶（置顶评论将显示在热评上方）
+        /// </summary>
+        public bool ForcedPinned { get; set; } = true;
+
+        /// <summary>
+        /// 热评点赞阈值
+        /// </summary>
+        public uint HotCommentLikesThreshold { get; set; } = 5;
+
+        #region 评论区显示内容
+        /// <summary>
+        /// 评论楼层是否可见
+        /// </summary>
+        public bool IsCommentFloorVisible { get; set; } = true;
+
+        /// <summary>
+        /// 用户等级是否可见
+        /// </summary>
+        public bool IsUserLevelVisible { get; set; } = true;
+
+        /// <summary>
+        /// 用户勋章是否可见
+        /// </summary>
+        public bool IsUserBadgeVisible { get; set; } = true;
+
+        /// <summary>
+        /// 用户组是否可见
+        /// </summary>
+        public bool IsUserGroupVisible { get; set; } = true;
+
+        /// <summary>
+        /// 用户签名是否可见
+        /// </summary>
+        public bool IsUserSignatureVisible { get; set; } = true;
+        #endregion
     }
 
     /// <summary>
@@ -306,8 +424,11 @@ namespace Uestc.BBS.Core
     /// </summary>
     public enum ThemeColor
     {
+        [Label("浅色")]
         Light = 0,
+        [Label("深色")]
         Dark,
+        [Label("跟随系统")]
         System,
     }
 
@@ -316,8 +437,11 @@ namespace Uestc.BBS.Core
     /// </summary>
     public enum WindowCloseBehavior
     {
+        [Label("退出应用")]
         Exit,
+        [Label("隐藏窗口")]
         Hide,
+        [Label("隐藏窗口 + 效率模式")]
         HideWithEfficiencyMode,
     }
 

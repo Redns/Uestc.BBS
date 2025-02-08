@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Maui;
 using Uestc.BBS.Core;
+using Uestc.BBS.Mvvm;
 using Uestc.BBS.ViewModels;
 using Uestc.BBS.Views;
 

@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml.Data;
 using Uestc.BBS.Core;
+using Uestc.BBS.Mvvm;
 using Uestc.BBS.Mvvm.ViewModels;
 using Uestc.BBS.WinUI.ViewModels;
 using Uestc.BBS.WinUI.Views;
@@ -24,7 +25,7 @@ namespace Uestc.BBS.WinUI.Converters
                 return ServiceExtension.Services.GetRequiredService<MomentsPage>();
             if (value is MessagesViewModel)
                 return ServiceExtension.Services.GetRequiredService<MessagesPage>();
-            if (value is SettingsViewModel)
+            if (value is SettingsViewModelBase)
                 return ServiceExtension.Services.GetRequiredService<SettingsPage>();
             throw new ArgumentException("Value is not an ObservableObject type", nameof(value));
         }

@@ -40,6 +40,11 @@ namespace Uestc.BBS.Core.Services.System
                 : $"©{OriginalDate.Year}-{DateTime.Now.Year} {Author}. {License} License";
 
         /// <summary>
+        /// 源码仓库
+        /// </summary>
+        public string SourceRepositoryUrl { get; init; } = string.Empty;
+
+        /// <summary>
         /// 贡献者列表
         /// </summary>
         public IEnumerable<Contributor> Contributors { get; init; } = [];
@@ -61,6 +66,8 @@ namespace Uestc.BBS.Core.Services.System
     public class Contributor
     {
         public string Name { get; set; } = string.Empty;
+
+        public string Email { get; set; } = string.Empty;
 
         public string Avatar { get; set; } = string.Empty;
 

@@ -1,85 +1,24 @@
-﻿using System.Threading;
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
+﻿using System;
+using System.Threading.Tasks;
 using CommunityToolkit.WinUI;
 using Microsoft.UI.Dispatching;
-using Microsoft.UI.Xaml.Controls;
-using Uestc.BBS.Core;
 using Uestc.BBS.Core.Services;
+using Uestc.BBS.Mvvm.Models;
+using Uestc.BBS.Mvvm.ViewModels;
 
 namespace Uestc.BBS.WinUI.ViewModels
 {
-    public partial class MainViewModel : ObservableObject
+    public partial class MainViewModel(
+        AppSettingModel appSettingModel,
+        IDailySentenceService dailySentenceService
+    ) : MainViewModelBase(appSettingModel, dailySentenceService)
     {
         /// <summary>
         /// 调度任务队列
         /// </summary>
-        private readonly DispatcherQueue _dispatcherQueue;
+        private readonly DispatcherQueue _dispatcherQueue = DispatcherQueue.GetForCurrentThread();
 
-        /// <summary>
-        /// 搜索栏提示文字更新定时器
-        /// </summary>
-        private readonly Timer _searchPlaceholderTextUpdateTimer;
-
-        /// <summary>
-        /// 应用设置
-        /// </summary>
-        private readonly AppSetting _appSetting;
-
-        /// <summary>
-        /// 每日一句
-        /// </summary>
-        private readonly IDailySentenceService _dailySentenceService;
-
-        /// <summary>
-        /// 搜索栏提示文字
-        /// </summary>
-        [ObservableProperty]
-        public partial string SearchPlaceholderText { get; set; } = string.Empty;
-
-        [ObservableProperty]
-        public partial Page? Page { get; set; }
-
-        [ObservableProperty]
-        public partial bool SliceStart { get; set; }
-
-        [ObservableProperty]
-        public partial bool StartupOnLaunch { get; set; }
-
-        public MainViewModel(AppSetting appSetting, IDailySentenceService dailySentenceService)
-        {
-            _appSetting = appSetting;
-            _dailySentenceService = dailySentenceService;
-            _dispatcherQueue = DispatcherQueue.GetForCurrentThread();
-            _searchPlaceholderTextUpdateTimer = new Timer(
-                async state =>
-                {
-                    // 获取每日一句
-                    // TODO 设置中可配置轮询频率
-                    var sentence = await _dailySentenceService.GetDailySentenceAsync();
-                    if (string.IsNullOrEmpty(sentence) || sentence == SearchPlaceholderText)
-                    {
-                        return;
-                    }
-
-                    await _dispatcherQueue.EnqueueAsync(() =>
-                    {
-                        SearchPlaceholderText = sentence;
-                    });
-                },
-                null,
-                0,
-                60 * 1000
-            );
-
-            SliceStart = appSetting.Apperance.SlientStart;
-            StartupOnLaunch = appSetting.Apperance.StartupOnLaunch;
-        }
-
-        [RelayCommand]
-        private void SwitchSliceStart() => SliceStart = !SliceStart;
-
-        [RelayCommand]
-        private void SwitchStartupOnLaunch() => StartupOnLaunch = !StartupOnLaunch;
+        public override Task DispatcherAsync(Action action) =>
+            _dispatcherQueue.EnqueueAsync(action);
     }
 }
