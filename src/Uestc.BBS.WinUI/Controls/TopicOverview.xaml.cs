@@ -1,6 +1,7 @@
 using System;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using WinUIEx;
@@ -36,51 +37,23 @@ namespace Uestc.BBS.WinUI.Controls
             InitializeComponent();
         }
 
-        private void Image_PointerPressed(
-            object sender,
-            Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e
-        )
+        private void OpenPreviewImage(object sender, PointerRoutedEventArgs e)
         {
-            var imageScrollViewer = new ScrollViewer
-            {
-                HorizontalScrollBarVisibility = ScrollBarVisibility.Hidden,
-                VerticalScrollBarVisibility = ScrollBarVisibility.Hidden,
-                ZoomMode = ZoomMode.Enabled,
-                Content = new Image()
-                {
-                    Source = new BitmapImage(new Uri(PreviewSource)),
-                    Stretch = Stretch.Uniform,
-                    MaxWidth = 1100,
-                    MaxHeight = 700,
-                },
-            };
-
-            // Êó±ê¹öÂÖËõ·Å
-            //imageScrollViewer.PointerWheelChanged += (sender, args) =>
-            //{
-            //    if (sender is not ScrollViewer scrollViewer)
-            //    {
-            //        return;
-            //    }
-
-            //    var delta = args.GetCurrentPoint(scrollViewer).Properties.MouseWheelDelta;
-            //    var zoomFactor =
-            //        delta > 0 ? scrollViewer.ZoomFactor * 1.25f : scrollViewer.ZoomFactor / 1.25f;
-            //    scrollViewer.ChangeView(
-            //        null,
-            //        null,
-            //        Math.Max(
-            //            scrollViewer.MinZoomFactor,
-            //            Math.Min(zoomFactor, scrollViewer.MaxZoomFactor)
-            //        )
-            //    );
-
-            //    args.Handled = true;
-            //};
-
             var window = new WindowEx
             {
-                Content = imageScrollViewer,
+                Content = new ScrollViewer
+                {
+                    HorizontalScrollBarVisibility = ScrollBarVisibility.Hidden,
+                    VerticalScrollBarVisibility = ScrollBarVisibility.Hidden,
+                    ZoomMode = ZoomMode.Enabled,
+                    Content = new Image()
+                    {
+                        Source = new BitmapImage(new Uri(PreviewSource)),
+                        Stretch = Stretch.Uniform,
+                        MaxWidth = 1100,
+                        MaxHeight = 700,
+                    },
+                },
                 ExtendsContentIntoTitleBar = true,
                 SystemBackdrop = new MicaBackdrop(),
                 PresenterKind = AppWindowPresenterKind.CompactOverlay,

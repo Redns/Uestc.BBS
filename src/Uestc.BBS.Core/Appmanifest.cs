@@ -2,7 +2,7 @@
 using System.Text.Json.Serialization;
 using System.Text.Json.Serialization.Metadata;
 
-namespace Uestc.BBS.Core.Services.System
+namespace Uestc.BBS.Core
 {
     public class Appmanifest
     {
@@ -47,7 +47,7 @@ namespace Uestc.BBS.Core.Services.System
         /// <summary>
         /// 贡献者列表
         /// </summary>
-        public IEnumerable<Contributor> Contributors { get; init; } = [];
+        public List<Contributor> Contributors { get; init; } = [];
 
         public static readonly JsonSerializerOptions SerializerOptions = new()
         {
@@ -71,21 +71,6 @@ namespace Uestc.BBS.Core.Services.System
 
         public string Avatar { get; set; } = string.Empty;
 
-        public string HomePage { get; set; } = string.Empty;
-
-        public string Description { get; set; } = string.Empty;
-
-        public static readonly JsonSerializerOptions SerializerOptions = new()
-        {
-            WriteIndented = true,
-            PropertyNameCaseInsensitive = true,
-            TypeInfoResolver = JsonTypeInfoResolver.Combine(
-                ContributorContext.Default,
-                new DefaultJsonTypeInfoResolver()
-            ),
-        };
+        public string Homepage { get; set; } = string.Empty;
     }
-
-    [JsonSerializable(typeof(Contributor))]
-    public partial class ContributorContext : JsonSerializerContext { }
 }

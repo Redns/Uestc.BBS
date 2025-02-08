@@ -5,11 +5,11 @@ namespace Uestc.BBS.WinUI.Views
 {
     public sealed partial class HomePage : Page
     {
-        private readonly HomeViewModel _viewModel;
+        private HomeViewModel ViewModel { get; init; }
 
         public HomePage(HomeViewModel viewModel)
         {
-            _viewModel = viewModel;
+            ViewModel = viewModel;
 
             InitializeComponent();
         }

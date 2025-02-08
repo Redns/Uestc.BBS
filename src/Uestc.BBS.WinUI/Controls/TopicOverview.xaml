@@ -59,7 +59,7 @@
             <Border HorizontalAlignment="Left" CornerRadius="6">
                 <Image
                     MaxHeight="180"
-                    PointerPressed="Image_PointerPressed"
+                    PointerPressed="OpenPreviewImage"
                     Source="{x:Bind PreviewSource}"
                     Stretch="Uniform"
                     Visibility="{x:Bind PreviewSource, Converter={StaticResource StringVisibilityConverter}}" />

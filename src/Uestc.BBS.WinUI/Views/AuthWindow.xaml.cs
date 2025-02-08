@@ -39,6 +39,6 @@ namespace Uestc.BBS.WinUI.Views
             }
         }
 
-        private void CloseWindow(object sender, Microsoft.UI.Xaml.RoutedEventArgs e) => Close();
+        private void CloseWindow(object sender, RoutedEventArgs e) => Close();
     }
 }

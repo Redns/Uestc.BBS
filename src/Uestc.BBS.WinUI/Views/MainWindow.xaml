@@ -39,8 +39,8 @@
                     <MenuFlyoutItem Command="{x:Bind OpenAboutDialogCommand}" Text="关于" />
                     <MenuFlyoutItem Text="检查更新" />
                     <MenuFlyoutSeparator />
-                    <ToggleMenuFlyoutItem IsChecked="{x:Bind _viewModel.AppSettingModel.Apperance.StartupAndShutdown.SlientStart, Mode=TwoWay}" Text="静默启动" />
-                    <ToggleMenuFlyoutItem IsChecked="{x:Bind _viewModel.AppSettingModel.Apperance.StartupAndShutdown.StartupOnLaunch, Mode=TwoWay}" Text="开机自启动" />
+                    <ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.AppSettingModel.Apperance.StartupAndShutdown.SlientStart, Mode=TwoWay}" Text="静默启动" />
+                    <ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.AppSettingModel.Apperance.StartupAndShutdown.StartupOnLaunch, Mode=TwoWay}" Text="开机自启动" />
                     <MenuFlyoutSeparator />
                     <MenuFlyoutItem Command="{x:Bind RestartCommand}" Text="重新启动" />
                     <MenuFlyoutItem Command="{x:Bind ExitCommand}" Text="退出" />
@@ -66,7 +66,10 @@
                 FontFamily="Consolas"
                 FontSize="13"
                 Text="清水河畔" />
-            <controls:Segmented Margin="15,0" SelectedIndex="0">
+            <controls:Segmented
+                Margin="15,0"
+                SelectedIndex="0"
+                Visibility="{x:Bind ViewModel.TopNavigateBarVisibility, Mode=OneWay}">
                 <controls:SegmentedItem Icon="{ui:FontIcon Glyph=&#xE728;}" ToolTipService.ToolTip="我的收藏" />
                 <controls:SegmentedItem Icon="{ui:FontIcon Glyph=&#xE932;}" ToolTipService.ToolTip="我的发表" />
                 <controls:SegmentedItem Icon="{ui:FontIcon Glyph=&#xE90A;}" ToolTipService.ToolTip="我的回复" />
@@ -95,7 +98,7 @@
                 MaxWidth="520"
                 Margin="15,0"
                 VerticalAlignment="Center"
-                PlaceholderText="{x:Bind _viewModel.SearchPlaceholderText, Mode=OneWay}"
+                PlaceholderText="{x:Bind ViewModel.SearchPlaceholderText, Mode=OneWay}"
                 QueryIcon="Find" />
         </controls:DockPanel>
         <!--  导航栏  -->

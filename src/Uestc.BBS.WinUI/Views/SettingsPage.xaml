@@ -13,8 +13,7 @@
     mc:Ignorable="d">
 
     <Page.Resources>
-        <local_converters:ThemeColor2LabelConverter x:Key="ThemeColor2LabelConverter" />
-        <local_converters:WindowCloseBehavior2LabelConverter x:Key="WindowCloseBehavior2LabelConverter" />
+        <local_converters:Enum2LabelConverter x:Key="Enum2LabelConverter" />
     </Page.Resources>
 
     <ScrollViewer Margin="10" VerticalScrollBarVisibility="Hidden">
@@ -31,7 +30,7 @@
                 <ComboBox ItemsSource="{x:Bind ThemeColors}" SelectedItem="{x:Bind ViewModel.AppSettingModel.Apperance.ThemeColor, Mode=TwoWay}">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Converter={StaticResource ThemeColor2LabelConverter}}" />
+                            <TextBlock Text="{Binding Converter={StaticResource Enum2LabelConverter}}" />
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
                 </ComboBox>
@@ -226,7 +225,7 @@
                         <ComboBox ItemsSource="{x:Bind WindowCloseBehaviors}" SelectedItem="{x:Bind ViewModel.AppSettingModel.Apperance.StartupAndShutdown.WindowCloseBehavior, Mode=TwoWay}">
                             <ComboBox.ItemTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding Converter={StaticResource WindowCloseBehavior2LabelConverter}}" />
+                                    <TextBlock Text="{Binding Converter={StaticResource Enum2LabelConverter}}" />
                                 </DataTemplate>
                             </ComboBox.ItemTemplate>
                         </ComboBox>
@@ -259,7 +258,6 @@
                     </controls:SettingsCard>
                 </controls:SettingsExpander.Items>
             </controls:SettingsExpander>
-
             <controls:SettingsExpander
                 Description="开启隐藏窗口功能时不能关闭托盘图标"
                 Header="托盘图标"
@@ -373,6 +371,10 @@
                 </controls:SettingsExpander.Items>
             </controls:SettingsExpander>
             <!--  日志记录  -->
+            <InfoBar
+                IsOpen="True"
+                Message="错误的输出格式可能导致日志服务失效"
+                Severity="Warning" />
             <controls:SettingsExpander
                 Description="查看应用日志或清除日志记录"
                 Header="日志记录"
@@ -427,10 +429,6 @@
                 </controls:SettingsExpander.Items>
             </controls:SettingsExpander>
             <!--  应用更新  -->
-            <InfoBar
-                IsOpen="True"
-                Message="错误的输出格式可能导致日志服务失效"
-                Severity="Warning" />
             <controls:SettingsExpander
                 Description="最近检查时间：2025/01/25 19:28:47"
                 Header="应用更新"
@@ -468,7 +466,26 @@
                         <controls:SettingsCard.Resources>
                             <x:Double x:Key="SettingsCardWrapThreshold">10000</x:Double>
                         </controls:SettingsCard.Resources>
-                        <PersonPicture Height="36" ProfilePicture="https://image.krins.cloud/头像.jpg" />
+                        <ItemsControl ItemsSource="{x:Bind ViewModel.Appmanifest.Contributors, Mode=OneTime}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <controls:WrapPanel
+                                        Margin="0,5"
+                                        HorizontalSpacing="10"
+                                        VerticalSpacing="10" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate x:DataType="core:Contributor">
+                                    <PersonPicture
+                                        Height="36"
+                                        PointerPressed="OpenContributorHomepage"
+                                        ProfilePicture="{x:Bind Avatar}"
+                                        Tag="{x:Bind Homepage}"
+                                        ToolTipService.ToolTip="{x:Bind Name}" />
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
                     </controls:SettingsCard>
                     <controls:SettingsCard
                         ActionIcon="{ui:FontIcon Glyph=&#xE8A7;}"

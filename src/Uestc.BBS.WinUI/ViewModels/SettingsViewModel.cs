@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.Input;
+using Uestc.BBS.Core;
 using Uestc.BBS.Mvvm.Models;
 using Uestc.BBS.Mvvm.ViewModels;
 using Windows.System;
 
 namespace Uestc.BBS.WinUI.ViewModels
 {
-    public partial class SettingsViewModel(AppSettingModel appSettingModel)
-        : SettingsViewModelBase(appSettingModel)
+    public partial class SettingsViewModel(Appmanifest appmanifest, AppSettingModel appSettingModel)
+        : SettingsViewModelBase(appmanifest, appSettingModel)
     {
         [RelayCommand]
         public override async Task CheckUpdateAsync()

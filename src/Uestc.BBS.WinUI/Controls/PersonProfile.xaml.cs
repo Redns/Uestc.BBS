@@ -1,5 +1,4 @@
 using Microsoft.UI.Xaml.Controls;
-using Uestc.BBS.Core.Helpers;
 
 namespace Uestc.BBS.WinUI.Controls
 {
@@ -12,7 +11,7 @@ namespace Uestc.BBS.WinUI.Controls
             get;
             set
             {
-                if (uint.TryParse(value, out var level))
+                if (uint.TryParse(value, out _))
                 {
                     field = value;
                 }

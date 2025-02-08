@@ -7,8 +7,8 @@ using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
+using Microsoft.UI.Xaml.Input;
 using Uestc.BBS.Core;
-using Uestc.BBS.Core.Services.System;
 using Uestc.BBS.WinUI.Helpers;
 using Uestc.BBS.WinUI.ViewModels;
 using Uestc.BBS.WinUI.Views.ContentDialogs;
@@ -20,11 +20,12 @@ namespace Uestc.BBS.WinUI.Views
     {
         private readonly Appmanifest _appmanifest;
 
-        private readonly MainViewModel _viewModel;
+        private MainViewModel ViewModel { get; init; }
 
         public MainWindow(MainViewModel viewModel, Appmanifest appmanifest)
         {
-            _viewModel = viewModel;
+            ViewModel = viewModel;
+
             _appmanifest = appmanifest;
 
             InitializeComponent();
@@ -119,10 +120,7 @@ namespace Uestc.BBS.WinUI.Views
                 ),
             };
 
-        private void PersonPicture_PointerPressed(
-            object sender,
-            Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e
-        )
+        private void PersonPicture_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
             FlyoutBase.ShowAttachedFlyout(sender as FrameworkElement);
         }

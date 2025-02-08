@@ -3,7 +3,9 @@ using System.Threading.Tasks;
 using FastEnumUtility;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
 using Uestc.BBS.Core;
+using Uestc.BBS.Core.Helpers;
 using Uestc.BBS.WinUI.ViewModels;
 
 namespace Uestc.BBS.WinUI.Views
@@ -31,6 +33,14 @@ namespace Uestc.BBS.WinUI.Views
                 ViewModel.AppSettingModel.Save();
             });
             base.OnLostFocus(e);
+        }
+
+        private void OpenContributorHomepage(object sender, PointerRoutedEventArgs e)
+        {
+            if (sender is PersonPicture picture && picture.Tag is string homePage)
+            {
+                OperatingSystemHelper.OpenWebsite(homePage);
+            }
         }
     }
 }

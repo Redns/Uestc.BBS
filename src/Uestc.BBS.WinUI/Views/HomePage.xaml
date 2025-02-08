@@ -21,47 +21,30 @@
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <SelectorBar
-                x:Name="SelectorBar2"
-                Grid.Column="0"
-                HorizontalAlignment="Center">
+            <SelectorBar Grid.Column="0" HorizontalAlignment="Center">
                 <SelectorBarItem
-                    x:Name="SelectorBarItemPage1"
                     Margin="-3,0"
                     IsSelected="True"
                     Text="最新发表" />
-                <SelectorBarItem
-                    x:Name="SelectorBarItemPage2"
-                    Margin="-3,0"
-                    Text="最新回复" />
-                <SelectorBarItem
-                    x:Name="SelectorBarItemPage3"
-                    Margin="-3,0"
-                    Text="热门" />
-                <SelectorBarItem
-                    x:Name="SelectorBarItemPage4"
-                    Margin="-3,0"
-                    Text="精华" />
-                <SelectorBarItem
-                    x:Name="SelectorBarItemPage5"
-                    Margin="-3,0"
-                    Text="淘专辑" />
+                <SelectorBarItem Margin="-3,0" Text="最新回复" />
+                <SelectorBarItem Margin="-3,0" Text="热门" />
+                <SelectorBarItem Margin="-3,0" Text="精华" />
+                <SelectorBarItem Margin="-3,0" Text="淘专辑" />
             </SelectorBar>
             <ScrollViewer
                 Grid.Row="1"
                 Margin="0,10"
                 VerticalScrollBarVisibility="Hidden">
-                <ItemsControl ItemsSource="{x:Bind _viewModel.BoardTabItems[0].Topics}">
+                <ItemsControl ItemsSource="{x:Bind ViewModel.BoardTabItems[0].Topics}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <ItemsStackPanel />
+                            <StackPanel Spacing="10" />
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate x:DataType="forum:TopicOverview">
                             <local_controls:TopicOverview
                                 Title="{x:Bind Title}"
-                                Margin="0,0,0,10"
                                 Avatar="{x:Bind UserAvatar}"
                                 BoardName="{x:Bind BoardName}"
                                 Date="{x:Bind DateTime}"
