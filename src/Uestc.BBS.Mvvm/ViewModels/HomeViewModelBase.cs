@@ -35,11 +35,8 @@ namespace Uestc.BBS.Mvvm.ViewModels
 
             BoardTabItems =
             [
-                .. appSettingModel
-                    .Apperance.BoardTabItems.Where(b =>
-                        b.Board is Board.Latest && b.SortType is TopicSortType.New
-                    )
-                    .Select(item => new BoardTabItemModel
+                .. appSettingModel.Apperance.BoardTabItems.Select(
+                    item => new BoardTabItemModel
                     {
                         Name = item.Name,
                         Route = item.Route,
@@ -48,7 +45,8 @@ namespace Uestc.BBS.Mvvm.ViewModels
                         PageSize = item.PageSize,
                         RequirePreviewSources = item.RequirePreviewSources,
                         ModuleId = item.ModuleId,
-                    }),
+                    }
+                ),
             ];
 
             // 加载板块帖子
