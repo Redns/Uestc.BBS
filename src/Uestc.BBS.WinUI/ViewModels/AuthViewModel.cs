@@ -6,7 +6,6 @@ using Uestc.BBS.Core;
 using Uestc.BBS.Core.Services.Api.Auth;
 using Uestc.BBS.Core.Services.Notification;
 using Uestc.BBS.Core.Services.System;
-using Uestc.BBS.Mvvm;
 using Uestc.BBS.Mvvm.ViewModels;
 using Uestc.BBS.WinUI.Views;
 
@@ -21,10 +20,11 @@ namespace Uestc.BBS.WinUI.ViewModels
     {
         public override void NavigateToMainView()
         {
-            ServiceExtension.Services.GetRequiredService<AuthWindow>().Hide();
+            App.CurrentWindow?.Hide();
             if (!_appSetting.Apperance.StartupAndShutdown.SlientStart)
             {
-                ServiceExtension.Services.GetRequiredService<MainWindow>().Activate();
+                App.CurrentWindow = ServiceExtension.Services.GetRequiredService<MainWindow>();
+                App.CurrentWindow.Activate();
             }
         }
 

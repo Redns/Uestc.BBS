@@ -25,18 +25,14 @@ namespace Uestc.BBS.WinUI.Views
             SetTitleBar(AppTitleBar);
 
             // 设置主题色
-            if (Content is FrameworkElement element)
+            this.SetThemeColor(appSettingModel.Apperance.ThemeColor);
+            appSettingModel.Apperance.PropertyChanged += (sender, args) =>
             {
-                element.RequestedTheme = appSettingModel.Apperance.ThemeColor.GetElementTheme();
-                appSettingModel.Apperance.PropertyChanged += (sender, args) =>
+                if (args.PropertyName == nameof(appSettingModel.Apperance.ThemeColor))
                 {
-                    if (args.PropertyName == nameof(appSettingModel.Apperance.ThemeColor))
-                    {
-                        element.RequestedTheme =
-                            appSettingModel.Apperance.ThemeColor.GetElementTheme();
-                    }
-                };
-            }
+                    this.SetThemeColor(appSettingModel.Apperance.ThemeColor);
+                }
+            };
         }
 
         private void CloseWindow(object sender, RoutedEventArgs e) => Close();

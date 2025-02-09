@@ -2,7 +2,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml.Data;
 using Uestc.BBS.Core;
-using Uestc.BBS.Mvvm;
 using Uestc.BBS.Mvvm.ViewModels;
 using Uestc.BBS.WinUI.ViewModels;
 using Uestc.BBS.WinUI.Views;

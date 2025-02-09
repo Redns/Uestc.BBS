@@ -47,36 +47,29 @@ namespace Uestc.BBS.WinUI.Views
             }
 
             // 设置主题色
-            if (Content is FrameworkElement element)
+            this.SetThemeColor(viewModel.AppSettingModel.Apperance.ThemeColor);
+            viewModel.AppSettingModel.Apperance.PropertyChanged += (sender, args) =>
             {
-                element.RequestedTheme =
-                    viewModel.AppSettingModel.Apperance.ThemeColor.GetElementTheme();
-                viewModel.AppSettingModel.Apperance.PropertyChanged += (sender, args) =>
+                if (args.PropertyName == nameof(viewModel.AppSettingModel.Apperance.ThemeColor))
                 {
-                    if (args.PropertyName == nameof(viewModel.AppSettingModel.Apperance.ThemeColor))
-                    {
-                        element.RequestedTheme =
-                            viewModel.AppSettingModel.Apperance.ThemeColor.GetElementTheme();
-                    }
-                };
-            }
+                    this.SetThemeColor(viewModel.AppSettingModel.Apperance.ThemeColor);
+                }
+            };
 
             // 设置窗口关闭策略
             AppWindow.Closing += (window, args) =>
             {
                 if (
                     viewModel.AppSettingModel.Apperance.StartupAndShutdown.WindowCloseBehavior
-                    is WindowCloseBehavior.Exit
+                    is not WindowCloseBehavior.Exit
                 )
                 {
-                    return;
+                    this.Hide(
+                        viewModel.AppSettingModel.Apperance.StartupAndShutdown.WindowCloseBehavior
+                            is WindowCloseBehavior.HideWithEfficiencyMode
+                    );
+                    args.Cancel = true;
                 }
-
-                this.Hide(
-                    viewModel.AppSettingModel.Apperance.StartupAndShutdown.WindowCloseBehavior
-                        is WindowCloseBehavior.HideWithEfficiencyMode
-                );
-                args.Cancel = true;
             };
         }
 
@@ -104,20 +97,21 @@ namespace Uestc.BBS.WinUI.Views
             page switch
             {
                 nameof(HomePage) => ServiceExtension.Services.GetRequiredService<HomePage>(),
-                nameof(SectionsPage) =>
-                    ServiceExtension.Services.GetRequiredService<SectionsPage>(),
-                nameof(ServicesPage) =>
-                    ServiceExtension.Services.GetRequiredService<ServicesPage>(),
+                nameof(SectionsPage)
+                    => ServiceExtension.Services.GetRequiredService<SectionsPage>(),
+                nameof(ServicesPage)
+                    => ServiceExtension.Services.GetRequiredService<ServicesPage>(),
                 nameof(MomentsPage) => ServiceExtension.Services.GetRequiredService<MomentsPage>(),
                 nameof(PostPage) => ServiceExtension.Services.GetRequiredService<PostPage>(),
-                nameof(MessagesPage) =>
-                    ServiceExtension.Services.GetRequiredService<MessagesPage>(),
-                nameof(SettingsPage) =>
-                    ServiceExtension.Services.GetRequiredService<SettingsPage>(),
-                _ => throw new ArgumentException(
-                    $"Navigate failed, unknown page {page}",
-                    nameof(page)
-                ),
+                nameof(MessagesPage)
+                    => ServiceExtension.Services.GetRequiredService<MessagesPage>(),
+                nameof(SettingsPage)
+                    => ServiceExtension.Services.GetRequiredService<SettingsPage>(),
+                _
+                    => throw new ArgumentException(
+                        $"Navigate failed, unknown page {page}",
+                        nameof(page)
+                    ),
             };
 
         private void PersonPicture_PointerPressed(object sender, PointerRoutedEventArgs e)

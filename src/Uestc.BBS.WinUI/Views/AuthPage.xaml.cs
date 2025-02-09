@@ -4,7 +4,6 @@ using System.Linq;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml.Controls;
 using Uestc.BBS.Core;
-using Uestc.BBS.Mvvm;
 using Uestc.BBS.WinUI.ViewModels;
 
 namespace Uestc.BBS.WinUI.Views

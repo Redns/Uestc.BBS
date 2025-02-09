@@ -9,7 +9,7 @@ using Uestc.BBS.Core;
 using Uestc.BBS.Core.Services.Notification;
 using Uestc.BBS.Core.Services.System;
 using Uestc.BBS.Mvvm.Models;
-using Uestc.BBS.WinUI.Services.Notifications;
+using Uestc.BBS.WinUI.Services;
 using Uestc.BBS.WinUI.ViewModels;
 using Uestc.BBS.WinUI.Views;
 using WinUIEx;
@@ -18,6 +18,8 @@ namespace Uestc.BBS.WinUI
 {
     public partial class App : Application
     {
+        public static Window? CurrentWindow { get; set; }
+
         public App()
         {
             InitializeComponent();
@@ -81,20 +83,21 @@ namespace Uestc.BBS.WinUI
                 {
                     // 未授权时强制显示登录页面，不受静默启动选项影响
                     // 托盘图标附加于主窗口，未登录时如果不显示登录窗口，程序将无法退出
-                    ServiceExtension.Services.GetRequiredService<AuthWindow>().Activate();
+                    CurrentWindow = ServiceExtension.Services.GetRequiredService<AuthWindow>();
+                    CurrentWindow.Activate();
                     return;
                 }
 
-                var mainWindow = ServiceExtension.Services.GetRequiredService<MainWindow>();
+                CurrentWindow = ServiceExtension.Services.GetRequiredService<MainWindow>();
                 if (appSetting.Apperance.StartupAndShutdown.SlientStart)
                 {
-                    mainWindow.Hide(
+                    CurrentWindow.Hide(
                         appSetting.Apperance.StartupAndShutdown.WindowCloseBehavior
                             is WindowCloseBehavior.HideWithEfficiencyMode
                     );
                     return;
                 }
-                mainWindow.Activate();
+                CurrentWindow.Activate();
             }
             catch (Exception e)
             {

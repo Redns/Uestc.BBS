@@ -3,7 +3,7 @@ using Microsoft.Windows.AppNotifications;
 using Microsoft.Windows.AppNotifications.Builder;
 using Uestc.BBS.Core.Services.Notification;
 
-namespace Uestc.BBS.WinUI.Services.Notifications
+namespace Uestc.BBS.WinUI.Services
 {
     public class NotificationService : INotificationService
     {
