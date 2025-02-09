@@ -49,6 +49,7 @@ namespace Uestc.BBS.Mvvm.ViewModels
                     return;
                 }
 
+                // TODO 修改失败 ToggleButton 应恢复原状态
                 if (AppSettingModel.Apperance.StartupAndShutdown.StartupOnLaunch)
                 {
                     _startupService.Enable();

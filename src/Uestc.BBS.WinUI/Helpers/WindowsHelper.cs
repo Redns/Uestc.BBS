@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Security.Principal;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.Windows.AppLifecycle;
@@ -42,6 +43,13 @@ namespace Uestc.BBS.WinUI.Helpers
                 ThemeColor.Dark => (ElementTheme.Dark, TitleBarTheme.Dark),
                 _ => (ElementTheme.Default, TitleBarTheme.Default),
             };
+        }
+
+        public static bool IsAdministartor()
+        {
+            var identity = WindowsIdentity.GetCurrent();
+            var principal = new WindowsPrincipal(identity);
+            return principal.IsInRole(WindowsBuiltInRole.Administrator);
         }
     }
 }

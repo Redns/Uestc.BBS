@@ -14,6 +14,8 @@ namespace Uestc.BBS.WinUI.Converters
         {
             if (value is AuthViewModel)
                 return ServiceExtension.Services.GetRequiredService<AuthPage>();
+            if (value is MainViewModel)
+                return ServiceExtension.Services.GetRequiredService<MainPage>();
             if (value is HomeViewModel)
                 return ServiceExtension.Services.GetRequiredService<HomePage>();
             if (value is SectionsViewModel)
