@@ -21,7 +21,9 @@ namespace Uestc.BBS.WinUI.Converters
                 throw new ArgumentException("Topic date convert failed", nameof(value));
             }
 
-            return parameter is true ? date.ToRelativeDateString() : $"{date.ToRelativeDateString()}有回复";
+            return parameter is true
+                ? date.ToRelativeDateString()
+                : $"{date.ToRelativeDateString()}有回复";
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)

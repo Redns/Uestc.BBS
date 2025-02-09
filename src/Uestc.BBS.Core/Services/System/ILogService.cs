@@ -41,7 +41,7 @@ namespace Uestc.BBS.Core.Services.System
         [Label("Debug")]
         Debug,
 
-        [Label("Information")]
+        [Label("Info")]
         Info,
 
         [Label("Warning")]

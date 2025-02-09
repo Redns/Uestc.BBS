@@ -1,28 +1,90 @@
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Uestc.BBS.Core.Helpers;
 
 namespace Uestc.BBS.WinUI.Controls
 {
     public sealed partial class PersonProfile : UserControl
     {
-        public string Avatar { get; set; } = string.Empty;
+        /// <summary>
+        /// 头像
+        /// </summary>
+        private static readonly DependencyProperty AvatarProperty = DependencyProperty.Register(
+            nameof(Avatar),
+            typeof(string),
+            typeof(PersonProfile),
+            new PropertyMetadata(StringHelper.WhiteSpace)
+        );
 
-        public string Level
+        public string Avatar
         {
-            get;
-            set
-            {
-                if (uint.TryParse(value, out _))
-                {
-                    field = value;
-                }
-            }
-        } = "0";
+            get => (string)GetValue(AvatarProperty);
+            set => SetValue(AvatarProperty, value);
+        }
 
-        public string Group { get; set; } = string.Empty;
+        /// <summary>
+        /// 用户等级
+        /// </summary>
+        private static readonly DependencyProperty LevelProperty = DependencyProperty.Register(
+            nameof(Level),
+            typeof(uint),
+            typeof(PersonProfile),
+            new PropertyMetadata(default(uint))
+        );
 
-        public string UserName { get; set; } = string.Empty;
+        public uint Level
+        {
+            get => (uint)GetValue(LevelProperty);
+            set => SetValue(LevelProperty, value);
+        }
 
-        public string Signature { get; set; } = string.Empty;
+        /// <summary>
+        /// 用户组
+        /// </summary>
+        private static readonly DependencyProperty GroupProperty = DependencyProperty.Register(
+            nameof(Group),
+            typeof(string),
+            typeof(PersonProfile),
+            new PropertyMetadata(StringHelper.WhiteSpace)
+        );
+
+        public string Group
+        {
+            get => (string)GetValue(GroupProperty);
+            set => SetValue(GroupProperty, value);
+        }
+
+        /// <summary>
+        /// 用户名
+        /// </summary>
+        private static readonly DependencyProperty UserNameProperty = DependencyProperty.Register(
+            nameof(UserName),
+            typeof(string),
+            typeof(PersonProfile),
+            new PropertyMetadata(StringHelper.WhiteSpace)
+        );
+
+        public string UserName
+        {
+            get => (string)GetValue(UserNameProperty);
+            set => SetValue(UserNameProperty, value);
+        }
+
+        /// <summary>
+        /// 签名
+        /// </summary>
+        private static readonly DependencyProperty SignatureProperty = DependencyProperty.Register(
+            nameof(Signature),
+            typeof(string),
+            typeof(PersonProfile),
+            new PropertyMetadata(StringHelper.WhiteSpace)
+        );
+
+        public string Signature
+        {
+            get => (string)GetValue(SignatureProperty);
+            set => SetValue(SignatureProperty, value);
+        }
 
         public PersonProfile()
         {

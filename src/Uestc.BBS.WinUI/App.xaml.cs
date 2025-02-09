@@ -36,6 +36,7 @@ namespace Uestc.BBS.WinUI
                 .AddSingleton<AuthWindow>()
                 .AddSingleton<MainWindow>()
                 .AddSingleton<AuthPage>()
+                .AddSingleton<MainPage>()
                 .AddSingleton<HomePage>()
                 .AddSingleton<SectionsPage>()
                 .AddSingleton<ServicesPage>()
@@ -71,6 +72,19 @@ namespace Uestc.BBS.WinUI
                         )
                     );
                     return new NotificationService(appmanifest.Name, appIconUri);
+                })
+                // 自启动
+                .AddSingleton<IStartupService>(services =>
+                {
+                    var startupInfo = new StartupInfo
+                    {
+                        Name = AppDomain.CurrentDomain.FriendlyName,
+                        Description = $"{AppDomain.CurrentDomain.FriendlyName} startup service",
+                        ApplicationName = AppDomain.CurrentDomain.FriendlyName,
+                        WorkingDirectory = AppDomain.CurrentDomain.BaseDirectory,
+                        ApplicationPath = Environment.ProcessPath!,
+                    };
+                    return new WindowsStartupService(startupInfo);
                 });
         }
 

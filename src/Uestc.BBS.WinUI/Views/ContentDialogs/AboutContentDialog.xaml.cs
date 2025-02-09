@@ -1,3 +1,4 @@
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
 namespace Uestc.BBS.WinUI.Views.ContentDialogs
@@ -7,17 +8,51 @@ namespace Uestc.BBS.WinUI.Views.ContentDialogs
         /// <summary>
         /// 版本号
         /// </summary>
-        public string Version { get; set; } = string.Empty;
+        private static readonly DependencyProperty VersionProperty = DependencyProperty.Register(
+            nameof(Version),
+            typeof(string),
+            typeof(AboutContentDialog),
+            new PropertyMetadata(default(string))
+        );
+
+        public string Version
+        {
+            get => (string)GetValue(VersionProperty);
+            set => SetValue(VersionProperty, value);
+        }
 
         /// <summary>
         /// 版权信息
         /// </summary>
-        public string CopyRight { get; set; } = string.Empty;
+        private static readonly DependencyProperty CopyRightProperty = DependencyProperty.Register(
+            nameof(CopyRight),
+            typeof(string),
+            typeof(AboutContentDialog),
+            new PropertyMetadata(default(string))
+        );
+
+        public string CopyRight
+        {
+            get => (string)GetValue(CopyRightProperty);
+            set => SetValue(CopyRightProperty, value);
+        }
 
         /// <summary>
         /// 源码仓库地址
         /// </summary>
-        public string SourceRepositoryUrl { get; set; } = "https://github.com/Redns/Uestc.BBS";
+        private static readonly DependencyProperty SourceRepositoryUrlProperty =
+            DependencyProperty.Register(
+                nameof(SourceRepositoryUrl),
+                typeof(string),
+                typeof(AboutContentDialog),
+                new PropertyMetadata(default(string))
+            );
+
+        public string SourceRepositoryUrl
+        {
+            get => (string)GetValue(SourceRepositoryUrlProperty);
+            set => SetValue(SourceRepositoryUrlProperty, value);
+        }
 
         public AboutContentDialog()
         {

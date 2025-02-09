@@ -27,7 +27,7 @@ namespace Uestc.BBS.Desktop
             ServiceExtension
                 .ConfigureCommonServices()
                 // Notification
-                .AddTransient(notification =>
+                .AddTransient(services =>
                     NativeNotificationManager.Current?.CreateNotification(null)
                     ?? throw new Exception("Failed to create notification")
                 )
@@ -48,14 +48,14 @@ namespace Uestc.BBS.Desktop
                 .AddSingleton<AppSettingModel>()
                 .AddSingleton<SettingsViewModel>()
                 // Appmanifest
-                .AddSingleton(appmanifest =>
+                .AddSingleton(
                     JsonSerializer.Deserialize<Appmanifest>(
                         ResourceHelper.Load("/Assets/appmanifest.json"),
                         Appmanifest.SerializerOptions
-                    ) ?? throw new ArgumentNullException(nameof(appmanifest))
+                    ) ?? throw new ArgumentNullException(nameof(Appmanifest))
                 )
                 // 自启动
-                .AddTransient<IStartupService>(startup =>
+                .AddTransient<IStartupService>(services =>
                 {
                     var startupInfo = new StartupInfo
                     {

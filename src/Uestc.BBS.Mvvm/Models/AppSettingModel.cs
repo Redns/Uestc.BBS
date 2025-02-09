@@ -696,6 +696,36 @@ namespace Uestc.BBS.Mvvm.Models
                     (logSetting, format) => logSetting.OutputFormat = format
                 );
         }
+
+        /// <summary>
+        /// 日志存档大小
+        /// </summary>
+        public long ArchiveAboveSize
+        {
+            get => logSetting.ArchiveAboveSize;
+            set =>
+                SetProperty(
+                    logSetting.ArchiveAboveSize,
+                    value,
+                    logSetting,
+                    (setting, size) => setting.ArchiveAboveSize = size
+                );
+        }
+
+        /// <summary>
+        /// 最大日志文件数
+        /// </summary>
+        public int MaxArchiveFiles
+        {
+            get => logSetting.MaxArchiveFiles;
+            set =>
+                SetProperty(
+                    logSetting.MaxArchiveFiles,
+                    value,
+                    logSetting,
+                    (setting, count) => setting.MaxArchiveFiles = count
+                );
+        }
     }
 
     public class UpgradeSettingModel(UpgradeSetting upgradeSetting) : ObservableObject

@@ -1,4 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using Uestc.BBS.Core.Helpers;
 using Uestc.BBS.Core.Services;
 using Uestc.BBS.Core.Services.Notification;
 using Uestc.BBS.Core.Services.System;
@@ -102,5 +104,8 @@ namespace Uestc.BBS.Mvvm.ViewModels
         }
 
         public abstract Task DispatcherAsync(Action action);
+
+        [RelayCommand]
+        private void OpenWebSite(string url) => OperatingSystemHelper.OpenWebsite(url);
     }
 }

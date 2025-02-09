@@ -108,18 +108,17 @@ namespace Uestc.BBS.Core
             return JsonSerializer.Serialize(this, SerializerOptions);
         }
 
-        public static readonly JsonSerializerOptions SerializerOptions =
-            new()
-            {
-                WriteIndented = true,
-                Encoder = JavaScriptEncoder.Create(UnicodeRanges.All),
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-                PropertyNameCaseInsensitive = true,
-                TypeInfoResolver = JsonTypeInfoResolver.Combine(
-                    AppSettingContext.Default,
-                    new DefaultJsonTypeInfoResolver()
-                ),
-            };
+        public static readonly JsonSerializerOptions SerializerOptions = new()
+        {
+            WriteIndented = true,
+            Encoder = JavaScriptEncoder.Create(UnicodeRanges.All),
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+            PropertyNameCaseInsensitive = true,
+            TypeInfoResolver = JsonTypeInfoResolver.Combine(
+                AppSettingContext.Default,
+                new DefaultJsonTypeInfoResolver()
+            ),
+        };
     }
 
     /// <summary>
@@ -676,6 +675,16 @@ namespace Uestc.BBS.Core
         /// </summary>
         public string OutputFormat { get; set; } =
             "${date:format=yyyy-MM-dd HH\\:mm\\:ss} [Uestc.BBS ${level}] ${message}${onexception:${newline}${exception:format=toString}${exception:format=StackTrace}}";
+
+        /// <summary>
+        /// 日志存档大小（MB）
+        /// </summary>
+        public long ArchiveAboveSize { get; set; } = 8;
+
+        /// <summary>
+        /// 最大日志文件数
+        /// </summary>
+        public int MaxArchiveFiles { get; set; } = 8;
     }
 
     public class UpgradeSetting

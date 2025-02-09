@@ -1,8 +1,8 @@
-﻿using NLog;
+﻿using System.Text;
+using NLog;
 using NLog.Config;
 using NLog.Targets;
 using NLog.Targets.Wrappers;
-using System.Text;
 
 namespace Uestc.BBS.Core.Services.System
 {
@@ -45,9 +45,9 @@ namespace Uestc.BBS.Core.Services.System
                         ),
                         Layout = setting.OutputFormat,
                         KeepFileOpen = false,
-                        ArchiveAboveSize = 10 * 1024 * 1024,
-                        MaxArchiveFiles = 10,
-                        Encoding = Encoding.UTF8
+                        ArchiveAboveSize = setting.ArchiveAboveSize * 1024 * 1024,
+                        MaxArchiveFiles = setting.MaxArchiveFiles,
+                        Encoding = Encoding.UTF8,
                     }
                 )
             );

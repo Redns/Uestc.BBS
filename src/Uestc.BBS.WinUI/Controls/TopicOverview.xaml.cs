@@ -1,5 +1,6 @@
 using System;
 using Microsoft.UI.Windowing;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
@@ -10,27 +11,183 @@ namespace Uestc.BBS.WinUI.Controls
 {
     public sealed partial class TopicOverview : UserControl
     {
-        public string Avatar { get; set; } = string.Empty;
+        /// <summary>
+        /// 头像
+        /// </summary>
+        private static readonly DependencyProperty AvatarProperty = DependencyProperty.Register(
+            nameof(Avatar),
+            typeof(string),
+            typeof(TopicOverview),
+            new PropertyMetadata(default(string))
+        );
 
-        public string Username { get; set; } = string.Empty;
+        public string Avatar
+        {
+            get => (string)GetValue(AvatarProperty);
+            set => SetValue(AvatarProperty, value);
+        }
 
-        public DateTime Date { get; set; } = DateTime.Today;
+        /// <summary>
+        /// 用户名
+        /// </summary>
+        private static readonly DependencyProperty UsernameProperty = DependencyProperty.Register(
+            nameof(Username),
+            typeof(string),
+            typeof(TopicOverview),
+            new PropertyMetadata(default(string))
+        );
 
-        public bool IsHot { get; set; } = false;
+        public string Username
+        {
+            get => (string)GetValue(UsernameProperty);
+            set => SetValue(UsernameProperty, value);
+        }
 
-        public string BoardName { get; set; } = string.Empty;
+        /// <summary>
+        /// 最新日期
+        /// 热门帖子为发表时间，其余帖子为最新回复时间
+        /// </summary>
+        private static readonly DependencyProperty DateProperty = DependencyProperty.Register(
+            nameof(Date),
+            typeof(DateTime),
+            typeof(TopicOverview),
+            new PropertyMetadata(default(DateTime))
+        );
 
-        public string Title { get; set; } = string.Empty;
+        public DateTime Date
+        {
+            get => (DateTime)GetValue(DateProperty);
+            set => SetValue(DateProperty, value);
+        }
 
-        public string Subject { get; set; } = string.Empty;
+        /// <summary>
+        /// 是否热门
+        /// </summary>
+        private static readonly DependencyProperty IsHotProperty = DependencyProperty.Register(
+            nameof(IsHot),
+            typeof(bool),
+            typeof(TopicOverview),
+            new PropertyMetadata(default(bool))
+        );
 
-        public string PreviewSource { get; set; } = string.Empty;
+        public bool IsHot
+        {
+            get => (bool)GetValue(IsHotProperty);
+            set => SetValue(IsHotProperty, value);
+        }
 
-        public uint Views { get; set; }
+        /// <summary>
+        /// 版块名称
+        /// </summary>
+        private static readonly DependencyProperty BoardProperty = DependencyProperty.Register(
+            nameof(BoardName),
+            typeof(string),
+            typeof(TopicOverview),
+            new PropertyMetadata(default(string))
+        );
 
-        public uint Replies { get; set; }
+        public string BoardName
+        {
+            get => (string)GetValue(BoardProperty);
+            set => SetValue(BoardProperty, value);
+        }
 
-        public uint Likes { get; set; }
+        /// <summary>
+        /// 标题
+        /// </summary>
+        private static readonly DependencyProperty TitleProperty = DependencyProperty.Register(
+            nameof(Title),
+            typeof(string),
+            typeof(TopicOverview),
+            new PropertyMetadata(default(string))
+        );
+
+        public string Title
+        {
+            get => (string)GetValue(TitleProperty);
+            set => SetValue(TitleProperty, value);
+        }
+
+        /// <summary>
+        /// 摘要
+        /// </summary>
+        private static readonly DependencyProperty SubjectProperty = DependencyProperty.Register(
+            nameof(Subject),
+            typeof(string),
+            typeof(TopicOverview),
+            new PropertyMetadata(default(string))
+        );
+
+        public string Subject
+        {
+            get => (string)GetValue(SubjectProperty);
+            set => SetValue(SubjectProperty, value);
+        }
+
+        /// <summary>
+        /// 预览图片地址
+        /// </summary>
+        private static readonly DependencyProperty PreviewSourceProperty =
+            DependencyProperty.Register(
+                nameof(PreviewSource),
+                typeof(string),
+                typeof(TopicOverview),
+                new PropertyMetadata(default(string))
+            );
+
+        public string PreviewSource
+        {
+            get => (string)GetValue(PreviewSourceProperty);
+            set => SetValue(PreviewSourceProperty, value);
+        }
+
+        /// <summary>
+        /// 浏览量
+        /// </summary>
+        private static readonly DependencyProperty ViewsProperty = DependencyProperty.Register(
+            nameof(Views),
+            typeof(uint),
+            typeof(TopicOverview),
+            new PropertyMetadata(default(uint))
+        );
+
+        public uint Views
+        {
+            get => (uint)GetValue(ViewsProperty);
+            set => SetValue(ViewsProperty, value);
+        }
+
+        /// <summary>
+        /// 回复数
+        /// </summary>
+        private static readonly DependencyProperty RepliesProperty = DependencyProperty.Register(
+            nameof(Replies),
+            typeof(uint),
+            typeof(TopicOverview),
+            new PropertyMetadata(default(uint))
+        );
+
+        public uint Replies
+        {
+            get => (uint)GetValue(RepliesProperty);
+            set => SetValue(RepliesProperty, value);
+        }
+
+        /// <summary>
+        /// 点赞数
+        /// </summary>
+        private static readonly DependencyProperty LikesProperty = DependencyProperty.Register(
+            nameof(Likes),
+            typeof(uint),
+            typeof(TopicOverview),
+            new PropertyMetadata(default(uint))
+        );
+
+        public uint Likes
+        {
+            get => (uint)GetValue(LikesProperty);
+            set => SetValue(LikesProperty, value);
+        }
 
         public TopicOverview()
         {

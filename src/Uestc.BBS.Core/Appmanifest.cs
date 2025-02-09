@@ -45,6 +45,11 @@ namespace Uestc.BBS.Core
         public string SourceRepositoryUrl { get; init; } = string.Empty;
 
         /// <summary>
+        /// 反馈与建议
+        /// </summary>
+        public string FeedbackUrl { get; init; } = string.Empty;
+
+        /// <summary>
         /// 贡献者列表
         /// </summary>
         public List<Contributor> Contributors { get; init; } = [];
