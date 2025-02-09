@@ -9,9 +9,9 @@ namespace Uestc.BBS.WinUI.Views
 
         public HomePage(HomeViewModel viewModel)
         {
-            ViewModel = viewModel;
-
             InitializeComponent();
+
+            ViewModel = viewModel;
         }
     }
 }

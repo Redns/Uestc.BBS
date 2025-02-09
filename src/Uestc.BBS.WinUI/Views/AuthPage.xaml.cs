@@ -10,16 +10,13 @@ namespace Uestc.BBS.WinUI.Views
 {
     public partial class AuthPage : Page
     {
-        private readonly AppSetting _appSetting;
-
-        private readonly AuthViewModel _viewModel;
+        private AuthViewModel ViewModel { get; init; }
 
         public AuthPage()
         {
             InitializeComponent();
 
-            _viewModel = ServiceExtension.Services.GetRequiredService<AuthViewModel>();
-            _appSetting = ServiceExtension.Services.GetRequiredService<AppSetting>();
+            ViewModel = ServiceExtension.Services.GetRequiredService<AuthViewModel>();
         }
 
         private void Username_AutoSuggestBox_TextChanged(
@@ -32,8 +29,8 @@ namespace Uestc.BBS.WinUI.Views
                 return;
             }
 
-            var newCredentials = _appSetting
-                .Auth.Credentials.Where(u =>
+            var newCredentials = ViewModel
+                .AppSettingModel.Auth.Credentials.Where(u =>
                     u.Name.Contains(sender.Text, StringComparison.OrdinalIgnoreCase)
                 )
                 .ToList();

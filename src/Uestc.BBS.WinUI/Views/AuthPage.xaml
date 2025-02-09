@@ -28,7 +28,7 @@
             <interactivity:Interaction.Behaviors>
                 <interactivity:EventTriggerBehavior EventName="PointerPressed">
                     <interactivity:EventTriggerBehavior.Actions>
-                        <interactivity:InvokeCommandAction Command="{x:Bind _viewModel.OpenOfficialWebsiteCommand}" />
+                        <interactivity:InvokeCommandAction Command="{x:Bind ViewModel.OpenOfficialWebsiteCommand}" />
                     </interactivity:EventTriggerBehavior.Actions>
                 </interactivity:EventTriggerBehavior>
             </interactivity:Interaction.Behaviors>
@@ -37,12 +37,12 @@
         <AutoSuggestBox
             Margin="0,18,0,0"
             PlaceholderText="用户名"
-            Text="{x:Bind _viewModel.Username, Mode=TwoWay}"
+            Text="{x:Bind ViewModel.Username, Mode=TwoWay}"
             TextChanged="Username_AutoSuggestBox_TextChanged">
             <interactivity:Interaction.Behaviors>
                 <interactivity:EventTriggerBehavior EventName="SuggestionChosen">
                     <interactivity:EventTriggerBehavior.Actions>
-                        <interactivity:InvokeCommandAction Command="{x:Bind _viewModel.SelectCredentialCommand}" />
+                        <interactivity:InvokeCommandAction Command="{x:Bind ViewModel.SelectCredentialCommand}" />
                     </interactivity:EventTriggerBehavior.Actions>
                 </interactivity:EventTriggerBehavior>
             </interactivity:Interaction.Behaviors>
@@ -75,40 +75,40 @@
             Height="18"
             FontSize="10"
             Foreground="{ThemeResource AccentTextFillColorTertiaryBrush}"
-            Text="{x:Bind _viewModel.UsernameMessage, Mode=OneWay}" />
+            Text="{x:Bind ViewModel.UsernameMessage, Mode=OneWay}" />
         <!--  密码  -->
-        <PasswordBox Password="{x:Bind _viewModel.Password, Mode=TwoWay}" PlaceholderText="密码" />
+        <PasswordBox Password="{x:Bind ViewModel.Password, Mode=TwoWay}" PlaceholderText="密码" />
         <TextBlock
             Height="18"
             FontSize="10"
             Foreground="{ThemeResource AccentTextFillColorTertiaryBrush}"
-            Text="{x:Bind _viewModel.PasswordMessage, Mode=OneWay}" />
+            Text="{x:Bind ViewModel.PasswordMessage, Mode=OneWay}" />
         <!--  记住密码、自动登录  -->
         <StackPanel Orientation="Horizontal">
             <CheckBox
                 Margin="0,0,-15,0"
                 Content="记住密码"
-                IsChecked="{x:Bind _viewModel.RememberPassword, Mode=TwoWay}" />
-            <CheckBox Content="自动登录" IsChecked="{x:Bind _viewModel.AutoLogin, Mode=TwoWay}" />
+                IsChecked="{x:Bind ViewModel.AppSettingModel.Auth.RememberPassword, Mode=TwoWay}" />
+            <CheckBox Content="自动登录" IsChecked="{x:Bind ViewModel.AppSettingModel.Auth.AutoLogin, Mode=TwoWay}" />
         </StackPanel>
         <Button
             Height="38"
             Margin="0,12,0,0"
             HorizontalAlignment="Stretch"
             VerticalContentAlignment="Center"
-            Command="{x:Bind _viewModel.LoginCommand}"
+            Command="{x:Bind ViewModel.LoginCommand}"
             Style="{StaticResource AccentButtonStyle}">
             <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
                 <ProgressRing
                     Width="25"
                     Height="25"
                     Foreground="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-                    Visibility="{x:Bind _viewModel.LoginCommand.IsRunning, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
+                    Visibility="{x:Bind ViewModel.LoginCommand.IsRunning, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
                 <TextBlock
                     Name="LoginButtonText"
                     VerticalAlignment="Center"
                     Text="登 录"
-                    Visibility="{x:Bind _viewModel.LoginCommand.IsRunning, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True, Mode=OneWay}" />
+                    Visibility="{x:Bind ViewModel.LoginCommand.IsRunning, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True, Mode=OneWay}" />
             </StackPanel>
         </Button>
     </StackPanel>

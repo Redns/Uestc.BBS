@@ -108,17 +108,18 @@ namespace Uestc.BBS.Core
             return JsonSerializer.Serialize(this, SerializerOptions);
         }
 
-        public static readonly JsonSerializerOptions SerializerOptions = new()
-        {
-            WriteIndented = true,
-            Encoder = JavaScriptEncoder.Create(UnicodeRanges.All),
-            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-            PropertyNameCaseInsensitive = true,
-            TypeInfoResolver = JsonTypeInfoResolver.Combine(
-                AppSettingContext.Default,
-                new DefaultJsonTypeInfoResolver()
-            ),
-        };
+        public static readonly JsonSerializerOptions SerializerOptions =
+            new()
+            {
+                WriteIndented = true,
+                Encoder = JavaScriptEncoder.Create(UnicodeRanges.All),
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                PropertyNameCaseInsensitive = true,
+                TypeInfoResolver = JsonTypeInfoResolver.Combine(
+                    AppSettingContext.Default,
+                    new DefaultJsonTypeInfoResolver()
+                ),
+            };
     }
 
     /// <summary>
@@ -154,7 +155,7 @@ namespace Uestc.BBS.Core
         /// <summary>
         /// 评论设置
         /// </summary>
-        public CommentSetting Comment {  get; set; } = new();
+        public CommentSetting Comment { get; set; } = new();
 
         /// <summary>
         /// 侧边栏菜单列表
@@ -426,8 +427,10 @@ namespace Uestc.BBS.Core
     {
         [Label("浅色")]
         Light = 0,
+
         [Label("深色")]
         Dark,
+
         [Label("跟随系统")]
         System,
     }
@@ -439,8 +442,10 @@ namespace Uestc.BBS.Core
     {
         [Label("退出应用")]
         Exit,
+
         [Label("隐藏窗口")]
         Hide,
+
         [Label("隐藏窗口 + 效率模式")]
         HideWithEfficiencyMode,
     }

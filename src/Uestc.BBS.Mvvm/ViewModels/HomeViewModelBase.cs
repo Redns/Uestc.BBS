@@ -7,9 +7,15 @@ namespace Uestc.BBS.Mvvm.ViewModels
 {
     public abstract partial class HomeViewModelBase : ObservableObject
     {
-        public AppSettingModel AppSettingModel { get; init; }
+        /// <summary>
+        /// 主题相关服务
+        /// </summary>
+        protected readonly ITopicService _topicService;
 
-        private readonly ITopicService _topicService;
+        /// <summary>
+        /// 应用配置
+        /// </summary>
+        public AppSettingModel AppSettingModel { get; init; }
 
         /// <summary>
         /// 当前选中的 Tab 栏
@@ -35,18 +41,16 @@ namespace Uestc.BBS.Mvvm.ViewModels
 
             BoardTabItems =
             [
-                .. appSettingModel.Apperance.BoardTabItems.Select(
-                    item => new BoardTabItemModel
-                    {
-                        Name = item.Name,
-                        Route = item.Route,
-                        Board = item.Board,
-                        SortType = item.SortType,
-                        PageSize = item.PageSize,
-                        RequirePreviewSources = item.RequirePreviewSources,
-                        ModuleId = item.ModuleId,
-                    }
-                ),
+                .. appSettingModel.Apperance.BoardTabItems.Select(item => new BoardTabItemModel
+                {
+                    Name = item.Name,
+                    Route = item.Route,
+                    Board = item.Board,
+                    SortType = item.SortType,
+                    PageSize = item.PageSize,
+                    RequirePreviewSources = item.RequirePreviewSources,
+                    ModuleId = item.ModuleId,
+                }),
             ];
 
             // 加载板块帖子

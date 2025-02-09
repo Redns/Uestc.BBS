@@ -1,37 +1,58 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using System.Collections.ObjectModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using Uestc.BBS.Core;
 using Uestc.BBS.Core.Services.Api.Forum;
+using Uestc.BBS.Core.Services.System;
 
 namespace Uestc.BBS.Mvvm.Models
 {
     public partial class AppSettingModel(AppSetting setting) : ObservableObject
     {
-        private readonly AppSetting _setting = setting;
+        /// <summary>
+        /// 外观设置
+        /// </summary>
+        public ApperanceSettingModel Apperance { get; init; } = new(setting.Apperance);
 
-        public ApperanceSettingModel Apperance { get; init; } =
-            new ApperanceSettingModel(setting.Apperance);
+        /// <summary>
+        /// 授权设置
+        /// </summary>
+        public AuthSettingModel Auth { get; init; } = new(setting.Auth);
 
-        public void Save(string? path = null) => _setting.Save(path);
+        /// <summary>
+        /// 日志服务
+        /// </summary>
+        public LogSettingModel Log { get; init; } = new(setting.Log);
+
+        /// <summary>
+        /// 更新服务
+        /// </summary>
+        public UpgradeSettingModel Upgrade { get; init; } = new(setting.Upgrade);
+
+        /// <summary>
+        /// 保存设置
+        /// </summary>
+        /// <param name="path"></param>
+        public void Save(string? path = null) => setting.Save(path);
     }
+
+    #region 外观
 
     /// <summary>
     /// 外观设置
     /// </summary>
     public class ApperanceSettingModel(ApperanceSetting apperanceSetting) : ObservableObject
     {
-        private readonly ApperanceSetting _apperanceSetting = apperanceSetting;
-
         /// <summary>
         /// 主题
         /// </summary>
         public ThemeColor ThemeColor
         {
-            get => _apperanceSetting.ThemeColor;
+            get => apperanceSetting.ThemeColor;
             set =>
                 SetProperty(
-                    _apperanceSetting.ThemeColor,
+                    apperanceSetting.ThemeColor,
                     value,
-                    _apperanceSetting,
+                    apperanceSetting,
                     (setting, theme) => setting.ThemeColor = theme
                 );
         }
@@ -41,12 +62,12 @@ namespace Uestc.BBS.Mvvm.Models
         /// </summary>
         public bool IsTopNavigateBarEnabled
         {
-            get => _apperanceSetting.IsTopNavigateBarEnabled;
+            get => apperanceSetting.IsTopNavigateBarEnabled;
             set =>
                 SetProperty(
-                    _apperanceSetting.IsTopNavigateBarEnabled,
+                    apperanceSetting.IsTopNavigateBarEnabled,
                     value,
-                    _apperanceSetting,
+                    apperanceSetting,
                     (setting, enabled) => setting.IsTopNavigateBarEnabled = enabled
                 );
         }
@@ -197,12 +218,12 @@ namespace Uestc.BBS.Mvvm.Models
         /// </summary>
         public string OfficialWebsite
         {
-            get => _apperanceSetting.OfficialWebsite;
+            get => apperanceSetting.OfficialWebsite;
             set =>
                 SetProperty(
-                    _apperanceSetting.OfficialWebsite,
+                    apperanceSetting.OfficialWebsite,
                     value,
-                    _apperanceSetting,
+                    apperanceSetting,
                     (setting, website) => setting.OfficialWebsite = website
                 );
         }
@@ -213,19 +234,17 @@ namespace Uestc.BBS.Mvvm.Models
     /// </summary>
     public class SearchBarSettingModel(SearchBarSetting searchBarSetting) : ObservableObject
     {
-        private readonly SearchBarSetting _searchBarSetting = searchBarSetting;
-
         /// <summary>
         /// 启用每日一句
         /// </summary>
         public bool IsDailySentenceEnabled
         {
-            get => _searchBarSetting.IsDailySentenceEnabled;
+            get => searchBarSetting.IsDailySentenceEnabled;
             set =>
                 SetProperty(
-                    _searchBarSetting.IsDailySentenceEnabled,
+                    searchBarSetting.IsDailySentenceEnabled,
                     value,
-                    _searchBarSetting,
+                    searchBarSetting,
                     (setting, enabled) => setting.IsDailySentenceEnabled = enabled
                 );
         }
@@ -235,12 +254,12 @@ namespace Uestc.BBS.Mvvm.Models
         /// </summary>
         public uint DailySentenceUpdateTimeInterval
         {
-            get => _searchBarSetting.DailySentenceUpdateTimeInterval;
+            get => searchBarSetting.DailySentenceUpdateTimeInterval;
             set =>
                 SetProperty(
-                    _searchBarSetting.DailySentenceUpdateTimeInterval,
+                    searchBarSetting.DailySentenceUpdateTimeInterval,
                     value,
-                    _searchBarSetting,
+                    searchBarSetting,
                     (setting, interval) => setting.DailySentenceUpdateTimeInterval = interval
                 );
         }
@@ -250,12 +269,12 @@ namespace Uestc.BBS.Mvvm.Models
         /// </summary>
         public bool IsSearchHistoryEnabled
         {
-            get => _searchBarSetting.IsSearchHistoryEnabled;
+            get => searchBarSetting.IsSearchHistoryEnabled;
             set =>
                 SetProperty(
-                    _searchBarSetting.IsSearchHistoryEnabled,
+                    searchBarSetting.IsSearchHistoryEnabled,
                     value,
-                    _searchBarSetting,
+                    searchBarSetting,
                     (setting, enabled) => setting.IsSearchHistoryEnabled = enabled
                 );
         }
@@ -267,20 +286,17 @@ namespace Uestc.BBS.Mvvm.Models
     public class StartupAndShutdownSettingModel(StartupAndShutdownSetting startupAndShutdownSetting)
         : ObservableObject
     {
-        private readonly StartupAndShutdownSetting _startupAndShutdownSetting =
-            startupAndShutdownSetting;
-
         /// <summary>
         /// 静默启动
         /// </summary>
         public bool SlientStart
         {
-            get => _startupAndShutdownSetting.SlientStart;
+            get => startupAndShutdownSetting.SlientStart;
             set =>
                 SetProperty(
-                    _startupAndShutdownSetting.SlientStart,
+                    startupAndShutdownSetting.SlientStart,
                     value,
-                    _startupAndShutdownSetting,
+                    startupAndShutdownSetting,
                     (setting, enabled) => setting.SlientStart = enabled
                 );
         }
@@ -290,12 +306,12 @@ namespace Uestc.BBS.Mvvm.Models
         /// </summary>
         public bool StartupOnLaunch
         {
-            get => _startupAndShutdownSetting.StartupOnLaunch;
+            get => startupAndShutdownSetting.StartupOnLaunch;
             set =>
                 SetProperty(
-                    _startupAndShutdownSetting.StartupOnLaunch,
+                    startupAndShutdownSetting.StartupOnLaunch,
                     value,
-                    _startupAndShutdownSetting,
+                    startupAndShutdownSetting,
                     (setting, enabled) => setting.StartupOnLaunch = enabled
                 );
         }
@@ -305,12 +321,12 @@ namespace Uestc.BBS.Mvvm.Models
         /// </summary>
         public bool IsWindowPinned
         {
-            get => _startupAndShutdownSetting.IsWindowPinned;
+            get => startupAndShutdownSetting.IsWindowPinned;
             set =>
                 SetProperty(
-                    _startupAndShutdownSetting.IsWindowPinned,
+                    startupAndShutdownSetting.IsWindowPinned,
                     value,
-                    _startupAndShutdownSetting,
+                    startupAndShutdownSetting,
                     (setting, pinned) => setting.IsWindowPinned = pinned
                 );
         }
@@ -320,12 +336,12 @@ namespace Uestc.BBS.Mvvm.Models
         /// </summary>
         public WindowCloseBehavior WindowCloseBehavior
         {
-            get => _startupAndShutdownSetting.WindowCloseBehavior;
+            get => startupAndShutdownSetting.WindowCloseBehavior;
             set =>
                 SetProperty(
-                    _startupAndShutdownSetting.WindowCloseBehavior,
+                    startupAndShutdownSetting.WindowCloseBehavior,
                     value,
-                    _startupAndShutdownSetting,
+                    startupAndShutdownSetting,
                     (setting, behavior) => setting.WindowCloseBehavior = behavior
                 );
         }
@@ -336,19 +352,17 @@ namespace Uestc.BBS.Mvvm.Models
     /// </summary>
     public class BrowsingSettingModel(BrowsingSetting browsingSetting) : ObservableObject
     {
-        private readonly BrowsingSetting _browsingSetting = browsingSetting;
-
         /// <summary>
         /// 高亮热门主题
         /// </summary>
         public bool HighlightHotTopic
         {
-            get => _browsingSetting.HighlightHotTopic;
+            get => browsingSetting.HighlightHotTopic;
             set =>
                 SetProperty(
-                    _browsingSetting.HighlightHotTopic,
+                    browsingSetting.HighlightHotTopic,
                     value,
-                    _browsingSetting,
+                    browsingSetting,
                     (setting, highlight) => setting.HighlightHotTopic = highlight
                 );
         }
@@ -358,12 +372,12 @@ namespace Uestc.BBS.Mvvm.Models
         /// </summary>
         public uint TopicHotThreshold
         {
-            get => _browsingSetting.TopicHotThreshold;
+            get => browsingSetting.TopicHotThreshold;
             set =>
                 SetProperty(
-                    _browsingSetting.TopicHotThreshold,
+                    browsingSetting.TopicHotThreshold,
                     value,
-                    _browsingSetting,
+                    browsingSetting,
                     (setting, threshold) => setting.TopicHotThreshold = threshold
                 );
         }
@@ -373,12 +387,12 @@ namespace Uestc.BBS.Mvvm.Models
         /// </summary>
         public TopicHotWeightingScheme TopicHotIndexWeightingScheme
         {
-            get => _browsingSetting.TopicHotIndexWeightingScheme;
+            get => browsingSetting.TopicHotIndexWeightingScheme;
             set =>
                 SetProperty(
-                    _browsingSetting.TopicHotIndexWeightingScheme,
+                    browsingSetting.TopicHotIndexWeightingScheme,
                     value,
-                    _browsingSetting,
+                    browsingSetting,
                     (setting, scheme) => setting.TopicHotIndexWeightingScheme = scheme
                 );
         }
@@ -390,19 +404,17 @@ namespace Uestc.BBS.Mvvm.Models
     public class TopicHotWeightingSchemeModel(TopicHotWeightingScheme topicHotWeightingScheme)
         : ObservableObject
     {
-        private readonly TopicHotWeightingScheme _topicHotWeightingScheme = topicHotWeightingScheme;
-
         /// <summary>
         /// 浏览量系数
         /// </summary>
         public uint ViewsCoefficient
         {
-            get => _topicHotWeightingScheme.ViewsCoefficient;
+            get => topicHotWeightingScheme.ViewsCoefficient;
             set =>
                 SetProperty(
-                    _topicHotWeightingScheme.ViewsCoefficient,
+                    topicHotWeightingScheme.ViewsCoefficient,
                     value,
-                    _topicHotWeightingScheme,
+                    topicHotWeightingScheme,
                     (scheme, coefficient) => scheme.ViewsCoefficient = coefficient
                 );
         }
@@ -412,12 +424,12 @@ namespace Uestc.BBS.Mvvm.Models
         /// </summary>
         public uint RepliesCoefficient
         {
-            get => _topicHotWeightingScheme.RepliesCoefficient;
+            get => topicHotWeightingScheme.RepliesCoefficient;
             set =>
                 SetProperty(
-                    _topicHotWeightingScheme.RepliesCoefficient,
+                    topicHotWeightingScheme.RepliesCoefficient,
                     value,
-                    _topicHotWeightingScheme,
+                    topicHotWeightingScheme,
                     (scheme, coefficient) => scheme.RepliesCoefficient = coefficient
                 );
         }
@@ -427,12 +439,12 @@ namespace Uestc.BBS.Mvvm.Models
         /// </summary>
         public uint LikesCoefficient
         {
-            get => _topicHotWeightingScheme.LikesCoefficient;
+            get => topicHotWeightingScheme.LikesCoefficient;
             set =>
                 SetProperty(
-                    _topicHotWeightingScheme.LikesCoefficient,
+                    topicHotWeightingScheme.LikesCoefficient,
                     value,
-                    _topicHotWeightingScheme,
+                    topicHotWeightingScheme,
                     (scheme, coefficient) => scheme.LikesCoefficient = coefficient
                 );
         }
@@ -443,19 +455,17 @@ namespace Uestc.BBS.Mvvm.Models
     /// </summary>
     public class CommentSettingModel(CommentSetting commentSetting) : ObservableObject
     {
-        private readonly CommentSetting _commentSetting = commentSetting;
-
         /// <summary>
         /// 楼中楼
         /// </summary>
         public bool IsNested
         {
-            get => _commentSetting.IsNested;
+            get => commentSetting.IsNested;
             set =>
                 SetProperty(
-                    _commentSetting.IsNested,
+                    commentSetting.IsNested,
                     value,
-                    _commentSetting,
+                    commentSetting,
                     (setting, nested) => setting.IsNested = nested
                 );
         }
@@ -465,12 +475,12 @@ namespace Uestc.BBS.Mvvm.Models
         /// </summary>
         public bool ForcedPinned
         {
-            get => _commentSetting.ForcedPinned;
+            get => commentSetting.ForcedPinned;
             set =>
                 SetProperty(
-                    _commentSetting.ForcedPinned,
+                    commentSetting.ForcedPinned,
                     value,
-                    _commentSetting,
+                    commentSetting,
                     (setting, pinned) => setting.ForcedPinned = pinned
                 );
         }
@@ -480,12 +490,12 @@ namespace Uestc.BBS.Mvvm.Models
         /// </summary>
         public uint HotCommentLikesThreshold
         {
-            get => _commentSetting.HotCommentLikesThreshold;
+            get => commentSetting.HotCommentLikesThreshold;
             set =>
                 SetProperty(
-                    _commentSetting.HotCommentLikesThreshold,
+                    commentSetting.HotCommentLikesThreshold,
                     value,
-                    _commentSetting,
+                    commentSetting,
                     (setting, threshold) => setting.HotCommentLikesThreshold = threshold
                 );
         }
@@ -496,12 +506,12 @@ namespace Uestc.BBS.Mvvm.Models
         /// </summary>
         public bool IsCommentFloorVisible
         {
-            get => _commentSetting.IsCommentFloorVisible;
+            get => commentSetting.IsCommentFloorVisible;
             set =>
                 SetProperty(
-                    _commentSetting.IsCommentFloorVisible,
+                    commentSetting.IsCommentFloorVisible,
                     value,
-                    _commentSetting,
+                    commentSetting,
                     (setting, visible) => setting.IsCommentFloorVisible = visible
                 );
         }
@@ -511,12 +521,12 @@ namespace Uestc.BBS.Mvvm.Models
         /// </summary>
         public bool IsUserLevelVisible
         {
-            get => _commentSetting.IsUserLevelVisible;
+            get => commentSetting.IsUserLevelVisible;
             set =>
                 SetProperty(
-                    _commentSetting.IsUserLevelVisible,
+                    commentSetting.IsUserLevelVisible,
                     value,
-                    _commentSetting,
+                    commentSetting,
                     (setting, visible) => setting.IsUserLevelVisible = visible
                 );
         }
@@ -526,12 +536,12 @@ namespace Uestc.BBS.Mvvm.Models
         /// </summary>
         public bool IsUserBadgeVisible
         {
-            get => _commentSetting.IsUserBadgeVisible;
+            get => commentSetting.IsUserBadgeVisible;
             set =>
                 SetProperty(
-                    _commentSetting.IsUserBadgeVisible,
+                    commentSetting.IsUserBadgeVisible,
                     value,
-                    _commentSetting,
+                    commentSetting,
                     (setting, visible) => setting.IsUserBadgeVisible = visible
                 );
         }
@@ -541,12 +551,12 @@ namespace Uestc.BBS.Mvvm.Models
         /// </summary>
         public bool IsUserGroupVisible
         {
-            get => _commentSetting.IsUserGroupVisible;
+            get => commentSetting.IsUserGroupVisible;
             set =>
                 SetProperty(
-                    _commentSetting.IsUserGroupVisible,
+                    commentSetting.IsUserGroupVisible,
                     value,
-                    _commentSetting,
+                    commentSetting,
                     (setting, visible) => setting.IsUserGroupVisible = visible
                 );
         }
@@ -556,15 +566,183 @@ namespace Uestc.BBS.Mvvm.Models
         /// </summary>
         public bool IsUserSignatureVisible
         {
-            get => _commentSetting.IsUserSignatureVisible;
+            get => commentSetting.IsUserSignatureVisible;
             set =>
                 SetProperty(
-                    _commentSetting.IsUserSignatureVisible,
+                    commentSetting.IsUserSignatureVisible,
                     value,
-                    _commentSetting,
+                    commentSetting,
                     (setting, visible) => setting.IsUserSignatureVisible = visible
                 );
         }
         #endregion
+    }
+
+    #endregion
+
+    #region 授权
+    /// <summary>
+    /// 授权设置
+    /// </summary>
+    public class AuthSettingModel(AuthSetting authSetting) : ObservableObject
+    {
+        /// <summary>
+        /// 自动登录
+        /// </summary>
+        public bool AutoLogin
+        {
+            get => authSetting.AutoLogin;
+            set =>
+                SetProperty(
+                    authSetting.AutoLogin,
+                    value,
+                    authSetting,
+                    (setting, autoLogin) => setting.AutoLogin = autoLogin
+                );
+        }
+
+        /// <summary>
+        /// 记住密码（取消记住密码仍然会保存密钥信息）
+        /// </summary>
+        public bool RememberPassword
+        {
+            get => authSetting.RememberPassword;
+            set =>
+                SetProperty(
+                    authSetting.RememberPassword,
+                    value,
+                    authSetting,
+                    (setting, rememberPassword) => setting.RememberPassword = rememberPassword
+                );
+        }
+
+        /// <summary>
+        /// 默认授权信息 Uid
+        /// </summary>
+        public uint DefaultCredentialUid
+        {
+            get => authSetting.DefaultCredentialUid;
+            set =>
+                SetProperty(
+                    authSetting.DefaultCredentialUid,
+                    value,
+                    authSetting,
+                    (setting, defaultCredentialUid) =>
+                        setting.DefaultCredentialUid = defaultCredentialUid
+                );
+        }
+
+        /// <summary>
+        /// 默认授权信息
+        /// </summary>
+        public AuthCredential? DefaultCredential => authSetting.DefaultCredential;
+
+        /// <summary>
+        /// 用戶是否授权
+        /// </summary>
+        public bool IsUserAuthed => authSetting.IsUserAuthed;
+
+        /// <summary>
+        /// 授权信息列表（保存本地所有授权信息）
+        /// </summary>
+        public ObservableCollection<AuthCredential> Credentials { get; set; } =
+            [.. authSetting.Credentials];
+    }
+    #endregion
+
+    public class LogSettingModel(LogSetting logSetting) : ObservableObject
+    {
+        /// <summary>
+        /// 启用服务
+        /// </summary>
+        public bool IsEnable
+        {
+            get => logSetting.IsEnable;
+            set =>
+                SetProperty(
+                    logSetting.IsEnable,
+                    value,
+                    logSetting,
+                    (setting, isEnabled) => setting.IsEnable = isEnabled
+                );
+        }
+
+        /// <summary>
+        /// 最低日志级别
+        /// </summary>
+        public LogLevel MinLevel
+        {
+            get => logSetting.MinLevel;
+            set =>
+                SetProperty(
+                    logSetting.MinLevel,
+                    value,
+                    logSetting,
+                    (setting, minLevel) => logSetting.MinLevel = minLevel
+                );
+        }
+
+        /// <summary>
+        /// 输出格式
+        /// </summary>
+        public string OutputFormat
+        {
+            get => logSetting.OutputFormat;
+            set =>
+                SetProperty(
+                    logSetting.OutputFormat,
+                    value,
+                    logSetting,
+                    (logSetting, format) => logSetting.OutputFormat = format
+                );
+        }
+    }
+
+    public class UpgradeSettingModel(UpgradeSetting upgradeSetting) : ObservableObject
+    {
+        /// <summary>
+        /// 启用服务
+        /// </summary>
+        public bool AcceptBetaVersion
+        {
+            get => upgradeSetting.AcceptBetaVersion;
+            set =>
+                SetProperty(
+                    upgradeSetting.AcceptBetaVersion,
+                    value,
+                    upgradeSetting,
+                    (setting, accept) => setting.AcceptBetaVersion = accept
+                );
+        }
+
+        /// <summary>
+        /// 上次更新检查时间
+        /// </summary>
+        public DateTime LastCheckTime
+        {
+            get => upgradeSetting.LastCheckTime;
+            set =>
+                SetProperty(
+                    upgradeSetting.LastCheckTime,
+                    value,
+                    upgradeSetting,
+                    (setting, time) => setting.LastCheckTime = time
+                );
+        }
+
+        /// <summary>
+        /// 更新地址
+        /// </summary>
+        public string Mirror
+        {
+            get => upgradeSetting.Mirror;
+            set =>
+                SetProperty(
+                    upgradeSetting.Mirror,
+                    value,
+                    upgradeSetting,
+                    (setting, mirror) => setting.Mirror = mirror
+                );
+        }
     }
 }

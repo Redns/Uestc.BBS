@@ -27,12 +27,12 @@ namespace Uestc.BBS.Core
         {
             ServiceCollection
                 // AppSetting
-                .AddSingleton(settings => AppSetting.Load())
+                .AddSingleton(AppSetting.Load())
                 // 日志
-                .AddSingleton<ILogService>(logger =>
+                .AddSingleton<ILogService>(services =>
                 {
                     var nlogger = new NLogService(LogManager.GetLogger("*"));
-                    var appSetting = Services.GetRequiredService<AppSetting>();
+                    var appSetting = services.GetRequiredService<AppSetting>();
                     nlogger.Setup(appSetting.Log);
                     return nlogger;
                 })

@@ -1,4 +1,6 @@
-﻿namespace Uestc.BBS.Core.Services.System
+﻿using FastEnumUtility;
+
+namespace Uestc.BBS.Core.Services.System
 {
     public interface ILogService
     {
@@ -33,11 +35,22 @@
 
     public enum LogLevel
     {
+        [Label("Trace")]
         Trace,
+
+        [Label("Debug")]
         Debug,
+
+        [Label("Information")]
         Info,
+
+        [Label("Warning")]
         Warn,
+
+        [Label("Error")]
         Error,
+
+        [Label("Fatal")]
         Fatal
     }
 }

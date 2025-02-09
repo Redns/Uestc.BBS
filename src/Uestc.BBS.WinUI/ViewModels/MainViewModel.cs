@@ -4,6 +4,8 @@ using CommunityToolkit.WinUI;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Uestc.BBS.Core.Services;
+using Uestc.BBS.Core.Services.Notification;
+using Uestc.BBS.Core.Services.System;
 using Uestc.BBS.Mvvm.Models;
 using Uestc.BBS.Mvvm.ViewModels;
 
@@ -26,9 +28,11 @@ namespace Uestc.BBS.WinUI.ViewModels
 
         public MainViewModel(
             AppSettingModel appSettingModel,
+            ILogService logService,
+            INotificationService notificationService,
             IDailySentenceService dailySentenceService
         )
-            : base(appSettingModel, dailySentenceService)
+            : base(appSettingModel, logService, notificationService, dailySentenceService)
         {
             AppSettingModel.Apperance.PropertyChanged += (sender, args) =>
             {

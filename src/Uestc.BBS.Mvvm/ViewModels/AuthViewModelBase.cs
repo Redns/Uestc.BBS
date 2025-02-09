@@ -5,6 +5,7 @@ using Uestc.BBS.Core.Helpers;
 using Uestc.BBS.Core.Services.Api.Auth;
 using Uestc.BBS.Core.Services.Notification;
 using Uestc.BBS.Core.Services.System;
+using Uestc.BBS.Mvvm.Models;
 
 namespace Uestc.BBS.Mvvm.ViewModels
 {
@@ -16,19 +17,19 @@ namespace Uestc.BBS.Mvvm.ViewModels
     /// <param name="authService"></param>
     /// <param name="asyncNotififyFunction"></param>
     public abstract partial class AuthViewModelBase(
-        AppSetting appSetting,
         ILogService logService,
         IAuthService authService,
-        INotificationService notificationService
+        INotificationService notificationService,
+        AppSettingModel appSettingModel
     ) : ObservableObject
     {
-        public readonly ILogService _logService = logService;
+        protected readonly ILogService _logService = logService;
 
-        public readonly AppSetting _appSetting = appSetting;
+        protected readonly IAuthService _authService = authService;
 
-        public readonly IAuthService _authService = authService;
+        protected readonly INotificationService _notificationService = notificationService;
 
-        public readonly INotificationService _notificationService = notificationService;
+        public AppSettingModel AppSettingModel { get; init; } = appSettingModel;
 
         /// <summary>
         /// 用户名
@@ -38,7 +39,7 @@ namespace Uestc.BBS.Mvvm.ViewModels
         [NotifyPropertyChangedFor(nameof(UsernameMessage))]
         [NotifyPropertyChangedFor(nameof(SelectedCredential))]
         public partial string Username { get; set; } =
-            appSetting.Auth.DefaultCredential?.Name ?? string.Empty;
+            appSettingModel.Auth.DefaultCredential?.Name ?? string.Empty;
 
         /// <summary>
         /// 密码
@@ -47,19 +48,7 @@ namespace Uestc.BBS.Mvvm.ViewModels
         [NotifyCanExecuteChangedFor(nameof(LoginCommand))]
         [NotifyPropertyChangedFor(nameof(PasswordMessage))]
         public partial string Password { get; set; } =
-            appSetting.Auth.DefaultCredential?.Password ?? string.Empty;
-
-        /// <summary>
-        /// 自动登录
-        /// </summary>
-        [ObservableProperty]
-        public partial bool AutoLogin { get; set; } = appSetting.Auth.AutoLogin;
-
-        /// <summary>
-        /// 记住密码
-        /// </summary>
-        [ObservableProperty]
-        public partial bool RememberPassword { get; set; } = appSetting.Auth.RememberPassword;
+            appSettingModel.Auth.DefaultCredential?.Password ?? string.Empty;
 
         /// <summary>
         /// 选中的授权信息
@@ -87,10 +76,8 @@ namespace Uestc.BBS.Mvvm.ViewModels
         /// 打开官方论坛链接
         /// </summary>
         [RelayCommand]
-        private void OpenOfficialWebsite()
-        {
-            OperatingSystemHelper.OpenWebsite(_appSetting.Apperance.OfficialWebsite);
-        }
+        private void OpenOfficialWebsite() =>
+            OperatingSystemHelper.OpenWebsite(AppSettingModel.Apperance.OfficialWebsite);
 
         [RelayCommand(CanExecute = nameof(CanLogin))]
         public async Task LoginAsync()
@@ -106,12 +93,10 @@ namespace Uestc.BBS.Mvvm.ViewModels
                 // 保存本地登录信息
                 if (SelectedCredential?.Equals(credential) is not true)
                 {
-                    _appSetting.Auth.Credentials.Add(credential);
+                    AppSettingModel.Auth.Credentials.Add(credential);
                 }
-                _appSetting.Auth.DefaultCredentialUid = credential.Uid;
-                _appSetting.Auth.AutoLogin = AutoLogin;
-                _appSetting.Auth.RememberPassword = RememberPassword;
-                _appSetting.Save();
+                AppSettingModel.Auth.DefaultCredentialUid = credential.Uid;
+                AppSettingModel.Save();
 
                 // 跳转至主页
                 NavigateToMainView();
@@ -155,7 +140,7 @@ namespace Uestc.BBS.Mvvm.ViewModels
                     Avatar = resp.Avatar,
                     Name = resp.Username,
                 };
-            credential.Password = RememberPassword ? Password! : string.Empty;
+            credential.Password = AppSettingModel.Auth.RememberPassword ? Password! : string.Empty;
             credential.Token = resp.Token;
             credential.Secret = resp.Secret;
 

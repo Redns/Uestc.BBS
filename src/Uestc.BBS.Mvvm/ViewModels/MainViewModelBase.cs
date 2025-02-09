@@ -1,5 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using Uestc.BBS.Core.Services;
+using Uestc.BBS.Core.Services.Notification;
+using Uestc.BBS.Core.Services.System;
 using Uestc.BBS.Mvvm.Models;
 
 namespace Uestc.BBS.Mvvm.ViewModels
@@ -9,12 +11,22 @@ namespace Uestc.BBS.Mvvm.ViewModels
         /// <summary>
         /// 搜索栏文字定时更新
         /// </summary>
-        public readonly Timer _searchPlaceholderTextUpdateTimer;
+        protected readonly Timer _searchPlaceholderTextUpdateTimer;
+
+        /// <summary>
+        /// 日志服务
+        /// </summary>
+        protected readonly ILogService _logService;
+
+        /// <summary>
+        /// 通知服务
+        /// </summary>
+        protected readonly INotificationService _notificationService;
 
         /// <summary>
         /// 每日一句
         /// </summary>
-        public readonly IDailySentenceService _dailySentenceService;
+        protected readonly IDailySentenceService _dailySentenceService;
 
         /// <summary>
         /// 搜索栏提示文字
@@ -30,9 +42,13 @@ namespace Uestc.BBS.Mvvm.ViewModels
 
         public MainViewModelBase(
             AppSettingModel appSettingModel,
+            ILogService logService,
+            INotificationService notificationService,
             IDailySentenceService dailySentenceService
         )
         {
+            _logService = logService;
+            _notificationService = notificationService;
             _dailySentenceService = dailySentenceService;
             _searchPlaceholderTextUpdateTimer = new Timer(
                 async state =>
@@ -42,13 +58,20 @@ namespace Uestc.BBS.Mvvm.ViewModels
                         return;
                     }
 
-                    // 获取每日一句
-                    var sentence = await _dailySentenceService.GetDailySentenceAsync();
-                    if (string.IsNullOrEmpty(sentence) || sentence == SearchPlaceholderText)
+                    try
                     {
-                        return;
+                        var sentence = await _dailySentenceService.GetDailySentenceAsync();
+                        if (string.IsNullOrEmpty(sentence) || sentence == SearchPlaceholderText)
+                        {
+                            return;
+                        }
+                        await DispatcherAsync(() => SearchPlaceholderText = sentence);
                     }
-                    await DispatcherAsync(() => SearchPlaceholderText = sentence);
+                    catch (Exception e)
+                    {
+                        _logService.Error("Dailysentence get failed", e);
+                        _notificationService.Show("每日一句获取失败", e.Message);
+                    }
                 },
                 null,
                 0,

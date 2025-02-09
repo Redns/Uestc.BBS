@@ -7,12 +7,8 @@ namespace Uestc.BBS.WinUI.Views
 {
     public sealed partial class AuthWindow : WindowEx
     {
-        private readonly AppSettingModel _appSettingModel;
-
         public AuthWindow(AppSettingModel appSettingModel)
         {
-            _appSettingModel = appSettingModel;
-
             InitializeComponent();
 
             // …Ë÷√¥∞ø⁄Œª÷√
