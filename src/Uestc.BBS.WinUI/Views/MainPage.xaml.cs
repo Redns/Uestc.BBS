@@ -50,24 +50,23 @@ namespace Uestc.BBS.WinUI.Views
             page switch
             {
                 nameof(HomePage) => ServiceExtension.Services.GetRequiredService<HomePage>(),
-                nameof(SectionsPage)
-                    => ServiceExtension.Services.GetRequiredService<SectionsPage>(),
-                nameof(ServicesPage)
-                    => ServiceExtension.Services.GetRequiredService<ServicesPage>(),
+                nameof(SectionsPage) =>
+                    ServiceExtension.Services.GetRequiredService<SectionsPage>(),
+                nameof(ServicesPage) =>
+                    ServiceExtension.Services.GetRequiredService<ServicesPage>(),
                 nameof(MomentsPage) => ServiceExtension.Services.GetRequiredService<MomentsPage>(),
                 nameof(PostPage) => ServiceExtension.Services.GetRequiredService<PostPage>(),
-                nameof(MessagesPage)
-                    => ServiceExtension.Services.GetRequiredService<MessagesPage>(),
-                nameof(SettingsPage)
-                    => ServiceExtension.Services.GetRequiredService<SettingsPage>(),
-                _
-                    => throw new ArgumentException(
-                        $"Navigate failed, unknown page {page}",
-                        nameof(page)
-                    ),
+                nameof(MessagesPage) =>
+                    ServiceExtension.Services.GetRequiredService<MessagesPage>(),
+                nameof(SettingsPage) =>
+                    ServiceExtension.Services.GetRequiredService<SettingsPage>(),
+                _ => throw new ArgumentException(
+                    $"Navigate failed, unknown page {page}",
+                    nameof(page)
+                ),
             };
 
-        private void PersonPicture_PointerPressed(object sender, PointerRoutedEventArgs e)
+        private void OpenPersonalCenterFlyout(object sender, PointerRoutedEventArgs e)
         {
             FlyoutBase.ShowAttachedFlyout(sender as FrameworkElement);
         }

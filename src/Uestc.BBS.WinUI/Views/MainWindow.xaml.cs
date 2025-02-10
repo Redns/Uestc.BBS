@@ -62,7 +62,11 @@ namespace Uestc.BBS.WinUI.Views
         }
 
         [RelayCommand]
-        private void Restart() => WindowsHelper.Restart();
+        private void Restart()
+        {
+            ViewModel.AppSettingModel.Save();
+            WindowsHelper.Restart();
+        }
 
         [RelayCommand]
         private void Exit() => WindowsHelper.Exit();

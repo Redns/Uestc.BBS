@@ -222,7 +222,7 @@
                 HeaderIcon="{ui:FontIcon Glyph=&#xE7B5;}">
                 <controls:SettingsExpander.Items>
                     <controls:SettingsCard Header="自启动">
-                        <ToggleSwitch IsOn="{x:Bind ViewModel.AppSettingModel.Apperance.StartupAndShutdown.StartupOnLaunch, Mode=TwoWay}" />
+                        <ToggleSwitch IsOn="{x:Bind ViewModel.AppSettingModel.Apperance.StartupAndShutdown.StartupOnLaunch, Mode=OneWay}" Toggled="ToggleStartupOnLaunch" />
                     </controls:SettingsCard>
                     <controls:SettingsCard Description="启动后仅显示托盘图标" Header="静默启动">
                         <ToggleSwitch IsOn="{x:Bind ViewModel.AppSettingModel.Apperance.StartupAndShutdown.SlientStart, Mode=TwoWay}" />

@@ -11,11 +11,7 @@ namespace Uestc.BBS.Mvvm.ViewModels
 {
     public abstract partial class SettingsViewModelBase : ObservableObject
     {
-        protected AppSetting _appSetting;
-
         protected ILogService _logService;
-
-        protected IStartupService _startupService;
 
         public Appmanifest Appmanifest { get; init; }
 
@@ -25,37 +21,16 @@ namespace Uestc.BBS.Mvvm.ViewModels
             AppSetting appSetting,
             Appmanifest appmanifest,
             AppSettingModel appSettingModel,
-            ILogService logService,
-            IStartupService startupService
+            ILogService logService
         )
         {
-            _appSetting = appSetting;
             _logService = logService;
-            _startupService = startupService;
 
             Appmanifest = appmanifest;
             AppSettingModel = appSettingModel;
             AppSettingModel.Log.PropertyChanged += (sender, args) =>
             {
-                _logService.Setup(_appSetting.Log);
-            };
-            AppSettingModel.Apperance.StartupAndShutdown.PropertyChanged += (sender, args) =>
-            {
-                if (
-                    args.PropertyName
-                    != nameof(AppSettingModel.Apperance.StartupAndShutdown.StartupOnLaunch)
-                )
-                {
-                    return;
-                }
-
-                // TODO 修改失败 ToggleButton 应恢复原状态
-                if (AppSettingModel.Apperance.StartupAndShutdown.StartupOnLaunch)
-                {
-                    _startupService.Enable();
-                    return;
-                }
-                _startupService.Disable();
+                _logService.Setup(appSetting.Log);
             };
         }
 

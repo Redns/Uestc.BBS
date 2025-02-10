@@ -9,14 +9,6 @@ namespace Uestc.BBS.WinUI.ViewModels
         AppSetting appSetting,
         Appmanifest appmanifest,
         AppSettingModel appSettingModel,
-        ILogService logService,
-        IStartupService startupService
-    )
-        : SettingsViewModelBase(
-            appSetting,
-            appmanifest,
-            appSettingModel,
-            logService,
-            startupService
-        ) { }
+        ILogService logService
+    ) : SettingsViewModelBase(appSetting, appmanifest, appSettingModel, logService) { }
 }

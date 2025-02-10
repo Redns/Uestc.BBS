@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
-using Microsoft.UI.Xaml.Controls;
 using Microsoft.Win32.TaskScheduler;
 using Uestc.BBS.Core.Services.System;
 using Uestc.BBS.WinUI.Helpers;
-using Task = System.Threading.Tasks.Task;
 
 namespace Uestc.BBS.WinUI.Services
 {
@@ -17,41 +14,49 @@ namespace Uestc.BBS.WinUI.Services
         private readonly StartupInfo _startupInfo = startupInfo;
 
         /// <summary>
+        /// 设置自启动服务
+        /// </summary>
+        /// <param name="enabled">是否启用自启动服务</param>
+        public void SetStartup(bool enabled)
+        {
+            if (enabled)
+            {
+                Enable();
+                return;
+            }
+            Disable();
+        }
+
+        /// <summary>
         /// 禁用自启动服务
         /// </summary>
-        public bool Disable()
+        public void Disable()
         {
-            // 检查是否具有管理员权限
-            if (WindowsHelper.IsAdministartor())
+            if (!WindowsHelper.IsAdministartor())
             {
-                TaskService.Instance.RootFolder.DeleteTask(_startupInfo.Name, false);
-                return true;
+                throw new UnauthorizedAccessException(
+                    "StartupService requires administrator permission."
+                );
             }
-
-            // 请求重新以管理员权限运行
-            _ = RequireAdministratorPermissionAsync();
-
-            return false;
+            TaskService.Instance.RootFolder.DeleteTask(_startupInfo.Name, false);
         }
 
         /// <summary>
         /// 使能自启动服务
         /// </summary>
         /// <exception cref="FileNotFoundException">自启动任务程序不存在</exception>
-        public bool Enable()
+        public void Enable()
         {
-            // 确保 exe 文件存在
             if (File.Exists(_startupInfo.ApplicationPath) is false)
             {
                 throw new FileNotFoundException(nameof(_startupInfo.ApplicationPath));
             }
 
-            // 检查是否具有管理员权限
             if (!WindowsHelper.IsAdministartor())
             {
-                // 请求重新以管理员权限运行
-                _ = RequireAdministratorPermissionAsync();
-                return false;
+                throw new UnauthorizedAccessException(
+                    "StartupService requires administrator permission."
+                );
             }
 
             // 检查是否已存在计划任务
@@ -60,7 +65,7 @@ namespace Uestc.BBS.WinUI.Services
             {
                 task.Definition.Settings.Enabled = true;
                 task.RegisterChanges();
-                return task.Enabled;
+                return;
             }
 
             // 创建计划任务
@@ -82,39 +87,7 @@ namespace Uestc.BBS.WinUI.Services
             taskService.Principal.RunLevel = TaskRunLevel.Highest;
             taskService.RegistrationInfo.Description = _startupInfo.Description;
 
-            return TaskService
-                .Instance.RootFolder.RegisterTaskDefinition(_startupInfo.Name, taskService)
-                .Enabled;
-        }
-
-        private async Task RequireAdministratorPermissionAsync()
-        {
-            var result = await new ContentDialog
-            {
-                XamlRoot = App.CurrentWindow!.Content.XamlRoot,
-                Title = "自启动",
-                PrimaryButtonText = "确 定",
-                CloseButtonText = "取 消",
-                DefaultButton = ContentDialogButton.Primary,
-                Content = "更改该设置需要管理员权限，现在重启应用？",
-            }.ShowAsync();
-
-            if (result != ContentDialogResult.Primary)
-            {
-                return;
-            }
-
-            // 以管理员身份重启应用
-            Process.Start(
-                new ProcessStartInfo
-                {
-                    FileName = Environment.ProcessPath,
-                    UseShellExecute = true,
-                    WorkingDirectory = Environment.CurrentDirectory,
-                    Verb = "runas",
-                }
-            );
-            WindowsHelper.Exit();
+            TaskService.Instance.RootFolder.RegisterTaskDefinition(_startupInfo.Name, taskService);
         }
     }
 }

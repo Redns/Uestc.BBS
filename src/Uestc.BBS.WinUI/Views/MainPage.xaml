@@ -65,7 +65,7 @@
                 controls:DockPanel.Dock="Right"
                 Background="Transparent"
                 BorderBrush="Transparent"
-                PointerPressed="PersonPicture_PointerPressed"
+                PointerPressed="OpenPersonalCenterFlyout"
                 ProfilePicture="https://bbs.uestc.edu.cn/uc_server/data/avatar/000/25/68/25_avatar_middle.jpg">
                 <FlyoutBase.AttachedFlyout>
                     <Flyout Placement="BottomEdgeAlignedRight">

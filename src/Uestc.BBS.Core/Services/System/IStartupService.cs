@@ -5,9 +5,7 @@ namespace Uestc.BBS.Core.Services.System
     /// </summary>
     public interface IStartupService
     {
-        bool Enable();
-
-        bool Disable();
+        void SetStartup(bool enabled);
     }
 
     /// <summary>
