@@ -1,6 +1,4 @@
-﻿using System.Text.Json;
-using System.Text.Json.Serialization;
-using System.Text.Json.Serialization.Metadata;
+﻿using System.Text.Json.Serialization;
 using FastEnumUtility;
 using Uestc.BBS.Core.Helpers.JsonConverters;
 using Uestc.BBS.Core.Services.Api.User;
@@ -194,20 +192,6 @@ namespace Uestc.BBS.Core.Services.Api.Forum
         /// </summary>
         [JsonPropertyName("Reply")]
         public Reply[] ReplyList { get; set; } = [];
-
-        /// <summary>
-        /// 序列化参数
-        /// </summary>
-        public static readonly JsonSerializerOptions SerializeOptions = new()
-        {
-            WriteIndented = true,
-            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-            PropertyNameCaseInsensitive = true,
-            TypeInfoResolver = JsonTypeInfoResolver.Combine(
-                TopicOverviewContext.Default,
-                new DefaultJsonTypeInfoResolver()
-            ),
-        };
     }
 
     /// <summary>
@@ -290,5 +274,10 @@ namespace Uestc.BBS.Core.Services.Api.Forum
     }
 
     [JsonSerializable(typeof(TopicOverview))]
+    [JsonSourceGenerationOptions(
+        WriteIndented = true,
+        PropertyNamingPolicy = JsonKnownNamingPolicy.CamelCase,
+        PropertyNameCaseInsensitive = true
+    )]
     public partial class TopicOverviewContext : JsonSerializerContext { }
 }

@@ -13,20 +13,25 @@ using Uestc.BBS.WinUI.Views;
 namespace Uestc.BBS.WinUI.ViewModels
 {
     public partial class AuthViewModel(
+        MainWindow mainWindow,
         ILogService logService,
         IAuthService authService,
         INotificationService notificationService,
         AppSettingModel appSettingModel
     ) : AuthViewModelBase(logService, authService, notificationService, appSettingModel)
     {
+        private readonly MainWindow _mainWindow = mainWindow;
+
         public override void NavigateToMainView()
         {
-            App.CurrentWindow?.Hide();
-            if (!AppSettingModel.Apperance.StartupAndShutdown.SlientStart)
+            App.CurrentWindow?.Close();
+            App.CurrentWindow = _mainWindow;
+            if (AppSettingModel.Apperance.StartupAndShutdown.SlientStart)
             {
-                App.CurrentWindow = ServiceExtension.Services.GetRequiredService<MainWindow>();
-                App.CurrentWindow.Activate();
+                App.CurrentWindow.Hide();
+                return;
             }
+            App.CurrentWindow.Activate();
         }
 
         [RelayCommand]

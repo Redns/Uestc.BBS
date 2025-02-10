@@ -53,19 +53,10 @@ namespace Uestc.BBS.Core
         /// 贡献者列表
         /// </summary>
         public List<Contributor> Contributors { get; init; } = [];
-
-        public static readonly JsonSerializerOptions SerializerOptions = new()
-        {
-            WriteIndented = true,
-            PropertyNameCaseInsensitive = true,
-            TypeInfoResolver = JsonTypeInfoResolver.Combine(
-                AppmanifestContext.Default,
-                new DefaultJsonTypeInfoResolver()
-            ),
-        };
     }
 
     [JsonSerializable(typeof(Appmanifest))]
+    [JsonSourceGenerationOptions(WriteIndented = true)]
     public partial class AppmanifestContext : JsonSerializerContext { }
 
     public class Contributor

@@ -32,10 +32,11 @@ namespace Uestc.BBS.WinUI
 
             ServiceExtension
                 .ConfigureCommonServices()
-                // Windows & Pages
-                .AddSingleton<AuthWindow>()
-                .AddSingleton<MainWindow>()
-                .AddSingleton<AuthPage>()
+                // Windows
+                .AddTransient<AuthWindow>()
+                .AddTransient<MainWindow>()
+                // Pages
+                .AddTransient<AuthPage>()
                 .AddSingleton<MainPage>()
                 .AddSingleton<HomePage>()
                 .AddSingleton<SectionsPage>()
@@ -43,20 +44,20 @@ namespace Uestc.BBS.WinUI
                 .AddSingleton<MomentsPage>()
                 .AddSingleton<PostPage>()
                 .AddSingleton<MessagesPage>()
-                .AddSingleton<SettingsPage>()
+                .AddTransient<SettingsPage>()
                 // ViewModels
-                .AddSingleton<AuthViewModel>()
-                .AddSingleton<MainViewModel>()
+                .AddTransient<AuthViewModel>()
+                .AddTransient<MainViewModel>()
                 .AddSingleton<HomeViewModel>()
-                .AddSingleton<SettingsViewModel>()
+                .AddTransient<SettingsViewModel>()
                 // Models
                 .AddSingleton<AppSettingModel>()
                 // Appmanifest
-                .AddSingleton(appmanifest =>
-                    JsonSerializer.Deserialize<Appmanifest>(
+                .AddSingleton(services =>
+                    JsonSerializer.Deserialize(
                         File.ReadAllText("Assets/appmanifest.json"),
-                        Appmanifest.SerializerOptions
-                    ) ?? throw new ArgumentNullException(nameof(appmanifest))
+                        AppmanifestContext.Default.Appmanifest
+                    ) ?? throw new ArgumentNullException()
                 )
                 // Notification
                 .AddSingleton<INotificationService>(n =>

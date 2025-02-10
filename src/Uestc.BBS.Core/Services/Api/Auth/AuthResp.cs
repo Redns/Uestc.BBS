@@ -1,6 +1,4 @@
-﻿using System.Text.Json;
-using System.Text.Json.Serialization;
-using System.Text.Json.Serialization.Metadata;
+﻿using System.Text.Json.Serialization;
 using Uestc.BBS.Core.Services.Api.User;
 
 namespace Uestc.BBS.Core.Services.Api.Auth
@@ -41,17 +39,6 @@ namespace Uestc.BBS.Core.Services.Api.Auth
         #endregion
 
         public Credit[] CreditShowList { get; set; } = [];
-
-        public static readonly JsonSerializerOptions SerializerOptions =
-            new()
-            {
-                WriteIndented = true,
-                PropertyNameCaseInsensitive = true,
-                TypeInfoResolver = JsonTypeInfoResolver.Combine(
-                    AuthRespContext.Default,
-                    new DefaultJsonTypeInfoResolver()
-                )
-            };
     }
 
     public class Credit
@@ -64,5 +51,6 @@ namespace Uestc.BBS.Core.Services.Api.Auth
     }
 
     [JsonSerializable(typeof(AuthResp))]
+    [JsonSourceGenerationOptions(WriteIndented = true, PropertyNameCaseInsensitive = true)]
     public partial class AuthRespContext : JsonSerializerContext { }
 }

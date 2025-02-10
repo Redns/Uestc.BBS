@@ -9,18 +9,26 @@ namespace Uestc.BBS.Core.Services.Api.Auth
 
         public async Task<AuthResp?> LoginAsync(string username, string password)
         {
-            using var resp = await _httpClient.PostAsync(string.Empty, new FormUrlEncodedContent(new Dictionary<string, string>
-            {
-                { nameof(username), username },
-                { nameof(password), password }
-            }));
+            using var resp = await _httpClient.PostAsync(
+                string.Empty,
+                new FormUrlEncodedContent(
+                    new Dictionary<string, string>
+                    {
+                        { nameof(username), username },
+                        { nameof(password), password }
+                    }
+                )
+            );
 
             if (resp.StatusCode is not HttpStatusCode.OK)
             {
                 return null;
             }
 
-            return await JsonSerializer.DeserializeAsync<AuthResp>(await resp.Content.ReadAsStreamAsync(), AuthResp.SerializerOptions);
+            return await JsonSerializer.DeserializeAsync(
+                await resp.Content.ReadAsStreamAsync(),
+                AuthRespContext.Default.AuthResp
+            );
         }
     }
 }

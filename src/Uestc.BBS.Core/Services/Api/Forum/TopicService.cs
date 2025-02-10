@@ -55,9 +55,9 @@ namespace Uestc.BBS.Core.Services.Api.Forum
                 return null;
             }
 
-            return JsonSerializer.Deserialize<TopicResp>(
+            return JsonSerializer.Deserialize(
                 await resp.Content.ReadAsStreamAsync(),
-                TopicResp.SerializerOptions
+                TopicRespContext.Default.TopicResp
             );
         }
     }

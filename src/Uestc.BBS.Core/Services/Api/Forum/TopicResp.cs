@@ -1,6 +1,4 @@
-﻿using System.Text.Json;
-using System.Text.Json.Serialization;
-using System.Text.Json.Serialization.Metadata;
+﻿using System.Text.Json.Serialization;
 using Uestc.BBS.Core.Helpers.JsonConverters;
 
 namespace Uestc.BBS.Core.Services.Api.Forum
@@ -32,17 +30,14 @@ namespace Uestc.BBS.Core.Services.Api.Forum
         /// 帖子摘要
         /// </summary>
         public TopicOverview[] List { get; set; } = [];
-
-        public static readonly JsonSerializerOptions SerializerOptions = new()
-        {
-            WriteIndented = true,
-            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-            PropertyNameCaseInsensitive = true,
-            TypeInfoResolver = JsonTypeInfoResolver.Combine(TopicRespContext.Default, new DefaultJsonTypeInfoResolver())
-        };
     }
 
     [JsonSerializable(typeof(TopicResp))]
+    [JsonSourceGenerationOptions(
+        WriteIndented = true,
+        PropertyNamingPolicy = JsonKnownNamingPolicy.CamelCase,
+        PropertyNameCaseInsensitive = true
+    )]
     public partial class TopicRespContext : JsonSerializerContext
     {
     }

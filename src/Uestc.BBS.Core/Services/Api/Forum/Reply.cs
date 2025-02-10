@@ -1,6 +1,4 @@
-﻿using System.Text.Json;
-using System.Text.Json.Serialization;
-using System.Text.Json.Serialization.Metadata;
+﻿using System.Text.Json.Serialization;
 
 namespace Uestc.BBS.Core.Services.Api.Forum
 {
@@ -25,23 +23,13 @@ namespace Uestc.BBS.Core.Services.Api.Forum
         /// 内容
         /// </summary>
         public string Text { get; set; } = string.Empty;
-
-        /// <summary>
-        /// 序列化参数
-        /// </summary>
-        public static readonly JsonSerializerOptions SerializeOptions =
-            new()
-            {
-                WriteIndented = true,
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-                PropertyNameCaseInsensitive = true,
-                TypeInfoResolver = JsonTypeInfoResolver.Combine(
-                    ReplyContext.Default,
-                    new DefaultJsonTypeInfoResolver()
-                )
-            };
     }
 
     [JsonSerializable(typeof(Reply))]
+    [JsonSourceGenerationOptions(
+        WriteIndented = true,
+        PropertyNamingPolicy = JsonKnownNamingPolicy.CamelCase,
+        PropertyNameCaseInsensitive = true
+    )]
     public partial class ReplyContext : JsonSerializerContext { }
 }
