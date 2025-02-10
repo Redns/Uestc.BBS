@@ -400,30 +400,15 @@ namespace Uestc.BBS.Mvvm.Models
         /// <summary>
         /// 静默启动
         /// </summary>
-        public bool SlientStart
+        public bool SilentStart
         {
-            get => startupAndShutdownSetting.SlientStart;
+            get => startupAndShutdownSetting.SilentStart;
             set =>
                 SetProperty(
-                    startupAndShutdownSetting.SlientStart,
+                    startupAndShutdownSetting.SilentStart,
                     value,
                     startupAndShutdownSetting,
-                    (setting, enabled) => setting.SlientStart = enabled
-                );
-        }
-
-        /// <summary>
-        /// 开机自启动
-        /// </summary>
-        public bool StartupOnLaunch
-        {
-            get => startupAndShutdownSetting.StartupOnLaunch;
-            set =>
-                SetProperty(
-                    startupAndShutdownSetting.StartupOnLaunch,
-                    value,
-                    startupAndShutdownSetting,
-                    (setting, enabled) => setting.StartupOnLaunch = enabled
+                    (setting, enabled) => setting.SilentStart = enabled
                 );
         }
 

@@ -1,14 +1,11 @@
-using System;
 using System.Collections.Generic;
 using FastEnumUtility;
-using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Uestc.BBS.Core;
 using Uestc.BBS.Core.Helpers;
 using Uestc.BBS.Core.Services.Notification;
 using Uestc.BBS.Core.Services.System;
-using Uestc.BBS.WinUI.Helpers;
 using Uestc.BBS.WinUI.ViewModels;
 
 namespace Uestc.BBS.WinUI.Views
@@ -48,56 +45,11 @@ namespace Uestc.BBS.WinUI.Views
             _notificationService = notificationService;
         }
 
-        private void OpenContributorHomepage(object sender, PointerRoutedEventArgs e)
+        private void OpenContributorHomepage(object sender, PointerRoutedEventArgs _)
         {
             if (sender is PersonPicture picture && picture.Tag is string homePage)
             {
                 OperatingSystemHelper.OpenWebsite(homePage);
-            }
-        }
-
-        private void ToggleStartupOnLaunch(object sender, RoutedEventArgs e)
-        {
-            if (sender is not ToggleSwitch toggleSwitch)
-            {
-                return;
-            }
-
-            if (
-                toggleSwitch.IsOn
-                == ViewModel.AppSettingModel.Apperance.StartupAndShutdown.StartupOnLaunch
-            )
-            {
-                return;
-            }
-
-            try
-            {
-                _startupService.SetStartup(toggleSwitch.IsOn);
-                ViewModel.AppSettingModel.Apperance.StartupAndShutdown.StartupOnLaunch =
-                    toggleSwitch.IsOn;
-            }
-            catch (UnauthorizedAccessException)
-            {
-                toggleSwitch.IsOn = ViewModel
-                    .AppSettingModel
-                    .Apperance
-                    .StartupAndShutdown
-                    .StartupOnLaunch;
-                _ = App.CurrentWindow?.RequireAdministratorPermissionAsync();
-            }
-            catch (Exception ex)
-            {
-                toggleSwitch.IsOn = ViewModel
-                    .AppSettingModel
-                    .Apperance
-                    .StartupAndShutdown
-                    .StartupOnLaunch;
-                _notificationService.Show(
-                    $"{(toggleSwitch.IsOn ? "开启" : "关闭")}自启动服务失败",
-                    ex.Message
-                );
-                _logService.Error("Startup service set failed", ex);
             }
         }
     }

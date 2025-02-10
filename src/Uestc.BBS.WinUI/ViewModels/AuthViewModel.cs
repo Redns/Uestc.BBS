@@ -22,7 +22,7 @@ namespace Uestc.BBS.WinUI.ViewModels
         {
             App.CurrentWindow?.Close();
             App.CurrentWindow = _mainWindow;
-            if (AppSettingModel.Apperance.StartupAndShutdown.SlientStart)
+            if (AppSettingModel.Apperance.StartupAndShutdown.SilentStart)
             {
                 App.CurrentWindow.Hide();
                 return;

@@ -312,12 +312,7 @@ namespace Uestc.BBS.Core
         /// <summary>
         /// 静默启动
         /// </summary>
-        public bool SlientStart { get; set; } = false;
-
-        /// <summary>
-        /// 开机自启动
-        /// </summary>
-        public bool StartupOnLaunch { get; set; } = false;
+        public bool SilentStart { get; set; } = false;
 
         /// <summary>
         /// 固定窗口

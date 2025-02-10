@@ -221,11 +221,8 @@
                 Header="启动与关闭"
                 HeaderIcon="{ui:FontIcon Glyph=&#xE7B5;}">
                 <controls:SettingsExpander.Items>
-                    <controls:SettingsCard Header="自启动">
-                        <ToggleSwitch IsOn="{x:Bind ViewModel.AppSettingModel.Apperance.StartupAndShutdown.StartupOnLaunch, Mode=OneWay}" Toggled="ToggleStartupOnLaunch" />
-                    </controls:SettingsCard>
                     <controls:SettingsCard Description="启动后仅显示托盘图标" Header="静默启动">
-                        <ToggleSwitch IsOn="{x:Bind ViewModel.AppSettingModel.Apperance.StartupAndShutdown.SlientStart, Mode=TwoWay}" />
+                        <ToggleSwitch IsOn="{x:Bind ViewModel.AppSettingModel.Apperance.StartupAndShutdown.SilentStart, Mode=TwoWay}" />
                     </controls:SettingsCard>
                     <controls:SettingsCard Description="效率模式可减少后台进程对 CPU 的占用（仅 Win11 支持）" Header="窗口关闭行为">
                         <ComboBox ItemsSource="{x:Bind WindowCloseBehaviors}" SelectedItem="{x:Bind ViewModel.AppSettingModel.Apperance.StartupAndShutdown.WindowCloseBehavior, Mode=TwoWay}">

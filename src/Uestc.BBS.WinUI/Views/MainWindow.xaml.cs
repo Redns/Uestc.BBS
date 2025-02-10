@@ -62,6 +62,22 @@ namespace Uestc.BBS.WinUI.Views
         }
 
         [RelayCommand]
+        private void ToggleSilentStart() =>
+            ViewModel.AppSettingModel.Apperance.StartupAndShutdown.SilentStart = !ViewModel
+                .AppSettingModel
+                .Apperance
+                .StartupAndShutdown
+                .SilentStart;
+
+        [RelayCommand]
+        private void ToggleDailysentenceEnabled() =>
+            ViewModel.AppSettingModel.Apperance.SearchBar.IsDailySentenceEnabled = !ViewModel
+                .AppSettingModel
+                .Apperance
+                .SearchBar
+                .IsDailySentenceEnabled;
+
+        [RelayCommand]
         private void Restart()
         {
             ViewModel.AppSettingModel.Save();

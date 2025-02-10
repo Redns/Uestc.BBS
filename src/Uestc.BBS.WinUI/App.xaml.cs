@@ -119,7 +119,7 @@ namespace Uestc.BBS.WinUI
                 }
 
                 CurrentWindow = ServiceExtension.Services.GetRequiredService<MainWindow>();
-                if (appSetting.Apperance.StartupAndShutdown.SlientStart)
+                if (appSetting.Apperance.StartupAndShutdown.SilentStart)
                 {
                     CurrentWindow.Hide(
                         appSetting.Apperance.StartupAndShutdown.WindowCloseBehavior
