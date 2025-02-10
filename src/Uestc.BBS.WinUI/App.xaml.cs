@@ -30,6 +30,7 @@ namespace Uestc.BBS.WinUI
                 Environment.Exit(0);
             }
 
+            // 依赖注入
             ServiceExtension
                 .ConfigureCommonServices()
                 // Windows
@@ -87,6 +88,19 @@ namespace Uestc.BBS.WinUI
                     };
                     return new WindowsStartupService(startupInfo);
                 });
+
+            // 应用退出时保存设置
+            AppDomain.CurrentDomain.ProcessExit += (sender, args) =>
+                ServiceExtension.Services.GetRequiredService<AppSetting>().Save();
+
+            // 捕获并记录未处理异常
+            Current.UnhandledException += (sender, args) =>
+            {
+                ServiceExtension
+                    .Services.GetRequiredService<ILogService>()
+                    .Error(args.Message, args.Exception);
+                ServiceExtension.Services.GetRequiredService<AppSetting>().Save();
+            };
         }
 
         protected override void OnLaunched(LaunchActivatedEventArgs args)

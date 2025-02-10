@@ -7,11 +7,9 @@ namespace Uestc.BBS.WinUI.Views
 {
     public sealed partial class AuthWindow : WindowEx
     {
-        public AuthWindow(AuthPage authPage, AppSettingModel appSettingModel)
+        public AuthWindow(AppSettingModel appSettingModel)
         {
             InitializeComponent();
-
-            AuthPage.Content = authPage;
 
             // …Ë÷√¥∞ø⁄Œª÷√
             this.CenterOnScreen();

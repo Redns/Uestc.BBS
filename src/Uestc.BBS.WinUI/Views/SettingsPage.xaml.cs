@@ -1,7 +1,5 @@
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using FastEnumUtility;
-using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Uestc.BBS.Core;
@@ -27,15 +25,6 @@ namespace Uestc.BBS.WinUI.Views
             InitializeComponent();
 
             ViewModel = viewModel;
-        }
-
-        protected override void OnLostFocus(RoutedEventArgs e)
-        {
-            _ = Task.Run(() =>
-            {
-                ViewModel.AppSettingModel.Save();
-            });
-            base.OnLostFocus(e);
         }
 
         private void OpenContributorHomepage(object sender, PointerRoutedEventArgs e)

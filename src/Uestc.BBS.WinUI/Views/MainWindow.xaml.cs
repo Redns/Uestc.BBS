@@ -18,14 +18,12 @@ namespace Uestc.BBS.WinUI.Views
 
         private MainViewModel ViewModel { get; init; }
 
-        public MainWindow(MainPage mainPage, MainViewModel viewModel, Appmanifest appmanifest)
+        public MainWindow(MainViewModel viewModel, Appmanifest appmanifest)
         {
             InitializeComponent();
 
             ViewModel = viewModel;
             _appmanifest = appmanifest;
-
-            MainPage.Content = mainPage;
 
             // 设置窗口位置
             this.CenterOnScreen();

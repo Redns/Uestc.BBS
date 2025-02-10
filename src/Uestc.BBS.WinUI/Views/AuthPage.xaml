@@ -5,11 +5,11 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="using:CommunityToolkit.WinUI.Controls"
     xmlns:converters="using:CommunityToolkit.WinUI.Converters"
-    xmlns:core="using:Uestc.BBS.Core"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:local="using:Uestc.BBS.WinUI.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="using:Uestc.BBS.Mvvm.Models"
     mc:Ignorable="d">
     <Page.Resources>
         <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
@@ -34,35 +34,32 @@
         </Image>
         <!--  用户名  -->
         <AutoSuggestBox
+            x:Name="UsernameAutoSuggestBox"
             Margin="0,18,0,0"
             PlaceholderText="用户名"
+            SuggestionChosen="SelectAuthCredential"
             Text="{x:Bind ViewModel.Username, Mode=TwoWay}"
-            TextChanged="Username_AutoSuggestBox_TextChanged">
-            <interactivity:Interaction.Behaviors>
-                <interactivity:EventTriggerBehavior EventName="SuggestionChosen">
-                    <interactivity:EventTriggerBehavior.Actions>
-                        <interactivity:InvokeCommandAction Command="{x:Bind ViewModel.SelectCredentialCommand}" />
-                    </interactivity:EventTriggerBehavior.Actions>
-                </interactivity:EventTriggerBehavior>
-            </interactivity:Interaction.Behaviors>
+            TextChanged="FilterAuthCredentials">
             <AutoSuggestBox.ItemTemplate>
-                <DataTemplate x:DataType="core:AuthCredential">
+                <DataTemplate x:DataType="models:AuthCredentialModel">
                     <controls:DockPanel
                         Margin="0,5"
                         HorizontalSpacing="10"
                         LastChildFill="False">
-                        <PersonPicture Width="32" ProfilePicture="{x:Bind Avatar, Mode=OneTime}" />
+                        <PersonPicture Width="32" ProfilePicture="{x:Bind Avatar, Mode=OneWay}" />
                         <StackPanel VerticalAlignment="Center">
-                            <TextBlock VerticalAlignment="Center" Text="{x:Bind Name, Mode=OneTime}" />
+                            <TextBlock VerticalAlignment="Center" Text="{x:Bind Name, Mode=OneWay}" />
                             <TextBlock
                                 FontSize="12"
                                 Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                Text="{x:Bind Uid, Mode=OneTime}" />
+                                Text="{x:Bind Uid, Mode=OneWay}" />
                         </StackPanel>
                         <AppBarButton
                             Width="40"
                             Height="47"
                             controls:DockPanel.Dock="Right"
+                            Click="DeleteAuthCredential"
+                            Tag="{Binding}"
                             ToolTipService.ToolTip="删除账号信息">
                             <FontIcon Glyph="&#xE74D;" />
                         </AppBarButton>

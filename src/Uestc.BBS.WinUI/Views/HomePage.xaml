@@ -12,7 +12,7 @@
     mc:Ignorable="d">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="320" />
+            <ColumnDefinition Width="330" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
@@ -35,11 +35,13 @@
                 Grid.Row="1"
                 Margin="0,10"
                 VerticalScrollBarVisibility="Hidden">
-                <ItemsRepeater ItemsSource="{x:Bind ViewModel.BoardTabItems[0].Topics, Mode=OneWay}">
-                    <ItemsRepeater.Layout>
-                        <StackLayout Spacing="10" />
-                    </ItemsRepeater.Layout>
-                    <ItemsRepeater.ItemTemplate>
+                <ItemsControl ItemsSource="{x:Bind ViewModel.AppSettingModel.Apperance.BoardTabItems[0].Topics, Mode=OneWay}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Spacing="10" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
                         <DataTemplate x:DataType="forum:TopicOverview">
                             <local_controls:TopicOverview
                                 Title="{x:Bind Title}"
@@ -53,8 +55,8 @@
                                 Username="{x:Bind UserNickName}"
                                 Views="{x:Bind Views}" />
                         </DataTemplate>
-                    </ItemsRepeater.ItemTemplate>
-                </ItemsRepeater>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
             </ScrollViewer>
         </Grid>
 

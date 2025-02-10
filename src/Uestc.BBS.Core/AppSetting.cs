@@ -160,7 +160,7 @@ namespace Uestc.BBS.Core
         /// <summary>
         /// 侧边栏菜单列表
         /// </summary>
-        public MenuItem[] MenuItems { get; set; } =
+        public List<MenuItem> MenuItems { get; init; } =
             [
                 new MenuItem
                 {
@@ -223,7 +223,7 @@ namespace Uestc.BBS.Core
         /// <summary>
         /// 首页版块 Tab 栏
         /// </summary>
-        public BoardTabItem[] BoardTabItems { get; set; } =
+        public List<BoardTabItem> BoardTabItems { get; init; } =
             [
                 new()
                 {
@@ -550,7 +550,7 @@ namespace Uestc.BBS.Core
         /// <summary>
         /// 授权信息列表（保存本地所有授权信息）
         /// </summary>
-        public List<AuthCredential> Credentials { get; set; } = [];
+        public List<AuthCredential> Credentials { get; init; } = [];
     }
 
     /// <summary>

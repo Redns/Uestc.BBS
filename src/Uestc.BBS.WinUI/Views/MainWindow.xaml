@@ -38,7 +38,7 @@
                 </MenuFlyout>
             </tb:TaskbarIcon.ContextFlyout>
         </tb:TaskbarIcon>
-        <Frame x:Name="MainPage" />
+        <local:MainPage />
     </Grid>
 
 </winex:WindowEx>

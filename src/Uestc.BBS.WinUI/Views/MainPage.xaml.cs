@@ -11,12 +11,11 @@ namespace Uestc.BBS.WinUI.Views
 {
     public sealed partial class MainPage : Page
     {
-        private MainViewModel ViewModel { get; init; }
+        private MainViewModel ViewModel { get; init; } =
+            ServiceExtension.Services.GetRequiredService<MainViewModel>();
 
-        public MainPage(MainViewModel viewModel)
+        public MainPage()
         {
-            ViewModel = viewModel;
-
             InitializeComponent();
 
             // 设置侧边栏默认导航选项
@@ -51,20 +50,21 @@ namespace Uestc.BBS.WinUI.Views
             page switch
             {
                 nameof(HomePage) => ServiceExtension.Services.GetRequiredService<HomePage>(),
-                nameof(SectionsPage) =>
-                    ServiceExtension.Services.GetRequiredService<SectionsPage>(),
-                nameof(ServicesPage) =>
-                    ServiceExtension.Services.GetRequiredService<ServicesPage>(),
+                nameof(SectionsPage)
+                    => ServiceExtension.Services.GetRequiredService<SectionsPage>(),
+                nameof(ServicesPage)
+                    => ServiceExtension.Services.GetRequiredService<ServicesPage>(),
                 nameof(MomentsPage) => ServiceExtension.Services.GetRequiredService<MomentsPage>(),
                 nameof(PostPage) => ServiceExtension.Services.GetRequiredService<PostPage>(),
-                nameof(MessagesPage) =>
-                    ServiceExtension.Services.GetRequiredService<MessagesPage>(),
-                nameof(SettingsPage) =>
-                    ServiceExtension.Services.GetRequiredService<SettingsPage>(),
-                _ => throw new ArgumentException(
-                    $"Navigate failed, unknown page {page}",
-                    nameof(page)
-                ),
+                nameof(MessagesPage)
+                    => ServiceExtension.Services.GetRequiredService<MessagesPage>(),
+                nameof(SettingsPage)
+                    => ServiceExtension.Services.GetRequiredService<SettingsPage>(),
+                _
+                    => throw new ArgumentException(
+                        $"Navigate failed, unknown page {page}",
+                        nameof(page)
+                    ),
             };
 
         private void PersonPicture_PointerPressed(object sender, PointerRoutedEventArgs e)

@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Uestc.BBS.Core;
 using Uestc.BBS.Core.Services.Api.Forum;
@@ -8,6 +9,11 @@ namespace Uestc.BBS.Mvvm.Models
 {
     public partial class AppSettingModel(AppSetting setting) : ObservableObject
     {
+        /// <summary>
+        /// 应用设置
+        /// </summary>
+        public AppSetting AppSetting => setting;
+
         /// <summary>
         /// 外观设置
         /// </summary>
@@ -40,19 +46,91 @@ namespace Uestc.BBS.Mvvm.Models
     /// <summary>
     /// 外观设置
     /// </summary>
-    public class ApperanceSettingModel(ApperanceSetting apperanceSetting) : ObservableObject
+    public class ApperanceSettingModel : ObservableObject
     {
+        private readonly ApperanceSetting _apperanceSetting;
+
+        public ApperanceSettingModel(ApperanceSetting apperanceSetting)
+        {
+            _apperanceSetting = apperanceSetting;
+
+            SearchBar = new SearchBarSettingModel(apperanceSetting.SearchBar);
+            StartupAndShutdown = new StartupAndShutdownSettingModel(
+                apperanceSetting.StartupAndShutdown
+            );
+            Browsing = new BrowsingSettingModel(apperanceSetting.Browsing);
+            Comment = new CommentSettingModel(apperanceSetting.Comment);
+            MenuItems = [.. apperanceSetting.MenuItems.Select(item => new MenuItemModel(item))];
+            BoardTabItems =
+            [
+                .. apperanceSetting.BoardTabItems.Select(item => new BoardTabItemModel(item))
+            ];
+
+            MenuItems.CollectionChanged += (sender, args) =>
+            {
+                switch (args.Action)
+                {
+                    case NotifyCollectionChangedAction.Add:
+                        apperanceSetting.MenuItems.AddRange(
+                            args.NewItems!.Cast<MenuItemModel>().Select(item => item.MenuItem)
+                        );
+                        break;
+
+                    case NotifyCollectionChangedAction.Remove:
+                        foreach (
+                            var item in args.OldItems!.Cast<MenuItemModel>()
+                                .Select(item => item.MenuItem)
+                        )
+                        {
+                            apperanceSetting.MenuItems.Remove(item);
+                        }
+                        break;
+                    default:
+                        throw new ArgumentException(
+                            "Unhandled collection change action.",
+                            nameof(args)
+                        );
+                }
+            };
+            BoardTabItems.CollectionChanged += (sender, args) =>
+            {
+                switch (args.Action)
+                {
+                    case NotifyCollectionChangedAction.Add:
+                        apperanceSetting.BoardTabItems.AddRange(
+                            args.NewItems!.Cast<BoardTabItemModel>()
+                                .Select(item => item.BoardTabItem)
+                        );
+                        break;
+                    case NotifyCollectionChangedAction.Remove:
+                        foreach (
+                            var item in args.OldItems!.Cast<BoardTabItemModel>()
+                                .Select(item => item.BoardTabItem)
+                        )
+                        {
+                            apperanceSetting.BoardTabItems.Remove(item);
+                        }
+                        break;
+                    default:
+                        throw new ArgumentException(
+                            "Unhandled collection change action.",
+                            nameof(args)
+                        );
+                }
+            };
+        }
+
         /// <summary>
         /// 主题
         /// </summary>
         public ThemeColor ThemeColor
         {
-            get => apperanceSetting.ThemeColor;
+            get => _apperanceSetting.ThemeColor;
             set =>
                 SetProperty(
-                    apperanceSetting.ThemeColor,
+                    _apperanceSetting.ThemeColor,
                     value,
-                    apperanceSetting,
+                    _apperanceSetting,
                     (setting, theme) => setting.ThemeColor = theme
                 );
         }
@@ -62,12 +140,12 @@ namespace Uestc.BBS.Mvvm.Models
         /// </summary>
         public bool IsTopNavigateBarEnabled
         {
-            get => apperanceSetting.IsTopNavigateBarEnabled;
+            get => _apperanceSetting.IsTopNavigateBarEnabled;
             set =>
                 SetProperty(
-                    apperanceSetting.IsTopNavigateBarEnabled,
+                    _apperanceSetting.IsTopNavigateBarEnabled,
                     value,
-                    apperanceSetting,
+                    _apperanceSetting,
                     (setting, enabled) => setting.IsTopNavigateBarEnabled = enabled
                 );
         }
@@ -75,158 +153,191 @@ namespace Uestc.BBS.Mvvm.Models
         /// <summary>
         /// 搜索栏
         /// </summary>
-        public SearchBarSettingModel SearchBar { get; set; } = new(apperanceSetting.SearchBar);
+        public SearchBarSettingModel SearchBar { get; init; }
 
         /// <summary>
         /// 启动和关闭设置
         /// </summary>
-        public StartupAndShutdownSettingModel StartupAndShutdown { get; set; } =
-            new(apperanceSetting.StartupAndShutdown);
+        public StartupAndShutdownSettingModel StartupAndShutdown { get; init; }
 
         /// <summary>
         /// 浏览设置
         /// </summary>
-        public BrowsingSettingModel Browsing { get; set; } = new(apperanceSetting.Browsing);
+        public BrowsingSettingModel Browsing { get; init; }
 
         /// <summary>
         /// 评论设置
         /// </summary>
-        public CommentSettingModel Comment { get; set; } = new(apperanceSetting.Comment);
+        public CommentSettingModel Comment { get; init; }
 
         /// <summary>
         /// 侧边栏菜单列表
         /// </summary>
-        public MenuItem[] MenuItems { get; set; } =
-            [
-                new MenuItem
-                {
-                    Key = "Home",
-                    Name = "主 页",
-                    Symbol = "Home",
-                    IsActive = true,
-                    DockTop = true,
-                },
-                new MenuItem
-                {
-                    Key = "Sections",
-                    Name = "版 块",
-                    Symbol = "Apps",
-                    IsActive = false,
-                    DockTop = true,
-                },
-                new MenuItem
-                {
-                    Key = "Services",
-                    Name = "服 务",
-                    Symbol = "Rocket",
-                    IsActive = false,
-                    DockTop = true,
-                },
-                new MenuItem
-                {
-                    Key = "Moments",
-                    Name = "动 态",
-                    Symbol = "Scan",
-                    IsActive = false,
-                    DockTop = true,
-                },
-                new MenuItem
-                {
-                    Key = "Post",
-                    Name = "发 布",
-                    Symbol = "SaveCopy",
-                    IsActive = false,
-                    DockTop = true,
-                },
-                new MenuItem
-                {
-                    Key = "Settings",
-                    Name = "设 置",
-                    Symbol = "Settings",
-                    IsActive = false,
-                    DockTop = false,
-                },
-                new MenuItem
-                {
-                    Key = "Messages",
-                    Name = "消 息",
-                    Symbol = "Mail",
-                    IsActive = false,
-                    DockTop = false,
-                },
-            ];
+        public ObservableCollection<MenuItemModel> MenuItems { get; init; }
 
         /// <summary>
         /// 首页版块 Tab 栏
         /// </summary>
-        public BoardTabItem[] BoardTabItems { get; set; } =
-            [
-                new()
-                {
-                    Name = "最新发表",
-                    Route = "forum/topiclist",
-                    Board = Board.Latest,
-                    SortType = TopicSortType.New,
-                    PageSize = 15,
-                    RequirePreviewSources = true,
-                    ModuleId = 0,
-                },
-                new()
-                {
-                    Name = "最新回复",
-                    Route = "forum/topiclist",
-                    Board = Board.Latest,
-                    SortType = TopicSortType.All,
-                    PageSize = 15,
-                    RequirePreviewSources = true,
-                    ModuleId = 0,
-                },
-                new()
-                {
-                    Name = "热门",
-                    Route = "portal/newslist",
-                    Board = Board.Anonymous,
-                    SortType = TopicSortType.All,
-                    PageSize = 15,
-                    RequirePreviewSources = true,
-                    ModuleId = 2,
-                },
-                new()
-                {
-                    Name = "精华",
-                    Route = "forum/topiclist",
-                    Board = Board.Latest,
-                    SortType = TopicSortType.Essence,
-                    PageSize = 15,
-                    RequirePreviewSources = true,
-                    ModuleId = 0,
-                },
-                new()
-                {
-                    Name = "淘专辑",
-                    Route = "forum/topiclist",
-                    Board = Board.ExamiHome,
-                    SortType = TopicSortType.New,
-                    PageSize = 15,
-                    RequirePreviewSources = true,
-                    ModuleId = 0,
-                },
-            ];
+        public ObservableCollection<BoardTabItemModel> BoardTabItems { get; init; }
 
         /// <summary>
         /// 官方论坛链接
         /// </summary>
         public string OfficialWebsite
         {
-            get => apperanceSetting.OfficialWebsite;
+            get => _apperanceSetting.OfficialWebsite;
             set =>
                 SetProperty(
-                    apperanceSetting.OfficialWebsite,
+                    _apperanceSetting.OfficialWebsite,
                     value,
-                    apperanceSetting,
+                    _apperanceSetting,
                     (setting, website) => setting.OfficialWebsite = website
                 );
         }
+    }
+
+    public class MenuItemModel(MenuItem menuItem) : ObservableObject
+    {
+        public MenuItem MenuItem => menuItem;
+
+        public string Key
+        {
+            get => menuItem.Key;
+            set => SetProperty(menuItem.Key, value, menuItem, (item, key) => item.Key = key);
+        }
+
+        public string Name
+        {
+            get => menuItem.Name;
+            set => SetProperty(menuItem.Name, value, menuItem, (item, name) => item.Name = name);
+        }
+
+        public string Symbol
+        {
+            get => menuItem.Symbol;
+            set =>
+                SetProperty(
+                    menuItem.Symbol,
+                    value,
+                    menuItem,
+                    (item, symbol) => item.Symbol = symbol
+                );
+        }
+
+        public bool IsActive
+        {
+            get => menuItem.IsActive;
+            set =>
+                SetProperty(
+                    menuItem.IsActive,
+                    value,
+                    menuItem,
+                    (item, active) => item.IsActive = active
+                );
+        }
+
+        public bool DockTop
+        {
+            get => menuItem.DockTop;
+            set =>
+                SetProperty(
+                    menuItem.DockTop,
+                    value,
+                    menuItem,
+                    (item, dockTop) => item.DockTop = dockTop
+                );
+        }
+    }
+
+    public class BoardTabItemModel(BoardTabItem boardTabItem) : ObservableObject
+    {
+        public BoardTabItem BoardTabItem => boardTabItem;
+
+        public string Name
+        {
+            get => boardTabItem.Name;
+            set =>
+                SetProperty(
+                    boardTabItem.Name,
+                    value,
+                    boardTabItem,
+                    (item, name) => item.Name = name
+                );
+        }
+
+        public string Route
+        {
+            get => boardTabItem.Route;
+            set =>
+                SetProperty(
+                    boardTabItem.Route,
+                    value,
+                    boardTabItem,
+                    (item, route) => item.Route = route
+                );
+        }
+
+        public Board Board
+        {
+            get => boardTabItem.Board;
+            set =>
+                SetProperty(
+                    boardTabItem.Board,
+                    value,
+                    boardTabItem,
+                    (item, board) => item.Board = board
+                );
+        }
+
+        public TopicSortType SortType
+        {
+            get => boardTabItem.SortType;
+            set =>
+                SetProperty(
+                    boardTabItem.SortType,
+                    value,
+                    boardTabItem,
+                    (item, sortType) => item.SortType = sortType
+                );
+        }
+
+        public uint PageSize
+        {
+            get => boardTabItem.PageSize;
+            set =>
+                SetProperty(
+                    boardTabItem.PageSize,
+                    value,
+                    boardTabItem,
+                    (item, pageSize) => item.PageSize = pageSize
+                );
+        }
+
+        public bool RequirePreviewSources
+        {
+            get => boardTabItem.RequirePreviewSources;
+            set =>
+                SetProperty(
+                    boardTabItem.RequirePreviewSources,
+                    value,
+                    boardTabItem,
+                    (item, require) => item.RequirePreviewSources = require
+                );
+        }
+
+        public uint ModuleId
+        {
+            get => boardTabItem.ModuleId;
+            set =>
+                SetProperty(
+                    boardTabItem.ModuleId,
+                    value,
+                    boardTabItem,
+                    (item, moduleId) => item.ModuleId = moduleId
+                );
+        }
+
+        public ObservableCollection<TopicOverview> Topics { get; init; } = [];
     }
 
     /// <summary>
@@ -584,19 +695,53 @@ namespace Uestc.BBS.Mvvm.Models
     /// <summary>
     /// 授权设置
     /// </summary>
-    public class AuthSettingModel(AuthSetting authSetting) : ObservableObject
+    public class AuthSettingModel : ObservableObject
     {
+        private readonly AuthSetting _authSetting;
+
+        public AuthSettingModel(AuthSetting authSetting)
+        {
+            _authSetting = authSetting;
+
+            Credentials = [.. _authSetting.Credentials.Select(c => new AuthCredentialModel(c))];
+            Credentials.CollectionChanged += (sender, args) =>
+            {
+                switch (args.Action)
+                {
+                    case NotifyCollectionChangedAction.Add:
+                        authSetting.Credentials.AddRange(
+                            args.NewItems!.Cast<AuthCredentialModel>().Select(c => c.AuthCredential)
+                        );
+                        break;
+                    case NotifyCollectionChangedAction.Remove:
+                        foreach (
+                            var item in args.OldItems!.Cast<AuthCredentialModel>()
+                                .Select(c => c.AuthCredential)
+                        )
+                        {
+                            authSetting.Credentials.Remove(item);
+                        }
+                        break;
+                    default:
+                        throw new ArgumentException(
+                            "Unhandled collection change action.",
+                            nameof(args)
+                        );
+                }
+            };
+        }
+
         /// <summary>
         /// 自动登录
         /// </summary>
         public bool AutoLogin
         {
-            get => authSetting.AutoLogin;
+            get => _authSetting.AutoLogin;
             set =>
                 SetProperty(
-                    authSetting.AutoLogin,
+                    _authSetting.AutoLogin,
                     value,
-                    authSetting,
+                    _authSetting,
                     (setting, autoLogin) => setting.AutoLogin = autoLogin
                 );
         }
@@ -606,12 +751,12 @@ namespace Uestc.BBS.Mvvm.Models
         /// </summary>
         public bool RememberPassword
         {
-            get => authSetting.RememberPassword;
+            get => _authSetting.RememberPassword;
             set =>
                 SetProperty(
-                    authSetting.RememberPassword,
+                    _authSetting.RememberPassword,
                     value,
-                    authSetting,
+                    _authSetting,
                     (setting, rememberPassword) => setting.RememberPassword = rememberPassword
                 );
         }
@@ -621,12 +766,12 @@ namespace Uestc.BBS.Mvvm.Models
         /// </summary>
         public uint DefaultCredentialUid
         {
-            get => authSetting.DefaultCredentialUid;
+            get => _authSetting.DefaultCredentialUid;
             set =>
                 SetProperty(
-                    authSetting.DefaultCredentialUid,
+                    _authSetting.DefaultCredentialUid,
                     value,
-                    authSetting,
+                    _authSetting,
                     (setting, defaultCredentialUid) =>
                         setting.DefaultCredentialUid = defaultCredentialUid
                 );
@@ -635,18 +780,115 @@ namespace Uestc.BBS.Mvvm.Models
         /// <summary>
         /// 默认授权信息
         /// </summary>
-        public AuthCredential? DefaultCredential => authSetting.DefaultCredential;
+        public AuthCredential? DefaultCredential => _authSetting.DefaultCredential;
 
         /// <summary>
         /// 用戶是否授权
         /// </summary>
-        public bool IsUserAuthed => authSetting.IsUserAuthed;
+        public bool IsUserAuthed => _authSetting.IsUserAuthed;
 
         /// <summary>
         /// 授权信息列表（保存本地所有授权信息）
         /// </summary>
-        public ObservableCollection<AuthCredential> Credentials { get; set; } =
-            [.. authSetting.Credentials];
+        public ObservableCollection<AuthCredentialModel> Credentials { get; init; }
+    }
+
+    public class AuthCredentialModel(AuthCredential authCredential) : ObservableObject
+    {
+        /// <summary>
+        /// 授权信息
+        /// </summary>
+        public AuthCredential AuthCredential => authCredential;
+
+        /// <summary>
+        /// Uid
+        /// </summary>
+        public uint Uid
+        {
+            get => authCredential.Uid;
+            set =>
+                SetProperty(
+                    authCredential.Uid,
+                    value,
+                    authCredential,
+                    (credential, uid) => credential.Uid = uid
+                );
+        }
+
+        /// <summary>
+        /// 名称
+        /// </summary>
+        public string Name
+        {
+            get => authCredential.Name;
+            set =>
+                SetProperty(
+                    authCredential.Name,
+                    value,
+                    authCredential,
+                    (credential, name) => credential.Name = name
+                );
+        }
+
+        /// <summary>
+        /// 密码
+        /// </summary>
+        public string Password
+        {
+            get => authCredential.Password;
+            set =>
+                SetProperty(
+                    authCredential.Password,
+                    value,
+                    authCredential,
+                    (credential, password) => credential.Password = password
+                );
+        }
+
+        /// <summary>
+        /// Token
+        /// </summary>
+        public string Token
+        {
+            get => authCredential.Token;
+            set =>
+                SetProperty(
+                    authCredential.Token,
+                    value,
+                    authCredential,
+                    (credential, token) => credential.Token = token
+                );
+        }
+
+        /// <summary>
+        /// Secret
+        /// </summary>
+        public string Secret
+        {
+            get => authCredential.Secret;
+            set =>
+                SetProperty(
+                    authCredential.Secret,
+                    value,
+                    authCredential,
+                    (credential, secert) => credential.Secret = secert
+                );
+        }
+
+        /// <summary>
+        /// 头像
+        /// </summary>
+        public string Avatar
+        {
+            get => authCredential.Avatar;
+            set =>
+                SetProperty(
+                    authCredential.Avatar,
+                    value,
+                    authCredential,
+                    (credential, avatar) => credential.Avatar = avatar
+                );
+        }
     }
     #endregion
 

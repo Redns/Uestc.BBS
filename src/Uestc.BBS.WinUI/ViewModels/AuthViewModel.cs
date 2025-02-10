@@ -1,8 +1,4 @@
-﻿using CommunityToolkit.Mvvm.Input;
-using H.NotifyIcon;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.UI.Xaml.Controls;
-using Uestc.BBS.Core;
+﻿using H.NotifyIcon;
 using Uestc.BBS.Core.Services.Api.Auth;
 using Uestc.BBS.Core.Services.Notification;
 using Uestc.BBS.Core.Services.System;
@@ -32,15 +28,6 @@ namespace Uestc.BBS.WinUI.ViewModels
                 return;
             }
             App.CurrentWindow.Activate();
-        }
-
-        [RelayCommand]
-        public void SelectCredential(AutoSuggestBoxSuggestionChosenEventArgs args)
-        {
-            if (args.SelectedItem is AuthCredential credential)
-            {
-                OnSelectCredentialChanged(credential);
-            }
         }
     }
 }

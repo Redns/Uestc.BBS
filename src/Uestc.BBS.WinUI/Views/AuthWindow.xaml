@@ -36,6 +36,6 @@
                 CornerRadius="0"
                 Icon="Cancel" />
         </Border>
-        <Frame x:Name="AuthPage" Grid.Row="1" />
+        <local:AuthPage Grid.Row="1" />
     </Grid>
 </winex:WindowEx>

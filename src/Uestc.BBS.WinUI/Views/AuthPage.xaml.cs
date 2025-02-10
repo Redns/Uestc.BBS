@@ -2,24 +2,49 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Uestc.BBS.Core;
+using Uestc.BBS.Mvvm.Models;
 using Uestc.BBS.WinUI.ViewModels;
 
 namespace Uestc.BBS.WinUI.Views
 {
     public partial class AuthPage : Page
     {
-        private AuthViewModel ViewModel { get; init; }
+        private AuthViewModel ViewModel { get; init; } =
+            ServiceExtension.Services.GetRequiredService<AuthViewModel>();
 
         public AuthPage()
         {
             InitializeComponent();
-
-            ViewModel = ServiceExtension.Services.GetRequiredService<AuthViewModel>();
         }
 
-        private void Username_AutoSuggestBox_TextChanged(
+        private void DeleteAuthCredential(object sender, RoutedEventArgs e)
+        {
+            if (
+                sender is not AppBarButton button
+                || button.Tag is not AuthCredentialModel credential
+            )
+            {
+                return;
+            }
+
+            ViewModel.DeleteAuthCredentialCommand.Execute(credential);
+            if (UsernameAutoSuggestBox.ItemsSource is List<AuthCredentialModel> credentials)
+            {
+                UsernameAutoSuggestBox.ItemsSource = credentials
+                    .Where(c => c.Name != credential.Name)
+                    .ToList();
+            }
+        }
+
+        /// <summary>
+        /// 根据用户输入过滤本地授权信息
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
+        private void FilterAuthCredentials(
             AutoSuggestBox sender,
             AutoSuggestBoxTextChangedEventArgs args
         )
@@ -29,18 +54,32 @@ namespace Uestc.BBS.WinUI.Views
                 return;
             }
 
-            var newCredentials = ViewModel
-                .AppSettingModel.Auth.Credentials.Where(u =>
-                    u.Name.Contains(sender.Text, StringComparison.OrdinalIgnoreCase)
-                )
-                .ToList();
+            var newCredentials = ViewModel.AppSettingModel.Auth.Credentials.Where(u =>
+                u.Name.Contains(sender.Text, StringComparison.OrdinalIgnoreCase)
+            );
             if (
-                sender.ItemsSource is not List<AuthCredential> oldCredentials
-                || oldCredentials.Count != newCredentials.Count
+                sender.ItemsSource is not List<AuthCredentialModel> oldCredentials
+                || oldCredentials.Count != newCredentials.Count()
                 || newCredentials.Except(oldCredentials).Any()
             )
             {
-                sender.ItemsSource = newCredentials;
+                sender.ItemsSource = newCredentials.ToList();
+            }
+        }
+
+        /// <summary>
+        /// 选择本地授权信息
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
+        private void SelectAuthCredential(
+            AutoSuggestBox sender,
+            AutoSuggestBoxSuggestionChosenEventArgs args
+        )
+        {
+            if (args.SelectedItem is AuthCredentialModel credential)
+            {
+                sender.Text = credential.Name;
             }
         }
     }

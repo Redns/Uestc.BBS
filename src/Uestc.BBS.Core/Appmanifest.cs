@@ -1,6 +1,4 @@
-﻿using System.Text.Json;
-using System.Text.Json.Serialization;
-using System.Text.Json.Serialization.Metadata;
+﻿using System.Text.Json.Serialization;
 
 namespace Uestc.BBS.Core
 {
@@ -56,7 +54,7 @@ namespace Uestc.BBS.Core
     }
 
     [JsonSerializable(typeof(Appmanifest))]
-    [JsonSourceGenerationOptions(WriteIndented = true)]
+    [JsonSourceGenerationOptions(WriteIndented = true, PropertyNameCaseInsensitive = true)]
     public partial class AppmanifestContext : JsonSerializerContext { }
 
     public class Contributor

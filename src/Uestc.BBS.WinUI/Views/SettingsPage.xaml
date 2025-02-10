@@ -459,14 +459,23 @@
                 </controls:SettingsExpander.Description>
                 <Button Command="{x:Bind ViewModel.CheckUpdateCommand}" Content="检查更新" />
                 <controls:SettingsExpander.Items>
-                    <controls:SettingsCard Header="接收预览版">
+                    <controls:SettingsCard Description="抢先体验最新功能和改进" Header="接收预览版">
                         <ToggleSwitch IsOn="{x:Bind ViewModel.AppSettingModel.Upgrade.AcceptBetaVersion, Mode=TwoWay}" />
                     </controls:SettingsCard>
                     <controls:SettingsCard Header="更新镜像源">
-                        <TextBox
-                            Width="320"
-                            Text="{x:Bind ViewModel.AppSettingModel.Upgrade.Mirror, Mode=TwoWay}"
-                            TextAlignment="Center" />
+                        <StackPanel
+                            VerticalAlignment="Center"
+                            Orientation="Horizontal"
+                            Spacing="10">
+                            <ComboBox>
+                                <ComboBoxItem>Git</ComboBoxItem>
+                                <ComboBoxItem>Cloudflare</ComboBoxItem>
+                            </ComboBox>
+                            <TextBox
+                                Width="320"
+                                Text="{x:Bind ViewModel.AppSettingModel.Upgrade.Mirror, Mode=TwoWay}"
+                                TextAlignment="Center" />
+                        </StackPanel>
                     </controls:SettingsCard>
                 </controls:SettingsExpander.Items>
             </controls:SettingsExpander>
