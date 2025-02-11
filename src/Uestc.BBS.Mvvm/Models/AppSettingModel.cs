@@ -63,7 +63,7 @@ namespace Uestc.BBS.Mvvm.Models
             MenuItems = [.. apperanceSetting.MenuItems.Select(item => new MenuItemModel(item))];
             BoardTabItems =
             [
-                .. apperanceSetting.BoardTabItems.Select(item => new BoardTabItemModel(item))
+                .. apperanceSetting.BoardTabItems.Select(item => new BoardTabItemModel(item)),
             ];
 
             MenuItems.CollectionChanged += (sender, args) =>
@@ -92,6 +92,7 @@ namespace Uestc.BBS.Mvvm.Models
                         );
                 }
             };
+
             BoardTabItems.CollectionChanged += (sender, args) =>
             {
                 switch (args.Action)
@@ -200,7 +201,7 @@ namespace Uestc.BBS.Mvvm.Models
     {
         public MenuItem MenuItem => menuItem;
 
-        public string Key
+        public MenuItemKey Key
         {
             get => menuItem.Key;
             set => SetProperty(menuItem.Key, value, menuItem, (item, key) => item.Key = key);
@@ -222,6 +223,13 @@ namespace Uestc.BBS.Mvvm.Models
                     menuItem,
                     (item, symbol) => item.Symbol = symbol
                 );
+        }
+
+        public string Glyph
+        {
+            get => menuItem.Glyph;
+            set =>
+                SetProperty(menuItem.Glyph, value, menuItem, (item, glyph) => item.Glyph = glyph);
         }
 
         public bool IsActive

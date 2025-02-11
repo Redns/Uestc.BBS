@@ -1,27 +1,30 @@
 ﻿using System;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Extensions.DependencyInjection;
+using Uestc.BBS.Core;
 using Uestc.BBS.Mvvm.Services;
 using Uestc.BBS.WinUI.ViewModels;
-using Uestc.BBS.WinUI.Views;
 
 namespace Uestc.BBS.WinUI.Services
 {
-    public class NavigateService(ServiceProvider services) : INavigateService
+    public class NavigateService(IServiceProvider services) : INavigateService
     {
-        private readonly ServiceProvider _services = services;
+        private readonly IServiceProvider _services = services;
 
-        public ObservableObject Navigate(string view) =>
-            view switch
+        public ObservableObject Navigate(MenuItemKey key) =>
+            key switch
             {
-                nameof(AuthPage) => _services.GetRequiredService<AuthViewModel>(),
-                nameof(HomePage) => _services.GetRequiredService<HomeViewModel>(),
-                nameof(SettingsPage) => _services.GetRequiredService<SettingsViewModel>(),
-                _
-                    => throw new ArgumentException(
-                        $"Navigate to {view} failed, unknown view",
-                        nameof(view)
-                    )
+                MenuItemKey.Home => _services.GetRequiredService<HomeViewModel>(),
+                MenuItemKey.Sections => _services.GetRequiredService<SectionsViewModel>(),
+                MenuItemKey.Services => _services.GetRequiredService<ServicesViewModel>(),
+                MenuItemKey.Moments => _services.GetRequiredService<MomentsViewModel>(),
+                MenuItemKey.Post => _services.GetRequiredService<PostViewModel>(),
+                MenuItemKey.Messages => _services.GetRequiredService<MessagesViewModel>(),
+                MenuItemKey.Settings => _services.GetRequiredService<SettingsViewModel>(),
+                _ => throw new ArgumentException(
+                    $"Navigate to {key} failed, unknown key",
+                    nameof(key)
+                ),
             };
     }
 }

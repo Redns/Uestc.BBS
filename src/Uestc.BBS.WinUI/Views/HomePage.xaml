@@ -8,6 +8,7 @@
     xmlns:forum="using:Uestc.BBS.Core.Services.Api.Forum"
     xmlns:local_controls="using:Uestc.BBS.WinUI.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="using:Uestc.BBS.Mvvm.Models"
     xmlns:ui="using:CommunityToolkit.WinUI"
     mc:Ignorable="d">
     <Grid>
@@ -21,16 +22,16 @@
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <SelectorBar Grid.Column="0" HorizontalAlignment="Center">
-                <SelectorBarItem
-                    Margin="-3,0"
-                    IsSelected="True"
-                    Text="最新发表" />
-                <SelectorBarItem Margin="-3,0" Text="最新回复" />
-                <SelectorBarItem Margin="-3,0" Text="热门" />
-                <SelectorBarItem Margin="-3,0" Text="精华" />
-                <SelectorBarItem Margin="-3,0" Text="淘专辑" />
-            </SelectorBar>
+            <controls:Segmented
+                HorizontalAlignment="Center"
+                ItemsSource="{x:Bind ViewModel.AppSettingModel.Apperance.BoardTabItems, Mode=OneWay}"
+                Style="{StaticResource PivotSegmentedStyle}">
+                <controls:Segmented.ItemTemplate>
+                    <DataTemplate x:DataType="models:BoardTabItemModel">
+                        <TextBlock Width="auto" Text="{x:Bind Name}" />
+                    </DataTemplate>
+                </controls:Segmented.ItemTemplate>
+            </controls:Segmented>
             <ScrollViewer
                 Grid.Row="1"
                 Margin="0,10"
@@ -68,5 +69,20 @@
                 Group="成电校友"
                 Signature="早熟的人通常都晚熟，骄傲的人又很急性" />
         </StackPanel>
+
+        <controls:GridSplitter
+            Grid.Column="1"
+            Width="5"
+            MinWidth="5"
+            Padding="0"
+            HorizontalAlignment="Left"
+            HorizontalContentAlignment="Left"
+            ResizeBehavior="BasedOnAlignment"
+            ResizeDirection="Auto">
+            <controls:GridSplitter.RenderTransform>
+                <TranslateTransform X="-10" />
+            </controls:GridSplitter.RenderTransform>
+        </controls:GridSplitter>
+
     </Grid>
 </Page>

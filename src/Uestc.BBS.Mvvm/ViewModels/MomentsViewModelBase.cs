@@ -2,7 +2,7 @@
 
 namespace Uestc.BBS.Mvvm.ViewModels
 {
-    public class MessagesViewModel : ObservableObject
+    public class MomentsViewModelBase : ObservableObject
     {
     }
 }

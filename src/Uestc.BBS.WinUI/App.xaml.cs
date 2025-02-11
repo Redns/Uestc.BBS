@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
 using System.Text.Json;
 using H.NotifyIcon;
@@ -10,6 +9,7 @@ using Uestc.BBS.Core;
 using Uestc.BBS.Core.Services.Notification;
 using Uestc.BBS.Core.Services.System;
 using Uestc.BBS.Mvvm.Models;
+using Uestc.BBS.Mvvm.Services;
 using Uestc.BBS.WinUI.Services;
 using Uestc.BBS.WinUI.ViewModels;
 using Uestc.BBS.WinUI.Views;
@@ -51,9 +51,16 @@ namespace Uestc.BBS.WinUI
                 .AddTransient<AuthViewModel>()
                 .AddTransient<MainViewModel>()
                 .AddSingleton<HomeViewModel>()
+                .AddSingleton<SectionsViewModel>()
+                .AddSingleton<ServicesViewModel>()
+                .AddSingleton<MomentsViewModel>()
+                .AddSingleton<PostViewModel>()
+                .AddSingleton<MessagesViewModel>()
                 .AddTransient<SettingsViewModel>()
                 // Models
                 .AddSingleton<AppSettingModel>()
+                // Navigate
+                .AddSingleton<INavigateService>(services => new NavigateService(services))
                 // Appmanifest
                 .AddSingleton(services =>
                     JsonSerializer.Deserialize(

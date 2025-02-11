@@ -9,12 +9,15 @@
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:local="using:Uestc.BBS.WinUI.Views"
     xmlns:local_controls="using:Uestc.BBS.WinUI.Controls"
+    xmlns:local_converters="using:Uestc.BBS.WinUI.Converters"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="using:Uestc.BBS.Mvvm.Models"
     xmlns:ui="using:CommunityToolkit.WinUI"
     mc:Ignorable="d">
 
     <Page.Resources>
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        <local_converters:ViewModel2ViewConverter x:Key="ViewModel2ViewConverter" />
     </Page.Resources>
 
     <Grid>
@@ -25,16 +28,17 @@
 
         <!--  标题栏  -->
         <controls:DockPanel Grid.Row="0" Margin="0,0,160,0">
+            <FontIcon x:Name="aaa" FontSize="23" />
             <AppBarButton
                 Width="40"
-                Margin="5,0"
+                Margin="5,0,0,0"
                 ToolTipService.ToolTip="返回"
-                Visibility="Visible">
+                Visibility="{x:Bind ViewModel.IsBackButtonEnabled, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
                 <FontIcon Glyph="&#xEC52;" />
             </AppBarButton>
             <ImageIcon
                 Height="18"
-                Margin="10,0"
+                Margin="15,0,10,0"
                 Source="/Assets/Icons/app.ico"
                 ToolTipService.ToolTip="前往官方论坛">
                 <interactivity:Interaction.Behaviors>
@@ -46,19 +50,21 @@
                 </interactivity:Interaction.Behaviors>
             </ImageIcon>
             <TextBlock
+                Margin="0,0,20,0"
                 Padding="0,0,0,1"
                 VerticalAlignment="Center"
                 FontFamily="Consolas"
                 FontSize="13"
                 Text="清水河畔" />
-            <controls:Segmented
-                Margin="15,0"
-                SelectedIndex="0"
-                Visibility="{x:Bind ViewModel.AppSettingModel.Apperance.IsTopNavigateBarEnabled, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
-                <controls:SegmentedItem Icon="{ui:FontIcon Glyph=&#xE728;}" ToolTipService.ToolTip="我的收藏" />
+            <controls:Segmented SelectedIndex="0" Visibility="{x:Bind ViewModel.AppSettingModel.Apperance.IsTopNavigateBarEnabled, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
+                <controls:SegmentedItem
+                    FontSize="28"
+                    Icon="{ui:FontIcon Glyph=&#xE728;}"
+                    ToolTipService.ToolTip="我的收藏" />
                 <controls:SegmentedItem Icon="{ui:FontIcon Glyph=&#xE932;}" ToolTipService.ToolTip="我的发表" />
                 <controls:SegmentedItem Icon="{ui:FontIcon Glyph=&#xE90A;}" ToolTipService.ToolTip="我的回复" />
                 <controls:SegmentedItem Icon="{ui:FontIcon Glyph=&#xE7B3;}" ToolTipService.ToolTip="我的插眼" />
+                <controls:SegmentedItem Icon="{ui:FontIcon Glyph=&#xE71C;}" ToolTipService.ToolTip="筛选主题" />
             </controls:Segmented>
             <PersonPicture
                 Height="35"
@@ -87,104 +93,29 @@
         </controls:DockPanel>
         <!--  导航栏  -->
         <NavigationView
-            x:Name="navigateView"
             Grid.Row="1"
             CompactPaneLength="70"
             CompositeMode="Inherit"
+            FooterMenuItemsSource="{x:Bind ViewModel.FooterMenuItems, Mode=OneWay}"
             IsBackButtonVisible="Collapsed"
             IsPaneOpen="False"
             IsPaneToggleButtonVisible="False"
             IsSettingsVisible="False"
-            ItemInvoked="NavigateToPage">
-            <NavigationView.MenuItems>
-                <!--  首页  -->
-                <NavigationViewItem Height="65" Tag="HomePage">
-                    <NavigationViewItem.Content>
-                        <StackPanel
-                            Padding="-10,0,0,0"
-                            HorizontalAlignment="Center"
-                            Spacing="4">
-                            <FontIcon FontSize="23" Glyph="&#xE80F;" />
-                            <TextBlock FontSize="13" Text="主 页" />
-                        </StackPanel>
-                    </NavigationViewItem.Content>
-                </NavigationViewItem>
-                <!--  版块  -->
-                <NavigationViewItem Height="65" Tag="SectionsPage">
-                    <NavigationViewItem.Content>
-                        <StackPanel
-                            Padding="-10,0,0,0"
-                            HorizontalAlignment="Center"
-                            Spacing="4">
-                            <FontIcon FontSize="23" Glyph="&#xE74C;" />
-                            <TextBlock FontSize="13" Text="版 块" />
-                        </StackPanel>
-                    </NavigationViewItem.Content>
-                </NavigationViewItem>
-                <!--  服务  -->
-                <NavigationViewItem Height="65" Tag="ServicesPage">
-                    <NavigationViewItem.Content>
-                        <StackPanel
-                            Padding="-10,0,0,0"
-                            HorizontalAlignment="Center"
-                            Spacing="4">
-                            <FontIcon FontSize="23" Glyph="&#xE81E;" />
-                            <TextBlock FontSize="13" Text="服 务" />
-                        </StackPanel>
-                    </NavigationViewItem.Content>
-                </NavigationViewItem>
-                <!--  动态  -->
-                <NavigationViewItem Height="65" Tag="MomentsPage">
-                    <NavigationViewItem.Content>
-                        <StackPanel
-                            Padding="-10,0,0,0"
-                            HorizontalAlignment="Center"
-                            Spacing="4">
-                            <FontIcon FontSize="23" Glyph="&#xE909;" />
-                            <TextBlock FontSize="13" Text="动 态" />
-                        </StackPanel>
-                    </NavigationViewItem.Content>
-                </NavigationViewItem>
-                <!--  发布  -->
-                <NavigationViewItem Height="65" Tag="PostPage">
-                    <NavigationViewItem.Content>
-                        <StackPanel
-                            Padding="-10,0,0,0"
-                            HorizontalAlignment="Center"
-                            Spacing="4">
-                            <FontIcon FontSize="23" Glyph="&#xECCD;" />
-                            <TextBlock FontSize="13" Text="发 布" />
-                        </StackPanel>
-                    </NavigationViewItem.Content>
-                </NavigationViewItem>
-            </NavigationView.MenuItems>
-            <NavigationView.FooterMenuItems>
-                <!--  消息  -->
-                <NavigationViewItem Height="65" Tag="MessagesPage">
-                    <NavigationViewItem.Content>
-                        <StackPanel
-                            Padding="-10,0,0,0"
-                            HorizontalAlignment="Center"
-                            Spacing="4">
-                            <FontIcon FontSize="23" Glyph="&#xE715;" />
-                            <TextBlock FontSize="13" Text="消 息" />
-                        </StackPanel>
-                    </NavigationViewItem.Content>
-                </NavigationViewItem>
-                <!--  设置  -->
-                <NavigationViewItem Height="65" Tag="SettingsPage">
-                    <NavigationViewItem.Content>
-                        <StackPanel
-                            Padding="-10,0,0,0"
-                            HorizontalAlignment="Center"
-                            Spacing="4">
-                            <FontIcon FontSize="23" Glyph="&#xE713;" />
-                            <TextBlock FontSize="13" Text="设 置" />
-                        </StackPanel>
-                    </NavigationViewItem.Content>
-                </NavigationViewItem>
-            </NavigationView.FooterMenuItems>
-            <Frame x:Name="navigateFrame" />
+            MenuItemsSource="{x:Bind ViewModel.TopMenuItems, Mode=OneWay}"
+            SelectedItem="{x:Bind ViewModel.SelectedMenuItem, Mode=TwoWay}">
+            <NavigationView.MenuItemTemplate>
+                <DataTemplate x:DataType="models:MenuItemModel">
+                    <StackPanel
+                        Margin="0,9"
+                        Padding="-10,0,0,0"
+                        HorizontalAlignment="Center"
+                        Spacing="4">
+                        <FontIcon FontSize="23" Glyph="{x:Bind Glyph, Mode=OneWay}" />
+                        <TextBlock FontSize="13" Text="{x:Bind Name, Mode=OneWay}" />
+                    </StackPanel>
+                </DataTemplate>
+            </NavigationView.MenuItemTemplate>
+            <Frame Content="{x:Bind ViewModel.CurrentPageViewModel, Converter={StaticResource ViewModel2ViewConverter}, Mode=OneWay}" />
         </NavigationView>
     </Grid>
 </Page>

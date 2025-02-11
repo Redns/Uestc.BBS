@@ -108,18 +108,17 @@ namespace Uestc.BBS.Core
             return JsonSerializer.Serialize(this, SerializerOptions);
         }
 
-        public static readonly JsonSerializerOptions SerializerOptions =
-            new()
-            {
-                WriteIndented = true,
-                Encoder = JavaScriptEncoder.Create(UnicodeRanges.All),
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-                PropertyNameCaseInsensitive = true,
-                TypeInfoResolver = JsonTypeInfoResolver.Combine(
-                    AppSettingContext.Default,
-                    new DefaultJsonTypeInfoResolver()
-                ),
-            };
+        public static readonly JsonSerializerOptions SerializerOptions = new()
+        {
+            WriteIndented = true,
+            Encoder = JavaScriptEncoder.Create(UnicodeRanges.All),
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+            PropertyNameCaseInsensitive = true,
+            TypeInfoResolver = JsonTypeInfoResolver.Combine(
+                AppSettingContext.Default,
+                new DefaultJsonTypeInfoResolver()
+            ),
+        };
     }
 
     /// <summary>
@@ -164,57 +163,64 @@ namespace Uestc.BBS.Core
             [
                 new MenuItem
                 {
-                    Key = "Home",
+                    Key = MenuItemKey.Home,
                     Name = "主 页",
                     Symbol = "Home",
+                    Glyph = "\uE80F",
                     IsActive = true,
                     DockTop = true,
                 },
                 new MenuItem
                 {
-                    Key = "Sections",
+                    Key = MenuItemKey.Sections,
                     Name = "版 块",
                     Symbol = "Apps",
+                    Glyph = "\uE74C",
                     IsActive = false,
                     DockTop = true,
                 },
                 new MenuItem
                 {
-                    Key = "Services",
+                    Key = MenuItemKey.Services,
                     Name = "服 务",
                     Symbol = "Rocket",
+                    Glyph = "\uE81E",
                     IsActive = false,
                     DockTop = true,
                 },
                 new MenuItem
                 {
-                    Key = "Moments",
+                    Key = MenuItemKey.Moments,
                     Name = "动 态",
                     Symbol = "Scan",
+                    Glyph = "\uE909",
                     IsActive = false,
                     DockTop = true,
                 },
                 new MenuItem
                 {
-                    Key = "Post",
+                    Key = MenuItemKey.Post,
                     Name = "发 布",
                     Symbol = "SaveCopy",
+                    Glyph = "\uECCD",
                     IsActive = false,
                     DockTop = true,
                 },
                 new MenuItem
                 {
-                    Key = "Settings",
-                    Name = "设 置",
-                    Symbol = "Settings",
+                    Key = MenuItemKey.Messages,
+                    Name = "消 息",
+                    Symbol = "Mail",
+                    Glyph = "\uE715",
                     IsActive = false,
                     DockTop = false,
                 },
                 new MenuItem
                 {
-                    Key = "Messages",
-                    Name = "消 息",
-                    Symbol = "Mail",
+                    Key = MenuItemKey.Settings,
+                    Name = "设 置",
+                    Symbol = "Settings",
+                    Glyph = "\uE713",
                     IsActive = false,
                     DockTop = false,
                 },
@@ -447,22 +453,43 @@ namespace Uestc.BBS.Core
 
     public enum MenuItemKey
     {
+        [Label("Homes")]
         Home = 0,
+
+        [Label("Sections")]
         Sections,
+
+        [Label("Services")]
         Services,
+
+        [Label("Moments")]
         Moments,
+
+        [Label("Post")]
         Post,
+
+        [Label("Messages")]
         Messages,
+
+        [Label("Settings")]
         Settings,
     }
 
     public class MenuItem
     {
-        public string Key { get; set; } = string.Empty;
+        public MenuItemKey Key { get; set; }
 
         public string Name { get; set; } = string.Empty;
 
+        /// <summary>
+        /// FluentAvalonia 图标
+        /// </summary>
         public string Symbol { get; set; } = string.Empty;
+
+        /// <summary>
+        /// egoe MDL2 Assets 字符代码，参考 https://docs.microsoft.com/zh-cn/windows/uwp/design/style/segoe-ui-symbol-font
+        /// </summary>
+        public string Glyph { get; set; } = string.Empty;
 
         public bool IsActive { get; set; } = false;
 

@@ -2,7 +2,7 @@
 
 namespace Uestc.BBS.Mvvm.ViewModels
 {
-    public class PostViewModel : ObservableObject
+    public class ServicesViewModelBase : ObservableObject
     {
     }
 }

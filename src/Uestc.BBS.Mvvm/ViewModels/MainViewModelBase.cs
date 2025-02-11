@@ -1,10 +1,12 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using System.Collections.ObjectModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Uestc.BBS.Core.Helpers;
 using Uestc.BBS.Core.Services;
 using Uestc.BBS.Core.Services.Notification;
 using Uestc.BBS.Core.Services.System;
 using Uestc.BBS.Mvvm.Models;
+using Uestc.BBS.Mvvm.Services;
 
 namespace Uestc.BBS.Mvvm.ViewModels
 {
@@ -19,6 +21,11 @@ namespace Uestc.BBS.Mvvm.ViewModels
         /// 日志服务
         /// </summary>
         protected readonly ILogService _logService;
+
+        /// <summary>
+        /// 导航服务
+        /// </summary>
+        protected readonly INavigateService _navigateService;
 
         /// <summary>
         /// 通知服务
@@ -42,14 +49,35 @@ namespace Uestc.BBS.Mvvm.ViewModels
 
         public AppSettingModel AppSettingModel { get; init; }
 
+        /// <summary>
+        /// 当前选中的菜单项
+        /// </summary>
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(IsBackButtonEnabled))]
+        [NotifyPropertyChangedFor(nameof(CurrentPageViewModel))]
+        public partial MenuItemModel SelectedMenuItem { get; set; }
+
+        /// <summary>
+        /// 是否显示返回按钮
+        /// </summary>
+        public bool IsBackButtonEnabled => SelectedMenuItem.Key != Core.MenuItemKey.Home;
+
+        /// <summary>
+        /// 当前页面的视图模型
+        /// </summary>
+        public ObservableObject CurrentPageViewModel =>
+            _navigateService.Navigate(SelectedMenuItem.Key);
+
         public MainViewModelBase(
             AppSettingModel appSettingModel,
             ILogService logService,
+            INavigateService navigateService,
             INotificationService notificationService,
             IDailySentenceService dailySentenceService
         )
         {
             _logService = logService;
+            _navigateService = navigateService;
             _notificationService = notificationService;
             _dailySentenceService = dailySentenceService;
             _searchPlaceholderTextUpdateTimer = new Timer(
@@ -101,6 +129,13 @@ namespace Uestc.BBS.Mvvm.ViewModels
                         return;
                 }
             };
+
+            SelectedMenuItem =
+                AppSettingModel.Apperance.MenuItems.FirstOrDefault()
+                ?? throw new ArgumentOutOfRangeException(
+                    nameof(appSettingModel),
+                    "MenuItems is empty"
+                );
         }
 
         public abstract Task DispatcherAsync(Action action);

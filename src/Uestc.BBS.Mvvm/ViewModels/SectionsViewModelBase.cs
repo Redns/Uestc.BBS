@@ -2,5 +2,5 @@
 
 namespace Uestc.BBS.Mvvm.ViewModels
 {
-    public class SectionsViewModel : ObservableObject { }
+    public class SectionsViewModelBase : ObservableObject { }
 }

@@ -22,13 +22,18 @@ namespace Uestc.BBS.WinUI.Converters
                 return ServiceExtension.Services.GetRequiredService<SectionsPage>();
             if (value is ServicesViewModel)
                 return ServiceExtension.Services.GetRequiredService<ServicesPage>();
-            if (value is MomentsViewModel)
+            if (value is MomentsViewModelBase)
                 return ServiceExtension.Services.GetRequiredService<MomentsPage>();
+            if (value is PostViewModel)
+                return ServiceExtension.Services.GetRequiredService<PostPage>();
             if (value is MessagesViewModel)
                 return ServiceExtension.Services.GetRequiredService<MessagesPage>();
             if (value is SettingsViewModelBase)
                 return ServiceExtension.Services.GetRequiredService<SettingsPage>();
-            throw new ArgumentException("Value is not an ObservableObject type", nameof(value));
+            throw new ArgumentException(
+                "Convert view model to view failed, value is not an ObservableObject type",
+                nameof(value)
+            );
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
