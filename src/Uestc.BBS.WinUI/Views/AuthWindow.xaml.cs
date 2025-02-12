@@ -29,6 +29,10 @@ namespace Uestc.BBS.WinUI.Views
                     this.SetThemeColor(appSettingModel.Apperance.ThemeColor);
                 }
             };
+            App.SystemThemeChanged += (sender, args) =>
+            {
+                AppWindow.TitleBar.SetThemeColor(args);
+            };
         }
 
         private void CloseWindow(object sender, RoutedEventArgs e) => Close();

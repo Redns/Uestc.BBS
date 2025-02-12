@@ -16,7 +16,7 @@ using Uestc.BBS.Mvvm.ViewModels;
 
 namespace Uestc.BBS.WinUI.ViewModels
 {
-    public partial class MainViewModel : MainViewModelBase
+    public partial class MainViewModel : MainViewModelBase<Page>
     {
         /// <summary>
         /// 顶部菜单项
@@ -44,16 +44,16 @@ namespace Uestc.BBS.WinUI.ViewModels
         public MainViewModel(
             AppSettingModel appSettingModel,
             ILogService logService,
-            INavigateService navigateService,
             INotificationService notificationService,
-            IDailySentenceService dailySentenceService
+            IDailySentenceService dailySentenceService,
+            INavigateService<Page> navigateService
         )
             : base(
                 appSettingModel,
                 logService,
-                navigateService,
                 notificationService,
-                dailySentenceService
+                dailySentenceService,
+                navigateService
             )
         {
             appSettingModel.Apperance.MenuItems.CollectionChanged += (sender, e) =>

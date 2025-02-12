@@ -4,6 +4,7 @@ using System.Text.Json;
 using H.NotifyIcon;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 using Microsoft.Windows.AppLifecycle;
 using Uestc.BBS.Core;
 using Uestc.BBS.Core.Services.Notification;
@@ -14,12 +15,22 @@ using Uestc.BBS.WinUI.Services;
 using Uestc.BBS.WinUI.ViewModels;
 using Uestc.BBS.WinUI.Views;
 using Uestc.BBS.WinUI.Views.Overlays;
+using Windows.UI.ViewManagement;
 using WinUIEx;
 
 namespace Uestc.BBS.WinUI
 {
     public partial class App : Application
     {
+        private static readonly UISettings _uiSettings = new();
+
+        public static ThemeColor SystemTheme =>
+            _uiSettings.GetColorValue(UIColorType.Background).R > 128
+                ? ThemeColor.Light
+                : ThemeColor.Dark;
+
+        public static event Action<UISettings, ThemeColor> SystemThemeChanged = delegate { };
+
         public static Window? CurrentWindow { get; set; }
 
         public App()
@@ -71,8 +82,6 @@ namespace Uestc.BBS.WinUI
                 .AddTransient<TopicFilterViewModel>()
                 // Models
                 .AddSingleton<AppSettingModel>()
-                // Navigate
-                .AddSingleton<INavigateService>(services => new NavigateService(services))
                 // Appmanifest
                 .AddSingleton(services =>
                     JsonSerializer.Deserialize(
@@ -96,7 +105,7 @@ namespace Uestc.BBS.WinUI
                     return new NotificationService(appmanifest.Name, appIconUri);
                 })
                 // Navigate
-                .AddSingleton<INavigateService>(services => new NavigateService(services))
+                .AddSingleton<INavigateService<Page>>(services => new NavigateService(services))
                 // 自启动
                 .AddSingleton<IStartupService>(services =>
                 {
@@ -110,6 +119,12 @@ namespace Uestc.BBS.WinUI
                     };
                     return new WindowsStartupService(startupInfo);
                 });
+
+            // 监听系统主题变更
+            _uiSettings.ColorValuesChanged += (sender, args) =>
+            {
+                SystemThemeChanged(_uiSettings, SystemTheme);
+            };
 
             // 应用退出时保存设置
             AppDomain.CurrentDomain.ProcessExit += (sender, args) =>

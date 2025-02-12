@@ -43,6 +43,13 @@ namespace Uestc.BBS.WinUI.Views
                     this.SetThemeColor(viewModel.AppSettingModel.Apperance.ThemeColor);
                 }
             };
+            App.SystemThemeChanged += (sender, args) =>
+            {
+                if (viewModel.AppSettingModel.Apperance.ThemeColor is ThemeColor.System)
+                {
+                    ViewModel.DispatcherAsync(() => AppWindow.TitleBar.SetThemeColor(args));
+                }
+            };
 
             // 设置窗口关闭策略
             AppWindow.Closing += (window, args) =>

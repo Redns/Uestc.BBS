@@ -1,33 +1,34 @@
 ﻿using System;
-using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.UI.Xaml.Controls;
 using Uestc.BBS.Core;
 using Uestc.BBS.Mvvm.Services;
-using Uestc.BBS.WinUI.ViewModels;
+using Uestc.BBS.WinUI.Views;
+using Uestc.BBS.WinUI.Views.Overlays;
 
 namespace Uestc.BBS.WinUI.Services
 {
-    public class NavigateService(IServiceProvider services) : INavigateService
+    public class NavigateService(IServiceProvider services) : INavigateService<Page>
     {
         private readonly IServiceProvider _services = services;
 
-        public ObservableObject Navigate(MenuItemKey key) =>
+        public Page Navigate(MenuItemKey key) =>
             key switch
             {
                 // Pages
-                MenuItemKey.Home => _services.GetRequiredService<HomeViewModel>(),
-                MenuItemKey.Sections => _services.GetRequiredService<SectionsViewModel>(),
-                MenuItemKey.Services => _services.GetRequiredService<ServicesViewModel>(),
-                MenuItemKey.Moments => _services.GetRequiredService<MomentsViewModel>(),
-                MenuItemKey.Post => _services.GetRequiredService<PostViewModel>(),
-                MenuItemKey.Messages => _services.GetRequiredService<MessagesViewModel>(),
-                MenuItemKey.Settings => _services.GetRequiredService<SettingsViewModel>(),
+                MenuItemKey.Home => _services.GetRequiredService<HomePage>(),
+                MenuItemKey.Sections => _services.GetRequiredService<SectionsPage>(),
+                MenuItemKey.Services => _services.GetRequiredService<ServicesPage>(),
+                MenuItemKey.Moments => _services.GetRequiredService<MomentsPage>(),
+                MenuItemKey.Post => _services.GetRequiredService<PostPage>(),
+                MenuItemKey.Messages => _services.GetRequiredService<MessagesPage>(),
+                MenuItemKey.Settings => _services.GetRequiredService<SettingsPage>(),
                 // Overlays
-                MenuItemKey.MyFavorites => _services.GetRequiredService<MyFavoritesViewModel>(),
-                MenuItemKey.MyPosts => _services.GetRequiredService<MyPostsViewModel>(),
-                MenuItemKey.MyReplies => _services.GetRequiredService<MyRepliesViewModel>(),
-                MenuItemKey.MyMarks => _services.GetRequiredService<MyMarksViewModel>(),
-                MenuItemKey.TopicFilter => _services.GetRequiredService<TopicFilterViewModel>(),
+                MenuItemKey.MyFavorites => _services.GetRequiredService<MyFavoritesOverlay>(),
+                MenuItemKey.MyPosts => _services.GetRequiredService<MyPostsOverlay>(),
+                MenuItemKey.MyReplies => _services.GetRequiredService<MyRepliesOverlay>(),
+                MenuItemKey.MyMarks => _services.GetRequiredService<MyMarksOverlay>(),
+                MenuItemKey.TopicFilter => _services.GetRequiredService<TopicFilterOverlay>(),
                 _ => throw new ArgumentException(
                     $"Navigate to {key} failed, unknown key",
                     nameof(key)

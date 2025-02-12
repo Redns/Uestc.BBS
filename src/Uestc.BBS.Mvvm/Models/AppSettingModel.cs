@@ -748,7 +748,8 @@ namespace Uestc.BBS.Mvvm.Models
         public uint DefaultCredentialUid
         {
             get => _authSetting.DefaultCredentialUid;
-            set =>
+            set
+            {
                 SetProperty(
                     _authSetting.DefaultCredentialUid,
                     value,
@@ -756,12 +757,16 @@ namespace Uestc.BBS.Mvvm.Models
                     (setting, defaultCredentialUid) =>
                         setting.DefaultCredentialUid = defaultCredentialUid
                 );
+                OnPropertyChanged(nameof(IsUserAuthed));
+                OnPropertyChanged(nameof(DefaultCredential));
+            }
         }
 
         /// <summary>
         /// 默认授权信息
         /// </summary>
-        public AuthCredential? DefaultCredential => _authSetting.DefaultCredential;
+        public AuthCredentialModel? DefaultCredential =>
+            Credentials.FirstOrDefault(c => c.Uid == DefaultCredentialUid);
 
         /// <summary>
         /// 用戶是否授权
@@ -868,6 +873,51 @@ namespace Uestc.BBS.Mvvm.Models
                     value,
                     authCredential,
                     (credential, avatar) => credential.Avatar = avatar
+                );
+        }
+
+        /// <summary>
+        /// 用户等级
+        /// </summary>
+        public uint Level
+        {
+            get => authCredential.Level;
+            set =>
+                SetProperty(
+                    authCredential.Level,
+                    value,
+                    authCredential,
+                    (credential, level) => credential.Level = level
+                );
+        }
+
+        /// <summary>
+        /// 用户组
+        /// </summary>
+        public string Group
+        {
+            get => authCredential.Group;
+            set =>
+                SetProperty(
+                    authCredential.Group,
+                    value,
+                    authCredential,
+                    (credential, group) => credential.Group = group
+                );
+        }
+
+        /// <summary>
+        /// 用户签名
+        /// </summary>
+        public string Signature
+        {
+            get => authCredential.Signature;
+            set =>
+                SetProperty(
+                    authCredential.Signature,
+                    value,
+                    authCredential,
+                    (credential, signature) => credential.Signature = signature
                 );
         }
     }

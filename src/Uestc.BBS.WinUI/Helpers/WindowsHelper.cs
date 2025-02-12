@@ -2,11 +2,13 @@
 using System.Diagnostics;
 using System.Security.Principal;
 using System.Threading.Tasks;
+using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Windows.AppLifecycle;
 using Uestc.BBS.Core;
+using Windows.UI;
 
 namespace Uestc.BBS.WinUI.Helpers
 {
@@ -79,13 +81,38 @@ namespace Uestc.BBS.WinUI.Helpers
                 );
             }
 
-            // 设置主题色
-            (element.RequestedTheme, window.AppWindow.TitleBar.PreferredTheme) = themeColor switch
+            // 设置窗口主题色
+            element.RequestedTheme = themeColor switch
             {
-                ThemeColor.Light => (ElementTheme.Light, TitleBarTheme.Light),
-                ThemeColor.Dark => (ElementTheme.Dark, TitleBarTheme.Dark),
-                _ => (ElementTheme.Default, TitleBarTheme.Default),
+                ThemeColor.Light => ElementTheme.Light,
+                ThemeColor.Dark => ElementTheme.Dark,
+                _ => ElementTheme.Default,
             };
+
+            // 设置标题栏主题色
+            window.AppWindow.TitleBar.SetThemeColor(themeColor);
+        }
+
+        public static void SetThemeColor(this AppWindowTitleBar titleBar, ThemeColor themeColor)
+        {
+            switch (themeColor)
+            {
+                case ThemeColor.Light:
+                    titleBar.ButtonForegroundColor = Colors.Black;
+                    titleBar.ButtonHoverForegroundColor = Colors.Black;
+                    titleBar.ButtonHoverBackgroundColor = Color.FromArgb(0xFF, 0xE5, 0xE5, 0xE5);
+                    titleBar.InactiveForegroundColor = Color.FromArgb(0xFF, 0x99, 0x99, 0x99);
+                    break;
+                case ThemeColor.Dark:
+                    titleBar.ButtonForegroundColor = Colors.White;
+                    titleBar.ButtonHoverForegroundColor = Colors.White;
+                    titleBar.ButtonHoverBackgroundColor = Color.FromArgb(0xFF, 0x19, 0x19, 0x19);
+                    titleBar.InactiveForegroundColor = Color.FromArgb(0xFF, 0x66, 0x66, 0x66);
+                    break;
+                default:
+                    titleBar.SetThemeColor(App.SystemTheme);
+                    break;
+            }
         }
 
         public static bool IsAdministartor()

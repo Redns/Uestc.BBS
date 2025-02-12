@@ -671,6 +671,21 @@ namespace Uestc.BBS.Core
         public string Avatar { get; set; } = string.Empty;
 
         /// <summary>
+        /// 用户等级
+        /// </summary>
+        public uint Level { get; set; } = 1;
+
+        /// <summary>
+        /// 用户组
+        /// </summary>
+        public string Group { get; set; } = string.Empty;
+
+        /// <summary>
+        /// 签名
+        /// </summary>
+        public string Signature { get; set; } = string.Empty;
+
+        /// <summary>
         /// 此处序列化用户 AutoCompleteBox 显示
         /// </summary>
         /// <returns></returns>

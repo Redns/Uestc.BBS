@@ -28,7 +28,10 @@
                 Style="{StaticResource PivotSegmentedStyle}">
                 <controls:Segmented.ItemTemplate>
                     <DataTemplate x:DataType="models:BoardTabItemModel">
-                        <TextBlock Width="auto" Text="{x:Bind Name}" />
+                        <TextBlock
+                            Width="auto"
+                            Margin="-3,0"
+                            Text="{x:Bind Name}" />
                     </DataTemplate>
                 </controls:Segmented.ItemTemplate>
             </controls:Segmented>
@@ -63,11 +66,12 @@
 
         <StackPanel Grid.Column="1">
             <local_controls:PersonProfile
-                Name="Redns"
+                Name="{x:Bind ViewModel.AppSettingModel.Auth.DefaultCredential.Name, Mode=OneWay}"
                 MaxWidth="300"
-                Avatar="https://bbs.uestc.edu.cn/uc_server/data/avatar/000/25/68/25_avatar_big.jpg"
-                Group="成电校友"
-                Signature="早熟的人通常都晚熟，骄傲的人又很急性" />
+                Avatar="{x:Bind ViewModel.AppSettingModel.Auth.DefaultCredential.Avatar, Mode=OneWay}"
+                Group="{x:Bind ViewModel.AppSettingModel.Auth.DefaultCredential.Group, Mode=OneWay}"
+                Level="{x:Bind ViewModel.AppSettingModel.Auth.DefaultCredential.Level, Mode=OneWay}"
+                Signature="{x:Bind ViewModel.AppSettingModel.Auth.DefaultCredential.Signature, Mode=OneWay}" />
         </StackPanel>
 
         <controls:GridSplitter

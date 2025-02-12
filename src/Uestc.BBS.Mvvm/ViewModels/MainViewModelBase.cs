@@ -9,7 +9,8 @@ using Uestc.BBS.Mvvm.Services;
 
 namespace Uestc.BBS.Mvvm.ViewModels
 {
-    public abstract partial class MainViewModelBase : ObservableObject
+    public abstract partial class MainViewModelBase<TContent> : ObservableObject
+        where TContent : class
     {
         /// <summary>
         /// 搜索栏文字定时更新
@@ -22,11 +23,6 @@ namespace Uestc.BBS.Mvvm.ViewModels
         protected readonly ILogService _logService;
 
         /// <summary>
-        /// 导航服务
-        /// </summary>
-        protected readonly INavigateService _navigateService;
-
-        /// <summary>
         /// 通知服务
         /// </summary>
         protected readonly INotificationService _notificationService;
@@ -35,6 +31,11 @@ namespace Uestc.BBS.Mvvm.ViewModels
         /// 每日一句
         /// </summary>
         protected readonly IDailySentenceService _dailySentenceService;
+
+        /// <summary>
+        /// 导航服务
+        /// </summary>
+        protected readonly INavigateService<TContent> _navigateService;
 
         /// <summary>
         /// 搜索栏提示文字
@@ -52,8 +53,8 @@ namespace Uestc.BBS.Mvvm.ViewModels
         /// 当前选中的菜单项
         /// </summary>
         [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(CurrentMenuContent))]
         [NotifyPropertyChangedFor(nameof(IsBackButtonEnabled))]
-        [NotifyPropertyChangedFor(nameof(CurrentPageViewModel))]
         public partial MenuItemModel CurrentMenuItem { get; set; }
 
         /// <summary>
@@ -65,15 +66,14 @@ namespace Uestc.BBS.Mvvm.ViewModels
         /// <summary>
         /// 当前页面的视图模型
         /// </summary>
-        public ObservableObject CurrentPageViewModel =>
-            _navigateService.Navigate(CurrentMenuItem.Key);
+        public TContent CurrentMenuContent => _navigateService.Navigate(CurrentMenuItem.Key);
 
         public MainViewModelBase(
             AppSettingModel appSettingModel,
             ILogService logService,
-            INavigateService navigateService,
             INotificationService notificationService,
-            IDailySentenceService dailySentenceService
+            IDailySentenceService dailySentenceService,
+            INavigateService<TContent> navigateService
         )
         {
             _logService = logService;

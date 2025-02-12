@@ -1,10 +1,10 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using Uestc.BBS.Core;
+﻿using Uestc.BBS.Core;
 
 namespace Uestc.BBS.Mvvm.Services
 {
-    public interface INavigateService
+    public interface INavigateService<TContent>
+        where TContent : class
     {
-        ObservableObject Navigate(MenuItemKey key);
+        TContent Navigate(MenuItemKey key);
     }
 }
