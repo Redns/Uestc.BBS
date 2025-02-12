@@ -161,14 +161,14 @@ namespace Uestc.BBS.Core
         /// </summary>
         public List<MenuItem> MenuItems { get; init; } =
             [
+                // 侧边栏菜单列表
                 new MenuItem
                 {
                     Key = MenuItemKey.Home,
                     Name = "主 页",
                     Symbol = "Home",
                     Glyph = "\uE80F",
-                    IsActive = true,
-                    DockTop = true,
+                    Position = Position.LeftTop,
                 },
                 new MenuItem
                 {
@@ -176,8 +176,7 @@ namespace Uestc.BBS.Core
                     Name = "版 块",
                     Symbol = "Apps",
                     Glyph = "\uE74C",
-                    IsActive = false,
-                    DockTop = true,
+                    Position = Position.LeftTop,
                 },
                 new MenuItem
                 {
@@ -185,8 +184,7 @@ namespace Uestc.BBS.Core
                     Name = "服 务",
                     Symbol = "Rocket",
                     Glyph = "\uE81E",
-                    IsActive = false,
-                    DockTop = true,
+                    Position = Position.LeftTop,
                 },
                 new MenuItem
                 {
@@ -194,8 +192,7 @@ namespace Uestc.BBS.Core
                     Name = "动 态",
                     Symbol = "Scan",
                     Glyph = "\uE909",
-                    IsActive = false,
-                    DockTop = true,
+                    Position = Position.LeftTop,
                 },
                 new MenuItem
                 {
@@ -203,8 +200,7 @@ namespace Uestc.BBS.Core
                     Name = "发 布",
                     Symbol = "SaveCopy",
                     Glyph = "\uECCD",
-                    IsActive = false,
-                    DockTop = true,
+                    Position = Position.LeftTop,
                 },
                 new MenuItem
                 {
@@ -212,8 +208,7 @@ namespace Uestc.BBS.Core
                     Name = "消 息",
                     Symbol = "Mail",
                     Glyph = "\uE715",
-                    IsActive = false,
-                    DockTop = false,
+                    Position = Position.LeftBottom,
                 },
                 new MenuItem
                 {
@@ -221,8 +216,48 @@ namespace Uestc.BBS.Core
                     Name = "设 置",
                     Symbol = "Settings",
                     Glyph = "\uE713",
-                    IsActive = false,
-                    DockTop = false,
+                    Position = Position.LeftBottom,
+                },
+                // 顶部导航栏菜单列表
+                new MenuItem
+                {
+                    Key = MenuItemKey.MyFavorites,
+                    Name = "我的收藏",
+                    Symbol = "StarLineHorizontal3",
+                    Glyph = "\uE728",
+                    Position = Position.Top,
+                },
+                new MenuItem
+                {
+                    Key = MenuItemKey.MyPosts,
+                    Name = "我的发表",
+                    Symbol = "TextBulletListSquareEdit",
+                    Glyph = "\uE932",
+                    Position = Position.Top,
+                },
+                new MenuItem
+                {
+                    Key = MenuItemKey.MyReplies,
+                    Name = "我的回复",
+                    Symbol = "Comment",
+                    Glyph = "\uE90A",
+                    Position = Position.Top,
+                },
+                new MenuItem
+                {
+                    Key = MenuItemKey.MyMarks,
+                    Name = "我的插眼",
+                    Symbol = "EyeShow",
+                    Glyph = "\uE7B3",
+                    Position = Position.Top,
+                },
+                new MenuItem
+                {
+                    Key = MenuItemKey.TopicFilter,
+                    Name = "设筛选主题",
+                    Symbol = "Filter",
+                    Glyph = "\uE71C",
+                    Position = Position.Top,
                 },
             ];
 
@@ -451,30 +486,6 @@ namespace Uestc.BBS.Core
         HideWithEfficiencyMode,
     }
 
-    public enum MenuItemKey
-    {
-        [Label("Homes")]
-        Home = 0,
-
-        [Label("Sections")]
-        Sections,
-
-        [Label("Services")]
-        Services,
-
-        [Label("Moments")]
-        Moments,
-
-        [Label("Post")]
-        Post,
-
-        [Label("Messages")]
-        Messages,
-
-        [Label("Settings")]
-        Settings,
-    }
-
     public class MenuItem
     {
         public MenuItemKey Key { get; set; }
@@ -482,7 +493,7 @@ namespace Uestc.BBS.Core
         public string Name { get; set; } = string.Empty;
 
         /// <summary>
-        /// FluentAvalonia 图标
+        /// FluentAvalonia 图标，参考 https://fluenticons.co/outlined
         /// </summary>
         public string Symbol { get; set; } = string.Empty;
 
@@ -491,9 +502,56 @@ namespace Uestc.BBS.Core
         /// </summary>
         public string Glyph { get; set; } = string.Empty;
 
-        public bool IsActive { get; set; } = false;
+        /// <summary>
+        /// 菜单位置
+        /// </summary>
+        public Position Position { get; set; } = Position.LeftTop;
+    }
 
-        public bool DockTop { get; set; } = true;
+    public enum MenuItemKey
+    {
+        [Label("主页")]
+        Home = 0,
+
+        [Label("版块")]
+        Sections,
+
+        [Label("服务")]
+        Services,
+
+        [Label("动态")]
+        Moments,
+
+        [Label("发帖")]
+        Post,
+
+        [Label("消息")]
+        Messages,
+
+        [Label("设置")]
+        Settings,
+
+        [Label("我的收藏")]
+        MyFavorites,
+
+        [Label("我的发表")]
+        MyPosts,
+
+        [Label("我的回复")]
+        MyReplies,
+
+        [Label("我的插眼")]
+        MyMarks,
+
+        [Label("主题筛选")]
+        TopicFilter,
+    }
+
+    public enum Position
+    {
+        Top = 0,
+        LeftTop,
+        LeftBottom,
     }
 
     public class BoardTabItem

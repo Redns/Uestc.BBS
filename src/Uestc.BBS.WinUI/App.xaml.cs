@@ -13,6 +13,7 @@ using Uestc.BBS.Mvvm.Services;
 using Uestc.BBS.WinUI.Services;
 using Uestc.BBS.WinUI.ViewModels;
 using Uestc.BBS.WinUI.Views;
+using Uestc.BBS.WinUI.Views.Overlays;
 using WinUIEx;
 
 namespace Uestc.BBS.WinUI
@@ -47,6 +48,12 @@ namespace Uestc.BBS.WinUI
                 .AddSingleton<PostPage>()
                 .AddSingleton<MessagesPage>()
                 .AddTransient<SettingsPage>()
+                // Overlays
+                .AddTransient<MyFavoritesOverlay>()
+                .AddTransient<MyPostsOverlay>()
+                .AddTransient<MyRepliesOverlay>()
+                .AddTransient<MyMarksOverlay>()
+                .AddTransient<TopicFilterOverlay>()
                 // ViewModels
                 .AddTransient<AuthViewModel>()
                 .AddTransient<MainViewModel>()
@@ -57,6 +64,11 @@ namespace Uestc.BBS.WinUI
                 .AddSingleton<PostViewModel>()
                 .AddSingleton<MessagesViewModel>()
                 .AddTransient<SettingsViewModel>()
+                .AddTransient<MyFavoritesViewModel>()
+                .AddTransient<MyPostsViewModel>()
+                .AddTransient<MyRepliesViewModel>()
+                .AddTransient<MyMarksViewModel>()
+                .AddTransient<TopicFilterViewModel>()
                 // Models
                 .AddSingleton<AppSettingModel>()
                 // Navigate
@@ -83,6 +95,8 @@ namespace Uestc.BBS.WinUI
                     );
                     return new NotificationService(appmanifest.Name, appIconUri);
                 })
+                // Navigate
+                .AddSingleton<INavigateService>(services => new NavigateService(services))
                 // 自启动
                 .AddSingleton<IStartupService>(services =>
                 {

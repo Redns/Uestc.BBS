@@ -1,5 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Uestc.BBS.Core.Helpers;
 using Uestc.BBS.Core.Services;
@@ -55,18 +54,19 @@ namespace Uestc.BBS.Mvvm.ViewModels
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(IsBackButtonEnabled))]
         [NotifyPropertyChangedFor(nameof(CurrentPageViewModel))]
-        public partial MenuItemModel SelectedMenuItem { get; set; }
+        public partial MenuItemModel CurrentMenuItem { get; set; }
 
         /// <summary>
         /// 是否显示返回按钮
         /// </summary>
-        public bool IsBackButtonEnabled => SelectedMenuItem.Key != Core.MenuItemKey.Home;
+        public bool IsBackButtonEnabled =>
+            !AppSettingModel.Apperance.MenuItems.Any(m => m.Key == CurrentMenuItem.Key);
 
         /// <summary>
         /// 当前页面的视图模型
         /// </summary>
         public ObservableObject CurrentPageViewModel =>
-            _navigateService.Navigate(SelectedMenuItem.Key);
+            _navigateService.Navigate(CurrentMenuItem.Key);
 
         public MainViewModelBase(
             AppSettingModel appSettingModel,
@@ -130,11 +130,11 @@ namespace Uestc.BBS.Mvvm.ViewModels
                 }
             };
 
-            SelectedMenuItem =
+            CurrentMenuItem =
                 AppSettingModel.Apperance.MenuItems.FirstOrDefault()
                 ?? throw new ArgumentOutOfRangeException(
                     nameof(appSettingModel),
-                    "MenuItems is empty"
+                    "The sidebar must have at least one menu item."
                 );
         }
 

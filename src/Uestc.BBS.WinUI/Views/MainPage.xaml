@@ -56,15 +56,26 @@
                 FontFamily="Consolas"
                 FontSize="13"
                 Text="清水河畔" />
-            <controls:Segmented SelectedIndex="0" Visibility="{x:Bind ViewModel.AppSettingModel.Apperance.IsTopNavigateBarEnabled, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
-                <controls:SegmentedItem
-                    FontSize="28"
-                    Icon="{ui:FontIcon Glyph=&#xE728;}"
-                    ToolTipService.ToolTip="我的收藏" />
-                <controls:SegmentedItem Icon="{ui:FontIcon Glyph=&#xE932;}" ToolTipService.ToolTip="我的发表" />
-                <controls:SegmentedItem Icon="{ui:FontIcon Glyph=&#xE90A;}" ToolTipService.ToolTip="我的回复" />
-                <controls:SegmentedItem Icon="{ui:FontIcon Glyph=&#xE7B3;}" ToolTipService.ToolTip="我的插眼" />
-                <controls:SegmentedItem Icon="{ui:FontIcon Glyph=&#xE71C;}" ToolTipService.ToolTip="筛选主题" />
+            <controls:Segmented
+                ItemsSource="{x:Bind ViewModel.TopMenuItems, Mode=OneWay}"
+                SelectedItem="{x:Bind ViewModel.CurrentMenuItem, Mode=OneWay}"
+                Visibility="{x:Bind ViewModel.AppSettingModel.Apperance.IsTopNavigateBarEnabled, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
+                <controls:Segmented.ItemTemplate>
+                    <DataTemplate x:DataType="models:MenuItemModel">
+                        <FontIcon
+                            Margin="0,2"
+                            FontSize="16"
+                            Glyph="{x:Bind Glyph, Mode=OneWay}"
+                            ToolTipService.ToolTip="{x:Bind Name, Mode=OneWay}" />
+                    </DataTemplate>
+                </controls:Segmented.ItemTemplate>
+                <interactivity:Interaction.Behaviors>
+                    <interactivity:EventTriggerBehavior EventName="SelectionChanged">
+                        <interactivity:EventTriggerBehavior.Actions>
+                            <interactivity:InvokeCommandAction Command="{x:Bind ViewModel.SwitchTopMenuCommand}" />
+                        </interactivity:EventTriggerBehavior.Actions>
+                    </interactivity:EventTriggerBehavior>
+                </interactivity:Interaction.Behaviors>
             </controls:Segmented>
             <PersonPicture
                 Height="35"
@@ -96,13 +107,13 @@
             Grid.Row="1"
             CompactPaneLength="70"
             CompositeMode="Inherit"
-            FooterMenuItemsSource="{x:Bind ViewModel.FooterMenuItems, Mode=OneWay}"
+            FooterMenuItemsSource="{x:Bind ViewModel.LeftFooterMenuItems, Mode=OneWay}"
             IsBackButtonVisible="Collapsed"
             IsPaneOpen="False"
             IsPaneToggleButtonVisible="False"
             IsSettingsVisible="False"
-            MenuItemsSource="{x:Bind ViewModel.TopMenuItems, Mode=OneWay}"
-            SelectedItem="{x:Bind ViewModel.SelectedMenuItem, Mode=TwoWay}">
+            MenuItemsSource="{x:Bind ViewModel.LeftTopMenuItems, Mode=OneWay}"
+            SelectedItem="{x:Bind ViewModel.CurrentMenuItem, Mode=TwoWay}">
             <NavigationView.MenuItemTemplate>
                 <DataTemplate x:DataType="models:MenuItemModel">
                     <StackPanel

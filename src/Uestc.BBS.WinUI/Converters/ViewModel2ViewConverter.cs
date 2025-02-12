@@ -5,6 +5,7 @@ using Uestc.BBS.Core;
 using Uestc.BBS.Mvvm.ViewModels;
 using Uestc.BBS.WinUI.ViewModels;
 using Uestc.BBS.WinUI.Views;
+using Uestc.BBS.WinUI.Views.Overlays;
 
 namespace Uestc.BBS.WinUI.Converters
 {
@@ -28,8 +29,18 @@ namespace Uestc.BBS.WinUI.Converters
                 return ServiceExtension.Services.GetRequiredService<PostPage>();
             if (value is MessagesViewModel)
                 return ServiceExtension.Services.GetRequiredService<MessagesPage>();
-            if (value is SettingsViewModelBase)
+            if (value is SettingsViewModel)
                 return ServiceExtension.Services.GetRequiredService<SettingsPage>();
+            if (value is MyFavoritesViewModel)
+                return ServiceExtension.Services.GetRequiredService<MyFavoritesOverlay>();
+            if (value is MyPostsViewModel)
+                return ServiceExtension.Services.GetRequiredService<MyPostsOverlay>();
+            if (value is MyRepliesViewModel)
+                return ServiceExtension.Services.GetRequiredService<MyRepliesOverlay>();
+            if (value is MyMarksViewModel)
+                return ServiceExtension.Services.GetRequiredService<MyMarksOverlay>();
+            if (value is TopicFilterViewModel)
+                return ServiceExtension.Services.GetRequiredService<TopicFilterOverlay>();
             throw new ArgumentException(
                 "Convert view model to view failed, value is not an ObservableObject type",
                 nameof(value)

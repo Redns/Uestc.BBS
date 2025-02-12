@@ -232,27 +232,15 @@ namespace Uestc.BBS.Mvvm.Models
                 SetProperty(menuItem.Glyph, value, menuItem, (item, glyph) => item.Glyph = glyph);
         }
 
-        public bool IsActive
+        public Position Position
         {
-            get => menuItem.IsActive;
+            get => menuItem.Position;
             set =>
                 SetProperty(
-                    menuItem.IsActive,
+                    menuItem.Position,
                     value,
                     menuItem,
-                    (item, active) => item.IsActive = active
-                );
-        }
-
-        public bool DockTop
-        {
-            get => menuItem.DockTop;
-            set =>
-                SetProperty(
-                    menuItem.DockTop,
-                    value,
-                    menuItem,
-                    (item, dockTop) => item.DockTop = dockTop
+                    (item, position) => item.Position = position
                 );
         }
     }
