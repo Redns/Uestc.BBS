@@ -31,7 +31,7 @@ namespace Uestc.BBS.WinUI
 
         public static event Action<UISettings, ThemeColor> SystemThemeChanged = delegate { };
 
-        public static Window? CurrentWindow { get; set; }
+        public static WindowEx? CurrentWindow { get; set; }
 
         public App()
         {
