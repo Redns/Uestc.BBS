@@ -81,10 +81,13 @@
             </controls:SettingsExpander>
             <!--  浏览  -->
             <controls:SettingsExpander
-                Description="热门主题、置顶公告、点赞评论"
+                Description="主题筛选、热门主题、点赞评论"
                 Header="浏览"
                 HeaderIcon="{ui:FontIcon Glyph=&#xE8A1;}">
                 <controls:SettingsExpander.Items>
+                    <controls:SettingsCard Header="筛选主题">
+                        <ToggleSwitch />
+                    </controls:SettingsCard>
                     <controls:SettingsCard Description="高亮显示热门主题的浏览量和图标" Header="标记热门主题">
                         <ToggleSwitch IsOn="{x:Bind ViewModel.AppSettingModel.Apperance.Browsing.HighlightHotTopic, Mode=TwoWay}" />
                     </controls:SettingsCard>

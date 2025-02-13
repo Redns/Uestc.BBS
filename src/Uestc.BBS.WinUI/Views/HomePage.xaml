@@ -25,6 +25,7 @@
             <controls:Segmented
                 HorizontalAlignment="Center"
                 ItemsSource="{x:Bind ViewModel.AppSettingModel.Apperance.BoardTabItems, Mode=OneWay}"
+                SelectedItem="{x:Bind ViewModel.CurrentBoardTabItemModel, Mode=TwoWay}"
                 Style="{StaticResource PivotSegmentedStyle}">
                 <controls:Segmented.ItemTemplate>
                     <DataTemplate x:DataType="models:BoardTabItemModel">

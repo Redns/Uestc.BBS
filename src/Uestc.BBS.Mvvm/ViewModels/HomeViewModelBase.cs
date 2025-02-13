@@ -31,7 +31,7 @@ namespace Uestc.BBS.Mvvm.ViewModels
             _topicService = topicService;
 
             AppSettingModel = appSettingModel;
-            ;
+            CurrentBoardTabItemModel = appSettingModel.Apperance.BoardTabItems.First();
 
             // 加载板块帖子
             Task.WhenAll(
