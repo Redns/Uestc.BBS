@@ -22,5 +22,10 @@ namespace Uestc.BBS.WinUI.Views
         {
             FlyoutBase.ShowAttachedFlyout(sender as FrameworkElement);
         }
+
+        private void ClearTopMenuSelection(
+            NavigationView sender,
+            NavigationViewItemInvokedEventArgs args
+        ) => TopMenuBar.SelectedIndex = -1;
     }
 }

@@ -71,6 +71,7 @@ namespace Uestc.BBS.WinUI.ViewModels
             {
                 return;
             }
+
             CurrentMenuItem = menuItem;
         }
 

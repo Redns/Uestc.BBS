@@ -27,7 +27,6 @@
 
         <!--  标题栏  -->
         <controls:DockPanel Grid.Row="0" Margin="0,0,160,0">
-            <FontIcon x:Name="aaa" FontSize="23" />
             <AppBarButton
                 Width="40"
                 Margin="5,0,0,0"
@@ -55,9 +54,10 @@
                 FontFamily="Consolas"
                 FontSize="13"
                 Text="清水河畔" />
+            <!--  快捷导航栏  -->
             <controls:Segmented
+                x:Name="TopMenuBar"
                 ItemsSource="{x:Bind ViewModel.TopMenuItems, Mode=OneWay}"
-                SelectedItem="{x:Bind ViewModel.CurrentMenuItem, Mode=OneWay}"
                 Visibility="{x:Bind ViewModel.AppSettingModel.Apperance.IsTopNavigateBarEnabled, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
                 <controls:Segmented.ItemTemplate>
                     <DataTemplate x:DataType="models:MenuItemModel">
@@ -76,6 +76,7 @@
                     </interactivity:EventTriggerBehavior>
                 </interactivity:Interaction.Behaviors>
             </controls:Segmented>
+            <!--  头像  -->
             <PersonPicture
                 Height="35"
                 controls:DockPanel.Dock="Right"
@@ -86,14 +87,16 @@
                 <FlyoutBase.AttachedFlyout>
                     <Flyout Placement="BottomEdgeAlignedRight">
                         <local_controls:PersonProfile
-                            Name="Redns"
+                            Name="{x:Bind ViewModel.AppSettingModel.Auth.DefaultCredential.Name, Mode=OneWay}"
                             MaxWidth="300"
-                            Avatar="https://bbs.uestc.edu.cn/uc_server/data/avatar/000/25/68/25_avatar_big.jpg"
-                            Group="成电校友"
-                            Signature="早熟的人通常都晚熟，骄傲的人又很急性" />
+                            Avatar="{x:Bind ViewModel.AppSettingModel.Auth.DefaultCredential.Avatar, Mode=OneWay}"
+                            Group="{x:Bind ViewModel.AppSettingModel.Auth.DefaultCredential.Group, Mode=OneWay}"
+                            Level="{x:Bind ViewModel.AppSettingModel.Auth.DefaultCredential.Level, Mode=OneWay}"
+                            Signature="{x:Bind ViewModel.AppSettingModel.Auth.DefaultCredential.Signature, Mode=OneWay}" />
                     </Flyout>
                 </FlyoutBase.AttachedFlyout>
             </PersonPicture>
+            <!--  搜索框  -->
             <AutoSuggestBox
                 MaxWidth="520"
                 Margin="15,0"
@@ -111,6 +114,7 @@
             IsPaneOpen="False"
             IsPaneToggleButtonVisible="False"
             IsSettingsVisible="False"
+            ItemInvoked="ClearTopMenuSelection"
             MenuItemsSource="{x:Bind ViewModel.LeftTopMenuItems, Mode=OneWay}"
             SelectedItem="{x:Bind ViewModel.CurrentMenuItem, Mode=TwoWay}">
             <NavigationView.MenuItemTemplate>
