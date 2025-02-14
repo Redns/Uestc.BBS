@@ -32,7 +32,6 @@
 
 <ItemGroup>
   <None Remove="Controls\PersonProfile.xaml" />
-  <None Remove="Controls\TopicOverview.xaml" />
   <None Remove="Views\AuthPage.xaml" />
   <None Remove="Views\ContentDialogs\AboutContentDialog.xaml" />
   <None Remove="Views\HomePage.xaml" />
@@ -142,9 +141,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Update="Views\SettingsPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Update="Controls\TopicOverview.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Update="Views\HomePage.xaml">

@@ -1,5 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 using FastEnumUtility;
+using Uestc.BBS.Core.Helpers;
 using Uestc.BBS.Core.Helpers.JsonConverters;
 using Uestc.BBS.Core.Services.Api.User;
 
@@ -170,7 +171,7 @@ namespace Uestc.BBS.Core.Services.Api.Forum
         public string[] ImageList { get; set; } = [];
 
         [JsonIgnore]
-        public string? PreviewSource => ImageList.FirstOrDefault() ?? " ";
+        public string PreviewSource => ImageList.FirstOrDefault() ?? StringHelper.WhiteSpace;
 
         /// <summary>
         /// 源链接

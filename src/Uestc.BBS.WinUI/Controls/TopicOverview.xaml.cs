@@ -4,7 +4,6 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Media.Imaging;
 using WinUIEx;
 
 namespace Uestc.BBS.WinUI.Controls
@@ -16,14 +15,14 @@ namespace Uestc.BBS.WinUI.Controls
         /// </summary>
         private static readonly DependencyProperty AvatarProperty = DependencyProperty.Register(
             nameof(Avatar),
-            typeof(string),
+            typeof(ImageSource),
             typeof(TopicOverview),
-            new PropertyMetadata(default(string))
+            new PropertyMetadata(default(ImageSource))
         );
 
-        public string Avatar
+        public ImageSource Avatar
         {
-            get => (string)GetValue(AvatarProperty);
+            get => (ImageSource)GetValue(AvatarProperty);
             set => SetValue(AvatarProperty, value);
         }
 
@@ -130,14 +129,14 @@ namespace Uestc.BBS.WinUI.Controls
         private static readonly DependencyProperty PreviewSourceProperty =
             DependencyProperty.Register(
                 nameof(PreviewSource),
-                typeof(string),
+                typeof(ImageSource),
                 typeof(TopicOverview),
-                new PropertyMetadata(default(string))
+                new PropertyMetadata(default(ImageSource))
             );
 
-        public string PreviewSource
+        public ImageSource PreviewSource
         {
-            get => (string)GetValue(PreviewSourceProperty);
+            get => (ImageSource)GetValue(PreviewSourceProperty);
             set => SetValue(PreviewSourceProperty, value);
         }
 
@@ -205,7 +204,7 @@ namespace Uestc.BBS.WinUI.Controls
                     ZoomMode = ZoomMode.Enabled,
                     Content = new Image()
                     {
-                        Source = new BitmapImage(new Uri(PreviewSource)),
+                        Source = PreviewSource,
                         Stretch = Stretch.Uniform,
                         MaxWidth = 1100,
                         MaxHeight = 700,

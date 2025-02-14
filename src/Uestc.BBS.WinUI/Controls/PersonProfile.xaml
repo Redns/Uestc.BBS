@@ -26,33 +26,33 @@
             <StackPanel Orientation="Horizontal" Spacing="5">
                 <TextBlock
                     FontWeight="SemiBold"
-                    Text="{x:Bind Name}"
-                    Visibility="{x:Bind Name, Converter={StaticResource StringVisibilityConverter}}" />
+                    Text="{x:Bind Name, Mode=OneWay}"
+                    Visibility="{x:Bind Name, Converter={StaticResource StringVisibilityConverter}, Mode=OneWay}" />
                 <Border Background="{ThemeResource SystemFillColorSuccessBrush}" CornerRadius="3">
                     <TextBlock
                         Margin="3,0"
                         Padding="0,1,0,0"
                         FontSize="12"
                         Foreground="White"
-                        Text="{x:Bind Level, Converter={StaticResource StringFormatConverter}, ConverterParameter='Lv.{0}'}" />
+                        Text="{x:Bind Level, Converter={StaticResource StringFormatConverter}, ConverterParameter='Lv.{0}', Mode=OneWay}" />
                 </Border>
                 <Border
                     Background="{ThemeResource AccentTextFillColorTertiaryBrush}"
                     CornerRadius="3"
-                    Visibility="{x:Bind Group, Converter={StaticResource StringVisibilityConverter}}">
+                    Visibility="{x:Bind Group, Converter={StaticResource StringVisibilityConverter}, Mode=OneWay}">
                     <TextBlock
                         Margin="3,0"
                         Padding="0,1,0,0"
                         FontSize="11"
                         Foreground="White"
-                        Text="{x:Bind Group}" />
+                        Text="{x:Bind Group, Mode=OneWay}" />
                 </Border>
             </StackPanel>
             <TextBlock
                 FontSize="12"
                 Foreground="Gray"
                 Text="{x:Bind Signature}"
-                Visibility="{x:Bind Signature, Converter={StaticResource StringVisibilityConverter}}" />
+                Visibility="{x:Bind Signature, Converter={StaticResource StringVisibilityConverter}, Mode=OneWay}" />
             <!--  退出登录  -->
             <HyperlinkButton
                 Margin="-5,0"

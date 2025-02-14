@@ -23,48 +23,46 @@ namespace Uestc.BBS.WinUI.ViewModels
         private readonly DispatcherQueue _dispatcherQueue = DispatcherQueue.GetForCurrentThread();
 
         public ObservableCollection<(
-            BoardTabItemModel tabItem,
-            IncrementalLoadingCollection<TopicOverviewSource, TopicOverview> topicOverviews
-        )> BoardTabItems { get; init; } =
+            BoardTabItemModel tabItemModel,
+            IncrementalLoadingCollection<TopicOverviewSource, TopicOverview> topics
+        )> BoardTabItemModels { get; init; } =
             [
                 .. appSettingModel.Apperance.BoardTabItems.Select(b =>
                     (
                         b,
                         new IncrementalLoadingCollection<TopicOverviewSource, TopicOverview>(
-                            new TopicOverviewSource(b, topicService)
+                            new TopicOverviewSource(topicService, b)
                         )
                     )
-                ),
+                )
             ];
 
         public override Task DispatcherAsync(Action action) =>
             _dispatcherQueue.EnqueueAsync(action);
     }
 
-    public class TopicOverviewSource(BoardTabItemModel tabItem, ITopicService topicService)
+    public class TopicOverviewSource(ITopicService topicService, BoardTabItemModel boardTabItem)
         : IIncrementalSource<TopicOverview>
     {
-        private readonly BoardTabItemModel _tabItem = tabItem;
-
         private readonly ITopicService _topicService = topicService;
+
+        private readonly BoardTabItemModel boardTabItem = boardTabItem;
 
         public async Task<IEnumerable<TopicOverview>> GetPagedItemsAsync(
             int pageIndex,
             int pageSize,
             CancellationToken cancellationToken = default
-        )
-        {
-            return await _topicService
-                    .GetTopicsAsync(
-                        route: _tabItem.Route,
-                        page: pageIndex + 1,
-                        pageSize: pageSize,
-                        boardId: _tabItem.Board,
-                        sortby: _tabItem.SortType,
-                        moduleId: _tabItem.ModuleId,
-                        getPreviewSources: _tabItem.RequirePreviewSources
-                    )
-                    .ContinueWith(task => task.Result?.List) ?? [];
-        }
+        ) =>
+            await _topicService
+                .GetTopicsAsync(
+                    route: boardTabItem.Route,
+                    page: (uint)pageIndex + 1,
+                    pageSize: (uint)pageSize,
+                    moduleId: boardTabItem.ModuleId,
+                    boardId: boardTabItem.Board,
+                    sortby: boardTabItem.SortType,
+                    getPreviewSources: boardTabItem.RequirePreviewSources
+                )
+                .ContinueWith(t => t.Result?.List ?? []);
     }
 }

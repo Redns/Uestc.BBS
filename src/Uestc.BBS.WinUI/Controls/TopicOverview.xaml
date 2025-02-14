@@ -30,39 +30,39 @@
                     controls:DockPanel.Dock="Left"
                     Background="Transparent"
                     BorderBrush="Transparent"
-                    ProfilePicture="{x:Bind Avatar}" />
+                    ProfilePicture="{x:Bind Avatar, Mode=OneWay}" />
                 <StackPanel VerticalAlignment="Center" controls:DockPanel.Dock="Left">
-                    <TextBlock Text="{x:Bind Username}" />
+                    <TextBlock Text="{x:Bind Username, Mode=OneWay}" />
                     <TextBlock
                         FontSize="12"
                         Foreground="Gray"
-                        Text="{x:Bind Date, Converter={StaticResource TopicDate2StringConverter}}" />
+                        Text="{x:Bind Date, Converter={StaticResource TopicDate2StringConverter}, Mode=OneWay}" />
                 </StackPanel>
                 <TextBlock
                     VerticalAlignment="Center"
                     FontSize="12"
                     Foreground="{ThemeResource AccentTextFillColorTertiaryBrush}"
-                    Text="{x:Bind BoardName}"
+                    Text="{x:Bind BoardName, Mode=OneWay}"
                     TextAlignment="Right" />
             </controls:DockPanel>
             <!--  标题、摘要  -->
             <TextBlock
                 FontSize="16"
-                Text="{x:Bind Title}"
+                Text="{x:Bind Title, Mode=OneWay}"
                 TextWrapping="Wrap" />
             <TextBlock
                 Foreground="Gray"
-                Text="{x:Bind Subject}"
+                Text="{x:Bind Subject, Mode=OneWay}"
                 TextWrapping="Wrap"
                 Visibility="{x:Bind Subject, Converter={StaticResource StringVisibilityConverter}}" />
             <!--  预览图  -->
             <Border HorizontalAlignment="Left" CornerRadius="6">
                 <Image
-                    MaxHeight="180"
+                    MaxHeight="200"
                     PointerPressed="OpenPreviewImage"
-                    Source="{x:Bind PreviewSource}"
+                    Source="{x:Bind PreviewSource, Mode=OneWay}"
                     Stretch="Uniform"
-                    Visibility="{x:Bind PreviewSource, Converter={StaticResource StringVisibilityConverter}}" />
+                    Visibility="{x:Bind PreviewSource, Converter={StaticResource StringVisibilityConverter}, Mode=OneWay}" />
             </Border>
             <!--  浏览、点赞、评论  -->
             <Grid>
@@ -77,23 +77,22 @@
                         FontSize="14"
                         Foreground="#C99100"
                         Glyph="&#xECAD;"
-                        Visibility="{x:Bind IsHot, Converter={StaticResource BoolToVisibilityConverter}}" />
+                        Visibility="{x:Bind IsHot, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
                     <TextBlock
                         Padding="0,0,0,1"
                         VerticalAlignment="Center"
                         Foreground="#C99100"
                         Text="{x:Bind Views}"
-                        Visibility="{x:Bind IsHot, Converter={StaticResource BoolToVisibilityConverter}}" />
-
+                        Visibility="{x:Bind IsHot, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
                     <FontIcon
                         FontSize="14"
                         Glyph="&#xE7B3;"
-                        Visibility="{x:Bind IsHot, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=true}" />
+                        Visibility="{x:Bind IsHot, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=true, Mode=OneWay}" />
                     <TextBlock
                         Padding="0,0,0,1"
                         VerticalAlignment="Center"
-                        Text="{x:Bind Views}"
-                        Visibility="{x:Bind IsHot, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=true}" />
+                        Text="{x:Bind Views, Mode=OneWay}"
+                        Visibility="{x:Bind IsHot, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=true, Mode=OneWay}" />
                 </StackPanel>
                 <!--  回复数  -->
                 <StackPanel
@@ -105,7 +104,7 @@
                     <TextBlock
                         Padding="0,0,0,1"
                         VerticalAlignment="Center"
-                        Text="{x:Bind Replies}" />
+                        Text="{x:Bind Replies, Mode=OneWay}" />
                 </StackPanel>
                 <!--  点赞数  -->
                 <StackPanel
@@ -117,7 +116,7 @@
                     <TextBlock
                         Padding="0,0,0,1"
                         VerticalAlignment="Center"
-                        Text="{x:Bind Likes}" />
+                        Text="{x:Bind Likes, Mode=OneWay}" />
                 </StackPanel>
             </Grid>
         </StackPanel>

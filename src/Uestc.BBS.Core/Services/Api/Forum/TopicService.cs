@@ -22,9 +22,9 @@ namespace Uestc.BBS.Core.Services.Api.Forum
         /// <returns></returns>
         public async Task<TopicResp?> GetTopicsAsync(
             string? route = null,
-            int page = 1,
-            int pageSize = 10,
-            int moduleId = 2,
+            uint page = 1,
+            uint pageSize = 10,
+            uint moduleId = 2,
             Board boardId = Board.Latest,
             TopicSortType sortby = TopicSortType.All,
             TopicTopOrder topOrder = TopicTopOrder.WithoutTop,
