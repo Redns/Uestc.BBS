@@ -8,7 +8,7 @@ using WinUIEx;
 
 namespace Uestc.BBS.WinUI.Controls
 {
-    public sealed partial class TopicOverview : UserControl
+    public sealed partial class TopicOverviewControl : UserControl
     {
         /// <summary>
         /// Í·Ïñ
@@ -16,7 +16,7 @@ namespace Uestc.BBS.WinUI.Controls
         private static readonly DependencyProperty AvatarProperty = DependencyProperty.Register(
             nameof(Avatar),
             typeof(ImageSource),
-            typeof(TopicOverview),
+            typeof(TopicOverviewControl),
             new PropertyMetadata(default(ImageSource))
         );
 
@@ -32,7 +32,7 @@ namespace Uestc.BBS.WinUI.Controls
         private static readonly DependencyProperty UsernameProperty = DependencyProperty.Register(
             nameof(Username),
             typeof(string),
-            typeof(TopicOverview),
+            typeof(TopicOverviewControl),
             new PropertyMetadata(default(string))
         );
 
@@ -49,7 +49,7 @@ namespace Uestc.BBS.WinUI.Controls
         private static readonly DependencyProperty DateProperty = DependencyProperty.Register(
             nameof(Date),
             typeof(DateTime),
-            typeof(TopicOverview),
+            typeof(TopicOverviewControl),
             new PropertyMetadata(default(DateTime))
         );
 
@@ -65,7 +65,7 @@ namespace Uestc.BBS.WinUI.Controls
         private static readonly DependencyProperty IsHotProperty = DependencyProperty.Register(
             nameof(IsHot),
             typeof(bool),
-            typeof(TopicOverview),
+            typeof(TopicOverviewControl),
             new PropertyMetadata(default(bool))
         );
 
@@ -81,7 +81,7 @@ namespace Uestc.BBS.WinUI.Controls
         private static readonly DependencyProperty BoardProperty = DependencyProperty.Register(
             nameof(BoardName),
             typeof(string),
-            typeof(TopicOverview),
+            typeof(TopicOverviewControl),
             new PropertyMetadata(default(string))
         );
 
@@ -97,7 +97,7 @@ namespace Uestc.BBS.WinUI.Controls
         private static readonly DependencyProperty TitleProperty = DependencyProperty.Register(
             nameof(Title),
             typeof(string),
-            typeof(TopicOverview),
+            typeof(TopicOverviewControl),
             new PropertyMetadata(default(string))
         );
 
@@ -113,7 +113,7 @@ namespace Uestc.BBS.WinUI.Controls
         private static readonly DependencyProperty SubjectProperty = DependencyProperty.Register(
             nameof(Subject),
             typeof(string),
-            typeof(TopicOverview),
+            typeof(TopicOverviewControl),
             new PropertyMetadata(default(string))
         );
 
@@ -130,7 +130,7 @@ namespace Uestc.BBS.WinUI.Controls
             DependencyProperty.Register(
                 nameof(PreviewSource),
                 typeof(ImageSource),
-                typeof(TopicOverview),
+                typeof(TopicOverviewControl),
                 new PropertyMetadata(default(ImageSource))
             );
 
@@ -146,7 +146,7 @@ namespace Uestc.BBS.WinUI.Controls
         private static readonly DependencyProperty ViewsProperty = DependencyProperty.Register(
             nameof(Views),
             typeof(uint),
-            typeof(TopicOverview),
+            typeof(TopicOverviewControl),
             new PropertyMetadata(default(uint))
         );
 
@@ -162,7 +162,7 @@ namespace Uestc.BBS.WinUI.Controls
         private static readonly DependencyProperty RepliesProperty = DependencyProperty.Register(
             nameof(Replies),
             typeof(uint),
-            typeof(TopicOverview),
+            typeof(TopicOverviewControl),
             new PropertyMetadata(default(uint))
         );
 
@@ -178,7 +178,7 @@ namespace Uestc.BBS.WinUI.Controls
         private static readonly DependencyProperty LikesProperty = DependencyProperty.Register(
             nameof(Likes),
             typeof(uint),
-            typeof(TopicOverview),
+            typeof(TopicOverviewControl),
             new PropertyMetadata(default(uint))
         );
 
@@ -188,7 +188,7 @@ namespace Uestc.BBS.WinUI.Controls
             set => SetValue(LikesProperty, value);
         }
 
-        public TopicOverview()
+        public TopicOverviewControl()
         {
             InitializeComponent();
         }

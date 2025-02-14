@@ -65,6 +65,7 @@ namespace Uestc.BBS.WinUI
                 .AddTransient<MyRepliesOverlay>()
                 .AddTransient<MyMarksOverlay>()
                 .AddTransient<TopicFilterOverlay>()
+                .AddTransient<ApperanceSettingsOverlay>()
                 // ViewModels
                 .AddTransient<AuthViewModel>()
                 .AddTransient<MainViewModel>()

@@ -135,7 +135,7 @@ namespace Uestc.BBS.Mvvm.ViewModels
                 ?? throw new ArgumentOutOfRangeException(
                     nameof(appSettingModel),
                     "The sidebar must have at least one menu item."
-                );
+            );
         }
 
         public abstract Task DispatcherAsync(Action action);

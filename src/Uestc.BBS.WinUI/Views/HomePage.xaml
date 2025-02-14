@@ -32,8 +32,9 @@
             <!--  板块列表  -->
             <controls:Segmented
                 HorizontalAlignment="Center"
+                IsItemClickEnabled="True"
                 ItemsSource="{x:Bind ViewModel.AppSettingModel.Apperance.BoardTabItems, Mode=OneWay}"
-                SelectedItem="{x:Bind ViewModel.CurrentBoardTabItemModel, Mode=TwoWay}"
+                SelectedItem="{x:Bind ViewModel.CurrentBoardTabItemModel, Mode=OneWay}"
                 Style="{StaticResource PivotSegmentedStyle}">
                 <controls:Segmented.ItemTemplate>
                     <DataTemplate x:DataType="models:BoardTabItemModel">
@@ -43,42 +44,24 @@
                             Text="{x:Bind Name}" />
                     </DataTemplate>
                 </controls:Segmented.ItemTemplate>
+                <interactivity:Interaction.Behaviors>
+                    <interactivity:EventTriggerBehavior EventName="SelectionChanged">
+                        <interactivity:EventTriggerBehavior.Actions>
+                            <interactivity:InvokeCommandAction Command="{x:Bind ViewModel.SwitchBoardTabItemCommand}" />
+                        </interactivity:EventTriggerBehavior.Actions>
+                    </interactivity:EventTriggerBehavior>
+                    <interactivity:EventTriggerBehavior EventName="ItemClick">
+                        <interactivity:EventTriggerBehavior.Actions>
+                            <interactivity:InvokeCommandAction Command="{x:Bind ViewModel.RefreshBoardTabItemsCommand}" />
+                        </interactivity:EventTriggerBehavior.Actions>
+                    </interactivity:EventTriggerBehavior>
+                </interactivity:Interaction.Behaviors>
             </controls:Segmented>
             <!--  板块内容  -->
-            <ListView
+            <UserControl
                 Grid.Row="1"
                 Margin="0,10,0,15"
-                ItemsSource="{x:Bind ViewModel.BoardTabItemModels[0].Item2, Mode=OneWay}"
-                ScrollViewer.VerticalScrollBarVisibility="Hidden"
-                SelectionMode="None">
-                <ListView.ItemContainerStyle>
-                    <Style TargetType="ListViewItem">
-                        <Setter Property="Padding" Value="0" />
-                        <Setter Property="Margin" Value="0,0,0,10" />
-                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                    </Style>
-                </ListView.ItemContainerStyle>
-                <ListView.ItemTemplate>
-                    <DataTemplate x:DataType="forum:TopicOverview">
-                        <local_controls:TopicOverview
-                            Title="{x:Bind Title}"
-                            Avatar="{x:Bind UserAvatar}"
-                            BoardName="{x:Bind BoardName}"
-                            Date="{x:Bind DateTime}"
-                            Likes="{x:Bind Likes}"
-                            PreviewSource="{x:Bind PreviewSource}"
-                            Replies="{x:Bind Replies}"
-                            Subject="{x:Bind Subject}"
-                            Username="{x:Bind UserNickName}"
-                            Views="{x:Bind Views}" />
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-            <ProgressRing
-                Grid.Row="1"
-                Margin="0,20,0,0"
-                VerticalAlignment="Top"
-                IsActive="{x:Bind ViewModel.BoardTabItemModels[0].Item2.IsLoading, Mode=OneWay}" />
+                Content="{x:Bind ViewModel.CurrentBoardTabItemListView, Mode=OneWay}" />
         </Grid>
         <!--  主题内容  -->
         <StackPanel Grid.Column="1">

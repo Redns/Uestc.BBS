@@ -545,6 +545,9 @@ namespace Uestc.BBS.Core
 
         [Label("主题筛选")]
         TopicFilter,
+
+        [Label("外观设置")]
+        ApperanceSettings,
     }
 
     public enum Position

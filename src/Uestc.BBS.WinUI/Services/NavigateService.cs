@@ -29,6 +29,8 @@ namespace Uestc.BBS.WinUI.Services
                 MenuItemKey.MyReplies => _services.GetRequiredService<MyRepliesOverlay>(),
                 MenuItemKey.MyMarks => _services.GetRequiredService<MyMarksOverlay>(),
                 MenuItemKey.TopicFilter => _services.GetRequiredService<TopicFilterOverlay>(),
+                MenuItemKey.ApperanceSettings =>
+                    _services.GetRequiredService<ApperanceSettingsOverlay>(),
                 _ => throw new ArgumentException(
                     $"Navigate to {key} failed, unknown key",
                     nameof(key)

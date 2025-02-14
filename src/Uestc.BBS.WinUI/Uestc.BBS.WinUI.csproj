@@ -31,6 +31,7 @@
 </ItemGroup>
 
 <ItemGroup>
+  <None Remove="Controls\BoardTabItemListView.xaml" />
   <None Remove="Controls\PersonProfile.xaml" />
   <None Remove="Views\AuthPage.xaml" />
   <None Remove="Views\ContentDialogs\AboutContentDialog.xaml" />
@@ -38,6 +39,7 @@
   <None Remove="Views\MainPage.xaml" />
   <None Remove="Views\MessagesPage.xaml" />
   <None Remove="Views\MomentsPage.xaml" />
+  <None Remove="Views\Overlays\ApperanceSettingsOverlay.xaml" />
   <None Remove="Views\Overlays\MyFavoritesOverlay.xaml" />
   <None Remove="Views\Overlays\MyMarksOverlay.xaml" />
   <None Remove="Views\Overlays\MyPostsOverlay.xaml" />
@@ -63,6 +65,7 @@
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.WinUI.Collections" Version="8.2.250129-preview2" />
     <PackageReference Include="CommunityToolkit.WinUI.Controls.Primitives" Version="8.2.250129-preview2" />
+    <PackageReference Include="CommunityToolkit.WinUI.Controls.RangeSelector" Version="8.2.250129-preview2" />
     <PackageReference Include="CommunityToolkit.WinUI.Controls.Segmented" Version="8.2.250129-preview2" />
     <PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.2.250129-preview2" />
     <PackageReference Include="CommunityToolkit.WinUI.Controls.Sizers" Version="8.2.250129-preview2" />
@@ -95,6 +98,12 @@
     <None Update="Assets\Icons\auth_icon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Page Update="Views\Overlays\ApperanceSettingsOverlay.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\BoardTabItemListView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Views\Overlays\TopicFilterOverlay.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

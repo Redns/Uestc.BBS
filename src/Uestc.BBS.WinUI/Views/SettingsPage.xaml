@@ -24,15 +24,123 @@
 
     <ScrollViewer Margin="10" VerticalScrollBarVisibility="Hidden">
         <StackPanel Spacing="5">
-            <TextBlock
-                Margin="1,0,0,0"
-                FontSize="14"
-                Text="显示" />
+            <controls:SettingsCard
+                Description="主题颜色、导航栏、每日一句"
+                Header="外观"
+                HeaderIcon="{ui:FontIcon Glyph=&#xE790;}"
+                IsClickEnabled="True" />
+            <controls:SettingsCard
+                Description="主题筛选、热门主题、点赞评论"
+                Header="浏览"
+                HeaderIcon="{ui:FontIcon Glyph=&#xE8A1;}"
+                IsClickEnabled="True" />
+            <controls:SettingsCard
+                Description="托盘图标、置顶公告、回复"
+                Header="通知"
+                HeaderIcon="{ui:FontIcon Glyph=&#xEA8F;}"
+                IsClickEnabled="True" />
+            <controls:SettingsCard
+                Description="管理授权信息或切换账户"
+                Header="账户"
+                HeaderIcon="{ui:FontIcon Glyph=&#xE77B;}"
+                IsClickEnabled="True" />
+            <controls:SettingsCard
+                Description="缓存、WebDVA 同步"
+                Header="数据与存储"
+                HeaderIcon="{ui:FontIcon Glyph=&#xE72E;}"
+                IsClickEnabled="True" />
+            <controls:SettingsCard
+                Description="日志、应用更新"
+                Header="服务"
+                HeaderIcon="{ui:FontIcon Glyph=&#xE81E;}"
+                IsClickEnabled="True" />
+            <!--  应用更新  -->
+            <controls:SettingsExpander Header="应用更新" HeaderIcon="{ui:FontIcon Glyph=&#xE895;}">
+                <controls:SettingsExpander.Description>
+                    <StackPanel HorizontalAlignment="Left">
+                        <TextBlock Text="{x:Bind ViewModel.AppSettingModel.Upgrade.LastCheckTime, Converter={StaticResource StringFormatConverter}, ConverterParameter='最近检查时间：{0:yyyy/MM/dd HH:mm:ss}', Mode=OneWay}" Visibility="{x:Bind ViewModel.CheckUpdateCommand.IsRunning, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True, Mode=OneWay}" />
+                        <ProgressBar
+                            Width="160"
+                            Height="16"
+                            VerticalAlignment="Center"
+                            IsIndeterminate="True"
+                            Visibility="{x:Bind ViewModel.CheckUpdateCommand.IsRunning, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
+                    </StackPanel>
+                </controls:SettingsExpander.Description>
+                <Button Command="{x:Bind ViewModel.CheckUpdateCommand}" Content="检查更新" />
+                <controls:SettingsExpander.Items>
+                    <controls:SettingsCard Description="抢先体验最新功能和改进" Header="接收预览版">
+                        <ToggleSwitch IsOn="{x:Bind ViewModel.AppSettingModel.Upgrade.AcceptBetaVersion, Mode=TwoWay}" />
+                    </controls:SettingsCard>
+                    <controls:SettingsCard Header="更新镜像源">
+                        <StackPanel
+                            VerticalAlignment="Center"
+                            Orientation="Horizontal"
+                            Spacing="10">
+                            <ComboBox>
+                                <ComboBoxItem>Git</ComboBoxItem>
+                                <ComboBoxItem>Cloudflare</ComboBoxItem>
+                            </ComboBox>
+                            <TextBox
+                                Width="320"
+                                Text="{x:Bind ViewModel.AppSettingModel.Upgrade.Mirror, Mode=TwoWay}"
+                                TextAlignment="Center" />
+                        </StackPanel>
+                    </controls:SettingsCard>
+                </controls:SettingsExpander.Items>
+            </controls:SettingsExpander>
+            <!--  清水河畔  -->
+            <controls:SettingsExpander
+                Description="{x:Bind ViewModel.Appmanifest.CopyRight}"
+                Header="{x:Bind ViewModel.Appmanifest.Name}"
+                HeaderIcon="{ui:BitmapIcon Source=/Assets/Icons/app.ico}">
+                <TextBlock Text="{x:Bind ViewModel.Appmanifest.Version}" />
+                <controls:SettingsExpander.Items>
+                    <controls:SettingsCard Header="源代码">
+                        <TextBlock>
+                            <Hyperlink NavigateUri="{x:Bind ViewModel.Appmanifest.SourceRepositoryUrl}">
+                                <Run Text="{x:Bind ViewModel.Appmanifest.SourceRepositoryUrl}" />
+                            </Hyperlink>
+                        </TextBlock>
+                    </controls:SettingsCard>
+                    <controls:SettingsCard Header="贡献者">
+                        <controls:SettingsCard.Resources>
+                            <x:Double x:Key="SettingsCardWrapThreshold">10000</x:Double>
+                        </controls:SettingsCard.Resources>
+                        <ItemsControl ItemsSource="{x:Bind ViewModel.Appmanifest.Contributors}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <controls:WrapPanel
+                                        Margin="0,5"
+                                        HorizontalSpacing="10"
+                                        VerticalSpacing="10" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate x:DataType="core:Contributor">
+                                    <PersonPicture
+                                        Height="36"
+                                        PointerPressed="OpenContributorHomepage"
+                                        ProfilePicture="{x:Bind Avatar}"
+                                        Tag="{x:Bind Homepage}"
+                                        ToolTipService.ToolTip="{x:Bind Name}" />
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </controls:SettingsCard>
+                    <controls:SettingsCard
+                        ActionIcon="{ui:FontIcon Glyph=&#xE8A7;}"
+                        Command="{x:Bind ViewModel.OpenWebSiteCommand}"
+                        CommandParameter="{x:Bind ViewModel.Appmanifest.FeedbackUrl}"
+                        Header="反馈与建议"
+                        IsClickEnabled="True" />
+                </controls:SettingsExpander.Items>
+            </controls:SettingsExpander>
             <!--  颜色  -->
             <controls:SettingsCard
                 Description="更改应用中显示的颜色"
                 Header="主题"
-                HeaderIcon="{ui:FontIcon Glyph=&#xE790;}">
+                HeaderIcon="{ui:FontIcon Glyph=&#xE793;}">
                 <ComboBox ItemsSource="{x:Bind ThemeColors}" SelectedItem="{x:Bind ViewModel.AppSettingModel.Apperance.ThemeColor, Mode=TwoWay}">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
@@ -87,6 +195,21 @@
                 <controls:SettingsExpander.Items>
                     <controls:SettingsCard Header="筛选主题">
                         <ToggleSwitch />
+                    </controls:SettingsCard>
+                    <controls:SettingsCard Description="在主题列表中显示图片摘要" Header="预览图像">
+                        <ToggleSwitch />
+                    </controls:SettingsCard>
+                    <controls:SettingsCard Description="鼠标拖拽主题列表右侧边缘即可调整宽度" Header="主题列表宽度">
+                        <StackPanel Orientation="Horizontal" Spacing="10">
+                            <TextBlock
+                                Padding="0,0,0,1"
+                                VerticalAlignment="Center"
+                                Text="{x:Bind ViewModel.AppSettingModel.Apperance.Browsing.TopicHotThreshold, Mode=OneWay}" />
+                            <Slider
+                                Width="160"
+                                Maximum="2000"
+                                Minimum="200" />
+                        </StackPanel>
                     </controls:SettingsCard>
                     <controls:SettingsCard Description="高亮显示热门主题的浏览量和图标" Header="标记热门主题">
                         <ToggleSwitch IsOn="{x:Bind ViewModel.AppSettingModel.Apperance.Browsing.HighlightHotTopic, Mode=TwoWay}" />
@@ -442,92 +565,6 @@
                         </controls:SettingsCard.Description>
                         <Button Command="{x:Bind ViewModel.ClearLogsCommand}" Content="全部清除" />
                     </controls:SettingsCard>
-                </controls:SettingsExpander.Items>
-            </controls:SettingsExpander>
-            <!--  应用更新  -->
-            <controls:SettingsExpander Header="应用更新" HeaderIcon="{ui:FontIcon Glyph=&#xE895;}">
-                <controls:SettingsExpander.Description>
-                    <StackPanel HorizontalAlignment="Left">
-                        <TextBlock Text="{x:Bind ViewModel.AppSettingModel.Upgrade.LastCheckTime, Converter={StaticResource StringFormatConverter}, ConverterParameter='最近检查时间：{0:yyyy/MM/dd HH:mm:ss}', Mode=OneWay}" Visibility="{x:Bind ViewModel.CheckUpdateCommand.IsRunning, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True, Mode=OneWay}" />
-                        <ProgressBar
-                            Width="160"
-                            Height="16"
-                            VerticalAlignment="Center"
-                            IsIndeterminate="True"
-                            Visibility="{x:Bind ViewModel.CheckUpdateCommand.IsRunning, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
-                    </StackPanel>
-                </controls:SettingsExpander.Description>
-                <Button Command="{x:Bind ViewModel.CheckUpdateCommand}" Content="检查更新" />
-                <controls:SettingsExpander.Items>
-                    <controls:SettingsCard Description="抢先体验最新功能和改进" Header="接收预览版">
-                        <ToggleSwitch IsOn="{x:Bind ViewModel.AppSettingModel.Upgrade.AcceptBetaVersion, Mode=TwoWay}" />
-                    </controls:SettingsCard>
-                    <controls:SettingsCard Header="更新镜像源">
-                        <StackPanel
-                            VerticalAlignment="Center"
-                            Orientation="Horizontal"
-                            Spacing="10">
-                            <ComboBox>
-                                <ComboBoxItem>Git</ComboBoxItem>
-                                <ComboBoxItem>Cloudflare</ComboBoxItem>
-                            </ComboBox>
-                            <TextBox
-                                Width="320"
-                                Text="{x:Bind ViewModel.AppSettingModel.Upgrade.Mirror, Mode=TwoWay}"
-                                TextAlignment="Center" />
-                        </StackPanel>
-                    </controls:SettingsCard>
-                </controls:SettingsExpander.Items>
-            </controls:SettingsExpander>
-            <TextBlock
-                Margin="1,15,0,0"
-                FontSize="14"
-                Text="关于此应用" />
-            <!--  清水河畔  -->
-            <controls:SettingsExpander
-                Description="{x:Bind ViewModel.Appmanifest.CopyRight}"
-                Header="{x:Bind ViewModel.Appmanifest.Name}"
-                HeaderIcon="{ui:BitmapIcon Source=/Assets/Icons/app.ico}">
-                <TextBlock Text="{x:Bind ViewModel.Appmanifest.Version}" />
-                <controls:SettingsExpander.Items>
-                    <controls:SettingsCard Header="源代码">
-                        <TextBlock>
-                            <Hyperlink NavigateUri="{x:Bind ViewModel.Appmanifest.SourceRepositoryUrl}">
-                                <Run Text="{x:Bind ViewModel.Appmanifest.SourceRepositoryUrl}" />
-                            </Hyperlink>
-                        </TextBlock>
-                    </controls:SettingsCard>
-                    <controls:SettingsCard Header="贡献者">
-                        <controls:SettingsCard.Resources>
-                            <x:Double x:Key="SettingsCardWrapThreshold">10000</x:Double>
-                        </controls:SettingsCard.Resources>
-                        <ItemsControl ItemsSource="{x:Bind ViewModel.Appmanifest.Contributors}">
-                            <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <controls:WrapPanel
-                                        Margin="0,5"
-                                        HorizontalSpacing="10"
-                                        VerticalSpacing="10" />
-                                </ItemsPanelTemplate>
-                            </ItemsControl.ItemsPanel>
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate x:DataType="core:Contributor">
-                                    <PersonPicture
-                                        Height="36"
-                                        PointerPressed="OpenContributorHomepage"
-                                        ProfilePicture="{x:Bind Avatar}"
-                                        Tag="{x:Bind Homepage}"
-                                        ToolTipService.ToolTip="{x:Bind Name}" />
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
-                    </controls:SettingsCard>
-                    <controls:SettingsCard
-                        ActionIcon="{ui:FontIcon Glyph=&#xE8A7;}"
-                        Command="{x:Bind ViewModel.OpenWebSiteCommand}"
-                        CommandParameter="{x:Bind ViewModel.Appmanifest.FeedbackUrl}"
-                        Header="反馈与建议"
-                        IsClickEnabled="True" />
                 </controls:SettingsExpander.Items>
             </controls:SettingsExpander>
         </StackPanel>
