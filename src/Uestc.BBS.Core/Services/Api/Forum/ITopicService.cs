@@ -4,9 +4,9 @@
     {
         Task<TopicResp?> GetTopicsAsync(
             string? route = null,
-            uint page = 1,
-            uint pageSize = 10,
-            uint moduleId = 2,
+            int page = 1,
+            int pageSize = 10,
+            int moduleId = 2,
             Board boardId = 0,
             TopicSortType sortby = TopicSortType.New,
             TopicTopOrder topOrder = TopicTopOrder.WithoutTop,

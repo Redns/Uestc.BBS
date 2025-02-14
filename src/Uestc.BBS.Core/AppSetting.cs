@@ -569,7 +569,7 @@ namespace Uestc.BBS.Core
         /// <summary>
         /// 我也不知道这是什么
         /// </summary>
-        public uint ModuleId { get; set; } = 0;
+        public int ModuleId { get; set; } = 0;
 
         /// <summary>
         /// 板块编号
@@ -584,7 +584,7 @@ namespace Uestc.BBS.Core
         /// <summary>
         /// 分页大小
         /// </summary>
-        public uint PageSize { get; set; } = 15;
+        public int PageSize { get; set; } = 15;
 
         /// <summary>
         /// 获取预览图

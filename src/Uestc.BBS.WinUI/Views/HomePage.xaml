@@ -4,13 +4,20 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="using:CommunityToolkit.WinUI.Controls"
+    xmlns:converters="using:CommunityToolkit.WinUI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:forum="using:Uestc.BBS.Core.Services.Api.Forum"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:local_controls="using:Uestc.BBS.WinUI.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="using:Uestc.BBS.Mvvm.Models"
     xmlns:ui="using:CommunityToolkit.WinUI"
     mc:Ignorable="d">
+
+    <Page.Resources>
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+    </Page.Resources>
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="330" />
@@ -36,33 +43,30 @@
                     </DataTemplate>
                 </controls:Segmented.ItemTemplate>
             </controls:Segmented>
-            <ScrollViewer
+            <ListView
                 Grid.Row="1"
                 Margin="0,10"
-                VerticalScrollBarVisibility="Hidden">
-                <ItemsControl ItemsSource="{x:Bind ViewModel.AppSettingModel.Apperance.BoardTabItems[0].Topics, Mode=OneWay}">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <StackPanel Spacing="10" />
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate x:DataType="forum:TopicOverview">
-                            <local_controls:TopicOverview
-                                Title="{x:Bind Title}"
-                                Avatar="{x:Bind UserAvatar}"
-                                BoardName="{x:Bind BoardName}"
-                                Date="{x:Bind DateTime}"
-                                Likes="{x:Bind Likes}"
-                                PreviewSource="{x:Bind PreviewSource}"
-                                Replies="{x:Bind Replies}"
-                                Subject="{x:Bind Subject}"
-                                Username="{x:Bind UserNickName}"
-                                Views="{x:Bind Views}" />
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </ScrollViewer>
+                ItemsSource="{x:Bind ViewModel.BoardTabItems[0].Item2, Mode=OneWay}"
+                ScrollViewer.VerticalScrollBarVisibility="Hidden">
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="forum:TopicOverview">
+                        <local_controls:TopicOverview Title="{x:Bind Title, Mode=OneWay}" />
+                    </DataTemplate>
+                    <!--<DataTemplate x:DataType="forum:TopicOverview">
+    <local_controls:TopicOverview
+        Title="{Binding Title}"
+        Avatar="{x:Bind UserAvatar}"
+        BoardName="{x:Bind BoardName}"
+        Date="{x:Bind DateTime}"
+        Likes="{x:Bind Likes}"
+        PreviewSource="{x:Bind PreviewSource}"
+        Replies="{x:Bind Replies}"
+        Subject="{x:Bind Subject}"
+        Username="{x:Bind UserNickName}"
+        Views="{x:Bind Views}" />
+</DataTemplate>-->
+                </ListView.ItemTemplate>
+            </ListView>
         </Grid>
 
         <StackPanel Grid.Column="1">
@@ -77,11 +81,12 @@
 
         <controls:GridSplitter
             Grid.Column="1"
-            Width="5"
-            MinWidth="5"
-            Padding="0"
+            Width="3"
+            MinWidth="1"
+            Margin="0,10"
             HorizontalAlignment="Left"
             HorizontalContentAlignment="Left"
+            Foreground="Transparent"
             ResizeBehavior="BasedOnAlignment"
             ResizeDirection="Auto">
             <controls:GridSplitter.RenderTransform>

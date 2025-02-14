@@ -297,7 +297,7 @@ namespace Uestc.BBS.Mvvm.Models
                 );
         }
 
-        public uint PageSize
+        public int PageSize
         {
             get => boardTabItem.PageSize;
             set =>
@@ -321,7 +321,7 @@ namespace Uestc.BBS.Mvvm.Models
                 );
         }
 
-        public uint ModuleId
+        public int ModuleId
         {
             get => boardTabItem.ModuleId;
             set =>
@@ -332,8 +332,6 @@ namespace Uestc.BBS.Mvvm.Models
                     (item, moduleId) => item.ModuleId = moduleId
                 );
         }
-
-        public ObservableCollection<TopicOverview> Topics { get; init; } = [];
     }
 
     /// <summary>
