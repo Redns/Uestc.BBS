@@ -32,6 +32,7 @@
                         PreviewSource="{x:Bind PreviewSource}"
                         Replies="{x:Bind Replies}"
                         Subject="{x:Bind Subject}"
+                        Summary="{x:Bind Summary}"
                         Username="{x:Bind UserNickName}"
                         Views="{x:Bind Views}" />
                 </DataTemplate>

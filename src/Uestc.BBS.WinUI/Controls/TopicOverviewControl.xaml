@@ -55,6 +55,11 @@
                 Text="{x:Bind Subject, Mode=OneWay}"
                 TextWrapping="Wrap"
                 Visibility="{x:Bind Subject, Converter={StaticResource StringVisibilityConverter}, Mode=OneWay}" />
+            <TextBlock
+                Foreground="Gray"
+                Text="{x:Bind Summary, Mode=OneWay}"
+                TextWrapping="Wrap"
+                Visibility="{x:Bind Summary, Converter={StaticResource StringVisibilityConverter}, Mode=OneWay}" />
             <!--  预览图  -->
             <Border HorizontalAlignment="Left" CornerRadius="6">
                 <Image

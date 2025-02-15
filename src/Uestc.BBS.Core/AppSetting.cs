@@ -290,7 +290,7 @@ namespace Uestc.BBS.Core
                 {
                     Name = "热门",
                     Route = "portal/newslist",
-                    Board = Board.Anonymous,
+                    Board = Board.Hot,
                     SortType = TopicSortType.All,
                     PageSize = 15,
                     RequirePreviewSources = true,

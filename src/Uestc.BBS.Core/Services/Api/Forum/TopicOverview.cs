@@ -81,7 +81,7 @@ namespace Uestc.BBS.Core.Services.Api.Forum
         /// <summary>
         /// TODO WHAT'S THIS
         /// </summary>
-        public int Hot { get; set; }
+        public uint Hot { get; set; }
 
         /// <summary>
         /// 浏览量
@@ -135,9 +135,9 @@ namespace Uestc.BBS.Core.Services.Api.Forum
         public string Ratio { get; set; } = string.Empty;
 
         /// <summary>
-        /// TODO 枚举性别类型
+        /// 枚举性别类型
         /// </summary>
-        public int Gender { get; set; }
+        public Gender Gender { get; set; }
 
         /// <summary>
         /// 用户头衔
@@ -212,6 +212,12 @@ namespace Uestc.BBS.Core.Services.Api.Forum
     /// </summary>
     public enum Board
     {
+        /// <summary>
+        /// XXX 热门板块实际上不需要 Board 参数，此处是用于标记热门版块主题
+        /// </summary>
+        [Label("热门")]
+        Hot = -1,
+
         [Label("最新发表", (int)TopicSortType.New)]
         [Label("最新回复", (int)TopicSortType.All)]
         Latest = 0,
@@ -272,6 +278,18 @@ namespace Uestc.BBS.Core.Services.Api.Forum
 
         [Label("返回全局置顶帖")]
         WithGlobalTop,
+    }
+
+    public enum Gender
+    {
+        [Label("未知")]
+        Unknown = 0,
+
+        [Label("男")]
+        Male,
+
+        [Label("女")]
+        Female,
     }
 
     [JsonSerializable(typeof(TopicOverview))]

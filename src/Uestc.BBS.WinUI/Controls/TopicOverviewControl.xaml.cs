@@ -123,6 +123,19 @@ namespace Uestc.BBS.WinUI.Controls
             set => SetValue(SubjectProperty, value);
         }
 
+        private static readonly DependencyProperty SummaryProperty = DependencyProperty.Register(
+            nameof(Summary),
+            typeof(string),
+            typeof(TopicOverviewControl),
+            new PropertyMetadata(default(string))
+        );
+
+        public string Summary
+        {
+            get => (string)GetValue(SummaryProperty);
+            set => SetValue(SummaryProperty, value);
+        }
+
         /// <summary>
         /// ‘§¿¿Õº∆¨µÿ÷∑
         /// </summary>
