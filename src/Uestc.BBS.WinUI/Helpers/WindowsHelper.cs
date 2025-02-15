@@ -121,5 +121,106 @@ namespace Uestc.BBS.WinUI.Helpers
             var principal = new WindowsPrincipal(identity);
             return principal.IsInRole(WindowsBuiltInRole.Administrator);
         }
+
+        public static void SetRowDefinitions(this Grid grid, string args)
+        {
+            var rowDefinitions = args.Split(',');
+            if (rowDefinitions.Length == 0)
+            {
+                return;
+            }
+
+            foreach (var rowDefinition in rowDefinitions)
+            {
+                // 100,200
+                if (!rowDefinition.Contains('*'))
+                {
+                    grid.RowDefinitions.Add(
+                        new RowDefinition { Height = new GridLength(double.Parse(rowDefinition)) }
+                    );
+                    continue;
+                }
+
+                // *,200
+                if (rowDefinition.StartsWith('*'))
+                {
+                    grid.RowDefinitions.Add(
+                        new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) }
+                    );
+                    continue;
+                }
+
+                // 1*,2*
+                grid.RowDefinitions.Add(
+                    new RowDefinition
+                    {
+                        Height = new GridLength(
+                            double.Parse(rowDefinition[..^1]),
+                            GridUnitType.Star
+                        ),
+                    }
+                );
+            }
+        }
+
+        public static void SetColumnDefinitions(this Grid grid, string args)
+        {
+            var columnDefinitions = args.Split(',');
+            if (columnDefinitions.Length == 0)
+            {
+                return;
+            }
+
+            foreach (var columnDefinition in columnDefinitions)
+            {
+                // 100,200
+                if (!columnDefinition.Contains('*'))
+                {
+                    grid.ColumnDefinitions.Add(
+                        new ColumnDefinition
+                        {
+                            Width = new GridLength(double.Parse(columnDefinition)),
+                        }
+                    );
+                    continue;
+                }
+
+                // *,200
+                if (columnDefinition.StartsWith('*'))
+                {
+                    grid.ColumnDefinitions.Add(
+                        new ColumnDefinition { Width = new GridLength(1, GridUnitType.Auto) }
+                    );
+                    continue;
+                }
+
+                // 1*,2*
+                grid.ColumnDefinitions.Add(
+                    new ColumnDefinition
+                    {
+                        Width = new GridLength(
+                            double.Parse(columnDefinition[..^1]),
+                            GridUnitType.Star
+                        ),
+                    }
+                );
+            }
+        }
+
+        public static void Add(
+            this Grid grid,
+            FrameworkElement element,
+            int row = 0,
+            int column = 0,
+            int rowSpan = 1,
+            int columnSpan = 1
+        )
+        {
+            Grid.SetRow(element, row);
+            Grid.SetColumn(element, column);
+            Grid.SetRowSpan(element, rowSpan);
+            Grid.SetColumnSpan(element, columnSpan);
+            grid.Children.Add(element);
+        }
     }
 }

@@ -15,6 +15,14 @@
         <lc:TopicDate2StringConverter x:Key="TopicDate2StringConverter" />
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
         <converters:StringVisibilityConverter x:Key="StringVisibilityConverter" />
+        <converters:CollectionVisibilityConverter x:Key="CollectionVisibilityConverter" />
+
+        <DataTemplate
+            x:Key="FlipViewDataTemplete"
+            x:Name="PreviewFlipViewDataTemplete"
+            x:DataType="x:String">
+            <Image Source="{x:Bind Mode=OneWay}" Stretch="Uniform" />
+        </DataTemplate>
     </UserControl.Resources>
 
     <Border
@@ -61,14 +69,10 @@
                 TextWrapping="Wrap"
                 Visibility="{x:Bind Summary, Converter={StaticResource StringVisibilityConverter}, Mode=OneWay}" />
             <!--  预览图  -->
-            <Border HorizontalAlignment="Left" CornerRadius="6">
-                <Image
-                    MaxHeight="200"
-                    PointerPressed="OpenPreviewImage"
-                    Source="{x:Bind PreviewSource, Mode=OneWay}"
-                    Stretch="Uniform"
-                    Visibility="{x:Bind PreviewSource, Converter={StaticResource StringVisibilityConverter}, Mode=OneWay}" />
-            </Border>
+            <Grid
+                x:Name="PreviewSourcesGrid"
+                MaxHeight="280"
+                Visibility="{x:Bind PreviewSources, Converter={StaticResource CollectionVisibilityConverter}, Mode=OneWay}" />
             <!--  浏览、点赞、评论  -->
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -87,7 +91,7 @@
                         Padding="0,0,0,1"
                         VerticalAlignment="Center"
                         Foreground="#C99100"
-                        Text="{x:Bind Views}"
+                        Text="{x:Bind Views, Mode=OneWay}"
                         Visibility="{x:Bind IsHot, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
                     <FontIcon
                         FontSize="14"

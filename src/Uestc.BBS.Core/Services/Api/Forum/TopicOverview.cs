@@ -84,6 +84,12 @@ namespace Uestc.BBS.Core.Services.Api.Forum
         public uint Hot { get; set; }
 
         /// <summary>
+        /// 是否为热门帖
+        /// </summary>
+        [JsonIgnore]
+        public bool IsHot { get; set; } = false;
+
+        /// <summary>
         /// 浏览量
         /// </summary>
         [JsonPropertyName("hits")]

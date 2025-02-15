@@ -1,10 +1,10 @@
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using CommunityToolkit.WinUI.Collections;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Threading;
 using Uestc.BBS.Core;
 using Uestc.BBS.Core.Services.Api.Forum;
 using Uestc.BBS.Mvvm.Models;
@@ -70,6 +70,13 @@ namespace Uestc.BBS.WinUI.Controls
                     sortby: boardTabItem.SortType,
                     getPreviewSources: boardTabItem.RequirePreviewSources
                 )
-                .ContinueWith(t => t.Result?.List ?? []);
+                .ContinueWith(t =>
+                    t.Result?.List ?? []
+                //t.Result?.List.Select(t =>
+                //{
+                //    t.IsHot = t.Hot > 0 || boardTabItem.Board == Board.Hot;
+                //    return t;
+                //}) ?? []
+                );
     }
 }
