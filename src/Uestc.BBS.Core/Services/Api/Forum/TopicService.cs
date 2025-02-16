@@ -29,7 +29,8 @@ namespace Uestc.BBS.Core.Services.Api.Forum
             TopicSortType sortby = TopicSortType.All,
             TopicTopOrder topOrder = TopicTopOrder.WithoutTop,
             bool getPreviewImages = false,
-            bool getPartialReply = false
+            bool getPartialReply = false,
+            CancellationToken cancellationToken = default
         )
         {
             using var resp = await _httpClient.PostAsync(
@@ -47,7 +48,8 @@ namespace Uestc.BBS.Core.Services.Api.Forum
                         { "circle", getPartialReply ? "1" : "0" },
                         { "isImageList", getPreviewImages ? "1" : "0" },
                     }
-                )
+                ),
+                cancellationToken
             );
 
             if (resp.StatusCode is not HttpStatusCode.OK)
@@ -56,7 +58,7 @@ namespace Uestc.BBS.Core.Services.Api.Forum
             }
 
             return JsonSerializer.Deserialize(
-                await resp.Content.ReadAsStreamAsync(),
+                await resp.Content.ReadAsStreamAsync(cancellationToken),
                 TopicRespContext.Default.TopicResp
             );
         }

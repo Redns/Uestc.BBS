@@ -11,7 +11,8 @@
             TopicSortType sortby = TopicSortType.New,
             TopicTopOrder topOrder = TopicTopOrder.WithoutTop,
             bool getPreviewSources = false,
-            bool getPartialReply = false
+            bool getPartialReply = false,
+            CancellationToken cancellationToken = default
         );
     }
 }

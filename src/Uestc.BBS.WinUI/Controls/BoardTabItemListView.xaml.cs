@@ -69,21 +69,18 @@ namespace Uestc.BBS.WinUI.Controls
                     moduleId: boardTabItem.ModuleId,
                     boardId: boardTabItem.Board,
                     sortby: boardTabItem.SortType,
-                    getPreviewSources: boardTabItem.RequirePreviewSources
+                    getPreviewSources: boardTabItem.RequirePreviewSources,
+                    cancellationToken: cancellationToken
                 )
                 .ContinueWith(t =>
-                    boardTabItem.Board == Board.Hot
-                        ? t.Result?.List.Select(t =>
+                    t.Result?.List.DistinctBy(t =>
+                            boardTabItem.Board is Board.Hot ? t.SourceId : t.TopicId
+                        )
+                        .Select(t =>
                         {
-                            t.IsHot = true;
+                            t.IsHot = t.Hot > 0 || boardTabItem.Board is Board.Hot;
                             return t;
                         }) ?? []
-                        : t.Result?.List.DistinctBy(t => t.TopicId)
-                            .Select(t =>
-                            {
-                                t.IsHot = t.Hot > 0;
-                                return t;
-                            }) ?? []
                 );
     }
 }

@@ -25,9 +25,13 @@ namespace Uestc.BBS.Core.Services.Api.Forum
 
         /// <summary>
         /// 帖子 ID
+        /// 热门主题请使用 SourceId，其余主题使用 TopicId
         /// </summary>
         [JsonPropertyName("topic_id")]
         public uint TopicId { get; set; }
+
+        [JsonPropertyName("source_id")]
+        public uint SourceId { get; set; }
 
         /// <summary>
         /// 帖子类型
