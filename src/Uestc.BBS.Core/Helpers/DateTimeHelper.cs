@@ -4,6 +4,12 @@ namespace Uestc.BBS.Core.Helpers
 {
     public static class DateTimeHelper
     {
+        /// <summary>
+        /// 获取星期几的中文名称
+        /// </summary>
+        /// <param name="dayOfWeek"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
         public static string GetDayOfWeekInChinese(this DayOfWeek dayOfWeek) =>
             dayOfWeek switch
             {
@@ -17,6 +23,11 @@ namespace Uestc.BBS.Core.Helpers
                 _ => throw new ArgumentOutOfRangeException(nameof(dayOfWeek))
             };
 
+        /// <summary>
+        /// 获取相对时间字符串
+        /// </summary>
+        /// <param name="date"></param>
+        /// <returns></returns>
         public static string ToRelativeDateString(this DateTime date)
         {
             var now = DateTime.Now;
@@ -62,6 +73,11 @@ namespace Uestc.BBS.Core.Helpers
             if (date >= startOfLastWeek && date < startOfWeek)
             {
                 return "上周" + date.DayOfWeek.GetDayOfWeekInChinese();
+            }
+
+            if(date.Year == now.Year)
+            {
+                return date.ToString("MM/dd HH:mm");
             }
 
             return date.ToShortDateString();

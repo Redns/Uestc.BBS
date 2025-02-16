@@ -12,11 +12,12 @@
     mc:Ignorable="d">
 
     <UserControl.Resources>
-        <lc:TopicDate2StringConverter x:Key="TopicDate2StringConverter" />
+        <lc:Date2RelativeStringConverter x:Key="Date2RelativeStringConverter" />
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
         <converters:StringVisibilityConverter x:Key="StringVisibilityConverter" />
         <converters:CollectionVisibilityConverter x:Key="CollectionVisibilityConverter" />
 
+        <!--  预览图像模板  -->
         <DataTemplate
             x:Key="FlipViewDataTemplete"
             x:Name="PreviewFlipViewDataTemplete"
@@ -41,10 +42,24 @@
                     ProfilePicture="{x:Bind Avatar, Mode=OneWay}" />
                 <StackPanel VerticalAlignment="Center" controls:DockPanel.Dock="Left">
                     <TextBlock Text="{x:Bind Username, Mode=OneWay}" />
+                    <!--  热门主题显示发布时间  -->
                     <TextBlock
                         FontSize="12"
                         Foreground="Gray"
-                        Text="{x:Bind Date, Converter={StaticResource TopicDate2StringConverter}, Mode=OneWay}" />
+                        Text="{x:Bind Date, Converter={StaticResource Date2RelativeStringConverter}, ConverterParameter=True, Mode=OneWay}"
+                        Visibility="{x:Bind IsHot, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
+                    <!--  其他主题显示最新回复时间  -->
+                    <!--  xaml 格式化自动换行，导致无法消除 Run 之间的空格，暂时使用 StackPanel  -->
+                    <StackPanel Orientation="Horizontal" Visibility="{x:Bind IsHot, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True, Mode=OneWay}">
+                        <TextBlock
+                            FontSize="12"
+                            Foreground="Gray"
+                            Text="{x:Bind Date, Converter={StaticResource Date2RelativeStringConverter}, Mode=OneWay}" />
+                        <TextBlock
+                            FontSize="12"
+                            Foreground="Gray"
+                            Text="有回复" />
+                    </StackPanel>
                 </StackPanel>
                 <TextBlock
                     VerticalAlignment="Center"

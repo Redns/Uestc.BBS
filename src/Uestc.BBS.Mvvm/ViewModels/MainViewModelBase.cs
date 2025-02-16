@@ -1,9 +1,12 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
+using Uestc.BBS.Core;
 using Uestc.BBS.Core.Helpers;
 using Uestc.BBS.Core.Services;
 using Uestc.BBS.Core.Services.Notification;
 using Uestc.BBS.Core.Services.System;
+using Uestc.BBS.Mvvm.Messages;
 using Uestc.BBS.Mvvm.Models;
 using Uestc.BBS.Mvvm.Services;
 
@@ -52,21 +55,31 @@ namespace Uestc.BBS.Mvvm.ViewModels
         /// <summary>
         /// 当前选中的菜单项
         /// </summary>
+        public MenuItemModel CurrentMenuItem
+        {
+            get => field;
+            set
+            {
+                SetProperty(ref field, value);
+                CurrentMenuKey = value.Key;
+            }
+        }
+
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(CurrentMenuContent))]
         [NotifyPropertyChangedFor(nameof(IsBackButtonEnabled))]
-        public partial MenuItemModel CurrentMenuItem { get; set; }
+        public partial MenuItemKey CurrentMenuKey { get; set; }
+
+        /// <summary>
+        /// 当前页面的视图模型
+        /// </summary>
+        public TContent CurrentMenuContent => _navigateService.Navigate(CurrentMenuKey);
 
         /// <summary>
         /// 是否显示返回按钮
         /// </summary>
         public bool IsBackButtonEnabled =>
-            !AppSettingModel.Apperance.MenuItems.Any(m => m.Key == CurrentMenuItem.Key);
-
-        /// <summary>
-        /// 当前页面的视图模型
-        /// </summary>
-        public TContent CurrentMenuContent => _navigateService.Navigate(CurrentMenuItem.Key);
+            !AppSettingModel.Apperance.MenuItems.Any(m => m.Key == CurrentMenuKey);
 
         public MainViewModelBase(
             AppSettingModel appSettingModel,
@@ -135,11 +148,27 @@ namespace Uestc.BBS.Mvvm.ViewModels
                 ?? throw new ArgumentOutOfRangeException(
                     nameof(appSettingModel),
                     "The sidebar must have at least one menu item."
+                );
+
+            // 注册导航消息
+            StrongReferenceMessenger.Default.Register<NavigateChangedMessage>(
+                this,
+                (r, m) => CurrentMenuKey = m.Value
             );
         }
 
+        /// <summary>
+        /// 返回上一页
+        /// </summary>
+        [RelayCommand]
+        private void NavigateBack() => CurrentMenuKey = CurrentMenuItem.Key;
+
         public abstract Task DispatcherAsync(Action action);
 
+        /// <summary>
+        /// 打开网站
+        /// </summary>
+        /// <param name="url"></param>
         [RelayCommand]
         private void OpenWebSite(string url) => OperatingSystemHelper.OpenWebsite(url);
     }

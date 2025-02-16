@@ -30,6 +30,7 @@
             <AppBarButton
                 Width="40"
                 Margin="5,0,0,0"
+                Command="{x:Bind ViewModel.NavigateBackCommand}"
                 ToolTipService.ToolTip="返回"
                 Visibility="{x:Bind ViewModel.IsBackButtonEnabled, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
                 <FontIcon Glyph="&#xEC52;" />

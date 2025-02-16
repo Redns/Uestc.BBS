@@ -81,6 +81,7 @@ namespace Uestc.BBS.WinUI
                 .AddTransient<MyRepliesViewModel>()
                 .AddTransient<MyMarksViewModel>()
                 .AddTransient<TopicFilterViewModel>()
+                .AddTransient<ApperanceSettingsViewModel>()
                 // Models
                 .AddSingleton<AppSettingModel>()
                 // Appmanifest

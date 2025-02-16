@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using CommunityToolkit.WinUI.Collections;
@@ -71,12 +72,18 @@ namespace Uestc.BBS.WinUI.Controls
                     getPreviewSources: boardTabItem.RequirePreviewSources
                 )
                 .ContinueWith(t =>
-                    t.Result?.List ?? []
-                //t.Result?.List.Select(t =>
-                //{
-                //    t.IsHot = t.Hot > 0 || boardTabItem.Board == Board.Hot;
-                //    return t;
-                //}) ?? []
+                    boardTabItem.Board == Board.Hot
+                        ? t.Result?.List.Select(t =>
+                        {
+                            t.IsHot = true;
+                            return t;
+                        }) ?? []
+                        : t.Result?.List.DistinctBy(t => t.TopicId)
+                            .Select(t =>
+                            {
+                                t.IsHot = t.Hot > 0;
+                                return t;
+                            }) ?? []
                 );
     }
 }

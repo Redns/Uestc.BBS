@@ -160,6 +160,23 @@ namespace Uestc.BBS.WinUI.Controls
         }
 
         /// <summary>
+        /// 模糊加载，限制预览图象的解码高度以减少资源占用，提升加载速度
+        /// </summary>
+        private static readonly DependencyProperty LazyLoadingProperty =
+            DependencyProperty.Register(
+                nameof(LazyLoading),
+                typeof(bool),
+                typeof(TopicOverviewControl),
+                new PropertyMetadata(false)
+            );
+
+        public bool LazyLoading
+        {
+            get => (bool)GetValue(LazyLoadingProperty);
+            set => SetValue(LazyLoadingProperty, value);
+        }
+
+        /// <summary>
         /// 浏览量
         /// </summary>
         private static readonly DependencyProperty ViewsProperty = DependencyProperty.Register(
@@ -235,8 +252,12 @@ namespace Uestc.BBS.WinUI.Controls
             {
                 var image = new Image
                 {
+                    MaxHeight = 240,
                     Stretch = Stretch.Uniform,
-                    Source = new BitmapImage(new Uri(sources[0])),
+                    Source = new BitmapImage(new Uri(sources[0]))
+                    {
+                        DecodePixelHeight = topicOverview.LazyLoading ? 240 : 0
+                    },
                 };
                 image.PointerPressed += (sender, e) =>
                     OpenPreviewImage(
@@ -248,7 +269,6 @@ namespace Uestc.BBS.WinUI.Controls
                 topicOverview.PreviewGrid.Children.Add(
                     new Border
                     {
-                        MaxHeight = 260,
                         Child = image,
                         CornerRadius = new CornerRadius(6),
                         HorizontalAlignment = HorizontalAlignment.Left,
@@ -257,10 +277,13 @@ namespace Uestc.BBS.WinUI.Controls
                 return;
             }
 
-            var colums =
-                sources.Length < 3 ? sources.Length
-                : sources.Length is 4 ? 2
-                : 3;
+            // 计算 Grid 布局
+            var colums = sources.Length switch
+            {
+                2 => 2,
+                4 => 2,
+                _ => 3
+            };
             var rows = (int)Math.Ceiling(sources.Length / (double)colums);
             if (rows > 1)
             {
@@ -284,7 +307,12 @@ namespace Uestc.BBS.WinUI.Controls
                 {
                     var image = new Image
                     {
-                        Source = new BitmapImage(new Uri(s)),
+                        // 图像较多时限制其整体高度，避免占据太多视觉空间
+                        Height = 140 - rows * 15,
+                        Source = new BitmapImage(new Uri(s))
+                        {
+                            DecodePixelHeight = topicOverview.LazyLoading ? 140 - rows * 15 : 0
+                        },
                         Stretch = Stretch.UniformToFill,
                     };
                     image.PointerPressed += (sender, e) =>
@@ -298,7 +326,6 @@ namespace Uestc.BBS.WinUI.Controls
                 .Select(image => new Border
                 {
                     Child = image,
-                    Height = 140 - rows * 15,
                     CornerRadius = new CornerRadius(6),
 
                     HorizontalAlignment = HorizontalAlignment.Left,
