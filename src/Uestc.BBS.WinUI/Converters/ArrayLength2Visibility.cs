@@ -23,7 +23,7 @@ namespace Uestc.BBS.WinUI.Converters
 
             return
                 int.TryParse((string)parameter, out int lengthParameter)
-                || array.Length >= lengthParameter
+                && array.Length == lengthParameter
                 ? Visibility.Visible
                 : Visibility.Collapsed;
         }

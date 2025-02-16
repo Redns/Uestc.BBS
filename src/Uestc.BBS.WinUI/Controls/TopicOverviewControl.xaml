@@ -70,8 +70,9 @@
                 Visibility="{x:Bind Summary, Converter={StaticResource StringVisibilityConverter}, Mode=OneWay}" />
             <!--  预览图  -->
             <Grid
-                x:Name="PreviewSourcesGrid"
-                MaxHeight="280"
+                x:Name="PreviewGrid"
+                ColumnSpacing="5"
+                RowSpacing="5"
                 Visibility="{x:Bind PreviewSources, Converter={StaticResource CollectionVisibilityConverter}, Mode=OneWay}" />
             <!--  浏览、点赞、评论  -->
             <Grid>

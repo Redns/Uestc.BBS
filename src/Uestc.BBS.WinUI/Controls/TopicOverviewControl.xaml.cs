@@ -1,5 +1,7 @@
 using System;
 using System.Linq;
+using CommunityToolkit.WinUI;
+using CommunityToolkit.WinUI.Controls;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
@@ -143,36 +145,18 @@ namespace Uestc.BBS.WinUI.Controls
         /// <summary>
         /// ‘§¿¿Õº∆¨µÿ÷∑
         /// </summary>
-        private static readonly DependencyProperty PreviewSourceProperty =
-            DependencyProperty.Register(
-                nameof(PreviewSource),
-                typeof(ImageSource),
-                typeof(TopicOverviewControl),
-                new PropertyMetadata(default(ImageSource))
-            );
-
-        public ImageSource PreviewSource
-        {
-            get => (ImageSource)GetValue(PreviewSourceProperty);
-            set => SetValue(PreviewSourceProperty, value);
-        }
-
         private static readonly DependencyProperty PreviewSourcesProperty =
             DependencyProperty.Register(
                 nameof(PreviewSources),
                 typeof(string[]),
                 typeof(TopicOverviewControl),
-                new PropertyMetadata(default(string[]))
+                new PropertyMetadata(default(string[]), SetPreviewGrid)
             );
 
         public string[] PreviewSources
         {
             get => (string[])GetValue(PreviewSourcesProperty);
-            set
-            {
-                SetValue(PreviewSourcesProperty, value);
-                SetPreviewSourcesGrid();
-            }
+            set => SetValue(PreviewSourcesProperty, value);
         }
 
         /// <summary>
@@ -228,14 +212,74 @@ namespace Uestc.BBS.WinUI.Controls
             InitializeComponent();
         }
 
-        private void SetPreviewSourcesGrid()
+        private static void SetPreviewGrid(
+            DependencyObject sender,
+            DependencyPropertyChangedEventArgs e
+        )
         {
-            if (PreviewSources.Length == 0)
+            if (e.NewValue is not string[] sources || sources.Length == 0)
             {
                 return;
             }
 
-            var images = PreviewSources
+            if (sender is not TopicOverviewControl topicOverview)
+            {
+                return;
+            }
+
+            topicOverview.PreviewGrid.Children.Clear();
+            topicOverview.PreviewGrid.RowDefinitions.Clear();
+            topicOverview.PreviewGrid.ColumnDefinitions.Clear();
+
+            if (sources.Length == 1)
+            {
+                var image = new Image
+                {
+                    Stretch = Stretch.Uniform,
+                    Source = new BitmapImage(new Uri(sources[0])),
+                };
+                image.PointerPressed += (sender, e) =>
+                    OpenPreviewImage(
+                        topicOverview.PreviewSources,
+                        0,
+                        topicOverview.PreviewFlipViewDataTemplete
+                    );
+
+                topicOverview.PreviewGrid.Children.Add(
+                    new Border
+                    {
+                        MaxHeight = 260,
+                        Child = image,
+                        CornerRadius = new CornerRadius(6),
+                        HorizontalAlignment = HorizontalAlignment.Left,
+                    }
+                );
+                return;
+            }
+
+            var colums =
+                sources.Length < 3 ? sources.Length
+                : sources.Length is 4 ? 2
+                : 3;
+            var rows = (int)Math.Ceiling(sources.Length / (double)colums);
+            if (rows > 1)
+            {
+                for (var i = 0; i < rows; i++)
+                {
+                    topicOverview.PreviewGrid.RowDefinitions.Add(
+                        new RowDefinition { Height = new GridLength(1, GridUnitType.Star) }
+                    );
+                }
+            }
+            for (var i = 0; i < colums; i++)
+            {
+                topicOverview.PreviewGrid.ColumnDefinitions.Add(
+                    new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) }
+                );
+            }
+
+            var images = sources
+                .Take(9)
                 .Select(s =>
                 {
                     var image = new Image
@@ -243,90 +287,27 @@ namespace Uestc.BBS.WinUI.Controls
                         Source = new BitmapImage(new Uri(s)),
                         Stretch = Stretch.UniformToFill,
                     };
-                    image.PointerPressed += OpenPreviewImage;
+                    image.PointerPressed += (sender, e) =>
+                        OpenPreviewImage(
+                            topicOverview.PreviewSources,
+                            Array.IndexOf(sources, s),
+                            topicOverview.PreviewFlipViewDataTemplete
+                        );
                     return image;
                 })
-                .ToArray();
-            var borderImages = images
-                .Select(i => new Border
+                .Select(image => new Border
                 {
+                    Child = image,
+                    Height = 140 - rows * 15,
                     CornerRadius = new CornerRadius(6),
-                    Child = i,
+
                     HorizontalAlignment = HorizontalAlignment.Left,
                 })
                 .ToArray();
 
-            if (PreviewSources.Length == 1)
+            for (var i = 0; i < images.Length; i++)
             {
-                images[0].Stretch = Stretch.Uniform;
-                PreviewSourcesGrid.Add(borderImages[0]);
-                return;
-            }
-
-            if (PreviewSources.Length == 2)
-            {
-                PreviewSourcesGrid.ColumnSpacing = 10;
-                PreviewSourcesGrid.SetColumnDefinitions("1*,1*");
-
-                images[0].Height = 150;
-                images[1].Height = 150;
-
-                PreviewSourcesGrid.Add(borderImages[0]);
-                PreviewSourcesGrid.Add(borderImages[1], 0, 1);
-                return;
-            }
-
-            PreviewSourcesGrid.RowSpacing = 10;
-            PreviewSourcesGrid.ColumnSpacing = 10;
-
-            if (PreviewSources.Length == 3)
-            {
-                PreviewSourcesGrid.SetRowDefinitions("1*,1*");
-                PreviewSourcesGrid.SetColumnDefinitions("1*,1*");
-
-                PreviewSourcesGrid.Add(borderImages[0], 0, 0, rowSpan: 2);
-                PreviewSourcesGrid.Add(borderImages[1], 0, 1);
-                PreviewSourcesGrid.Add(borderImages[2], 1, 1);
-                return;
-            }
-
-            if (PreviewSources.Length == 4)
-            {
-                PreviewSourcesGrid.SetRowDefinitions("1*,1*");
-                PreviewSourcesGrid.SetColumnDefinitions("1*,1*");
-
-                PreviewSourcesGrid.Add(borderImages[0]);
-                PreviewSourcesGrid.Add(borderImages[1], 0, 1);
-                PreviewSourcesGrid.Add(borderImages[2], 1, 0);
-                PreviewSourcesGrid.Add(borderImages[3], 1, 1);
-                return;
-            }
-
-            if (PreviewSources.Length == 5)
-            {
-                PreviewSourcesGrid.SetRowDefinitions("1*,1*");
-                PreviewSourcesGrid.SetColumnDefinitions("1*,1*,1*");
-
-                PreviewSourcesGrid.Add(borderImages[0], rowSpan: 2);
-                PreviewSourcesGrid.Add(borderImages[1], 0, 1);
-                PreviewSourcesGrid.Add(borderImages[2], 0, 2);
-                PreviewSourcesGrid.Add(borderImages[3], 1, 1);
-                PreviewSourcesGrid.Add(borderImages[4], 1, 2);
-                return;
-            }
-
-            if (PreviewSources.Length == 6)
-            {
-                PreviewSourcesGrid.SetRowDefinitions("1*,1*");
-                PreviewSourcesGrid.SetColumnDefinitions("1*,1*,1*");
-
-                PreviewSourcesGrid.Add(borderImages[0], 0, 0);
-                PreviewSourcesGrid.Add(borderImages[1], 0, 1);
-                PreviewSourcesGrid.Add(borderImages[2], 0, 2);
-                PreviewSourcesGrid.Add(borderImages[3], 1, 0);
-                PreviewSourcesGrid.Add(borderImages[4], 1, 1);
-                PreviewSourcesGrid.Add(borderImages[5], 1, 2);
-                return;
+                topicOverview.PreviewGrid.Add(images[i], i / colums, i % colums);
             }
         }
 
@@ -335,13 +316,12 @@ namespace Uestc.BBS.WinUI.Controls
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void OpenPreviewImage(object sender, PointerRoutedEventArgs e)
+        private static void OpenPreviewImage(
+            string[] sources,
+            int currentSourceIndex,
+            DataTemplate dataTemplate
+        )
         {
-            if (sender is not Image image)
-            {
-                return;
-            }
-
             var window = new WindowEx
             {
                 ExtendsContentIntoTitleBar = true,
@@ -352,8 +332,9 @@ namespace Uestc.BBS.WinUI.Controls
                     ZoomMode = ZoomMode.Enabled,
                     Content = new FlipView
                     {
-                        ItemsSource = PreviewSources,
-                        ItemTemplate = PreviewFlipViewDataTemplete,
+                        ItemsSource = sources,
+                        ItemTemplate = dataTemplate,
+                        SelectedIndex = currentSourceIndex,
                         Background = new SolidColorBrush(Colors.Transparent),
                     },
                     VerticalScrollBarVisibility = ScrollBarVisibility.Hidden,

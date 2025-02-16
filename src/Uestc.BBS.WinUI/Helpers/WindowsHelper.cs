@@ -211,15 +211,11 @@ namespace Uestc.BBS.WinUI.Helpers
             this Grid grid,
             FrameworkElement element,
             int row = 0,
-            int column = 0,
-            int rowSpan = 1,
-            int columnSpan = 1
+            int column = 0
         )
         {
             Grid.SetRow(element, row);
             Grid.SetColumn(element, column);
-            Grid.SetRowSpan(element, rowSpan);
-            Grid.SetColumnSpan(element, columnSpan);
             grid.Children.Add(element);
         }
     }

@@ -57,42 +57,6 @@
                     </interactivity:EventTriggerBehavior>
                 </interactivity:Interaction.Behaviors>
             </controls:Segmented>
-            <!--<Grid
-                MaxHeight="300"
-                Background="Pink"
-                ColumnSpacing="10"
-                RowSpacing="10">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="1*" />
-                    <RowDefinition Height="1*" />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1*" />
-                    <ColumnDefinition Width="1*" />
-                    <ColumnDefinition Width="1*" />
-                </Grid.ColumnDefinitions>
-                <Border Background="Green">
-                    <Image Source="https://bbs.uestc.edu.cn/thumb/data/attachment/forum/202502/15/1440eo_lp51leugoqexx755kl8tht0e.jpg?variant=summary" Stretch="UniformToFill" />
-                </Border>
-                <Border Grid.Column="1">
-                    <Image Source="https://bbs.uestc.edu.cn/thumb/data/attachment/forum/202502/15/144f1j_n78037eligy1sdv8981il2in.jpg?variant=summary" Stretch="UniformToFill" />
-                </Border>
-                <Border Grid.Column="2">
-                    <Image Source="https://bbs.uestc.edu.cn/thumb/data/attachment/forum/202502/15/144x4j_7ihuc3jfky735z9rbcvz4je7.jpg?variant=summary" Stretch="UniformToFill" />
-                </Border>
-                <Border
-                    Grid.Row="1"
-                    Grid.Column="0"
-                    Background="Green">
-                    <Image Source="https://bbs.uestc.edu.cn/thumb/data/attachment/forum/202502/15/145e35_6heu2oe9dq9abqxh0goocmkk.jpg?variant=summary" Stretch="UniformToFill" />
-                </Border>
-                <Border Grid.Row="1" Grid.Column="1">
-                    <Image Source="https://bbs.uestc.edu.cn/thumb/data/attachment/forum/202502/15/147j2e_28f4vi5kv15ek20ye4cnvaq4.jpg?variant=summary" Stretch="UniformToFill" />
-                </Border>
-                <Border Grid.Row="1" Grid.Column="2">
-                    <Image Source="https://bbs.uestc.edu.cn/thumb/data/attachment/forum/202502/15/147rbb_kcinb9sljl1y4kpychbosv5c.jpg?variant=summary" Stretch="UniformToFill" />
-                </Border>
-            </Grid>-->
             <!--  板块内容  -->
             <UserControl
                 Grid.Row="1"
