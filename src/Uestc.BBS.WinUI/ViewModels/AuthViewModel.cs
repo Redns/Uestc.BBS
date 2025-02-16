@@ -25,7 +25,7 @@ namespace Uestc.BBS.WinUI.ViewModels
             try
             {
                 App.CurrentWindow = ServiceExtension.Services.GetRequiredService<MainWindow>();
-                if (AppSettingModel.Apperance.StartupAndShutdown.SilentStart)
+                if (AppSettingModel.Services.StartupAndShutdown.SilentStart)
                 {
                     App.CurrentWindow.Hide();
                     return;

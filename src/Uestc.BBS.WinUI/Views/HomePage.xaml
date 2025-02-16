@@ -66,12 +66,12 @@
         <!--  主题内容  -->
         <StackPanel Grid.Column="1">
             <local_controls:PersonProfile
-                Name="{x:Bind ViewModel.AppSettingModel.Auth.DefaultCredential.Name, Mode=OneWay}"
+                Name="{x:Bind ViewModel.AppSettingModel.Account.DefaultCredential.Name, Mode=OneWay}"
                 MaxWidth="300"
-                Avatar="{x:Bind ViewModel.AppSettingModel.Auth.DefaultCredential.Avatar, Mode=OneWay}"
-                Group="{x:Bind ViewModel.AppSettingModel.Auth.DefaultCredential.Group, Mode=OneWay}"
-                Level="{x:Bind ViewModel.AppSettingModel.Auth.DefaultCredential.Level, Mode=OneWay}"
-                Signature="{x:Bind ViewModel.AppSettingModel.Auth.DefaultCredential.Signature, Mode=OneWay}" />
+                Avatar="{x:Bind ViewModel.AppSettingModel.Account.DefaultCredential.Avatar, Mode=OneWay}"
+                Group="{x:Bind ViewModel.AppSettingModel.Account.DefaultCredential.Group, Mode=OneWay}"
+                Level="{x:Bind ViewModel.AppSettingModel.Account.DefaultCredential.Level, Mode=OneWay}"
+                Signature="{x:Bind ViewModel.AppSettingModel.Account.DefaultCredential.Signature, Mode=OneWay}" />
         </StackPanel>
         <!--  分割线  -->
         <controls:GridSplitter

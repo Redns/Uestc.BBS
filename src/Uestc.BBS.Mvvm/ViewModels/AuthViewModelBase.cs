@@ -43,7 +43,7 @@ namespace Uestc.BBS.Mvvm.ViewModels
         /// 选中的授权信息
         /// </summary>
         public AuthCredentialModel? SelectedCredential =>
-            AppSettingModel.Auth.Credentials.FirstOrDefault(c => c.Name == Username);
+            AppSettingModel.Account.Credentials.FirstOrDefault(c => c.Name == Username);
 
         /// <summary>
         /// 用户名或密码为空时不能登录
@@ -97,9 +97,9 @@ namespace Uestc.BBS.Mvvm.ViewModels
                 // 保存本地登录信息
                 if (SelectedCredential?.Equals(credential) is false)
                 {
-                    AppSettingModel.Auth.Credentials.Add(credential);
+                    AppSettingModel.Account.Credentials.Add(credential);
                 }
-                AppSettingModel.Auth.DefaultCredentialUid = credential.Uid;
+                AppSettingModel.Account.DefaultCredentialUid = credential.Uid;
 
                 // 跳转至主页
                 NavigateToMainView();
@@ -148,7 +148,9 @@ namespace Uestc.BBS.Mvvm.ViewModels
                 );
             credential.Token = resp.Token;
             credential.Secret = resp.Secret;
-            credential.Password = AppSettingModel.Auth.RememberPassword ? Password! : string.Empty;
+            credential.Password = AppSettingModel.Account.RememberPassword
+                ? Password!
+                : string.Empty;
 
             return credential;
         }
@@ -159,7 +161,7 @@ namespace Uestc.BBS.Mvvm.ViewModels
         /// <param name="credential"></param>
         [RelayCommand]
         private void DeleteAuthCredential(AuthCredentialModel credential) =>
-            AppSettingModel.Auth.Credentials.Remove(credential);
+            AppSettingModel.Account.Credentials.Remove(credential);
 
         /// <summary>
         /// 导航至首页

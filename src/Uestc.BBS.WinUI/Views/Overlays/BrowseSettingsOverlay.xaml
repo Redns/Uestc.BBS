@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Page
+    x:Class="Uestc.BBS.WinUI.Views.Overlays.BrowseSettingsOverlay"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:CommunityToolkit.WinUI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:Uestc.BBS.WinUI.Views.Overlays"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="using:CommunityToolkit.WinUI"
+    mc:Ignorable="d">
+
+    <ScrollViewer Margin="10" VerticalScrollBarVisibility="Hidden">
+        <StackPanel Spacing="5">
+            <controls:SettingsCard Header="筛选主题">
+                <ToggleSwitch />
+            </controls:SettingsCard>
+            <controls:SettingsCard Description="在主题列表中显示图片摘要" Header="预览图像">
+                <ToggleSwitch />
+            </controls:SettingsCard>
+            <controls:SettingsCard Description="鼠标拖拽主题列表右侧边缘即可调整宽度" Header="主题列表宽度">
+                <StackPanel Orientation="Horizontal" Spacing="10">
+                    <TextBlock
+                        Padding="0,0,0,1"
+                        VerticalAlignment="Center"
+                        Text="{x:Bind ViewModel.BrowsingSettingModel.TopicHotThreshold, Mode=OneWay}" />
+                    <Slider
+                        Width="160"
+                        Maximum="2000"
+                        Minimum="200" />
+                </StackPanel>
+            </controls:SettingsCard>
+            <controls:SettingsCard Description="高亮显示热门主题的浏览量和图标" Header="标记热门主题">
+                <ToggleSwitch IsOn="{x:Bind ViewModel.BrowsingSettingModel.HighlightHotTopic, Mode=TwoWay}" />
+            </controls:SettingsCard>
+            <controls:SettingsCard
+                Description="加权系数高于阈值的主题将进行特殊高亮"
+                Header="热门主题阈值"
+                IsEnabled="{x:Bind ViewModel.BrowsingSettingModel.HighlightHotTopic, Mode=OneWay}">
+                <StackPanel Orientation="Horizontal" Spacing="10">
+                    <TextBlock
+                        Padding="0,0,0,1"
+                        VerticalAlignment="Center"
+                        Text="{x:Bind ViewModel.BrowsingSettingModel.TopicHotThreshold, Mode=OneWay}" />
+                    <Slider
+                        Width="160"
+                        Maximum="10000"
+                        Minimum="100"
+                        Value="{x:Bind ViewModel.BrowsingSettingModel.TopicHotThreshold, Mode=TwoWay}" />
+                </StackPanel>
+            </controls:SettingsCard>
+            <controls:SettingsCard Header="热门指数加权方案" IsEnabled="{x:Bind ViewModel.BrowsingSettingModel.HighlightHotTopic, Mode=OneWay}">
+                <StackPanel Orientation="Horizontal" Spacing="5">
+                    <TextBlock VerticalAlignment="Center" Text="浏览量" />
+                    <TextBlock VerticalAlignment="Center" Text="×" />
+                    <NumberBox
+                        Maximum="10"
+                        Minimum="0"
+                        Value="{x:Bind ViewModel.BrowsingSettingModel.TopicHotIndexWeightingScheme.ViewsCoefficient, Mode=TwoWay}" />
+                    <TextBlock VerticalAlignment="Center" Text="＋" />
+                    <TextBlock VerticalAlignment="Center" Text="回复" />
+                    <TextBlock VerticalAlignment="Center" Text="×" />
+                    <NumberBox
+                        Maximum="10"
+                        Minimum="0"
+                        Value="{x:Bind ViewModel.BrowsingSettingModel.TopicHotIndexWeightingScheme.RepliesCoefficient, Mode=TwoWay}" />
+                    <TextBlock VerticalAlignment="Center" Text="＋" />
+                    <TextBlock VerticalAlignment="Center" Text="点赞" />
+                    <TextBlock VerticalAlignment="Center" Text="×" />
+                    <NumberBox
+                        Maximum="10"
+                        Minimum="0"
+                        Value="{x:Bind ViewModel.BrowsingSettingModel.TopicHotIndexWeightingScheme.LikesCoefficient, Mode=TwoWay}" />
+                </StackPanel>
+            </controls:SettingsCard>
+            <controls:SettingsExpander
+                Description="楼中楼、强制置顶、热评"
+                Header="评论"
+                HeaderIcon="{ui:FontIcon Glyph=&#xE8BD;}">
+                <controls:SettingsExpander.Items>
+                    <controls:SettingsCard Description="聚合对单个评论的所有回复" Header="楼中楼">
+                        <ToggleSwitch IsOn="{x:Bind ViewModel.BrowsingSettingModel.Comment.IsNested, Mode=TwoWay}" />
+                    </controls:SettingsCard>
+                    <controls:SettingsCard Description="置顶评论将显示在热评上方" Header="强制置顶">
+                        <ToggleSwitch IsOn="{x:Bind ViewModel.BrowsingSettingModel.Comment.ForcedPinned, Mode=TwoWay}" />
+                    </controls:SettingsCard>
+                    <controls:SettingsCard Description="点赞数超过阈值的评论将标记为热门" Header="热门评论点赞数阈值">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock
+                                Margin="10,0"
+                                VerticalAlignment="Center"
+                                Text="{x:Bind ViewModel.BrowsingSettingModel.Comment.HotCommentLikesThreshold, Mode=OneWay}" />
+                            <Slider
+                                Width="160"
+                                Maximum="100"
+                                Minimum="5"
+                                Value="{x:Bind ViewModel.BrowsingSettingModel.Comment.HotCommentLikesThreshold, Mode=TwoWay}" />
+                        </StackPanel>
+                    </controls:SettingsCard>
+                    <controls:SettingsCard Header="显示内容">
+                        <controls:SettingsCard.Resources>
+                            <x:Double x:Key="SettingsCardWrapThreshold">10000</x:Double>
+                        </controls:SettingsCard.Resources>
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox
+                                Margin="0,0,-40,0"
+                                Content="楼层"
+                                IsChecked="{x:Bind ViewModel.BrowsingSettingModel.Comment.IsCommentFloorVisible, Mode=TwoWay}" />
+                            <CheckBox
+                                Margin="0,0,-40,0"
+                                Content="等级"
+                                IsChecked="{x:Bind ViewModel.BrowsingSettingModel.Comment.IsUserLevelVisible, Mode=TwoWay}" />
+                            <CheckBox
+                                Margin="0,0,-40,0"
+                                Content="勋章"
+                                IsChecked="{x:Bind ViewModel.BrowsingSettingModel.Comment.IsUserBadgeVisible, Mode=TwoWay}" />
+                            <CheckBox
+                                Margin="0,0,-40,0"
+                                Content="签名"
+                                IsChecked="{x:Bind ViewModel.BrowsingSettingModel.Comment.IsUserSignatureVisible, Mode=TwoWay}" />
+                            <CheckBox Content="用户组" IsChecked="{x:Bind ViewModel.BrowsingSettingModel.Comment.IsUserGroupVisible, Mode=TwoWay}" />
+                        </StackPanel>
+                    </controls:SettingsCard>
+                </controls:SettingsExpander.Items>
+            </controls:SettingsExpander>
+        </StackPanel>
+    </ScrollViewer>
+</Page>

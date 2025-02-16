@@ -22,7 +22,7 @@
                 Description="更改应用中显示的颜色"
                 Header="主题"
                 HeaderIcon="{ui:FontIcon Glyph=&#xE793;}">
-                <ComboBox ItemsSource="{x:Bind ThemeColors}" SelectedItem="{x:Bind ViewModel.AppSettingModel.Apperance.ThemeColor, Mode=TwoWay}">
+                <ComboBox ItemsSource="{x:Bind ThemeColors}" SelectedItem="{x:Bind ViewModel.ApperanceSettingModel.ThemeColor, Mode=TwoWay}">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding Converter={StaticResource Enum2LabelConverter}}" />
@@ -34,7 +34,7 @@
                 Description="是否显示顶部导航栏（我的收藏/发布/回复/插眼）"
                 Header="顶部导航栏"
                 HeaderIcon="{ui:FontIcon Glyph=&#xF596;}">
-                <ToggleSwitch IsOn="{x:Bind ViewModel.AppSettingModel.Apperance.IsTopNavigateBarEnabled, Mode=TwoWay}" />
+                <ToggleSwitch IsOn="{x:Bind ViewModel.ApperanceSettingModel.IsTopNavigateBarEnabled, Mode=TwoWay}" />
             </controls:SettingsCard>
             <controls:SettingsExpander
                 Description="启用、关闭或调整导航区块"
@@ -49,20 +49,20 @@
                 HeaderIcon="{ui:FontIcon Glyph=&#xE721;}">
                 <controls:SettingsExpander.Items>
                     <controls:SettingsCard Description="关闭后不会清除现有搜索记录" Header="搜索历史">
-                        <ToggleSwitch IsOn="{x:Bind ViewModel.AppSettingModel.Apperance.SearchBar.IsSearchHistoryEnabled, Mode=TwoWay}" />
+                        <ToggleSwitch IsOn="{x:Bind ViewModel.ApperanceSettingModel.SearchBar.IsSearchHistoryEnabled, Mode=TwoWay}" />
                     </controls:SettingsCard>
                     <controls:SettingsCard Description="数据从旧版河畔首页抓取" Header="每日一句">
-                        <ToggleSwitch IsOn="{x:Bind ViewModel.AppSettingModel.Apperance.SearchBar.IsDailySentenceEnabled, Mode=TwoWay}" />
+                        <ToggleSwitch IsOn="{x:Bind ViewModel.ApperanceSettingModel.SearchBar.IsDailySentenceEnabled, Mode=TwoWay}" />
                     </controls:SettingsCard>
                     <controls:SettingsCard
                         Description="轮询获取每日一句的周期"
                         Header="更新间隔"
-                        IsEnabled="{x:Bind ViewModel.AppSettingModel.Apperance.SearchBar.IsDailySentenceEnabled, Mode=OneWay}">
+                        IsEnabled="{x:Bind ViewModel.ApperanceSettingModel.SearchBar.IsDailySentenceEnabled, Mode=OneWay}">
                         <StackPanel Orientation="Horizontal" Spacing="10">
                             <NumberBox
                                 Maximum="3600"
                                 Minimum="10"
-                                Value="{x:Bind ViewModel.AppSettingModel.Apperance.SearchBar.DailySentenceUpdateTimeInterval, Mode=TwoWay}" />
+                                Value="{x:Bind ViewModel.ApperanceSettingModel.SearchBar.DailySentenceUpdateTimeInterval, Mode=TwoWay}" />
                             <TextBlock VerticalAlignment="Center" Text="秒" />
                         </StackPanel>
                     </controls:SettingsCard>

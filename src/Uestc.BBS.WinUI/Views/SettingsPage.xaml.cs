@@ -22,13 +22,6 @@ namespace Uestc.BBS.WinUI.Views
 
         private readonly INotificationService _notificationService;
 
-        #region 枚举值列表
-        private List<LogLevel> LogLevels { get; init; } = [.. FastEnum.GetValues<LogLevel>()];
-
-        private List<WindowCloseBehavior> WindowCloseBehaviors { get; init; } =
-            [.. FastEnum.GetValues<WindowCloseBehavior>()];
-        #endregion
-
         public SettingsPage(
             SettingsViewModel viewModel,
             ILogService logService,

@@ -64,8 +64,12 @@ namespace Uestc.BBS.WinUI
                 .AddTransient<MyPostsOverlay>()
                 .AddTransient<MyRepliesOverlay>()
                 .AddTransient<MyMarksOverlay>()
-                .AddTransient<TopicFilterOverlay>()
                 .AddTransient<ApperanceSettingsOverlay>()
+                .AddTransient<BrowseSettingsOverlay>()
+                .AddTransient<AccountSettingsOverlay>()
+                .AddTransient<NotificationSettingsOverlay>()
+                .AddTransient<StorageSettingsOverlay>()
+                .AddTransient<ServicesSettingsOverlay>()
                 // ViewModels
                 .AddTransient<AuthViewModel>()
                 .AddTransient<MainViewModel>()
@@ -82,6 +86,9 @@ namespace Uestc.BBS.WinUI
                 .AddTransient<MyMarksViewModel>()
                 .AddTransient<TopicFilterViewModel>()
                 .AddTransient<ApperanceSettingsViewModel>()
+                .AddTransient<BrowseSettingsViewModel>()
+                .AddTransient<AccountSettingsViewModel>()
+                .AddTransient<ServicesSettingsViewModel>()
                 // Models
                 .AddSingleton<AppSettingModel>()
                 // Appmanifest
@@ -147,7 +154,7 @@ namespace Uestc.BBS.WinUI
             try
             {
                 var appSetting = ServiceExtension.Services.GetRequiredService<AppSetting>();
-                if (!appSetting.Auth.IsUserAuthed)
+                if (!appSetting.Account.IsUserAuthed)
                 {
                     // 未授权时强制显示登录页面，不受静默启动选项影响
                     // 托盘图标附加于主窗口，未登录时如果不显示登录窗口，程序将无法退出
@@ -157,10 +164,10 @@ namespace Uestc.BBS.WinUI
                 }
 
                 CurrentWindow = ServiceExtension.Services.GetRequiredService<MainWindow>();
-                if (appSetting.Apperance.StartupAndShutdown.SilentStart)
+                if (appSetting.Services.StartupAndShutdown.SilentStart)
                 {
                     CurrentWindow.Hide(
-                        appSetting.Apperance.StartupAndShutdown.WindowCloseBehavior
+                        appSetting.Services.StartupAndShutdown.WindowCloseBehavior
                             is WindowCloseBehavior.HideWithEfficiencyMode
                     );
                     return;

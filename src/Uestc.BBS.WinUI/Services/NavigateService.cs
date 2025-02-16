@@ -23,14 +23,24 @@ namespace Uestc.BBS.WinUI.Services
                 MenuItemKey.Post => _services.GetRequiredService<PostPage>(),
                 MenuItemKey.Messages => _services.GetRequiredService<MessagesPage>(),
                 MenuItemKey.Settings => _services.GetRequiredService<SettingsPage>(),
-                // Overlays
+                // TopMenuBar Overlays
                 MenuItemKey.MyFavorites => _services.GetRequiredService<MyFavoritesOverlay>(),
                 MenuItemKey.MyPosts => _services.GetRequiredService<MyPostsOverlay>(),
                 MenuItemKey.MyReplies => _services.GetRequiredService<MyRepliesOverlay>(),
                 MenuItemKey.MyMarks => _services.GetRequiredService<MyMarksOverlay>(),
-                MenuItemKey.TopicFilter => _services.GetRequiredService<TopicFilterOverlay>(),
+                MenuItemKey.TopicFilter => _services.GetRequiredService<BrowseSettingsOverlay>(),
+                // Settings Overlays
                 MenuItemKey.ApperanceSettings =>
                     _services.GetRequiredService<ApperanceSettingsOverlay>(),
+                MenuItemKey.BrowseSettings => _services.GetRequiredService<BrowseSettingsOverlay>(),
+                MenuItemKey.AccountSettings =>
+                    _services.GetRequiredService<AccountSettingsOverlay>(),
+                MenuItemKey.NotificationSettings =>
+                    _services.GetRequiredService<NotificationSettingsOverlay>(),
+                MenuItemKey.StorageSettings =>
+                    _services.GetRequiredService<StorageSettingsOverlay>(),
+                MenuItemKey.ServicesSettings =>
+                    _services.GetRequiredService<ServicesSettingsOverlay>(),
                 _ => throw new ArgumentException(
                     $"Navigate to {key} failed, unknown key",
                     nameof(key)

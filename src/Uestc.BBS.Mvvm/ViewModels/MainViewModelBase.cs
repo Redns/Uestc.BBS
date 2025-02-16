@@ -126,13 +126,11 @@ namespace Uestc.BBS.Mvvm.ViewModels
             {
                 switch (args.PropertyName)
                 {
-                    case nameof(AppSettingModel.Apperance.SearchBar.IsDailySentenceEnabled):
+                    case nameof(ApperanceSettingModel.SearchBar.IsDailySentenceEnabled):
                         // 更新搜索栏文字
                         OnPropertyChanged(nameof(SearchPlaceholderText));
                         return;
-                    case nameof(
-                        AppSettingModel.Apperance.SearchBar.DailySentenceUpdateTimeInterval
-                    ):
+                    case nameof(ApperanceSettingModel.SearchBar.DailySentenceUpdateTimeInterval):
                         // 更新每日一句定时周期
                         _searchPlaceholderTextUpdateTimer.Change(
                             0,

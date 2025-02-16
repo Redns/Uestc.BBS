@@ -84,8 +84,8 @@
             <CheckBox
                 Margin="0,0,-15,0"
                 Content="记住密码"
-                IsChecked="{x:Bind ViewModel.AppSettingModel.Auth.RememberPassword, Mode=TwoWay}" />
-            <CheckBox Content="自动登录" IsChecked="{x:Bind ViewModel.AppSettingModel.Auth.AutoLogin, Mode=TwoWay}" />
+                IsChecked="{x:Bind ViewModel.AppSettingModel.Account.RememberPassword, Mode=TwoWay}" />
+            <CheckBox Content="自动登录" IsChecked="{x:Bind ViewModel.AppSettingModel.Account.AutoLogin, Mode=TwoWay}" />
         </StackPanel>
         <Button
             Height="38"

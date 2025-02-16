@@ -55,12 +55,12 @@ namespace Uestc.BBS.WinUI.Views
             AppWindow.Closing += (window, args) =>
             {
                 if (
-                    viewModel.AppSettingModel.Apperance.StartupAndShutdown.WindowCloseBehavior
+                    viewModel.AppSettingModel.Services.StartupAndShutdown.WindowCloseBehavior
                     is not WindowCloseBehavior.Exit
                 )
                 {
                     this.Hide(
-                        viewModel.AppSettingModel.Apperance.StartupAndShutdown.WindowCloseBehavior
+                        viewModel.AppSettingModel.Services.StartupAndShutdown.WindowCloseBehavior
                             is WindowCloseBehavior.HideWithEfficiencyMode
                     );
                     args.Cancel = true;
@@ -70,9 +70,9 @@ namespace Uestc.BBS.WinUI.Views
 
         [RelayCommand]
         private void ToggleSilentStart() =>
-            ViewModel.AppSettingModel.Apperance.StartupAndShutdown.SilentStart = !ViewModel
+            ViewModel.AppSettingModel.Services.StartupAndShutdown.SilentStart = !ViewModel
                 .AppSettingModel
-                .Apperance
+                .Services
                 .StartupAndShutdown
                 .SilentStart;
 

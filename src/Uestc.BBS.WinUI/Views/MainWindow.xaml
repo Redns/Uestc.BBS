@@ -32,7 +32,7 @@
                     <MenuFlyoutSeparator />
                     <ToggleMenuFlyoutItem
                         Command="{x:Bind ToggleSilentStartCommand}"
-                        IsChecked="{x:Bind ViewModel.AppSettingModel.Apperance.StartupAndShutdown.SilentStart, Mode=TwoWay}"
+                        IsChecked="{x:Bind ViewModel.AppSettingModel.Services.StartupAndShutdown.SilentStart, Mode=TwoWay}"
                         Text="静默启动" />
                     <ToggleMenuFlyoutItem
                         Command="{x:Bind ToggleDailysentenceEnabledCommand}"

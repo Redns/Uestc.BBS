@@ -39,12 +39,15 @@
   <None Remove="Views\MainPage.xaml" />
   <None Remove="Views\MessagesPage.xaml" />
   <None Remove="Views\MomentsPage.xaml" />
+  <None Remove="Views\Overlays\AccountSettingsOverlay.xaml" />
   <None Remove="Views\Overlays\ApperanceSettingsOverlay.xaml" />
   <None Remove="Views\Overlays\MyFavoritesOverlay.xaml" />
   <None Remove="Views\Overlays\MyMarksOverlay.xaml" />
   <None Remove="Views\Overlays\MyPostsOverlay.xaml" />
   <None Remove="Views\Overlays\MyRepliesOverlay.xaml" />
-  <None Remove="Views\Overlays\TopicFilterOverlay.xaml" />
+  <None Remove="Views\Overlays\NotificationSettingsOverlay.xaml" />
+  <None Remove="Views\Overlays\ServicesSettingsOverlay.xaml" />
+  <None Remove="Views\Overlays\StorageSettingsOverlay.xaml" />
   <None Remove="Views\SectionsPage.xaml" />
   <None Remove="Views\ServicesPage.xaml" />
   <None Remove="Views\SettingsPage.xaml" />
@@ -98,6 +101,18 @@
     <None Update="Assets\Icons\auth_icon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Page Update="Views\Overlays\ServicesSettingsOverlay.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Views\Overlays\StorageSettingsOverlay.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Views\Overlays\AccountSettingsOverlay.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Views\Overlays\NotificationSettingsOverlay.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Views\Overlays\ApperanceSettingsOverlay.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -105,6 +120,9 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Update="Views\Overlays\TopicFilterOverlay.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\Overlays\BrowseSettingsOverlay.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Update="Views\Overlays\MyMarksOverlay.xaml">

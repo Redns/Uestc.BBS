@@ -54,7 +54,7 @@ namespace Uestc.BBS.WinUI.Views
                 return;
             }
 
-            var newCredentials = ViewModel.AppSettingModel.Auth.Credentials.Where(u =>
+            var newCredentials = ViewModel.AppSettingModel.Account.Credentials.Where(u =>
                 u.Name.Contains(sender.Text, StringComparison.OrdinalIgnoreCase)
             );
             if (

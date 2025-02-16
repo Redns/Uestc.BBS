@@ -1,14 +1,20 @@
-﻿using Uestc.BBS.Core;
-using Uestc.BBS.Core.Services.System;
+﻿using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
+using FastEnumUtility;
+using Uestc.BBS.Core;
+using Uestc.BBS.Mvvm.Messages;
 using Uestc.BBS.Mvvm.Models;
 using Uestc.BBS.Mvvm.ViewModels;
 
 namespace Uestc.BBS.WinUI.ViewModels
 {
-    public partial class SettingsViewModel(
-        AppSetting appSetting,
-        Appmanifest appmanifest,
-        AppSettingModel appSettingModel,
-        ILogService logService
-    ) : SettingsViewModelBase(appSetting, appmanifest, appSettingModel, logService) { }
+    public partial class SettingsViewModel(Appmanifest appmanifest, AppSettingModel appSettingModel)
+        : SettingsViewModelBase(appmanifest, appSettingModel)
+    {
+        [RelayCommand]
+        private void NavigateToSubSettingsOverlay(string key) =>
+            StrongReferenceMessenger.Default.Send(
+                new NavigateChangedMessage(FastEnum.Parse<MenuItemKey>(key))
+            );
+    }
 }

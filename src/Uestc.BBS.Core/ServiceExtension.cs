@@ -33,7 +33,7 @@ namespace Uestc.BBS.Core
                 {
                     var nlogger = new NLogService(LogManager.GetLogger("*"));
                     var appSetting = services.GetRequiredService<AppSetting>();
-                    nlogger.Setup(appSetting.Log);
+                    nlogger.Setup(appSetting.Services.Log);
                     return nlogger;
                 })
                 // Forums
@@ -57,7 +57,7 @@ namespace Uestc.BBS.Core
                 (services, client) =>
                 {
                     var appSetting = services.GetService<AppSetting>();
-                    var credential = appSetting?.Auth.DefaultCredential;
+                    var credential = appSetting?.Account.DefaultCredential;
                     client.BaseAddress = new Uri(
                         $"https://bbs.uestc.edu.cn/mobcent/app/web/index.php?accessToken={credential?.Token}&accessSecret={credential?.Secret}"
                     );
@@ -67,7 +67,7 @@ namespace Uestc.BBS.Core
                 (services, client) =>
                 {
                     var appSetting = services.GetService<AppSetting>();
-                    var credential = appSetting?.Auth.DefaultCredential;
+                    var credential = appSetting?.Account.DefaultCredential;
                     client.BaseAddress = new Uri(
                         $"https://bbs.uestc.edu.cn/mobcent/app/web/index.php?accessToken={credential?.Token}&accessSecret={credential?.Secret}"
                     );
