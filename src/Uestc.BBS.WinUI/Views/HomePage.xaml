@@ -69,6 +69,7 @@
         </Grid>
         <!--  主题内容  -->
         <StackPanel Grid.Column="1">
+            <local_controls:TopicContentControl TopicContent="{x:Bind TopicContent, Mode=OneWay}" />
             <local_controls:PersonProfile
                 Name="{x:Bind ViewModel.AppSettingModel.Account.DefaultCredential.Name, Mode=OneWay}"
                 MaxWidth="300"

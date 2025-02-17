@@ -18,7 +18,7 @@
             <controls:SettingsExpander
                 Description="在主题列表中显示缩略图"
                 Header="预览图像"
-                HeaderIcon="{ui:FontIcon Glyph=&#xE8B9;}">
+                HeaderIcon="{ui:FontIcon Glyph=&#xE91B;}">
                 <ToggleSwitch />
                 <controls:SettingsExpander.Items>
                     <controls:SettingsCard Description="以较小尺寸解码预览图像，减少内存占用" Header="解码优化">

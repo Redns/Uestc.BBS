@@ -89,6 +89,7 @@ namespace Uestc.BBS.WinUI
                 .AddTransient<BrowseSettingsViewModel>()
                 .AddTransient<AccountSettingsViewModel>()
                 .AddTransient<ServicesSettingsViewModel>()
+                .AddTransient<StorageSettingViewModel>()
                 // Models
                 .AddSingleton<AppSettingModel>()
                 // Appmanifest

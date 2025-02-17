@@ -6,26 +6,40 @@
     xmlns:controls="using:CommunityToolkit.WinUI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Uestc.BBS.WinUI.Views.Overlays"
+    xmlns:local_converters="using:Uestc.BBS.WinUI.Converters"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="using:CommunityToolkit.WinUI"
+    xmlns:viewmodels="using:Uestc.BBS.WinUI.ViewModels"
+    d:DataContext="{d:DesignInstance Type=viewmodels:StorageSettingViewModel}"
     mc:Ignorable="d">
+
+    <Page.Resources>
+        <local_converters:Enum2LabelConverter x:Key="Enum2LabelConverter" />
+        <local_converters:TimeSpan2MinutesConverter x:Key="TimeSpan2MinutesConverter" />
+    </Page.Resources>
+
     <ScrollViewer Margin="10" VerticalScrollBarVisibility="Hidden">
         <StackPanel Spacing="5">
             <controls:SettingsCard Header="同步模式">
-                <ComboBox>
-                    <ComboBoxItem Content="手动同步" />
-                    <ComboBoxItem Content="应用启动时" />
-                    <ComboBoxItem Content="应用启动时 + 定时" />
+                <ComboBox ItemsSource="{x:Bind SyncModes, Mode=OneTime}" SelectedItem="{x:Bind ViewModel.StorageSettingModel.Sync.Mode, Mode=TwoWay}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Converter={StaticResource Enum2LabelConverter}}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
                 </ComboBox>
             </controls:SettingsCard>
             <controls:SettingsCard Header="时间间隔">
                 <StackPanel Orientation="Horizontal" Spacing="10">
-                    <NumberBox Maximum="86400" Minimum="1" />
+                    <NumberBox
+                        Maximum="86400"
+                        Minimum="1"
+                        Value="{x:Bind ViewModel.StorageSettingModel.Sync.TimeInterval, Converter={StaticResource TimeSpan2MinutesConverter}, Mode=TwoWay}" />
                     <TextBlock VerticalAlignment="Center" Text="分钟" />
                 </StackPanel>
             </controls:SettingsCard>
             <controls:SettingsCard Description="数据将加密后上传至云端" Header="AES 密钥">
-                <PasswordBox Width="260" />
+                <PasswordBox Width="260" Password="{x:Bind ViewModel.StorageSettingModel.Sync.Password, Mode=TwoWay}" />
             </controls:SettingsCard>
             <controls:SettingsCard>
                 <controls:SettingsCard.Resources>
@@ -52,7 +66,8 @@
                         Grid.Row="0"
                         Grid.Column="1"
                         Width="260"
-                        HorizontalAlignment="Left" />
+                        HorizontalAlignment="Left"
+                        Text="{x:Bind ViewModel.StorageSettingModel.Sync.Api, Mode=TwoWay}" />
                     <!--  用户名  -->
                     <TextBlock
                         Grid.Row="1"
@@ -63,7 +78,8 @@
                         Grid.Row="1"
                         Grid.Column="1"
                         Width="180"
-                        HorizontalAlignment="Left" />
+                        HorizontalAlignment="Left"
+                        Text="{x:Bind ViewModel.StorageSettingModel.Sync.Username, Mode=TwoWay}" />
                     <!--  密码  -->
                     <TextBlock
                         Grid.Row="2"
@@ -75,7 +91,8 @@
                         Grid.Column="1"
                         Width="180"
                         HorizontalAlignment="Left"
-                        MaxLength="20" />
+                        MaxLength="20"
+                        Password="{x:Bind ViewModel.StorageSettingModel.Sync.Password, Mode=TwoWay}" />
                     <!--  验证配置  -->
                     <Button
                         Grid.Row="3"

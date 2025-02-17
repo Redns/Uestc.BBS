@@ -16,8 +16,9 @@
 
     <Page.Resources>
         <converters:StringFormatConverter x:Key="StringFormatConverter" />
-        <local_converters:Long2DoubleConverter x:Key="Long2DoubleConverter" />
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        <local_converters:Long2DoubleConverter x:Key="Long2DoubleConverter" />
+        <local_converters:Enum2LabelConverter x:Key="Enum2LabelConverter" />
         <converters:FileSizeToFriendlyStringConverter x:Key="FileSizeToFriendlyStringConverter" />
     </Page.Resources>
 
