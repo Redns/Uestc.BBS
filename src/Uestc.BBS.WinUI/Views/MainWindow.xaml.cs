@@ -8,6 +8,7 @@ using Uestc.BBS.Core;
 using Uestc.BBS.WinUI.Helpers;
 using Uestc.BBS.WinUI.ViewModels;
 using Uestc.BBS.WinUI.Views.ContentDialogs;
+using WinRT.Interop;
 using WinUIEx;
 
 namespace Uestc.BBS.WinUI.Views
@@ -66,6 +67,9 @@ namespace Uestc.BBS.WinUI.Views
                     args.Cancel = true;
                 }
             };
+
+            // 防截屏
+            WindowsHelper.SetWindowDisplayAffinity(WindowNative.GetWindowHandle(this), 0x11);
         }
 
         [RelayCommand]

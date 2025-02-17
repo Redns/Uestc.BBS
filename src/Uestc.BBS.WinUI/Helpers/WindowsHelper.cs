@@ -1,14 +1,20 @@
 ﻿using System;
 using System.Diagnostics;
+using System.IO;
+using System.Runtime.InteropServices;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Security.Principal;
 using System.Threading.Tasks;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.Windows.AppLifecycle;
 using Uestc.BBS.Core;
+using Windows.Graphics.Imaging;
 using Windows.UI;
+using WinUIEx;
 
 namespace Uestc.BBS.WinUI.Helpers
 {
@@ -93,6 +99,11 @@ namespace Uestc.BBS.WinUI.Helpers
             window.AppWindow.TitleBar.SetThemeColor(themeColor);
         }
 
+        /// <summary>
+        /// 设置标题栏主题色
+        /// </summary>
+        /// <param name="titleBar"></param>
+        /// <param name="themeColor"></param>
         public static void SetThemeColor(this AppWindowTitleBar titleBar, ThemeColor themeColor)
         {
             switch (themeColor)
@@ -115,6 +126,10 @@ namespace Uestc.BBS.WinUI.Helpers
             }
         }
 
+        /// <summary>
+        /// 判断是否为管理员
+        /// </summary>
+        /// <returns></returns>
         public static bool IsAdministartor()
         {
             var identity = WindowsIdentity.GetCurrent();
@@ -122,101 +137,46 @@ namespace Uestc.BBS.WinUI.Helpers
             return principal.IsInRole(WindowsBuiltInRole.Administrator);
         }
 
-        public static void SetRowDefinitions(this Grid grid, string args)
+        /// <summary>
+        /// 截图控件并保存为图片
+        /// </summary>
+        /// <param name="control"></param>
+        /// <param name="fileName"></param>
+        /// <returns></returns>
+        public static async Task CaptureControlAsImageAsync(this UIElement control, string fileName)
         {
-            var rowDefinitions = args.Split(',');
-            if (rowDefinitions.Length == 0)
-            {
-                return;
-            }
-
-            foreach (var rowDefinition in rowDefinitions)
-            {
-                // 100,200
-                if (!rowDefinition.Contains('*'))
-                {
-                    grid.RowDefinitions.Add(
-                        new RowDefinition { Height = new GridLength(double.Parse(rowDefinition)) }
-                    );
-                    continue;
-                }
-
-                // *,200
-                if (rowDefinition.StartsWith('*'))
-                {
-                    grid.RowDefinitions.Add(
-                        new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) }
-                    );
-                    continue;
-                }
-
-                // 1*,2*
-                grid.RowDefinitions.Add(
-                    new RowDefinition
-                    {
-                        Height = new GridLength(
-                            double.Parse(rowDefinition[..^1]),
-                            GridUnitType.Star
-                        ),
-                    }
-                );
-            }
+            // 生成 RenderTargetBitmap 对象
+            var renderTargetBitmap = new RenderTargetBitmap();
+            await renderTargetBitmap.RenderAsync(control);
+            // 获取图像的二进制数据
+            var pixelBuffer = await renderTargetBitmap.GetPixelsAsync();
+            // 把图片的二进制数据写入文件存储
+            using var fileStream = File.OpenWrite(fileName);
+            var encoder = await BitmapEncoder.CreateAsync(
+                BitmapEncoder.PngEncoderId,
+                fileStream.AsRandomAccessStream()
+            );
+            var dpi = App.CurrentWindow!.GetDpiForWindow();
+            encoder.SetPixelData(
+                BitmapPixelFormat.Bgra8,
+                BitmapAlphaMode.Ignore,
+                (uint)renderTargetBitmap.PixelWidth,
+                (uint)renderTargetBitmap.PixelHeight,
+                dpi,
+                dpi,
+                pixelBuffer.ToArray()
+            );
+            await encoder.FlushAsync();
         }
 
-        public static void SetColumnDefinitions(this Grid grid, string args)
-        {
-            var columnDefinitions = args.Split(',');
-            if (columnDefinitions.Length == 0)
-            {
-                return;
-            }
-
-            foreach (var columnDefinition in columnDefinitions)
-            {
-                // 100,200
-                if (!columnDefinition.Contains('*'))
-                {
-                    grid.ColumnDefinitions.Add(
-                        new ColumnDefinition
-                        {
-                            Width = new GridLength(double.Parse(columnDefinition)),
-                        }
-                    );
-                    continue;
-                }
-
-                // *,200
-                if (columnDefinition.StartsWith('*'))
-                {
-                    grid.ColumnDefinitions.Add(
-                        new ColumnDefinition { Width = new GridLength(1, GridUnitType.Auto) }
-                    );
-                    continue;
-                }
-
-                // 1*,2*
-                grid.ColumnDefinitions.Add(
-                    new ColumnDefinition
-                    {
-                        Width = new GridLength(
-                            double.Parse(columnDefinition[..^1]),
-                            GridUnitType.Star
-                        ),
-                    }
-                );
-            }
-        }
-
-        public static void Add(
-            this Grid grid,
-            FrameworkElement element,
-            int row = 0,
-            int column = 0
-        )
-        {
-            Grid.SetRow(element, row);
-            Grid.SetColumn(element, column);
-            grid.Children.Add(element);
-        }
+        /// <summary>
+        /// 保护窗口内容，详细内容参见 https://learn.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setwindowdisplayaffinity
+        /// </summary>
+        /// <param name="hwnd"></param>
+        /// <param name="dwAffinity">0x0：不保护，0x1：获取屏幕内容时窗口变为黑色，0x11：获取屏幕内容时窗口变为透明</param>
+        /// <returns></returns>
+        [LibraryImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static partial bool SetWindowDisplayAffinity(IntPtr hwnd, uint dwAffinity);
     }
 }

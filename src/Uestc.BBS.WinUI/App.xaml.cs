@@ -115,19 +115,8 @@ namespace Uestc.BBS.WinUI
                 })
                 // Navigate
                 .AddSingleton<INavigateService<Page>>(services => new NavigateService(services))
-                // 自启动
-                .AddSingleton<IStartupService>(services =>
-                {
-                    var startupInfo = new StartupInfo
-                    {
-                        Name = AppDomain.CurrentDomain.FriendlyName,
-                        Description = $"{AppDomain.CurrentDomain.FriendlyName} startup service",
-                        ApplicationName = AppDomain.CurrentDomain.FriendlyName,
-                        WorkingDirectory = AppDomain.CurrentDomain.BaseDirectory,
-                        ApplicationPath = Environment.ProcessPath!,
-                    };
-                    return new WindowsStartupService(startupInfo);
-                });
+                // Capture
+                .AddTransient<ICaptureService<UIElement>, CaptureService>();
 
             // 监听系统主题变更
             _uiSettings.ColorValuesChanged += (sender, args) =>

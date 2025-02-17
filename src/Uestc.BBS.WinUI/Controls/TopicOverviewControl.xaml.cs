@@ -1,12 +1,9 @@
 using System;
 using System.Linq;
-using CommunityToolkit.WinUI;
-using CommunityToolkit.WinUI.Controls;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Uestc.BBS.WinUI.Helpers;
@@ -280,57 +277,55 @@ namespace Uestc.BBS.WinUI.Controls
             // 计算 Grid 布局
             var colums = sources.Length switch
             {
-                2 => 2,
-                4 => 2,
+                <= 4 => 2,
                 _ => 3
             };
             var rows = (int)Math.Ceiling(sources.Length / (double)colums);
-            if (rows > 1)
-            {
-                for (var i = 0; i < rows; i++)
-                {
-                    topicOverview.PreviewGrid.RowDefinitions.Add(
-                        new RowDefinition { Height = new GridLength(1, GridUnitType.Star) }
-                    );
-                }
-            }
-            for (var i = 0; i < colums; i++)
-            {
-                topicOverview.PreviewGrid.ColumnDefinitions.Add(
-                    new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) }
-                );
-            }
+            var imageHeight = 140 - rows * 15;
+            topicOverview.PreviewGrid.SetRowsAndColumns(rows, colums);
 
             var images = sources
                 .Take(9)
-                .Select(s =>
-                {
-                    var image = new Image
+                .Select(
+                    (s, index) =>
                     {
-                        // 图像较多时限制其整体高度，避免占据太多视觉空间
-                        Height = 140 - rows * 15,
-                        Source = new BitmapImage(new Uri(s))
+                        var image = new Image
                         {
-                            DecodePixelHeight = topicOverview.LazyLoading ? 140 - rows * 15 : 0
-                        },
-                        Stretch = Stretch.UniformToFill,
-                    };
-                    image.PointerPressed += (sender, e) =>
-                        OpenPreviewImage(
-                            topicOverview.PreviewSources,
-                            Array.IndexOf(sources, s),
-                            topicOverview.PreviewFlipViewDataTemplete
-                        );
-                    return image;
-                })
+                            // 图像较多时限制其整体高度，避免占据太多视觉空间
+                            Height =
+                                (index is 0 && sources.Length is 3)
+                                    ? imageHeight * 2 + topicOverview.PreviewGrid.RowSpacing
+                                    : imageHeight,
+                            Source = new BitmapImage(new Uri(s))
+                            {
+                                DecodePixelHeight = topicOverview.LazyLoading ? 140 - rows * 15 : 0
+                            },
+                            Stretch = Stretch.UniformToFill,
+                        };
+                        image.PointerPressed += (sender, e) =>
+                            OpenPreviewImage(
+                                topicOverview.PreviewSources,
+                                Array.IndexOf(sources, s),
+                                topicOverview.PreviewFlipViewDataTemplete
+                            );
+                        return image;
+                    }
+                )
                 .Select(image => new Border
                 {
                     Child = image,
                     CornerRadius = new CornerRadius(6),
-
                     HorizontalAlignment = HorizontalAlignment.Left,
                 })
                 .ToArray();
+
+            if (sources.Length == 3)
+            {
+                topicOverview.PreviewGrid.Add(images[0], 0, 0, 2, 1);
+                topicOverview.PreviewGrid.Add(images[1], 0, 1);
+                topicOverview.PreviewGrid.Add(images[2], 1, 1);
+                return;
+            }
 
             for (var i = 0; i < images.Length; i++)
             {
