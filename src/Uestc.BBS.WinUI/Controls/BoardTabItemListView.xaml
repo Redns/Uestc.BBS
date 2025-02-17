@@ -3,6 +3,8 @@
     x:Class="Uestc.BBS.WinUI.Controls.BoardTabItemListView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:CommunityToolkit.WinUI.Controls"
+    xmlns:converters="using:CommunityToolkit.WinUI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:forum="using:Uestc.BBS.Core.Services.Api.Forum"
     xmlns:lc="using:Uestc.BBS.WinUI.Converters"
@@ -10,11 +12,17 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
+    <UserControl.Resources>
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+    </UserControl.Resources>
+
     <Grid>
+        <!--  列表流  -->
         <ListView
             ItemsSource="{x:Bind Topics, Mode=OneWay}"
             ScrollViewer.VerticalScrollBarVisibility="Hidden"
-            SelectionMode="None">
+            SelectionMode="None"
+            Visibility="{x:Bind IsStaggeredLayoutEnabled, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True, Mode=OneWay}">
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="Padding" Value="0" />
@@ -40,6 +48,38 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+        <!--  瀑布流  -->
+        <ScrollViewer
+            VerticalScrollBarVisibility="Hidden"
+            ViewChanged="LoadMoreData"
+            Visibility="{x:Bind IsStaggeredLayoutEnabled, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
+            <ItemsRepeater ItemsSource="{x:Bind Topics, Mode=OneWay}">
+                <ItemsRepeater.ItemTemplate>
+                    <DataTemplate x:DataType="forum:TopicOverview">
+                        <local:TopicOverviewControl
+                            Title="{x:Bind Title}"
+                            Avatar="{x:Bind UserAvatar}"
+                            BoardName="{x:Bind BoardName}"
+                            Date="{x:Bind DateTime}"
+                            IsHot="{x:Bind IsHot}"
+                            Likes="{x:Bind Likes}"
+                            PreviewSources="{x:Bind ImageList}"
+                            Replies="{x:Bind Replies}"
+                            Subject="{x:Bind Subject}"
+                            Summary="{x:Bind Summary}"
+                            Username="{x:Bind UserNickName}"
+                            Views="{x:Bind Views}" />
+                    </DataTemplate>
+                </ItemsRepeater.ItemTemplate>
+                <ItemsRepeater.Layout>
+                    <controls:StaggeredLayout
+                        ColumnSpacing="10"
+                        DesiredColumnWidth="280"
+                        ItemsStretch="Fill"
+                        RowSpacing="10" />
+                </ItemsRepeater.Layout>
+            </ItemsRepeater>
+        </ScrollViewer>
         <ProgressRing
             Margin="0,20,0,0"
             VerticalAlignment="Top"

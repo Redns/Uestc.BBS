@@ -155,6 +155,12 @@ namespace Uestc.BBS.Mvvm.ViewModels
             );
         }
 
+        ~MainViewModelBase()
+        {
+            _searchPlaceholderTextUpdateTimer.Dispose();
+            StrongReferenceMessenger.Default.Unregister<NavigateChangedMessage>(this);
+        }
+
         /// <summary>
         /// 返回上一页
         /// </summary>

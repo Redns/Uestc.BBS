@@ -28,7 +28,7 @@ namespace Uestc.BBS.Mvvm.ViewModels
         /// </summary>
         [ObservableProperty]
         public partial BoardTabItemModel? CurrentBoardTabItemModel { get; set; } =
-            appSettingModel.Apperance.BoardTabItems.First();
+            appSettingModel.Apperance.BoardTab.Items.First();
 
         protected virtual async Task<TopicOverview[]> LoadTopicsAsync(
             BoardTabItemModel tabItem,

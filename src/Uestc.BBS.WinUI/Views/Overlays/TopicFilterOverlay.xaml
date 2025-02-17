@@ -6,6 +6,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Uestc.BBS.WinUI.Views.Overlays"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewmodels="using:Uestc.BBS.WinUI.ViewModels"
+    d:DataContext="{d:DesignInstance Type=viewmodels:TopicFilterViewModel}"
     mc:Ignorable="d">
     <TextBlock Text="TopicFilterOverlay" />
 </Page>

@@ -9,18 +9,22 @@
     xmlns:forum="using:Uestc.BBS.Core.Services.Api.Forum"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:local_controls="using:Uestc.BBS.WinUI.Controls"
+    xmlns:local_converters="using:Uestc.BBS.WinUI.Converters"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="using:Uestc.BBS.Mvvm.Models"
     xmlns:ui="using:CommunityToolkit.WinUI"
+    xmlns:vm="using:Uestc.BBS.WinUI.ViewModels"
+    d:DataContext="{d:DesignInstance Type=vm:HomeViewModel}"
     mc:Ignorable="d">
 
     <Page.Resources>
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        <local_converters:Double2GridLength x:Key="Double2GridLength" />
     </Page.Resources>
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="330" />
+            <ColumnDefinition Width="{x:Bind ViewModel.AppSettingModel.Apperance.BoardTab.Width, Converter={StaticResource Double2GridLength}, Mode=TwoWay}" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
@@ -33,7 +37,7 @@
             <controls:Segmented
                 HorizontalAlignment="Center"
                 IsItemClickEnabled="True"
-                ItemsSource="{x:Bind ViewModel.AppSettingModel.Apperance.BoardTabItems, Mode=OneWay}"
+                ItemsSource="{x:Bind ViewModel.AppSettingModel.Apperance.BoardTab.Items, Mode=OneWay}"
                 SelectedItem="{x:Bind ViewModel.CurrentBoardTabItemModel, Mode=OneWay}"
                 Style="{StaticResource PivotSegmentedStyle}">
                 <controls:Segmented.ItemTemplate>

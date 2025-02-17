@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -17,6 +18,9 @@ namespace Uestc.BBS.WinUI.Controls
         private static readonly ITopicService _topicService =
             ServiceExtension.Services.GetRequiredService<ITopicService>();
 
+        /// <summary>
+        ///
+        /// </summary>
         private static readonly DependencyProperty BoardTabItemProperty =
             DependencyProperty.Register(
                 nameof(BoardTabItem),
@@ -31,12 +35,38 @@ namespace Uestc.BBS.WinUI.Controls
             set
             {
                 SetValue(BoardTabItemProperty, value);
+
                 Topics = new IncrementalLoadingCollection<TopicOverviewSource, TopicOverview>(
                     new TopicOverviewSource(_topicService, value)
                 );
+
+                if (IsStaggeredLayoutEnabled)
+                {
+                    Topics.RefreshAsync();
+                }
             }
         }
 
+        /// <summary>
+        /// 是否启用瀑布流布局
+        /// </summary>
+        private static readonly DependencyProperty IsStaggeredLayoutEnabledProperty =
+            DependencyProperty.Register(
+                nameof(IsStaggeredLayoutEnabled),
+                typeof(bool),
+                typeof(BoardTabItemListView),
+                new PropertyMetadata(false)
+            );
+
+        public bool IsStaggeredLayoutEnabled
+        {
+            get => (bool)GetValue(IsStaggeredLayoutEnabledProperty);
+            set => SetValue(IsStaggeredLayoutEnabledProperty, value);
+        }
+
+        /// <summary>
+        /// 主题列表
+        /// </summary>
         public IncrementalLoadingCollection<TopicOverviewSource, TopicOverview>? Topics
         {
             get;
@@ -46,6 +76,24 @@ namespace Uestc.BBS.WinUI.Controls
         public BoardTabItemListView()
         {
             InitializeComponent();
+        }
+
+        public void LoadMoreData(object sender, ScrollViewerViewChangedEventArgs e)
+        {
+            if (sender is not ScrollViewer scrollViewer)
+            {
+                return;
+            }
+
+            var offset = scrollViewer.VerticalOffset;
+            var viewport = scrollViewer.ViewportHeight;
+            var extent = scrollViewer.ExtentHeight;
+
+            if (extent - offset <= viewport)
+            {
+                Debug.WriteLine("Load more data");
+                Topics?.LoadMoreItemsAsync(BoardTabItem.PageSize);
+            }
         }
     }
 

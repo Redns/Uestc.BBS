@@ -9,6 +9,8 @@
     xmlns:local_converters="using:Uestc.BBS.WinUI.Converters"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="using:CommunityToolkit.WinUI"
+    xmlns:viewmodels="using:Uestc.BBS.WinUI.ViewModels"
+    d:DataContext="{d:DesignInstance Type=viewmodels:ApperanceSettingsViewModel}"
     mc:Ignorable="d">
 
     <Page.Resources>
@@ -30,18 +32,13 @@
                     </ComboBox.ItemTemplate>
                 </ComboBox>
             </controls:SettingsCard>
+            <!--  导航栏  -->
             <controls:SettingsCard
                 Description="是否显示顶部导航栏（我的收藏/发布/回复/插眼）"
                 Header="顶部导航栏"
                 HeaderIcon="{ui:FontIcon Glyph=&#xF596;}">
                 <ToggleSwitch IsOn="{x:Bind ViewModel.ApperanceSettingModel.IsTopNavigateBarEnabled, Mode=TwoWay}" />
             </controls:SettingsCard>
-            <controls:SettingsExpander
-                Description="启用、关闭或调整导航区块"
-                Header="侧边导航栏"
-                HeaderIcon="{ui:FontIcon Glyph=&#xE700;}">
-                <controls:SettingsExpander.Items />
-            </controls:SettingsExpander>
             <!--  搜索栏  -->
             <controls:SettingsExpander
                 Description="每日一句、搜索历史"
@@ -64,6 +61,33 @@
                                 Minimum="10"
                                 Value="{x:Bind ViewModel.ApperanceSettingModel.SearchBar.DailySentenceUpdateTimeInterval, Mode=TwoWay}" />
                             <TextBlock VerticalAlignment="Center" Text="秒" />
+                        </StackPanel>
+                    </controls:SettingsCard>
+                </controls:SettingsExpander.Items>
+            </controls:SettingsExpander>
+            <controls:SettingsExpander
+                Description="启用、关闭或调整导航区块"
+                Header="侧边导航栏"
+                HeaderIcon="{ui:FontIcon Glyph=&#xE700;}">
+                <controls:SettingsExpander.Items />
+            </controls:SettingsExpander>
+            <!--  板块 Tab 栏  -->
+            <controls:SettingsExpander
+                Description="主题列表宽度、瀑布流"
+                Header="首页 Tab 栏"
+                HeaderIcon="{ui:FontIcon Glyph=&#xE737;}">
+                <controls:SettingsExpander.Items>
+                    <controls:SettingsCard Description="以交错的方式显示主题" Header="启用瀑布流">
+                        <ToggleSwitch IsOn="{x:Bind ViewModel.ApperanceSettingModel.BoardTab.IsStaggeredLayoutEnabled, Mode=TwoWay}" />
+                    </controls:SettingsCard>
+                    <controls:SettingsCard Description="拖动首页主题列表右侧基线可快速调整" Header="主题列表宽度">
+                        <StackPanel Orientation="Horizontal" Spacing="10">
+                            <TextBlock VerticalAlignment="Center" Text="{x:Bind ViewModel.ApperanceSettingModel.BoardTab.Width, Mode=OneWay}" />
+                            <Slider
+                                Width="160"
+                                Maximum="1000"
+                                Minimum="200"
+                                Value="{x:Bind ViewModel.ApperanceSettingModel.BoardTab.Width, Mode=TwoWay}" />
                         </StackPanel>
                     </controls:SettingsCard>
                 </controls:SettingsExpander.Items>

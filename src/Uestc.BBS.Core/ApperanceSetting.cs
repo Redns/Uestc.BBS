@@ -129,9 +129,56 @@ namespace Uestc.BBS.Core
             ];
 
         /// <summary>
+        /// 板块 Tab 栏
+        /// </summary>
+        public BoardTabSetting BoardTab { get; init; } = new();
+
+        /// <summary>
+        /// 官方论坛链接
+        /// </summary>
+        public string OfficialWebsite { get; set; } = "https://bbs.uestc.edu.cn/new";
+    }
+
+    /// <summary>
+    /// 每日一句设置
+    /// </summary>
+    public class SearchBarSetting
+    {
+        /// <summary>
+        /// 启用每日一句
+        /// </summary>
+        public bool IsDailySentenceEnabled { get; set; } = true;
+
+        /// <summary>
+        /// 每日一句更新周期（秒）
+        /// </summary>
+        public uint DailySentenceUpdateTimeInterval { get; set; } = 60;
+
+        /// <summary>
+        /// 搜索历史
+        /// </summary>
+        public bool IsSearchHistoryEnabled { get; set; } = true;
+    }
+
+    /// <summary>
+    /// 板块 Tab 栏设置
+    /// </summary>
+    public class BoardTabSetting
+    {
+        /// <summary>
+        /// 首页版块 Tab 栏宽度
+        /// </summary>
+        public double Width { get; set; } = 330;
+
+        /// <summary>
+        /// 首页版块 Tab 栏是否启用瀑布流
+        /// </summary>
+        public bool IsStaggeredLayoutEnabled { get; set; } = false;
+
+        /// <summary>
         /// 首页版块 Tab 栏
         /// </summary>
-        public List<BoardTabItem> BoardTabItems { get; init; } =
+        public List<BoardTabItem> Items { get; init; } =
             [
                 new()
                 {
@@ -184,49 +231,11 @@ namespace Uestc.BBS.Core
                     ModuleId = 0,
                 },
             ];
-
-        /// <summary>
-        /// 官方论坛链接
-        /// </summary>
-        public string OfficialWebsite { get; set; } = "https://bbs.uestc.edu.cn/new";
     }
 
     /// <summary>
-    /// 主题
+    /// 菜单项
     /// </summary>
-    public enum ThemeColor
-    {
-        [Label("浅色")]
-        Light = 0,
-
-        [Label("深色")]
-        Dark,
-
-        [Label("跟随系统")]
-        System,
-    }
-
-    /// <summary>
-    /// 每日一句设置
-    /// </summary>
-    public class SearchBarSetting
-    {
-        /// <summary>
-        /// 启用每日一句
-        /// </summary>
-        public bool IsDailySentenceEnabled { get; set; } = true;
-
-        /// <summary>
-        /// 每日一句更新周期（秒）
-        /// </summary>
-        public uint DailySentenceUpdateTimeInterval { get; set; } = 60;
-
-        /// <summary>
-        /// 搜索历史
-        /// </summary>
-        public bool IsSearchHistoryEnabled { get; set; } = true;
-    }
-
     public class MenuItem
     {
         public MenuItemKey Key { get; set; }
@@ -247,6 +256,59 @@ namespace Uestc.BBS.Core
         /// 菜单位置
         /// </summary>
         public Position Position { get; set; } = Position.LeftTop;
+    }
+
+    public class BoardTabItem
+    {
+        /// <summary>
+        /// 板块名称
+        /// </summary>
+        public string Name { get; set; } = string.Empty;
+
+        /// <summary>
+        /// 路由地址
+        /// </summary>
+        public string Route { get; set; } = string.Empty;
+
+        /// <summary>
+        /// 我也不知道这是什么
+        /// </summary>
+        public uint ModuleId { get; set; } = 0;
+
+        /// <summary>
+        /// 板块编号
+        /// </summary>
+        public Board Board { get; set; } = Board.Latest;
+
+        /// <summary>
+        /// 排序类型
+        /// </summary>
+        public TopicSortType SortType { get; set; } = TopicSortType.New;
+
+        /// <summary>
+        /// 分页大小
+        /// </summary>
+        public uint PageSize { get; set; } = 15;
+
+        /// <summary>
+        /// 获取预览图
+        /// </summary>
+        public bool RequirePreviewSources { get; set; } = false;
+    }
+
+    /// <summary>
+    /// 主题
+    /// </summary>
+    public enum ThemeColor
+    {
+        [Label("浅色")]
+        Light = 0,
+
+        [Label("深色")]
+        Dark,
+
+        [Label("跟随系统")]
+        System,
     }
 
     public enum MenuItemKey
@@ -311,43 +373,5 @@ namespace Uestc.BBS.Core
         Top = 0,
         LeftTop,
         LeftBottom,
-    }
-
-    public class BoardTabItem
-    {
-        /// <summary>
-        /// 板块名称
-        /// </summary>
-        public string Name { get; set; } = string.Empty;
-
-        /// <summary>
-        /// 路由地址
-        /// </summary>
-        public string Route { get; set; } = string.Empty;
-
-        /// <summary>
-        /// 我也不知道这是什么
-        /// </summary>
-        public uint ModuleId { get; set; } = 0;
-
-        /// <summary>
-        /// 板块编号
-        /// </summary>
-        public Board Board { get; set; } = Board.Latest;
-
-        /// <summary>
-        /// 排序类型
-        /// </summary>
-        public TopicSortType SortType { get; set; } = TopicSortType.New;
-
-        /// <summary>
-        /// 分页大小
-        /// </summary>
-        public uint PageSize { get; set; } = 15;
-
-        /// <summary>
-        /// 获取预览图
-        /// </summary>
-        public bool RequirePreviewSources { get; set; } = false;
     }
 }

@@ -32,14 +32,59 @@ namespace Uestc.BBS.WinUI.ViewModels
         {
             _boardTabItems =
             [
-                .. appSettingModel.Apperance.BoardTabItems.Select(b => new BoardTabItemListView()
+                .. appSettingModel.Apperance.BoardTab.Items.Select(b => new BoardTabItemListView()
                 {
                     BoardTabItem = b,
+                    IsStaggeredLayoutEnabled = AppSettingModel
+                        .Apperance
+                        .BoardTab
+                        .IsStaggeredLayoutEnabled
                 }),
             ];
 
             CurrentBoardTabItemModel!.PropertyChanged += (sender, e) =>
                 OnPropertyChanged(nameof(CurrentBoardTabItemListView));
+            AppSettingModel.Apperance.BoardTab.PropertyChanged += (sender, e) =>
+            {
+                if (
+                    e.PropertyName
+                    == nameof(AppSettingModel.Apperance.BoardTab.IsStaggeredLayoutEnabled)
+                )
+                {
+                    _boardTabItems.ForEach(i =>
+                        i.IsStaggeredLayoutEnabled = AppSettingModel
+                            .Apperance
+                            .BoardTab
+                            .IsStaggeredLayoutEnabled
+                    );
+                    return;
+                }
+            };
+            AppSettingModel.Apperance.BoardTab.Items.CollectionChanged += (sender, e) =>
+            {
+                switch (e.Action)
+                {
+                    case System.Collections.Specialized.NotifyCollectionChangedAction.Add:
+                        _boardTabItems.AddRange(
+                            e.NewItems!.Cast<BoardTabItemModel>()
+                                .Select(b => new BoardTabItemListView()
+                                {
+                                    BoardTabItem = b,
+                                    IsStaggeredLayoutEnabled = AppSettingModel
+                                        .Apperance
+                                        .BoardTab
+                                        .IsStaggeredLayoutEnabled
+                                })
+                        );
+                        break;
+                    case System.Collections.Specialized.NotifyCollectionChangedAction.Remove:
+                        _boardTabItems.RemoveAll(b =>
+                            e.OldItems!.Cast<BoardTabItemModel>().Contains(b.BoardTabItem)
+                        );
+                        break;
+                }
+                OnPropertyChanged(nameof(CurrentBoardTabItemListView));
+            };
         }
 
         /// <summary>

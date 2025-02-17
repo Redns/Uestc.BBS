@@ -46,37 +46,7 @@ namespace Uestc.BBS.Mvvm.Models
                         );
                 }
             };
-
-            BoardTabItems =
-            [
-                .. apperanceSetting.BoardTabItems.Select(item => new BoardTabItemModel(item)),
-            ];
-            BoardTabItems.CollectionChanged += (sender, args) =>
-            {
-                switch (args.Action)
-                {
-                    case NotifyCollectionChangedAction.Add:
-                        apperanceSetting.BoardTabItems.AddRange(
-                            args.NewItems!.Cast<BoardTabItemModel>()
-                                .Select(item => item.BoardTabItem)
-                        );
-                        break;
-                    case NotifyCollectionChangedAction.Remove:
-                        foreach (
-                            var item in args.OldItems!.Cast<BoardTabItemModel>()
-                                .Select(item => item.BoardTabItem)
-                        )
-                        {
-                            apperanceSetting.BoardTabItems.Remove(item);
-                        }
-                        break;
-                    default:
-                        throw new ArgumentException(
-                            "Unhandled collection change action.",
-                            nameof(args)
-                        );
-                }
-            };
+            BoardTab = new BoardTabSettingModel(apperanceSetting.BoardTab);
         }
 
         /// <summary>
@@ -120,9 +90,9 @@ namespace Uestc.BBS.Mvvm.Models
         public ObservableCollection<MenuItemModel> MenuItems { get; init; }
 
         /// <summary>
-        /// 首页版块 Tab 栏
+        /// 首页版块 Tab 栏设置
         /// </summary>
-        public ObservableCollection<BoardTabItemModel> BoardTabItems { get; init; }
+        public BoardTabSettingModel BoardTab { get; init; }
 
         /// <summary>
         /// 官方论坛链接
@@ -138,6 +108,73 @@ namespace Uestc.BBS.Mvvm.Models
                     (setting, website) => setting.OfficialWebsite = website
                 );
         }
+    }
+
+    public class BoardTabSettingModel : ObservableObject
+    {
+        private readonly BoardTabSetting _setting;
+
+        public BoardTabSettingModel(BoardTabSetting setting)
+        {
+            _setting = setting;
+
+            Items = [.. _setting.Items.Select(item => new BoardTabItemModel(item)),];
+            Items.CollectionChanged += (sender, args) =>
+            {
+                switch (args.Action)
+                {
+                    case NotifyCollectionChangedAction.Add:
+                        _setting.Items.AddRange(
+                            args.NewItems!.Cast<BoardTabItemModel>()
+                                .Select(item => item.BoardTabItem)
+                        );
+                        break;
+                    case NotifyCollectionChangedAction.Remove:
+                        foreach (
+                            var item in args.OldItems!.Cast<BoardTabItemModel>()
+                                .Select(item => item.BoardTabItem)
+                        )
+                        {
+                            _setting.Items.Remove(item);
+                        }
+                        break;
+                    default:
+                        throw new ArgumentException(
+                            "Unhandled collection change action.",
+                            nameof(args)
+                        );
+                }
+            };
+        }
+
+        /// <summary>
+        /// 首页版块 Tab 栏宽度
+        /// </summary>
+        public double Width
+        {
+            get => _setting.Width;
+            set => SetProperty(_setting.Width, value, _setting, (s, v) => s.Width = v);
+        }
+
+        /// <summary>
+        /// 首页版块 Tab 栏是否启用瀑布流
+        /// </summary>
+        public bool IsStaggeredLayoutEnabled
+        {
+            get => _setting.IsStaggeredLayoutEnabled;
+            set =>
+                SetProperty(
+                    _setting.IsStaggeredLayoutEnabled,
+                    value,
+                    _setting,
+                    (s, v) => s.IsStaggeredLayoutEnabled = v
+                );
+        }
+
+        /// <summary>
+        /// 首页版块 Tab 栏
+        /// </summary>
+        public ObservableCollection<BoardTabItemModel> Items { get; init; } = [];
     }
 
     public class MenuItemModel(MenuItem menuItem) : ObservableObject
