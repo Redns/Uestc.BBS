@@ -11,8 +11,8 @@ namespace Uestc.BBS.WinUI.Views
         private TopicContent TopicContent { get; set; } =
             new()
             {
-                Information = "Hello World",
-                Type = TopicContenType.InlineLink,
+                Information = "Hello[mobcent_phiz=https://bbs.uestc.edu.cn/static/image/smiley/alu/22.gif]World[mobcent_phiz=https://bbs.uestc.edu.cn/static/image/smiley/alu/22.gif]",
+                Type = TopicContenType.Text,
                 Url = "https://www.baidu.com",
             };
 
