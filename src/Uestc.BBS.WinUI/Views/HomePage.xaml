@@ -68,16 +68,23 @@
                 Content="{x:Bind ViewModel.CurrentBoardTabItemListView, Mode=OneWay}" />
         </Grid>
         <!--  主题内容  -->
-        <StackPanel Grid.Column="1">
-            <local_controls:TopicContentControl TopicContent="{x:Bind TopicContent, Mode=OneWay}" />
-            <local_controls:PersonProfile
+        <ScrollViewer
+            Grid.Column="1"
+            Margin="0,48,10,10"
+            Padding="10"
+            Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+            CornerRadius="10"
+            VerticalScrollBarVisibility="Hidden">
+            <local_controls:TopicContentControl TopicContents="{x:Bind TopicContent, Mode=OneWay}" />
+        </ScrollViewer>
+        <!--<local_controls:PersonProfile
                 Name="{x:Bind ViewModel.AppSettingModel.Account.DefaultCredential.Name, Mode=OneWay}"
                 MaxWidth="300"
                 Avatar="{x:Bind ViewModel.AppSettingModel.Account.DefaultCredential.Avatar, Mode=OneWay}"
                 Group="{x:Bind ViewModel.AppSettingModel.Account.DefaultCredential.Group, Mode=OneWay}"
                 Level="{x:Bind ViewModel.AppSettingModel.Account.DefaultCredential.Level, Mode=OneWay}"
-                Signature="{x:Bind ViewModel.AppSettingModel.Account.DefaultCredential.Signature, Mode=OneWay}" />
-        </StackPanel>
+                Signature="{x:Bind ViewModel.AppSettingModel.Account.DefaultCredential.Signature, Mode=OneWay}" />-->
+
         <!--  分割线  -->
         <controls:GridSplitter
             Grid.Column="1"

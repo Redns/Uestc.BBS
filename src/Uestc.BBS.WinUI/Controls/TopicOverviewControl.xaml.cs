@@ -81,7 +81,7 @@ namespace Uestc.BBS.WinUI.Controls
         /// <summary>
         /// °æ¿éÃû³Æ
         /// </summary>
-        private static readonly DependencyProperty BoardProperty = DependencyProperty.Register(
+        private static readonly DependencyProperty BoardNameProperty = DependencyProperty.Register(
             nameof(BoardName),
             typeof(string),
             typeof(TopicOverviewControl),
@@ -90,8 +90,8 @@ namespace Uestc.BBS.WinUI.Controls
 
         public string BoardName
         {
-            get => (string)GetValue(BoardProperty);
-            set => SetValue(BoardProperty, value);
+            get => (string)GetValue(BoardNameProperty);
+            set => SetValue(BoardNameProperty, value);
         }
 
         /// <summary>

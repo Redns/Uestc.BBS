@@ -14,6 +14,8 @@ namespace Uestc.BBS.Core.Services.Api.Forum
 
         [JsonPropertyName("originalInfor")]
         public string OriginalInformation { get; set; } = string.Empty;
+
+        public uint Aid { get; set; }
     }
 
     public enum TopicContenType
