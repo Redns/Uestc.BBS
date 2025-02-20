@@ -73,25 +73,7 @@
             Grid.Column="1"
             Margin="10"
             VerticalScrollBarVisibility="Hidden">
-            <StackPanel Spacing="5">
-                <ItemsRepeater ItemsSource="{x:Bind TopicContents, Mode=OneWay}">
-                    <!--<ItemsRepeater.Layout>
-                        <controls:WrapLayout />
-                    </ItemsRepeater.Layout>-->
-                    <ItemsRepeater.ItemTemplate>
-                        <DataTemplate x:DataType="forum:RichTextContent">
-                            <local_controls:TopicContentControl TopicContent="{x:Bind}" />
-                        </DataTemplate>
-                    </ItemsRepeater.ItemTemplate>
-                </ItemsRepeater>
-                <local_controls:PersonProfile
-                    Name="{x:Bind ViewModel.AppSettingModel.Account.DefaultCredential.Name, Mode=OneWay}"
-                    MaxWidth="300"
-                    Avatar="{x:Bind ViewModel.AppSettingModel.Account.DefaultCredential.Avatar, Mode=OneWay}"
-                    Group="{x:Bind ViewModel.AppSettingModel.Account.DefaultCredential.Group, Mode=OneWay}"
-                    Level="{x:Bind ViewModel.AppSettingModel.Account.DefaultCredential.Level, Mode=OneWay}"
-                    Signature="{x:Bind ViewModel.AppSettingModel.Account.DefaultCredential.Signature, Mode=OneWay}" />
-            </StackPanel>
+            <local_controls:TopicContentControl TopicContents="{x:Bind TopicContents}" />
         </ScrollViewer>
         <!--  分割线  -->
         <controls:GridSplitter

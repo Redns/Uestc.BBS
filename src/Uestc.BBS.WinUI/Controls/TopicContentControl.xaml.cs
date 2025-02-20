@@ -7,7 +7,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Documents;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
-using Uestc.BBS.Core.Services.Api.Forum;
+using Uestc.BBS.Core.Services.Forum;
 using Uestc.BBS.WinUI.Helpers;
 
 namespace Uestc.BBS.WinUI.Controls
@@ -16,7 +16,7 @@ namespace Uestc.BBS.WinUI.Controls
     {
         private static readonly Regex _emojiRegex = EmojiRegex();
 
-        public TopicContent[] TopicContents
+        public RichTextContent[] TopicContents
         {
             set => Content = RenderTopicContents(value);
         }
@@ -26,9 +26,9 @@ namespace Uestc.BBS.WinUI.Controls
             InitializeComponent();
         }
 
-        private UIElement RenderTopicContents(TopicContent[] contents)
+        private UIElement RenderTopicContents(RichTextContent[] contents)
         {
-            var richTextBlock = new RichTextBlock() { LineHeight = 28 };
+            var richTextBlock = new RichTextBlock() { LineHeight = 26 };
 
             var paragraph = new Paragraph();
             foreach (var content in contents)
@@ -52,7 +52,7 @@ namespace Uestc.BBS.WinUI.Controls
             return richTextBlock;
         }
 
-        private IEnumerable<Inline> RenderInlineContent(TopicContent content)
+        private IEnumerable<Inline> RenderInlineContent(RichTextContent content)
         {
             // 【纯文本】Hello, world!
             // 【文本 + 表情包】Hello [mobcent_phiz=https://bbs.uestc.edu.cn/static/image/smiley/alu/22.gif], world!
