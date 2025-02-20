@@ -1,4 +1,4 @@
-﻿namespace Uestc.BBS.Core.Services.Notification
+﻿namespace Uestc.BBS.Core.Services.System
 {
     public interface INotificationService
     {

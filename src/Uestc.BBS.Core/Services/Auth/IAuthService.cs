@@ -1,4 +1,6 @@
-﻿namespace Uestc.BBS.Core.Services.Api.Auth
+﻿using Uestc.BBS.Core.Services.Api.Auth;
+
+namespace Uestc.BBS.Core.Services.Auth
 {
     public interface IAuthService
     {

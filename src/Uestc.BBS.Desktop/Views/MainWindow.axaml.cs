@@ -4,6 +4,7 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Uestc.BBS.Core;
+using Uestc.BBS.Core.Models;
 using Uestc.BBS.Desktop.Models;
 using Uestc.BBS.Desktop.ViewModels;
 

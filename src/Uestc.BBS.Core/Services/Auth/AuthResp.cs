@@ -1,5 +1,5 @@
 ﻿using System.Text.Json.Serialization;
-using Uestc.BBS.Core.Services.Api.User;
+using Uestc.BBS.Core.Services.User;
 
 namespace Uestc.BBS.Core.Services.Api.Auth
 {

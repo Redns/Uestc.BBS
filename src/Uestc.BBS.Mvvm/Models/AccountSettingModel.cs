@@ -1,7 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using Uestc.BBS.Core;
+using Uestc.BBS.Core.Models;
 
 namespace Uestc.BBS.Mvvm.Models
 {

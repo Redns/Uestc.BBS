@@ -6,7 +6,7 @@
     xmlns:controls="using:CommunityToolkit.WinUI.Controls"
     xmlns:converters="using:CommunityToolkit.WinUI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:forum="using:Uestc.BBS.Core.Services.Api.Forum"
+    xmlns:forum="using:Uestc.BBS.Core.Services.Forum"
     xmlns:lc="using:Uestc.BBS.WinUI.Converters"
     xmlns:local="using:Uestc.BBS.WinUI.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -19,6 +19,8 @@
     <Grid>
         <!--  列表流  -->
         <ListView
+            IsItemClickEnabled="True"
+            ItemClick="ListView_ItemClick"
             ItemsSource="{x:Bind Topics, Mode=OneWay}"
             ScrollViewer.VerticalScrollBarVisibility="Hidden"
             SelectionMode="None"
@@ -53,7 +55,7 @@
             VerticalScrollBarVisibility="Hidden"
             ViewChanged="LoadMoreData"
             Visibility="{x:Bind IsStaggeredLayoutEnabled, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
-            <ItemsRepeater ItemsSource="{x:Bind Topics, Mode=OneWay}">
+            <ItemsRepeater x:Name="BoardTabItemsRepeater" ItemsSource="{x:Bind Topics, Mode=OneWay}">
                 <ItemsRepeater.ItemTemplate>
                     <DataTemplate x:DataType="forum:TopicOverview">
                         <local:TopicOverviewControl

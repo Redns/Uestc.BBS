@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -8,15 +7,16 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Uestc.BBS.Core;
-using Uestc.BBS.Core.Services.Api.Forum;
+using Uestc.BBS.Core.Services.Forum;
+using Uestc.BBS.Core.Services.Forum.TopicList;
 using Uestc.BBS.Mvvm.Models;
 
 namespace Uestc.BBS.WinUI.Controls
 {
     public sealed partial class BoardTabItemListView : UserControl
     {
-        private static readonly ITopicService _topicService =
-            ServiceExtension.Services.GetRequiredService<ITopicService>();
+        private static readonly ITopicListService _topicService =
+            ServiceExtension.Services.GetRequiredService<ITopicListService>();
 
         /// <summary>
         ///
@@ -39,12 +39,24 @@ namespace Uestc.BBS.WinUI.Controls
                 Topics = new IncrementalLoadingCollection<TopicOverviewSource, TopicOverview>(
                     new TopicOverviewSource(_topicService, value)
                 );
-
-                if (IsStaggeredLayoutEnabled)
-                {
-                    Topics.RefreshAsync();
-                }
             }
+        }
+
+        /// <summary>
+        /// 选中的主题
+        /// </summary>
+        private static readonly DependencyProperty SelectedTopicProperty =
+            DependencyProperty.Register(
+                nameof(SelectedTopic),
+                typeof(TopicOverview),
+                typeof(BoardTabItemListView),
+                new PropertyMetadata(null)
+            );
+
+        public TopicOverview? SelectedTopic
+        {
+            get => (TopicOverview)GetValue(SelectedTopicProperty);
+            set => SetValue(SelectedTopicProperty, value);
         }
 
         /// <summary>
@@ -61,7 +73,14 @@ namespace Uestc.BBS.WinUI.Controls
         public bool IsStaggeredLayoutEnabled
         {
             get => (bool)GetValue(IsStaggeredLayoutEnabledProperty);
-            set => SetValue(IsStaggeredLayoutEnabledProperty, value);
+            set
+            {
+                SetValue(IsStaggeredLayoutEnabledProperty, value);
+                if (value && BoardTabItemsRepeater.ItemsSource is null)
+                {
+                    Topics?.RefreshAsync();
+                }
+            }
         }
 
         /// <summary>
@@ -78,6 +97,11 @@ namespace Uestc.BBS.WinUI.Controls
             InitializeComponent();
         }
 
+        /// <summary>
+        /// 加载更多数据
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         public void LoadMoreData(object sender, ScrollViewerViewChangedEventArgs e)
         {
             if (sender is not ScrollViewer scrollViewer)
@@ -89,18 +113,20 @@ namespace Uestc.BBS.WinUI.Controls
             var viewport = scrollViewer.ViewportHeight;
             var extent = scrollViewer.ExtentHeight;
 
-            if (extent - offset <= viewport)
+            if (extent - offset <= 2 * viewport && Topics?.IsLoading is not true)
             {
-                Debug.WriteLine("Load more data");
                 Topics?.LoadMoreItemsAsync(BoardTabItem.PageSize);
             }
         }
+
+        private void ListView_ItemClick(object sender, ItemClickEventArgs e) =>
+            SelectedTopic = e.ClickedItem as TopicOverview;
     }
 
-    public class TopicOverviewSource(ITopicService topicService, BoardTabItemModel boardTabItem)
+    public class TopicOverviewSource(ITopicListService topicService, BoardTabItemModel boardTabItem)
         : IIncrementalSource<TopicOverview>
     {
-        private readonly ITopicService _topicService = topicService;
+        private readonly ITopicListService _topicService = topicService;
 
         private readonly BoardTabItemModel boardTabItem = boardTabItem;
 

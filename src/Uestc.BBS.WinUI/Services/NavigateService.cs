@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml.Controls;
-using Uestc.BBS.Core;
+using Uestc.BBS.Core.Models;
 using Uestc.BBS.Mvvm.Services;
 using Uestc.BBS.WinUI.Views;
 using Uestc.BBS.WinUI.Views.Overlays;

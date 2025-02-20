@@ -2,9 +2,9 @@
 using System.Text.Json;
 using Uestc.BBS.Core.Helpers;
 
-namespace Uestc.BBS.Core.Services.Api.Forum
+namespace Uestc.BBS.Core.Services.Forum.TopicList
 {
-    public class TopicService(HttpClient httpClient) : ITopicService
+    public class TopicListService(HttpClient httpClient) : ITopicListService
     {
         private readonly HttpClient _httpClient = httpClient;
 
@@ -20,7 +20,7 @@ namespace Uestc.BBS.Core.Services.Api.Forum
         /// <param name="getPreviewImages">获取预览图像</param>
         /// <param name="getPartialReply">获取部分回复</param>
         /// <returns></returns>
-        public async Task<TopicResp?> GetTopicsAsync(
+        public async Task<TopicListResp?> GetTopicsAsync(
             string? route = null,
             uint page = 1,
             uint pageSize = 10,
@@ -59,7 +59,7 @@ namespace Uestc.BBS.Core.Services.Api.Forum
 
             return JsonSerializer.Deserialize(
                 await resp.Content.ReadAsStreamAsync(cancellationToken),
-                TopicRespContext.Default.TopicResp
+                TopicRespContext.Default.TopicListResp
             );
         }
     }

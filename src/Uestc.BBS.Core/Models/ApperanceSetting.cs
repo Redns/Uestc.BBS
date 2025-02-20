@@ -1,7 +1,7 @@
 ﻿using FastEnumUtility;
-using Uestc.BBS.Core.Services.Api.Forum;
+using Uestc.BBS.Core.Services.Forum;
 
-namespace Uestc.BBS.Core
+namespace Uestc.BBS.Core.Models
 {
     /// <summary>
     /// 外观设置

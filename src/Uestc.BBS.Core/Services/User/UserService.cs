@@ -1,4 +1,4 @@
-﻿namespace Uestc.BBS.Core.Services.Api.User
+﻿namespace Uestc.BBS.Core.Services.User
 {
     public class UserService(HttpClient httpClient) : IUserService
     {

@@ -1,7 +1,6 @@
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Uestc.BBS.Core.Helpers;
-using Uestc.BBS.Core.Services.Notification;
 using Uestc.BBS.Core.Services.System;
 using Uestc.BBS.WinUI.ViewModels;
 

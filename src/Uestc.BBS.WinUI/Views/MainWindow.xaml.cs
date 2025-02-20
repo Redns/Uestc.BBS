@@ -5,6 +5,7 @@ using H.NotifyIcon;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml.Controls;
 using Uestc.BBS.Core;
+using Uestc.BBS.Core.Models;
 using Uestc.BBS.WinUI.Helpers;
 using Uestc.BBS.WinUI.ViewModels;
 using Uestc.BBS.WinUI.Views.ContentDialogs;

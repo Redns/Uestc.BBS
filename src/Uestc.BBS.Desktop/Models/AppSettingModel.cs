@@ -7,6 +7,7 @@ using Avalonia.Styling;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Uestc.BBS.Core;
 using Uestc.BBS.Core.Helpers;
+using Uestc.BBS.Core.Models;
 using Uestc.BBS.Core.Services;
 using Uestc.BBS.Core.Services.System;
 

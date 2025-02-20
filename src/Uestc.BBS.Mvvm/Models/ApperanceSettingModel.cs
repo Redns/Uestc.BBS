@@ -1,8 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using CommunityToolkit.Mvvm.ComponentModel;
-using Uestc.BBS.Core;
-using Uestc.BBS.Core.Services.Api.Forum;
+using Uestc.BBS.Core.Models;
+using Uestc.BBS.Core.Services.Forum;
 
 namespace Uestc.BBS.Mvvm.Models
 {

@@ -11,6 +11,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Uestc.BBS.Core;
 using Uestc.BBS.Core.Helpers;
+using Uestc.BBS.Core.Models;
 using Uestc.BBS.Core.Services.System;
 using Uestc.BBS.Desktop.Models;
 

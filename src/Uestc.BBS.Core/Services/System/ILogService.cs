@@ -1,4 +1,5 @@
 ﻿using FastEnumUtility;
+using Uestc.BBS.Core.Models;
 
 namespace Uestc.BBS.Core.Services.System
 {

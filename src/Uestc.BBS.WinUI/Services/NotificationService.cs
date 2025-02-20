@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.Windows.AppNotifications;
 using Microsoft.Windows.AppNotifications.Builder;
-using Uestc.BBS.Core.Services.Notification;
+using Uestc.BBS.Core.Services.System;
 
 namespace Uestc.BBS.WinUI.Services
 {

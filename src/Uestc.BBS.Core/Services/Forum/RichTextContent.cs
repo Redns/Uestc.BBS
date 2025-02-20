@@ -1,9 +1,9 @@
 ﻿using System.Text.Json.Serialization;
 using FastEnumUtility;
 
-namespace Uestc.BBS.Core.Services.Api.Forum
+namespace Uestc.BBS.Core.Services.Forum
 {
-    public class TopicContent
+    public class RichTextContent
     {
         [JsonPropertyName("infor")]
         public string Information { get; set; } = string.Empty;

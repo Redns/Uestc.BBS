@@ -1,10 +1,10 @@
 ﻿using System.Text.Json.Serialization;
 using FastEnumUtility;
 using Uestc.BBS.Core.Helpers;
-using Uestc.BBS.Core.Helpers.JsonConverters;
-using Uestc.BBS.Core.Services.Api.User;
+using Uestc.BBS.Core.JsonConverters;
+using Uestc.BBS.Core.Services.User;
 
-namespace Uestc.BBS.Core.Services.Api.Forum
+namespace Uestc.BBS.Core.Services.Forum
 {
     /// <summary>
     /// 帖子摘要
@@ -192,17 +192,6 @@ namespace Uestc.BBS.Core.Services.Api.Forum
         /// TODO WHAT'S THIS
         /// </summary>
         public string[] Verify { get; set; } = [];
-
-        /// <summary>
-        /// TODO WHAT'S THIS
-        /// </summary>
-        public string[] ZanList { get; set; } = [];
-
-        /// <summary>
-        /// 回复列表
-        /// </summary>
-        [JsonPropertyName("Reply")]
-        public Reply[] ReplyList { get; set; } = [];
     }
 
     /// <summary>
@@ -212,6 +201,9 @@ namespace Uestc.BBS.Core.Services.Api.Forum
     {
         [Label("普通")]
         Normal = 0,
+
+        [Label("置顶公告")]
+        NormalComplex,
 
         [Label("投票")]
         Vote,
@@ -301,12 +293,4 @@ namespace Uestc.BBS.Core.Services.Api.Forum
         [Label("女")]
         Female,
     }
-
-    [JsonSerializable(typeof(TopicOverview))]
-    [JsonSourceGenerationOptions(
-        WriteIndented = true,
-        PropertyNamingPolicy = JsonKnownNamingPolicy.CamelCase,
-        PropertyNameCaseInsensitive = true
-    )]
-    public partial class TopicOverviewContext : JsonSerializerContext { }
 }

@@ -1,5 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using Uestc.BBS.Core.Services.Api.Forum;
+using Uestc.BBS.Core.Services.Forum;
 
 namespace Uestc.BBS.Mvvm.Models
 {

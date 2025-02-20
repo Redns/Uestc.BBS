@@ -1,7 +1,8 @@
 ﻿using System.Net;
 using System.Text.Json;
+using Uestc.BBS.Core.Services.Api.Auth;
 
-namespace Uestc.BBS.Core.Services.Api.Auth
+namespace Uestc.BBS.Core.Services.Auth
 {
     public class AuthService(HttpClient httpClient) : IAuthService
     {

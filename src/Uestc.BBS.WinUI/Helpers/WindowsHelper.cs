@@ -11,7 +11,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.Windows.AppLifecycle;
-using Uestc.BBS.Core;
+using Uestc.BBS.Core.Models;
 using Windows.Graphics.Imaging;
 using Windows.UI;
 using WinUIEx;

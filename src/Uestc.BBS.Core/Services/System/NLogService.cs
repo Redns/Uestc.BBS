@@ -3,6 +3,7 @@ using NLog;
 using NLog.Config;
 using NLog.Targets;
 using NLog.Targets.Wrappers;
+using Uestc.BBS.Core.Models;
 
 namespace Uestc.BBS.Core.Services.System
 {

@@ -10,8 +10,9 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.DependencyInjection;
 using Uestc.BBS.Core;
+using Uestc.BBS.Core.Models;
 using Uestc.BBS.Core.Services;
-using Uestc.BBS.Core.Services.Api.Forum;
+using Uestc.BBS.Core.Services.Forum.TopicList;
 using Uestc.BBS.Desktop.Models;
 using Uestc.BBS.Desktop.Views;
 using Uestc.BBS.Mvvm;
@@ -24,7 +25,7 @@ namespace Uestc.BBS.Desktop.ViewModels
 
         private readonly HttpClient _httpClient;
 
-        private readonly ITopicService _topicService;
+        private readonly ITopicListService _topicService;
 
         private readonly IDailySentenceService _dailySentenceService;
 
@@ -50,7 +51,7 @@ namespace Uestc.BBS.Desktop.ViewModels
             HomeView homeView,
             HttpClient httpClient,
             AppSettingModel appSettingModel,
-            ITopicService topicService,
+            ITopicListService topicService,
             IDailySentenceService dailySentenceService
         )
         {

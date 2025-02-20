@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using Uestc.BBS.Core.Services.Api.Forum;
+using Uestc.BBS.Core.Services.Forum;
+using Uestc.BBS.Core.Services.Forum.TopicList;
 using Uestc.BBS.Core.Services.System;
 using Uestc.BBS.Mvvm.Models;
 
@@ -7,7 +8,7 @@ namespace Uestc.BBS.Mvvm.ViewModels
 {
     public abstract partial class HomeViewModelBase(
         ILogService logService,
-        ITopicService topicService,
+        ITopicListService topicService,
         AppSettingModel appSettingModel
     ) : ObservableObject
     {
@@ -16,7 +17,7 @@ namespace Uestc.BBS.Mvvm.ViewModels
         /// <summary>
         /// 主题相关服务
         /// </summary>
-        protected readonly ITopicService _topicService = topicService;
+        protected readonly ITopicListService _topicService = topicService;
 
         /// <summary>
         /// 应用配置
@@ -29,6 +30,9 @@ namespace Uestc.BBS.Mvvm.ViewModels
         [ObservableProperty]
         public partial BoardTabItemModel? CurrentBoardTabItemModel { get; set; } =
             appSettingModel.Apperance.BoardTab.Items.First();
+
+        [ObservableProperty]
+        public partial TopicOverview? SeletedTopicOverview { get; set; }
 
         protected virtual async Task<TopicOverview[]> LoadTopicsAsync(
             BoardTabItemModel tabItem,

@@ -15,6 +15,7 @@
 
     <ScrollViewer Margin="10" VerticalScrollBarVisibility="Hidden">
         <StackPanel Spacing="5">
+            <!--  缩略图  -->
             <controls:SettingsExpander
                 Description="在主题列表中显示缩略图"
                 Header="预览图像"
@@ -26,6 +27,7 @@
                     </controls:SettingsCard>
                 </controls:SettingsExpander.Items>
             </controls:SettingsExpander>
+            <!--  热门主题  -->
             <controls:SettingsExpander
                 Description="高亮热门主题的浏览量和图标"
                 Header="标记热门主题"
@@ -74,6 +76,7 @@
                     </controls:SettingsCard>
                 </controls:SettingsExpander.Items>
             </controls:SettingsExpander>
+            <!--  筛选主题  -->
             <controls:SettingsExpander
                 Description="过滤指定主题和评论"
                 Header="筛选主题"
@@ -145,6 +148,7 @@
                     </controls:SettingsCard>
                 </controls:SettingsExpander.Items>
             </controls:SettingsExpander>
+            <!--  评论  -->
             <controls:SettingsExpander
                 Description="楼中楼、强制置顶、热评"
                 Header="评论"

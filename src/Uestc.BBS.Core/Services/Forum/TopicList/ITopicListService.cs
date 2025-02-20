@@ -1,9 +1,25 @@
 ﻿using System.Text.Json.Serialization;
-using Uestc.BBS.Core.Helpers.JsonConverters;
+using Uestc.BBS.Core.JsonConverters;
 
-namespace Uestc.BBS.Core.Services.Api.Forum
+namespace Uestc.BBS.Core.Services.Forum.TopicList
 {
-    public class TopicResp : ApiRespBase
+    public interface ITopicListService
+    {
+        Task<TopicListResp?> GetTopicsAsync(
+            string? route = null,
+            uint page = 1,
+            uint pageSize = 10,
+            uint moduleId = 2,
+            Board boardId = 0,
+            TopicSortType sortby = TopicSortType.New,
+            TopicTopOrder topOrder = TopicTopOrder.WithoutTop,
+            bool getPreviewSources = false,
+            bool getPartialReply = false,
+            CancellationToken cancellationToken = default
+        );
+    }
+
+    public class TopicListResp : ApiRespBase
     {
         /// <summary>
         /// 
@@ -32,7 +48,7 @@ namespace Uestc.BBS.Core.Services.Api.Forum
         public TopicOverview[] List { get; set; } = [];
     }
 
-    [JsonSerializable(typeof(TopicResp))]
+    [JsonSerializable(typeof(TopicListResp))]
     [JsonSourceGenerationOptions(
         WriteIndented = true,
         PropertyNamingPolicy = JsonKnownNamingPolicy.CamelCase,

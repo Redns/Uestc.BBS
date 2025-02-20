@@ -1,5 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.Messaging.Messages;
-using Uestc.BBS.Core;
+using Uestc.BBS.Core.Models;
 
 namespace Uestc.BBS.Mvvm.Messages
 {

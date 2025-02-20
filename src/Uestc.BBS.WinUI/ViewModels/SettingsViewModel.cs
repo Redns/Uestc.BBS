@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Messaging;
 using FastEnumUtility;
 using Uestc.BBS.Core;
+using Uestc.BBS.Core.Models;
 using Uestc.BBS.Mvvm.Messages;
 using Uestc.BBS.Mvvm.Models;
 using Uestc.BBS.Mvvm.ViewModels;

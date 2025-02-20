@@ -2,7 +2,7 @@
 using System.Text.Json.Serialization;
 using System.Text.Json.Serialization.Metadata;
 
-namespace Uestc.BBS.Core.Services.Api
+namespace Uestc.BBS.Core.Services
 {
     public class ApiRespBase
     {

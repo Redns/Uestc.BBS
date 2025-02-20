@@ -6,7 +6,7 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml.Controls;
-using Uestc.BBS.Core.Services.Api.Forum;
+using Uestc.BBS.Core.Services.Forum.TopicList;
 using Uestc.BBS.Core.Services.System;
 using Uestc.BBS.Mvvm.Models;
 using Uestc.BBS.Mvvm.ViewModels;
@@ -25,7 +25,7 @@ namespace Uestc.BBS.WinUI.ViewModels
 
         public HomeViewModel(
             ILogService logService,
-            ITopicService topicService,
+            ITopicListService topicService,
             AppSettingModel appSettingModel
         )
             : base(logService, topicService, appSettingModel)

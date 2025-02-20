@@ -1,5 +1,5 @@
 using Avalonia.Controls;
-using Uestc.BBS.Core.Services.Api.Forum;
+using Uestc.BBS.Core.Services.Forum;
 using Uestc.BBS.Desktop.Converters;
 using Uestc.BBS.Desktop.ViewModels;
 

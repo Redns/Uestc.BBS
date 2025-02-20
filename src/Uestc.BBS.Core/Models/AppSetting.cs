@@ -6,7 +6,7 @@ using System.Text.Unicode;
 using Microsoft.Extensions.DependencyInjection;
 using Uestc.BBS.Core.Services.System;
 
-namespace Uestc.BBS.Core
+namespace Uestc.BBS.Core.Models
 {
     public class AppSetting
     {

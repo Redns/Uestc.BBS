@@ -1,7 +1,7 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace Uestc.BBS.Core.Helpers.JsonConverters
+namespace Uestc.BBS.Core.JsonConverters
 {
     public class UnixTimestampStringToDateTimeConverter : JsonConverter<DateTime>
     {

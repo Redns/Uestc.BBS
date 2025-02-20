@@ -1,4 +1,4 @@
-﻿namespace Uestc.BBS.Core
+﻿namespace Uestc.BBS.Core.Models
 {
     /// <summary>
     /// 浏览设置

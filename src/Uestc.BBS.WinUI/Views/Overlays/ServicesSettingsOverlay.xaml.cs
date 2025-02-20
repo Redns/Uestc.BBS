@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using FastEnumUtility;
 using Microsoft.UI.Xaml.Controls;
-using Uestc.BBS.Core;
+using Uestc.BBS.Core.Models;
 using Uestc.BBS.Core.Services.System;
 using Uestc.BBS.WinUI.ViewModels;
 

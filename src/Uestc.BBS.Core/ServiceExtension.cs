@@ -1,10 +1,11 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using NLog;
+using Uestc.BBS.Core.Models;
 using Uestc.BBS.Core.Services;
-using Uestc.BBS.Core.Services.Api.Auth;
-using Uestc.BBS.Core.Services.Api.Forum;
-using Uestc.BBS.Core.Services.Api.User;
+using Uestc.BBS.Core.Services.Auth;
+using Uestc.BBS.Core.Services.Forum.TopicList;
 using Uestc.BBS.Core.Services.System;
+using Uestc.BBS.Core.Services.User;
 
 namespace Uestc.BBS.Core
 {
@@ -38,7 +39,7 @@ namespace Uestc.BBS.Core
                 })
                 // Forums
                 .AddTransient<IAuthService, AuthService>()
-                .AddTransient<ITopicService, TopicService>()
+                .AddTransient<ITopicListService, TopicListService>()
                 // 每日一句
                 .AddSingleton<IDailySentenceService, DailySentenceService>();
             // HttpClient
@@ -53,7 +54,7 @@ namespace Uestc.BBS.Core
                     "https://bbs.uestc.edu.cn/mobcent/app/web/index.php?r=user/login"
                 );
             });
-            ServiceCollection.AddHttpClient<ITopicService, TopicService>(
+            ServiceCollection.AddHttpClient<ITopicListService, TopicListService>(
                 (services, client) =>
                 {
                     var appSetting = services.GetService<AppSetting>();

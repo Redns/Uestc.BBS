@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Uestc.BBS.Core
+namespace Uestc.BBS.Core.Models
 {
     public class Appmanifest
     {

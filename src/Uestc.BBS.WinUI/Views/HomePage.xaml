@@ -5,8 +5,9 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="using:CommunityToolkit.WinUI.Controls"
     xmlns:converters="using:CommunityToolkit.WinUI.Converters"
+    xmlns:core="using:Uestc.BBS.Core"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:forum="using:Uestc.BBS.Core.Services.Api.Forum"
+    xmlns:forum="using:Uestc.BBS.Core.Services.Forum"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:local_controls="using:Uestc.BBS.WinUI.Controls"
     xmlns:local_converters="using:Uestc.BBS.WinUI.Converters"
@@ -70,21 +71,28 @@
         <!--  主题内容  -->
         <ScrollViewer
             Grid.Column="1"
-            Margin="0,48,10,10"
-            Padding="10"
-            Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-            CornerRadius="10"
+            Margin="10"
             VerticalScrollBarVisibility="Hidden">
-            <local_controls:TopicContentControl TopicContents="{x:Bind TopicContent, Mode=OneWay}" />
+            <StackPanel Spacing="5">
+                <ItemsRepeater ItemsSource="{x:Bind TopicContents, Mode=OneWay}">
+                    <!--<ItemsRepeater.Layout>
+                        <controls:WrapLayout />
+                    </ItemsRepeater.Layout>-->
+                    <ItemsRepeater.ItemTemplate>
+                        <DataTemplate x:DataType="forum:RichTextContent">
+                            <local_controls:TopicContentControl TopicContent="{x:Bind}" />
+                        </DataTemplate>
+                    </ItemsRepeater.ItemTemplate>
+                </ItemsRepeater>
+                <local_controls:PersonProfile
+                    Name="{x:Bind ViewModel.AppSettingModel.Account.DefaultCredential.Name, Mode=OneWay}"
+                    MaxWidth="300"
+                    Avatar="{x:Bind ViewModel.AppSettingModel.Account.DefaultCredential.Avatar, Mode=OneWay}"
+                    Group="{x:Bind ViewModel.AppSettingModel.Account.DefaultCredential.Group, Mode=OneWay}"
+                    Level="{x:Bind ViewModel.AppSettingModel.Account.DefaultCredential.Level, Mode=OneWay}"
+                    Signature="{x:Bind ViewModel.AppSettingModel.Account.DefaultCredential.Signature, Mode=OneWay}" />
+            </StackPanel>
         </ScrollViewer>
-        <!--<local_controls:PersonProfile
-                Name="{x:Bind ViewModel.AppSettingModel.Account.DefaultCredential.Name, Mode=OneWay}"
-                MaxWidth="300"
-                Avatar="{x:Bind ViewModel.AppSettingModel.Account.DefaultCredential.Avatar, Mode=OneWay}"
-                Group="{x:Bind ViewModel.AppSettingModel.Account.DefaultCredential.Group, Mode=OneWay}"
-                Level="{x:Bind ViewModel.AppSettingModel.Account.DefaultCredential.Level, Mode=OneWay}"
-                Signature="{x:Bind ViewModel.AppSettingModel.Account.DefaultCredential.Signature, Mode=OneWay}" />-->
-
         <!--  分割线  -->
         <controls:GridSplitter
             Grid.Column="1"
