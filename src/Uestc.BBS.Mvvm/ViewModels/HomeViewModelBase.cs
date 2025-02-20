@@ -29,7 +29,7 @@ namespace Uestc.BBS.Mvvm.ViewModels
         /// </summary>
         [ObservableProperty]
         public partial BoardTabItemModel? CurrentBoardTabItemModel { get; set; } =
-            appSettingModel.Apperance.BoardTab.Items.First();
+            appSettingModel.Appearance.BoardTab.Items.First();
 
         [ObservableProperty]
         public partial TopicOverview? SeletedTopicOverview { get; set; }

@@ -1,7 +1,6 @@
 using Microsoft.UI.Xaml.Controls;
 using Uestc.BBS.Core.Services.Forum;
 using Uestc.BBS.WinUI.ViewModels;
-using Windows.Devices.Geolocation.Geofencing;
 
 namespace Uestc.BBS.WinUI.Views
 {

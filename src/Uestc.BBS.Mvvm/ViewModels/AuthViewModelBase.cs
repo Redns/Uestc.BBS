@@ -172,6 +172,6 @@ namespace Uestc.BBS.Mvvm.ViewModels
         /// </summary>
         [RelayCommand]
         private void OpenOfficialWebsite() =>
-            OperatingSystemHelper.OpenWebsite(AppSettingModel.Apperance.OfficialWebsite);
+            OperatingSystemHelper.OpenWebsite(AppSettingModel.Appearance.OfficialWebsite);
     }
 }

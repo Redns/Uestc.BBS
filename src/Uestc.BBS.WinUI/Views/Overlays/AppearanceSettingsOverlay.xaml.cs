@@ -6,13 +6,13 @@ using Uestc.BBS.WinUI.ViewModels;
 
 namespace Uestc.BBS.WinUI.Views.Overlays
 {
-    public sealed partial class ApperanceSettingsOverlay : Page
+    public sealed partial class AppearanceSettingsOverlay : Page
     {
-        private ApperanceSettingsViewModel ViewModel { get; init; }
+        private AppearanceSettingsViewModel ViewModel { get; init; }
 
         private List<ThemeColor> ThemeColors { get; init; } = [.. FastEnum.GetValues<ThemeColor>()];
 
-        public ApperanceSettingsOverlay(ApperanceSettingsViewModel viewModel)
+        public AppearanceSettingsOverlay(AppearanceSettingsViewModel viewModel)
         {
             InitializeComponent();
 

@@ -32,11 +32,11 @@ namespace Uestc.BBS.WinUI.ViewModels
         {
             _boardTabItems =
             [
-                .. appSettingModel.Apperance.BoardTab.Items.Select(b => new BoardTabItemListView()
+                .. appSettingModel.Appearance.BoardTab.Items.Select(b => new BoardTabItemListView()
                 {
                     BoardTabItem = b,
                     IsStaggeredLayoutEnabled = AppSettingModel
-                        .Apperance
+                        .Appearance
                         .BoardTab
                         .IsStaggeredLayoutEnabled
                 }),
@@ -44,23 +44,23 @@ namespace Uestc.BBS.WinUI.ViewModels
 
             CurrentBoardTabItemModel!.PropertyChanged += (sender, e) =>
                 OnPropertyChanged(nameof(CurrentBoardTabItemListView));
-            AppSettingModel.Apperance.BoardTab.PropertyChanged += (sender, e) =>
+            AppSettingModel.Appearance.BoardTab.PropertyChanged += (sender, e) =>
             {
                 if (
                     e.PropertyName
-                    == nameof(AppSettingModel.Apperance.BoardTab.IsStaggeredLayoutEnabled)
+                    == nameof(AppSettingModel.Appearance.BoardTab.IsStaggeredLayoutEnabled)
                 )
                 {
                     _boardTabItems.ForEach(i =>
                         i.IsStaggeredLayoutEnabled = AppSettingModel
-                            .Apperance
+                            .Appearance
                             .BoardTab
                             .IsStaggeredLayoutEnabled
                     );
                     return;
                 }
             };
-            AppSettingModel.Apperance.BoardTab.Items.CollectionChanged += (sender, e) =>
+            AppSettingModel.Appearance.BoardTab.Items.CollectionChanged += (sender, e) =>
             {
                 switch (e.Action)
                 {
@@ -71,7 +71,7 @@ namespace Uestc.BBS.WinUI.ViewModels
                                 {
                                     BoardTabItem = b,
                                     IsStaggeredLayoutEnabled = AppSettingModel
-                                        .Apperance
+                                        .Appearance
                                         .BoardTab
                                         .IsStaggeredLayoutEnabled
                                 })

@@ -9,11 +9,11 @@ namespace Uestc.BBS.Mvvm.Models
     /// <summary>
     /// 外观设置
     /// </summary>
-    public class ApperanceSettingModel : ObservableObject
+    public class AppearanceSettingModel : ObservableObject
     {
-        private readonly ApperanceSetting _apperanceSetting;
+        private readonly AppearanceSetting _apperanceSetting;
 
-        public ApperanceSettingModel(ApperanceSetting apperanceSetting)
+        public AppearanceSettingModel(AppearanceSetting apperanceSetting)
         {
             _apperanceSetting = apperanceSetting;
 
@@ -313,6 +313,9 @@ namespace Uestc.BBS.Mvvm.Models
                 );
         }
 
+        /// <summary>
+        /// 主题列表
+        /// </summary>
         public ObservableCollection<TopicOverview> Topics { get; set; } = [];
     }
 

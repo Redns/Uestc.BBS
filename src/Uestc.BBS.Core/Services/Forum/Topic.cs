@@ -1,5 +1,5 @@
-﻿using FastEnumUtility;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
+using FastEnumUtility;
 using Uestc.BBS.Core.JsonConverters;
 
 namespace Uestc.BBS.Core.Services.Forum
@@ -7,10 +7,16 @@ namespace Uestc.BBS.Core.Services.Forum
     public class Topic
     {
         /// <summary>
-        /// Topic ID
+        /// ID
         /// </summary>
         [JsonPropertyName("topic_id")]
-        public uint TopicId { get; set; }
+        public uint Id { get; set; }
+
+        /// <summary>
+        /// 楼主（1 楼） pid
+        /// </summary>
+        [JsonPropertyName("reply_posts_id")]
+        public uint ReplyPostsId { get; set; }
 
         /// <summary>
         /// 标题
@@ -46,6 +52,12 @@ namespace Uestc.BBS.Core.Services.Forum
         /// </summary>
         [JsonPropertyName("user_nick_name")]
         public string UserNickName { get; set; } = string.Empty;
+
+        /// <summary>
+        /// 用户性别
+        /// </summary>
+        [JsonPropertyName("gender")]
+        public Gender UserGender { get; set; }
 
         /// <summary>
         /// 用户头像
@@ -126,10 +138,11 @@ namespace Uestc.BBS.Core.Services.Forum
         public string MobileSign { get; set; } = string.Empty;
 
         /// <summary>
-        /// 楼主（1 楼） pid
+        ///
         /// </summary>
-        [JsonPropertyName("reply_posts_id")]
-        public uint ReplyPostsId { get; set; }
+        public uint Status { get; set; }
+
+        public uint ReplyStatus { get; set; }
     }
 
     public class Reply
@@ -252,17 +265,14 @@ namespace Uestc.BBS.Core.Services.Forum
         /// </summary>
         public string Title { get; set; } = string.Empty;
 
-
         public ExtarPanelType Type { get; set; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public string Action { get; set; } = string.Empty;
 
         public string RecommendAdd { get; set; } = string.Empty;
-
-
     }
 
     public enum ExtarPanelType

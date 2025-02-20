@@ -45,7 +45,7 @@
                 <interactivity:Interaction.Behaviors>
                     <interactivity:EventTriggerBehavior EventName="PointerPressed">
                         <interactivity:EventTriggerBehavior.Actions>
-                            <interactivity:InvokeCommandAction Command="{x:Bind ViewModel.OpenWebSiteCommand}" CommandParameter="{x:Bind ViewModel.AppSettingModel.Apperance.OfficialWebsite}" />
+                            <interactivity:InvokeCommandAction Command="{x:Bind ViewModel.OpenWebSiteCommand}" CommandParameter="{x:Bind ViewModel.AppSettingModel.Appearance.OfficialWebsite}" />
                         </interactivity:EventTriggerBehavior.Actions>
                     </interactivity:EventTriggerBehavior>
                 </interactivity:Interaction.Behaviors>
@@ -61,7 +61,7 @@
             <controls:Segmented
                 x:Name="TopMenuBar"
                 ItemsSource="{x:Bind ViewModel.TopMenuItems, Mode=OneWay}"
-                Visibility="{x:Bind ViewModel.AppSettingModel.Apperance.IsTopNavigateBarEnabled, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
+                Visibility="{x:Bind ViewModel.AppSettingModel.Appearance.IsTopNavigateBarEnabled, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
                 <controls:Segmented.ItemTemplate>
                     <DataTemplate x:DataType="models:MenuItemModel">
                         <FontIcon
@@ -132,7 +132,7 @@
                     </StackPanel>
                 </DataTemplate>
             </NavigationView.MenuItemTemplate>
-            <Frame Content="{x:Bind ViewModel.CurrentMenuContent, Mode=OneWay}" />
+            <Frame x:Name="NavigateFrame" Content="{x:Bind ViewModel.CurrentMenuContent, Mode=OneWay}" />
         </NavigationView>
     </Grid>
 </Page>

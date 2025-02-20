@@ -37,17 +37,17 @@ namespace Uestc.BBS.WinUI.Views
             AppWindow.TitleBar.PreferredHeightOption = TitleBarHeightOption.Tall;
 
             // 设置主题色
-            this.SetThemeColor(viewModel.AppSettingModel.Apperance.ThemeColor);
-            viewModel.AppSettingModel.Apperance.PropertyChanged += (sender, args) =>
+            this.SetThemeColor(viewModel.AppSettingModel.Appearance.ThemeColor);
+            viewModel.AppSettingModel.Appearance.PropertyChanged += (sender, args) =>
             {
-                if (args.PropertyName == nameof(viewModel.AppSettingModel.Apperance.ThemeColor))
+                if (args.PropertyName == nameof(viewModel.AppSettingModel.Appearance.ThemeColor))
                 {
-                    this.SetThemeColor(viewModel.AppSettingModel.Apperance.ThemeColor);
+                    this.SetThemeColor(viewModel.AppSettingModel.Appearance.ThemeColor);
                 }
             };
             App.SystemThemeChanged += (sender, args) =>
             {
-                if (viewModel.AppSettingModel.Apperance.ThemeColor is ThemeColor.System)
+                if (viewModel.AppSettingModel.Appearance.ThemeColor is ThemeColor.System)
                 {
                     ViewModel.DispatcherAsync(() => AppWindow.TitleBar.SetThemeColor(args));
                 }
@@ -83,9 +83,9 @@ namespace Uestc.BBS.WinUI.Views
 
         [RelayCommand]
         private void ToggleDailysentenceEnabled() =>
-            ViewModel.AppSettingModel.Apperance.SearchBar.IsDailySentenceEnabled = !ViewModel
+            ViewModel.AppSettingModel.Appearance.SearchBar.IsDailySentenceEnabled = !ViewModel
                 .AppSettingModel
-                .Apperance
+                .Appearance
                 .SearchBar
                 .IsDailySentenceEnabled;
 

@@ -13,6 +13,9 @@
     mc:Ignorable="d">
 
     <ScrollViewer Margin="10" VerticalScrollBarVisibility="Hidden">
+        <ScrollViewer.RenderTransform>
+            <TranslateTransform />
+        </ScrollViewer.RenderTransform>
         <StackPanel Spacing="5">
             <controls:SettingsCard
                 Command="{x:Bind ViewModel.NavigateToSubSettingsOverlayCommand}"
@@ -111,4 +114,5 @@
             </controls:SettingsExpander>
         </StackPanel>
     </ScrollViewer>
+
 </Page>

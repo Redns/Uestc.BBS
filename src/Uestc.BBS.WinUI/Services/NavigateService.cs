@@ -31,7 +31,7 @@ namespace Uestc.BBS.WinUI.Services
                 MenuItemKey.TopicFilter => _services.GetRequiredService<BrowseSettingsOverlay>(),
                 // Settings Overlays
                 MenuItemKey.ApperanceSettings =>
-                    _services.GetRequiredService<ApperanceSettingsOverlay>(),
+                    _services.GetRequiredService<AppearanceSettingsOverlay>(),
                 MenuItemKey.BrowseSettings => _services.GetRequiredService<BrowseSettingsOverlay>(),
                 MenuItemKey.AccountSettings =>
                     _services.GetRequiredService<AccountSettingsOverlay>(),

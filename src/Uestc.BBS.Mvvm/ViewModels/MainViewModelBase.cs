@@ -45,7 +45,7 @@ namespace Uestc.BBS.Mvvm.ViewModels
         public string SearchPlaceholderText
         {
             get =>
-                AppSettingModel.Apperance.SearchBar.IsDailySentenceEnabled ? field : string.Empty;
+                AppSettingModel.Appearance.SearchBar.IsDailySentenceEnabled ? field : string.Empty;
             set => SetProperty(ref field, value);
         } = string.Empty;
 
@@ -78,7 +78,7 @@ namespace Uestc.BBS.Mvvm.ViewModels
         /// 是否显示返回按钮
         /// </summary>
         public bool IsBackButtonEnabled =>
-            !AppSettingModel.Apperance.MenuItems.Any(m => m.Key == CurrentMenuKey);
+            !AppSettingModel.Appearance.MenuItems.Any(m => m.Key == CurrentMenuKey);
 
         public MainViewModelBase(
             AppSettingModel appSettingModel,
@@ -95,7 +95,7 @@ namespace Uestc.BBS.Mvvm.ViewModels
             _searchPlaceholderTextUpdateTimer = new Timer(
                 async state =>
                 {
-                    if (!appSettingModel.Apperance.SearchBar.IsDailySentenceEnabled)
+                    if (!appSettingModel.Appearance.SearchBar.IsDailySentenceEnabled)
                     {
                         return;
                     }
@@ -117,23 +117,23 @@ namespace Uestc.BBS.Mvvm.ViewModels
                 },
                 null,
                 0,
-                appSettingModel.Apperance.SearchBar.DailySentenceUpdateTimeInterval * 1000
+                appSettingModel.Appearance.SearchBar.DailySentenceUpdateTimeInterval * 1000
             );
 
             AppSettingModel = appSettingModel;
-            AppSettingModel.Apperance.SearchBar.PropertyChanged += (sender, args) =>
+            AppSettingModel.Appearance.SearchBar.PropertyChanged += (sender, args) =>
             {
                 switch (args.PropertyName)
                 {
-                    case nameof(ApperanceSettingModel.SearchBar.IsDailySentenceEnabled):
+                    case nameof(AppearanceSettingModel.SearchBar.IsDailySentenceEnabled):
                         // 更新搜索栏文字
                         OnPropertyChanged(nameof(SearchPlaceholderText));
                         return;
-                    case nameof(ApperanceSettingModel.SearchBar.DailySentenceUpdateTimeInterval):
+                    case nameof(AppearanceSettingModel.SearchBar.DailySentenceUpdateTimeInterval):
                         // 更新每日一句定时周期
                         _searchPlaceholderTextUpdateTimer.Change(
                             0,
-                            AppSettingModel.Apperance.SearchBar.DailySentenceUpdateTimeInterval
+                            AppSettingModel.Appearance.SearchBar.DailySentenceUpdateTimeInterval
                                 * 1000
                         );
                         return;
@@ -141,7 +141,7 @@ namespace Uestc.BBS.Mvvm.ViewModels
             };
 
             CurrentMenuItem =
-                AppSettingModel.Apperance.MenuItems.FirstOrDefault()
+                AppSettingModel.Appearance.MenuItems.FirstOrDefault()
                 ?? throw new ArgumentOutOfRangeException(
                     nameof(appSettingModel),
                     "The sidebar must have at least one menu item."

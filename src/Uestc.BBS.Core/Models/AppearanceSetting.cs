@@ -6,7 +6,7 @@ namespace Uestc.BBS.Core.Models
     /// <summary>
     /// 外观设置
     /// </summary>
-    public class ApperanceSetting
+    public class AppearanceSetting
     {
         /// <summary>
         /// 主题

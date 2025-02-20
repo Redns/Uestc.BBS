@@ -21,12 +21,12 @@ namespace Uestc.BBS.WinUI.Views
             SetTitleBar(AppTitleBar);
 
             // 设置主题色
-            this.SetThemeColor(appSettingModel.Apperance.ThemeColor);
-            appSettingModel.Apperance.PropertyChanged += (sender, args) =>
+            this.SetThemeColor(appSettingModel.Appearance.ThemeColor);
+            appSettingModel.Appearance.PropertyChanged += (sender, args) =>
             {
-                if (args.PropertyName == nameof(appSettingModel.Apperance.ThemeColor))
+                if (args.PropertyName == nameof(appSettingModel.Appearance.ThemeColor))
                 {
-                    this.SetThemeColor(appSettingModel.Apperance.ThemeColor);
+                    this.SetThemeColor(appSettingModel.Appearance.ThemeColor);
                 }
             };
             App.SystemThemeChanged += (sender, args) =>

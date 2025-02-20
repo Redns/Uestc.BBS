@@ -13,7 +13,7 @@ namespace Uestc.BBS.Core.Models
         /// <summary>
         /// 外观
         /// </summary>
-        public ApperanceSetting Apperance { get; set; } = new();
+        public AppearanceSetting Appearance { get; set; } = new();
 
         /// <summary>
         /// 浏览

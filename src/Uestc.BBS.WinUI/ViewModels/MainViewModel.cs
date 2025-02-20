@@ -21,19 +21,19 @@ namespace Uestc.BBS.WinUI.ViewModels
         /// 顶部菜单项
         /// </summary>
         public ObservableCollection<MenuItemModel> TopMenuItems =>
-            [.. AppSettingModel.Apperance.MenuItems.Where(m => m.Position is Position.Top)];
+            [.. AppSettingModel.Appearance.MenuItems.Where(m => m.Position is Position.Top)];
 
         /// <summary>
         /// 侧边顶部菜单项
         /// </summary>
         public ObservableCollection<MenuItemModel> LeftTopMenuItems =>
-            [.. AppSettingModel.Apperance.MenuItems.Where(m => m.Position is Position.LeftTop)];
+            [.. AppSettingModel.Appearance.MenuItems.Where(m => m.Position is Position.LeftTop)];
 
         /// <summary>
         /// 侧边底部菜单项
         /// </summary>
         public ObservableCollection<MenuItemModel> LeftFooterMenuItems =>
-            [.. AppSettingModel.Apperance.MenuItems.Where(m => m.Position is Position.LeftBottom)];
+            [.. AppSettingModel.Appearance.MenuItems.Where(m => m.Position is Position.LeftBottom)];
 
         /// <summary>
         /// 调度任务队列
@@ -55,7 +55,7 @@ namespace Uestc.BBS.WinUI.ViewModels
                 navigateService
             )
         {
-            appSettingModel.Apperance.MenuItems.CollectionChanged += (sender, e) =>
+            appSettingModel.Appearance.MenuItems.CollectionChanged += (sender, e) =>
             {
                 OnPropertyChanged(nameof(TopMenuItems));
                 OnPropertyChanged(nameof(LeftTopMenuItems));

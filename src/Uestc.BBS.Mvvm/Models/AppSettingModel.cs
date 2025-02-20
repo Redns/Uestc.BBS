@@ -13,7 +13,7 @@ namespace Uestc.BBS.Mvvm.Models
         /// <summary>
         /// 外观
         /// </summary>
-        public ApperanceSettingModel Apperance { get; set; } = new(setting.Apperance);
+        public AppearanceSettingModel Appearance { get; set; } = new(setting.Appearance);
 
         /// <summary>
         /// 浏览

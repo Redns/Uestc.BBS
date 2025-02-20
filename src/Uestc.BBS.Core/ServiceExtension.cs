@@ -29,6 +29,11 @@ namespace Uestc.BBS.Core
             ServiceCollection
                 // AppSetting
                 .AddSingleton(AppSetting.Load())
+                // AuthCredential
+                .AddSingleton(services =>
+                    services.GetRequiredService<AppSetting>().Account.DefaultCredential
+                    ?? throw new ArgumentNullException(nameof(AppSetting.Account.DefaultCredential))
+                )
                 // 日志
                 .AddSingleton<ILogService>(services =>
                 {
@@ -57,8 +62,7 @@ namespace Uestc.BBS.Core
             ServiceCollection.AddHttpClient<ITopicListService, TopicListService>(
                 (services, client) =>
                 {
-                    var appSetting = services.GetService<AppSetting>();
-                    var credential = appSetting?.Account.DefaultCredential;
+                    var credential = services.GetService<AuthCredential>();
                     client.BaseAddress = new Uri(
                         $"https://bbs.uestc.edu.cn/mobcent/app/web/index.php?accessToken={credential?.Token}&accessSecret={credential?.Secret}"
                     );
@@ -67,8 +71,7 @@ namespace Uestc.BBS.Core
             ServiceCollection.AddHttpClient<IUserService, UserService>(
                 (services, client) =>
                 {
-                    var appSetting = services.GetService<AppSetting>();
-                    var credential = appSetting?.Account.DefaultCredential;
+                    var credential = services.GetService<AuthCredential>();
                     client.BaseAddress = new Uri(
                         $"https://bbs.uestc.edu.cn/mobcent/app/web/index.php?accessToken={credential?.Token}&accessSecret={credential?.Secret}"
                     );
