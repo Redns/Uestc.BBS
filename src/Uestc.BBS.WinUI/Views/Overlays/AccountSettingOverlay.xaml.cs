@@ -3,11 +3,11 @@ using Uestc.BBS.WinUI.ViewModels;
 
 namespace Uestc.BBS.WinUI.Views.Overlays
 {
-    public sealed partial class AccountSettingsOverlay : Page
+    public sealed partial class AccountSettingOverlay : Page
     {
         private AccountSettingsViewModel ViewModel { get; init; }
 
-        public AccountSettingsOverlay(AccountSettingsViewModel viewModel)
+        public AccountSettingOverlay(AccountSettingsViewModel viewModel)
         {
             InitializeComponent();
 

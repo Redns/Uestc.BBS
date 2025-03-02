@@ -22,13 +22,7 @@ namespace Uestc.BBS.Mvvm.Models
         public bool IsEnable
         {
             get => logSetting.IsEnable;
-            set =>
-                SetProperty(
-                    logSetting.IsEnable,
-                    value,
-                    logSetting,
-                    (setting, isEnabled) => setting.IsEnable = isEnabled
-                );
+            set => SetProperty(logSetting.IsEnable, value, logSetting, (s, e) => s.IsEnable = e);
         }
 
         /// <summary>
@@ -37,13 +31,7 @@ namespace Uestc.BBS.Mvvm.Models
         public LogLevel MinLevel
         {
             get => logSetting.MinLevel;
-            set =>
-                SetProperty(
-                    logSetting.MinLevel,
-                    value,
-                    logSetting,
-                    (setting, minLevel) => logSetting.MinLevel = minLevel
-                );
+            set => SetProperty(logSetting.MinLevel, value, logSetting, (s, e) => s.MinLevel = e);
         }
 
         /// <summary>
@@ -57,7 +45,7 @@ namespace Uestc.BBS.Mvvm.Models
                     logSetting.OutputFormat,
                     value,
                     logSetting,
-                    (logSetting, format) => logSetting.OutputFormat = format
+                    (s, e) => s.OutputFormat = e
                 );
         }
 
@@ -72,7 +60,7 @@ namespace Uestc.BBS.Mvvm.Models
                     logSetting.ArchiveAboveSize,
                     value,
                     logSetting,
-                    (setting, size) => setting.ArchiveAboveSize = size
+                    (s, e) => s.ArchiveAboveSize = e
                 );
         }
 
@@ -87,7 +75,7 @@ namespace Uestc.BBS.Mvvm.Models
                     logSetting.MaxArchiveFiles,
                     value,
                     logSetting,
-                    (setting, count) => setting.MaxArchiveFiles = count
+                    (s, e) => s.MaxArchiveFiles = e
                 );
         }
     }
@@ -105,7 +93,7 @@ namespace Uestc.BBS.Mvvm.Models
                     upgradeSetting.AcceptBetaVersion,
                     value,
                     upgradeSetting,
-                    (setting, accept) => setting.AcceptBetaVersion = accept
+                    (s, e) => s.AcceptBetaVersion = e
                 );
         }
 
@@ -120,7 +108,7 @@ namespace Uestc.BBS.Mvvm.Models
                     upgradeSetting.LastCheckTime,
                     value,
                     upgradeSetting,
-                    (setting, time) => setting.LastCheckTime = time
+                    (s, e) => s.LastCheckTime = e
                 );
         }
 
@@ -131,12 +119,7 @@ namespace Uestc.BBS.Mvvm.Models
         {
             get => upgradeSetting.Mirror;
             set =>
-                SetProperty(
-                    upgradeSetting.Mirror,
-                    value,
-                    upgradeSetting,
-                    (setting, mirror) => setting.Mirror = mirror
-                );
+                SetProperty(upgradeSetting.Mirror, value, upgradeSetting, (s, e) => s.Mirror = e);
         }
     }
 
@@ -157,7 +140,7 @@ namespace Uestc.BBS.Mvvm.Models
                     startupAndShutdownSetting.SilentStart,
                     value,
                     startupAndShutdownSetting,
-                    (setting, enabled) => setting.SilentStart = enabled
+                    (s, e) => s.SilentStart = e
                 );
         }
 
@@ -172,7 +155,7 @@ namespace Uestc.BBS.Mvvm.Models
                     startupAndShutdownSetting.IsWindowPinned,
                     value,
                     startupAndShutdownSetting,
-                    (setting, pinned) => setting.IsWindowPinned = pinned
+                    (s, e) => s.IsWindowPinned = e
                 );
         }
 
@@ -187,7 +170,7 @@ namespace Uestc.BBS.Mvvm.Models
                     startupAndShutdownSetting.WindowCloseBehavior,
                     value,
                     startupAndShutdownSetting,
-                    (setting, behavior) => setting.WindowCloseBehavior = behavior
+                    (s, e) => s.WindowCloseBehavior = e
                 );
         }
     }

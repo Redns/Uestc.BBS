@@ -7,7 +7,7 @@ using Uestc.BBS.WinUI.ViewModels;
 
 namespace Uestc.BBS.WinUI.Views.Overlays
 {
-    public sealed partial class ServicesSettingsOverlay : Page
+    public sealed partial class ServicesSettingOverlay : Page
     {
         private ServicesSettingsViewModel ViewModel { get; init; }
 
@@ -16,7 +16,7 @@ namespace Uestc.BBS.WinUI.Views.Overlays
         private List<WindowCloseBehavior> WindowCloseBehaviors { get; init; } =
             [.. FastEnum.GetValues<WindowCloseBehavior>()];
 
-        public ServicesSettingsOverlay(ServicesSettingsViewModel viewModel)
+        public ServicesSettingOverlay(ServicesSettingsViewModel viewModel)
         {
             InitializeComponent();
 

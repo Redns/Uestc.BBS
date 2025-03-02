@@ -15,19 +15,6 @@
             <!--  Other app resources here  -->
             <SolidColorBrush x:Key="NavigationViewContentBackground" Color="Transparent" />
             <SolidColorBrush x:Key="NavigationViewContentGridBorderBrush" Color="Transparent" />
-            <!--  Storyboards  -->
-            <Storyboard x:Key="NavigateStoryboard">
-                <DoubleAnimation
-                    Storyboard.TargetName="Translation"
-                    Storyboard.TargetProperty="Y"
-                    From="200"
-                    To="0"
-                    Duration="0:0:0.2">
-                    <DoubleAnimation.EasingFunction>
-                        <ExponentialEase EasingMode="EaseOut" Exponent="7" />
-                    </DoubleAnimation.EasingFunction>
-                </DoubleAnimation>
-            </Storyboard>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

@@ -14,17 +14,24 @@
 
     <UserControl.Resources>
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        <!--  列表流  -->
+        <ItemsPanelTemplate x:Name="StackItemsPanelTemplate">
+            <ItemsStackPanel />
+        </ItemsPanelTemplate>
+        <!--  瀑布流  -->
+        <ItemsPanelTemplate x:Name="StaggeredItemsPanelTemplate">
+            <controls:StaggeredPanel ColumnSpacing="10" DesiredColumnWidth="280" />
+        </ItemsPanelTemplate>
     </UserControl.Resources>
 
     <Grid>
-        <!--  列表流  -->
         <ListView
+            x:Name="TopicListView"
             IsItemClickEnabled="True"
             ItemClick="ListView_ItemClick"
             ItemsSource="{x:Bind Topics, Mode=OneWay}"
             ScrollViewer.VerticalScrollBarVisibility="Hidden"
-            SelectionMode="None"
-            Visibility="{x:Bind IsStaggeredLayoutEnabled, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True, Mode=OneWay}">
+            SelectionMode="None">
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="Padding" Value="0" />
@@ -50,38 +57,6 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <!--  瀑布流  -->
-        <ScrollViewer
-            VerticalScrollBarVisibility="Hidden"
-            ViewChanged="LoadMoreData"
-            Visibility="{x:Bind IsStaggeredLayoutEnabled, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
-            <ItemsRepeater x:Name="BoardTabItemsRepeater" ItemsSource="{x:Bind Topics, Mode=OneWay}">
-                <ItemsRepeater.ItemTemplate>
-                    <DataTemplate x:DataType="forum:TopicOverview">
-                        <local:TopicOverviewControl
-                            Title="{x:Bind Title}"
-                            Avatar="{x:Bind UserAvatar}"
-                            BoardName="{x:Bind BoardName}"
-                            Date="{x:Bind DateTime}"
-                            IsHot="{x:Bind IsHot}"
-                            Likes="{x:Bind Likes}"
-                            PreviewSources="{x:Bind ImageList}"
-                            Replies="{x:Bind Replies}"
-                            Subject="{x:Bind Subject}"
-                            Summary="{x:Bind Summary}"
-                            Username="{x:Bind UserNickName}"
-                            Views="{x:Bind Views}" />
-                    </DataTemplate>
-                </ItemsRepeater.ItemTemplate>
-                <ItemsRepeater.Layout>
-                    <controls:StaggeredLayout
-                        ColumnSpacing="10"
-                        DesiredColumnWidth="280"
-                        ItemsStretch="Fill"
-                        RowSpacing="10" />
-                </ItemsRepeater.Layout>
-            </ItemsRepeater>
-        </ScrollViewer>
         <ProgressRing
             Margin="0,20,0,0"
             VerticalAlignment="Top"

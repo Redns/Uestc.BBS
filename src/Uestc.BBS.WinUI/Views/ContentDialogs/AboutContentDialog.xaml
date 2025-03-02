@@ -15,7 +15,7 @@
         <TextBlock HorizontalAlignment="Center" Text="{x:Bind CopyRight}" />
         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
             <HyperlinkButton Content="源码仓库" NavigateUri="{x:Bind SourceRepositoryUrl}" />
-            <HyperlinkButton Content="问题反馈" />
+            <HyperlinkButton Content="问题反馈" NavigateUri="{x:Bind FeedbackUrl}" />
             <HyperlinkButton Content="阅读文档" />
             <HyperlinkButton Content="联系作者" />
         </StackPanel>

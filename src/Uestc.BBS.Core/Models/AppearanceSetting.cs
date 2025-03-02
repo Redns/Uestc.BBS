@@ -123,7 +123,7 @@ namespace Uestc.BBS.Core.Models
                     Key = MenuItemKey.TopicFilter,
                     Name = "主题过滤",
                     Symbol = "Filter",
-                    Glyph = "\uE71C;",
+                    Glyph = "\uE71C",
                     Position = Position.Top,
                 },
             ];
@@ -366,6 +366,9 @@ namespace Uestc.BBS.Core.Models
 
         [Label("服务")]
         ServicesSettings,
+
+        [Label("API")]
+        ApiSettings,
     }
 
     public enum Position

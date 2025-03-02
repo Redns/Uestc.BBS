@@ -3,11 +3,11 @@ using Uestc.BBS.WinUI.ViewModels;
 
 namespace Uestc.BBS.WinUI.Views.Overlays
 {
-    public sealed partial class BrowseSettingsOverlay : Page
+    public sealed partial class BrowseSettingOverlay : Page
     {
         private BrowseSettingsViewModel ViewModel { get; init; }
 
-        public BrowseSettingsOverlay(BrowseSettingsViewModel viewModel)
+        public BrowseSettingOverlay(BrowseSettingsViewModel viewModel)
         {
             InitializeComponent();
 

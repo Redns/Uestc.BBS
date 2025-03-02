@@ -21,62 +21,117 @@
     <Page.Resources>
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
         <local_converters:Double2GridLength x:Key="Double2GridLength" />
+        <!--  BoardSwitch  -->
+        <Storyboard x:Name="BoardSwitchStoryboard">
+            <DoubleAnimation
+                Storyboard.TargetName="BoardSwitchTranslation"
+                Storyboard.TargetProperty="X"
+                Duration="0:0:0.2">
+                <DoubleAnimation.EasingFunction>
+                    <ExponentialEase EasingMode="EaseOut" Exponent="7" />
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+        </Storyboard>
     </Page.Resources>
 
-    <Grid>
+    <Grid
+        Margin="10,0,10,15"
+        ColumnSpacing="10"
+        RowSpacing="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="{x:Bind ViewModel.AppSettingModel.Appearance.BoardTab.Width, Converter={StaticResource Double2GridLength}, Mode=TwoWay}" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <Grid Margin="10,0">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            <!--  板块列表  -->
-            <controls:Segmented
-                HorizontalAlignment="Center"
-                IsItemClickEnabled="True"
-                ItemsSource="{x:Bind ViewModel.AppSettingModel.Appearance.BoardTab.Items, Mode=OneWay}"
-                SelectedItem="{x:Bind ViewModel.CurrentBoardTabItemModel, Mode=OneWay}"
-                Style="{StaticResource PivotSegmentedStyle}">
-                <controls:Segmented.ItemTemplate>
-                    <DataTemplate x:DataType="models:BoardTabItemModel">
-                        <TextBlock
-                            Width="auto"
-                            Margin="-3,0"
-                            Text="{x:Bind Name}" />
-                    </DataTemplate>
-                </controls:Segmented.ItemTemplate>
-                <interactivity:Interaction.Behaviors>
-                    <interactivity:EventTriggerBehavior EventName="SelectionChanged">
-                        <interactivity:EventTriggerBehavior.Actions>
-                            <interactivity:InvokeCommandAction Command="{x:Bind ViewModel.SwitchBoardTabItemCommand}" />
-                        </interactivity:EventTriggerBehavior.Actions>
-                    </interactivity:EventTriggerBehavior>
-                    <interactivity:EventTriggerBehavior EventName="ItemClick">
-                        <interactivity:EventTriggerBehavior.Actions>
-                            <interactivity:InvokeCommandAction Command="{x:Bind ViewModel.RefreshBoardTabItemsCommand}" />
-                        </interactivity:EventTriggerBehavior.Actions>
-                    </interactivity:EventTriggerBehavior>
-                </interactivity:Interaction.Behaviors>
-            </controls:Segmented>
-            <!--  板块内容  -->
-            <UserControl
-                Grid.Row="1"
-                Margin="0,10,0,15"
-                Content="{x:Bind ViewModel.CurrentBoardTabItemListView, Mode=OneWay}" />
-        </Grid>
+        <!--  板块列表  -->
+        <controls:Segmented
+            HorizontalAlignment="Center"
+            IsItemClickEnabled="True"
+            ItemsSource="{x:Bind ViewModel.AppSettingModel.Appearance.BoardTab.Items, Mode=OneWay}"
+            SelectedItem="{x:Bind ViewModel.CurrentBoardTabItemModel, Mode=OneWay}"
+            Style="{StaticResource PivotSegmentedStyle}">
+            <controls:Segmented.ItemTemplate>
+                <DataTemplate x:DataType="models:BoardTabItemModel">
+                    <TextBlock
+                        Width="auto"
+                        Margin="-3,0"
+                        Text="{x:Bind Name}" />
+                </DataTemplate>
+            </controls:Segmented.ItemTemplate>
+            <interactivity:Interaction.Behaviors>
+                <interactivity:EventTriggerBehavior EventName="SelectionChanged">
+                    <interactivity:EventTriggerBehavior.Actions>
+                        <interactivity:InvokeCommandAction Command="{x:Bind ViewModel.SwitchBoardTabItemCommand}" />
+                    </interactivity:EventTriggerBehavior.Actions>
+                </interactivity:EventTriggerBehavior>
+                <interactivity:EventTriggerBehavior EventName="ItemClick">
+                    <interactivity:EventTriggerBehavior.Actions>
+                        <interactivity:InvokeCommandAction Command="{x:Bind ViewModel.RefreshBoardTabItemsCommand}" />
+                    </interactivity:EventTriggerBehavior.Actions>
+                </interactivity:EventTriggerBehavior>
+            </interactivity:Interaction.Behaviors>
+        </controls:Segmented>
+        <!--  板块内容  -->
+        <UserControl
+            x:Name="BoardTabItemListView"
+            Grid.Row="1"
+            Content="{x:Bind ViewModel.CurrentBoardTabItemListView, Mode=OneWay}">
+            <UserControl.RenderTransform>
+                <TranslateTransform x:Name="BoardSwitchTranslation" />
+            </UserControl.RenderTransform>
+        </UserControl>
+
         <!--  主题内容  -->
         <ScrollViewer
+            Grid.RowSpan="2"
             Grid.Column="1"
-            Margin="10"
+            Margin="0,10,0,0"
             VerticalScrollBarVisibility="Hidden">
-            <local_controls:TopicContentControl TopicContents="{x:Bind TopicContents}" />
+            <StackPanel Spacing="10">
+                <controls:DockPanel HorizontalSpacing="10" LastChildFill="False">
+                    <PersonPicture
+                        Height="36"
+                        VerticalAlignment="Top"
+                        ProfilePicture="https://bbs.uestc.edu.cn/uc_server/data/avatar/000/28/57/25_avatar_middle.jpg" />
+                    <!--  昵称、签名  -->
+                    <StackPanel VerticalAlignment="Center" Spacing="3">
+                        <StackPanel Orientation="Horizontal" Spacing="5">
+                            <TextBlock FontWeight="SemiBold" Text="Redns" />
+                            <Border Background="{ThemeResource SystemFillColorSuccessBrush}" CornerRadius="3">
+                                <TextBlock
+                                    Margin="3,0"
+                                    Padding="0,1,0,0"
+                                    FontSize="12"
+                                    Foreground="White"
+                                    Text="Lv.8" />
+                            </Border>
+                            <Border Background="{ThemeResource AccentTextFillColorTertiaryBrush}" CornerRadius="3">
+                                <TextBlock
+                                    Margin="3,0"
+                                    Padding="0,1,0,0"
+                                    FontSize="11"
+                                    Foreground="White"
+                                    Text="成电校友" />
+                            </Border>
+                        </StackPanel>
+                        <TextBlock
+                            FontSize="12"
+                            Foreground="Gray"
+                            Text="早熟的人通常都晚熟" />
+                    </StackPanel>
+                </controls:DockPanel>
+
+                <local_controls:TopicContentControl TopicContents="{x:Bind TopicContents}" />
+            </StackPanel>
         </ScrollViewer>
+
         <!--  分割线  -->
         <controls:GridSplitter
+            Grid.Row="1"
             Grid.Column="1"
             Width="3"
             MinWidth="1"

@@ -64,12 +64,14 @@ namespace Uestc.BBS.WinUI
                 .AddTransient<MyPostsOverlay>()
                 .AddTransient<MyRepliesOverlay>()
                 .AddTransient<MyMarksOverlay>()
-                .AddTransient<AppearanceSettingsOverlay>()
-                .AddTransient<BrowseSettingsOverlay>()
-                .AddTransient<AccountSettingsOverlay>()
-                .AddTransient<NotificationSettingsOverlay>()
-                .AddTransient<StorageSettingsOverlay>()
-                .AddTransient<ServicesSettingsOverlay>()
+                .AddTransient<TopicFilterOverlay>()
+                .AddTransient<AppearanceSettingOverlay>()
+                .AddTransient<BrowseSettingOverlay>()
+                .AddTransient<AccountSettingOverlay>()
+                .AddTransient<NotificationSettingOverlay>()
+                .AddTransient<StorageSettingOverlay>()
+                .AddTransient<ServicesSettingOverlay>()
+                .AddTransient<ApiSettingOverlay>()
                 // ViewModels
                 .AddTransient<AuthViewModel>()
                 .AddTransient<MainViewModel>()
@@ -95,9 +97,9 @@ namespace Uestc.BBS.WinUI
                 // Appmanifest
                 .AddSingleton(services =>
                     JsonSerializer.Deserialize(
-                        File.ReadAllText("Assets/appmanifest.json"),
+                        File.ReadAllText(Path.Combine("Assets", "appmanifest.json")),
                         AppmanifestContext.Default.Appmanifest
-                    ) ?? throw new ArgumentNullException()
+                    ) ?? throw new ArgumentNullException(nameof(Appmanifest))
                 )
                 // Notification
                 .AddSingleton<INotificationService>(n =>
@@ -136,6 +138,11 @@ namespace Uestc.BBS.WinUI
                     .Services.GetRequiredService<ILogService>()
                     .Error(args.Message, args.Exception);
                 ServiceExtension.Services.GetRequiredService<AppSetting>().Save();
+
+                if (CurrentWindow is null)
+                {
+                    Exit();
+                }
             };
         }
 

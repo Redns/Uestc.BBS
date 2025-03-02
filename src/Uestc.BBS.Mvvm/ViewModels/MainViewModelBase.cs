@@ -93,7 +93,7 @@ namespace Uestc.BBS.Mvvm.ViewModels
             _notificationService = notificationService;
             _dailySentenceService = dailySentenceService;
             _searchPlaceholderTextUpdateTimer = new Timer(
-                async state =>
+                async _ =>
                 {
                     if (!appSettingModel.Appearance.SearchBar.IsDailySentenceEnabled)
                     {
@@ -111,8 +111,7 @@ namespace Uestc.BBS.Mvvm.ViewModels
                     }
                     catch (Exception e)
                     {
-                        _logService.Error("Dailysentence get failed", e);
-                        _notificationService.Show("每日一句获取失败", e.Message);
+                        _logService.Error("Failed to update daily sentence.", e);
                     }
                 },
                 null,
@@ -121,7 +120,7 @@ namespace Uestc.BBS.Mvvm.ViewModels
             );
 
             AppSettingModel = appSettingModel;
-            AppSettingModel.Appearance.SearchBar.PropertyChanged += (sender, args) =>
+            AppSettingModel.Appearance.SearchBar.PropertyChanged += (_, args) =>
             {
                 switch (args.PropertyName)
                 {
@@ -150,7 +149,7 @@ namespace Uestc.BBS.Mvvm.ViewModels
             // 注册导航消息
             StrongReferenceMessenger.Default.Register<NavigateChangedMessage>(
                 this,
-                (r, m) => CurrentMenuKey = m.Value
+                (_, m) => CurrentMenuKey = m.Value
             );
         }
 

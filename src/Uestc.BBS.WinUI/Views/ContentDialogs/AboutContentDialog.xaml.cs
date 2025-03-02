@@ -54,6 +54,23 @@ namespace Uestc.BBS.WinUI.Views.ContentDialogs
             set => SetValue(SourceRepositoryUrlProperty, value);
         }
 
+        /// <summary>
+        /// ∑¥¿°µÿ÷∑
+        /// </summary>
+        private static readonly DependencyProperty FeedbackUrlProperty =
+            DependencyProperty.Register(
+                nameof(FeedbackUrl),
+                typeof(string),
+                typeof(AboutContentDialog),
+                new PropertyMetadata(default(string))
+            );
+
+        public string FeedbackUrl
+        {
+            get => (string)GetValue(FeedbackUrlProperty);
+            set => SetValue(FeedbackUrlProperty, value);
+        }
+
         public AboutContentDialog()
         {
             InitializeComponent();

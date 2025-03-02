@@ -54,7 +54,7 @@ namespace Uestc.BBS.Core.Services.Forum.TopicList
         PropertyNamingPolicy = JsonKnownNamingPolicy.CamelCase,
         PropertyNameCaseInsensitive = true
     )]
-    public partial class TopicRespContext : JsonSerializerContext
+    public partial class TopicListRespContext : JsonSerializerContext
     {
     }
 }

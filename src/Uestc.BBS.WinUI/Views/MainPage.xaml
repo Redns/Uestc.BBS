@@ -19,6 +19,45 @@
 
     <Page.Resources>
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        <!--  Navigate Bottom2Top  -->
+        <Storyboard x:Name="NavigateBottom2TopStoryboard">
+            <DoubleAnimation
+                Storyboard.TargetName="NavigateTranslation"
+                Storyboard.TargetProperty="Y"
+                From="200"
+                To="0"
+                Duration="0:0:0.2">
+                <DoubleAnimation.EasingFunction>
+                    <ExponentialEase EasingMode="EaseOut" Exponent="7" />
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+        </Storyboard>
+        <!--  Navigate Right2Left  -->
+        <Storyboard x:Name="NavigateRight2LeftStoryboard">
+            <DoubleAnimation
+                Storyboard.TargetName="NavigateTranslation"
+                Storyboard.TargetProperty="X"
+                From="200"
+                To="0"
+                Duration="0:0:0.2">
+                <DoubleAnimation.EasingFunction>
+                    <ExponentialEase EasingMode="EaseOut" Exponent="7" />
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+        </Storyboard>
+        <!--  Navigate Left2Right  -->
+        <Storyboard x:Name="NavigateLeft2RightStoryboard">
+            <DoubleAnimation
+                Storyboard.TargetName="NavigateTranslation"
+                Storyboard.TargetProperty="X"
+                From="-200"
+                To="0"
+                Duration="0:0:0.2">
+                <DoubleAnimation.EasingFunction>
+                    <ExponentialEase EasingMode="EaseOut" Exponent="7" />
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+        </Storyboard>
     </Page.Resources>
 
     <Grid>
@@ -132,7 +171,11 @@
                     </StackPanel>
                 </DataTemplate>
             </NavigationView.MenuItemTemplate>
-            <Frame x:Name="NavigateFrame" Content="{x:Bind ViewModel.CurrentMenuContent, Mode=OneWay}" />
+            <UserControl Content="{x:Bind ViewModel.CurrentMenuContent, Mode=OneWay}">
+                <UserControl.RenderTransform>
+                    <TranslateTransform x:Name="NavigateTranslation" />
+                </UserControl.RenderTransform>
+            </UserControl>
         </NavigationView>
     </Grid>
 </Page>

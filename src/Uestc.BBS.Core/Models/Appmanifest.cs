@@ -7,7 +7,7 @@ namespace Uestc.BBS.Core.Models
         /// <summary>
         /// 应用名称
         /// </summary>
-        public string Name { get; init; } = string.Empty;
+        public string Name { get; init; } = "清水河畔";
 
         /// <summary>
         /// 应用版本号
@@ -17,12 +17,12 @@ namespace Uestc.BBS.Core.Models
         /// <summary>
         /// 作者
         /// </summary>
-        public string Author { get; init; } = string.Empty;
+        public string Author { get; init; } = "Redns";
 
         /// <summary>
         /// 开源协议
         /// </summary>
-        public string License { get; init; } = string.Empty;
+        public string License { get; init; } = "MIT";
 
         /// <summary>
         /// 项目起始日期
@@ -40,12 +40,12 @@ namespace Uestc.BBS.Core.Models
         /// <summary>
         /// 源码仓库
         /// </summary>
-        public string SourceRepositoryUrl { get; init; } = string.Empty;
+        public string SourceRepositoryUrl { get; init; } = "https://github.com/Redns/Uestc.BBS";
 
         /// <summary>
         /// 反馈与建议
         /// </summary>
-        public string FeedbackUrl { get; init; } = string.Empty;
+        public string FeedbackUrl { get; init; } = "https://github.com/Redns/Uestc.BBS/issues/new";
 
         /// <summary>
         /// 贡献者列表

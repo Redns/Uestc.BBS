@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Page
+    x:Class="Uestc.BBS.WinUI.Views.Overlays.StorageSettingOverlay"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:CommunityToolkit.WinUI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:Uestc.BBS.WinUI.Views.Overlays"
+    xmlns:local_converters="using:Uestc.BBS.WinUI.Converters"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="using:CommunityToolkit.WinUI"
+    xmlns:viewmodels="using:Uestc.BBS.WinUI.ViewModels"
+    d:DataContext="{d:DesignInstance Type=viewmodels:StorageSettingViewModel}"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <local_converters:Enum2LabelConverter x:Key="Enum2LabelConverter" />
+        <local_converters:TimeSpan2MinutesConverter x:Key="TimeSpan2MinutesConverter" />
+    </Page.Resources>
+
+    <ScrollViewer Margin="10" VerticalScrollBarVisibility="Hidden">
+        <StackPanel Spacing="5">
+            <controls:SettingsExpander
+                Description="在不同设备间同步配置和数据"
+                Header="WebDAV 同步"
+                HeaderIcon="{ui:FontIcon Glyph=&#xE895;}">
+                <ComboBox ItemsSource="{x:Bind SyncModes, Mode=OneTime}" SelectedItem="{x:Bind ViewModel.StorageSettingModel.Sync.Mode, Mode=TwoWay}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Converter={StaticResource Enum2LabelConverter}}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+                <controls:SettingsExpander.Items>
+                    <controls:SettingsCard Header="时间间隔">
+                        <StackPanel Orientation="Horizontal" Spacing="10">
+                            <NumberBox
+                                Maximum="86400"
+                                Minimum="1"
+                                Value="{x:Bind ViewModel.StorageSettingModel.Sync.TimeInterval, Converter={StaticResource TimeSpan2MinutesConverter}, Mode=TwoWay}" />
+                            <TextBlock VerticalAlignment="Center" Text="分钟" />
+                        </StackPanel>
+                    </controls:SettingsCard>
+                    <controls:SettingsCard Description="数据将加密后上传至云端" Header="AES 密钥">
+                        <PasswordBox Width="260" Password="{x:Bind ViewModel.StorageSettingModel.Sync.Password, Mode=TwoWay}" />
+                    </controls:SettingsCard>
+                    <controls:SettingsCard>
+                        <controls:SettingsCard.Resources>
+                            <x:Double x:Key="SettingsCardWrapThreshold">10000</x:Double>
+                        </controls:SettingsCard.Resources>
+                        <Grid MinHeight="30" RowSpacing="10">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="100" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <!--  服务器地址  -->
+                            <TextBlock
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                VerticalAlignment="Center"
+                                Text="服务器地址" />
+                            <TextBox
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                Width="260"
+                                HorizontalAlignment="Left"
+                                Text="{x:Bind ViewModel.StorageSettingModel.Sync.Api, Mode=TwoWay}" />
+                            <!--  用户名  -->
+                            <TextBlock
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                VerticalAlignment="Center"
+                                Text="用户名" />
+                            <TextBox
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                Width="180"
+                                HorizontalAlignment="Left"
+                                Text="{x:Bind ViewModel.StorageSettingModel.Sync.Username, Mode=TwoWay}" />
+                            <!--  密码  -->
+                            <TextBlock
+                                Grid.Row="2"
+                                Grid.Column="0"
+                                VerticalAlignment="Center"
+                                Text="密码" />
+                            <PasswordBox
+                                Grid.Row="2"
+                                Grid.Column="1"
+                                Width="180"
+                                HorizontalAlignment="Left"
+                                MaxLength="20"
+                                Password="{x:Bind ViewModel.StorageSettingModel.Sync.Password, Mode=TwoWay}" />
+                            <!--  验证配置  -->
+                            <Button
+                                Grid.Row="3"
+                                Grid.Column="1"
+                                HorizontalAlignment="Left"
+                                Content="验证服务器" />
+                        </Grid>
+                    </controls:SettingsCard>
+                </controls:SettingsExpander.Items>
+            </controls:SettingsExpander>
+            <!--  缓存  -->
+            <controls:SettingsExpander
+                Description="存储图像、视频等临时数据（当前已占用 178 MB）"
+                Header="缓存"
+                HeaderIcon="{ui:FontIcon Glyph=&#xF156;}">
+                <Button Content="清除缓存" />
+                <controls:SettingsExpander.Items>
+                    <controls:SettingsCard Header="双击头像清除缓存">
+                        <ToggleSwitch />
+                    </controls:SettingsCard>
+                </controls:SettingsExpander.Items>
+            </controls:SettingsExpander>
+        </StackPanel>
+    </ScrollViewer>
+</Page>

@@ -10,6 +10,5 @@
     d:DataContext="{d:DesignInstance Type=viewmodels:MyPostsViewModel}"
     mc:Ignorable="d">
 
-
     <TextBlock Text="MyPosts" />
 </Page>

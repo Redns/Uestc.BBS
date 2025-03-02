@@ -19,8 +19,7 @@ namespace Uestc.BBS.Mvvm.Models
         public SyncMode Mode
         {
             get => setting.Mode;
-            set =>
-                SetProperty(setting.Mode, value, setting, (setting, mode) => setting.Mode = mode);
+            set => SetProperty(setting.Mode, value, setting, (s, e) => s.Mode = e);
         }
 
         /// <summary>
@@ -29,13 +28,7 @@ namespace Uestc.BBS.Mvvm.Models
         public string Secret
         {
             get => setting.Secret;
-            set =>
-                SetProperty(
-                    setting.Secret,
-                    value,
-                    setting,
-                    (setting, secret) => setting.Secret = secret
-                );
+            set => SetProperty(setting.Secret, value, setting, (s, e) => s.Secret = e);
         }
 
         /// <summary>
@@ -47,12 +40,7 @@ namespace Uestc.BBS.Mvvm.Models
         {
             get => setting.LastUpdateTime;
             set =>
-                SetProperty(
-                    setting.LastUpdateTime,
-                    value,
-                    setting,
-                    (setting, lastUpdateTime) => setting.LastUpdateTime = lastUpdateTime
-                );
+                SetProperty(setting.LastUpdateTime, value, setting, (s, e) => s.LastUpdateTime = e);
         }
 
         /// <summary>
@@ -61,13 +49,7 @@ namespace Uestc.BBS.Mvvm.Models
         public TimeSpan TimeInterval
         {
             get => setting.TimeInterval;
-            set =>
-                SetProperty(
-                    setting.TimeInterval,
-                    value,
-                    setting,
-                    (setting, timeInterval) => setting.TimeInterval = timeInterval
-                );
+            set => SetProperty(setting.TimeInterval, value, setting, (s, e) => s.TimeInterval = e);
         }
 
         /// <summary>
@@ -76,7 +58,7 @@ namespace Uestc.BBS.Mvvm.Models
         public string Api
         {
             get => setting.Api;
-            set => SetProperty(setting.Api, value, setting, (setting, api) => setting.Api = api);
+            set => SetProperty(setting.Api, value, setting, (s, e) => s.Api = e);
         }
 
         /// <summary>
@@ -85,13 +67,7 @@ namespace Uestc.BBS.Mvvm.Models
         public string Username
         {
             get => setting.Username;
-            set =>
-                SetProperty(
-                    setting.Username,
-                    value,
-                    setting,
-                    (setting, username) => setting.Username = username
-                );
+            set => SetProperty(setting.Username, value, setting, (s, e) => s.Username = e);
         }
 
         /// <summary>
@@ -100,13 +76,7 @@ namespace Uestc.BBS.Mvvm.Models
         public string Password
         {
             get => setting.Password;
-            set =>
-                SetProperty(
-                    setting.Password,
-                    value,
-                    setting,
-                    (setting, password) => setting.Password = password
-                );
+            set => SetProperty(setting.Password, value, setting, (s, e) => s.Password = e);
         }
     }
 }

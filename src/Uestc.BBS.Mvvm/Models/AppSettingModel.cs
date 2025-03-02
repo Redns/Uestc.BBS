@@ -41,10 +41,14 @@ namespace Uestc.BBS.Mvvm.Models
         public StorageSettingModel Storage { get; set; } = new(setting.Storage);
 
         /// <summary>
+        /// API
+        /// </summary>
+        public ApiSettingModel Api { get; set; } = new(setting.Api);
+
+        /// <summary>
         /// 保存设置
         /// </summary>
         /// <param name="path"></param>
         public void Save(string? path = null) => setting.Save(path);
     }
-
 }

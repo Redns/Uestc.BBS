@@ -10,6 +10,12 @@ namespace Uestc.BBS.Core.Models
 {
     public class AppSetting
     {
+        private static readonly string _defalutStoragePath = Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+            AppDomain.CurrentDomain.FriendlyName,
+            "appsettings.json"
+        );
+
         /// <summary>
         /// 外观
         /// </summary>
@@ -38,7 +44,12 @@ namespace Uestc.BBS.Core.Models
         /// <summary>
         /// 数据与存储
         /// </summary>
-        public  StorageSetting Storage { get; set; } = new();
+        public StorageSetting Storage { get; set; } = new();
+
+        /// <summary>
+        /// API
+        /// </summary>
+        public ApiSetting Api { get; set; } = new();
 
         /// <summary>
         /// 加载配置文件
@@ -52,17 +63,14 @@ namespace Uestc.BBS.Core.Models
 
             try
             {
-                path ??= Path.Combine(
-                    Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-                    AppDomain.CurrentDomain.FriendlyName,
-                    "appsettings.json"
-                );
+                path ??= _defalutStoragePath;
                 if (File.Exists(path))
                 {
                     appSetting = JsonSerializer.Deserialize<AppSetting>(
                         File.ReadAllText(path),
                         SerializerOptions
                     );
+
                     if (appSetting is not null)
                     {
                         return appSetting;
@@ -94,15 +102,7 @@ namespace Uestc.BBS.Core.Models
         /// <param name="secret">配置文件加密密钥</param>
         public void Save(string? path = null)
         {
-            File.WriteAllText(
-                path
-                    ?? Path.Combine(
-                        Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-                        AppDomain.CurrentDomain.FriendlyName,
-                        "appsettings.json"
-                    ),
-                ToString()
-            );
+            File.WriteAllText(path ?? _defalutStoragePath, ToString());
         }
 
         public override string ToString()

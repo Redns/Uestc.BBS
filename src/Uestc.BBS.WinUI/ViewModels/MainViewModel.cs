@@ -55,7 +55,8 @@ namespace Uestc.BBS.WinUI.ViewModels
                 navigateService
             )
         {
-            appSettingModel.Appearance.MenuItems.CollectionChanged += (sender, e) =>
+            // TODO 疑似可以移除
+            appSettingModel.Appearance.MenuItems.CollectionChanged += (_, _) =>
             {
                 OnPropertyChanged(nameof(TopMenuItems));
                 OnPropertyChanged(nameof(LeftTopMenuItems));

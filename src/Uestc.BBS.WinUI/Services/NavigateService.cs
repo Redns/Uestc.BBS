@@ -28,19 +28,20 @@ namespace Uestc.BBS.WinUI.Services
                 MenuItemKey.MyPosts => _services.GetRequiredService<MyPostsOverlay>(),
                 MenuItemKey.MyReplies => _services.GetRequiredService<MyRepliesOverlay>(),
                 MenuItemKey.MyMarks => _services.GetRequiredService<MyMarksOverlay>(),
-                MenuItemKey.TopicFilter => _services.GetRequiredService<BrowseSettingsOverlay>(),
+                MenuItemKey.TopicFilter => _services.GetRequiredService<TopicFilterOverlay>(),
                 // Settings Overlays
                 MenuItemKey.ApperanceSettings =>
-                    _services.GetRequiredService<AppearanceSettingsOverlay>(),
-                MenuItemKey.BrowseSettings => _services.GetRequiredService<BrowseSettingsOverlay>(),
+                    _services.GetRequiredService<AppearanceSettingOverlay>(),
+                MenuItemKey.BrowseSettings => _services.GetRequiredService<BrowseSettingOverlay>(),
                 MenuItemKey.AccountSettings =>
-                    _services.GetRequiredService<AccountSettingsOverlay>(),
+                    _services.GetRequiredService<AccountSettingOverlay>(),
                 MenuItemKey.NotificationSettings =>
-                    _services.GetRequiredService<NotificationSettingsOverlay>(),
+                    _services.GetRequiredService<NotificationSettingOverlay>(),
                 MenuItemKey.StorageSettings =>
-                    _services.GetRequiredService<StorageSettingsOverlay>(),
+                    _services.GetRequiredService<StorageSettingOverlay>(),
                 MenuItemKey.ServicesSettings =>
-                    _services.GetRequiredService<ServicesSettingsOverlay>(),
+                    _services.GetRequiredService<ServicesSettingOverlay>(),
+                MenuItemKey.ApiSettings => _services.GetRequiredService<ApiSettingOverlay>(),
                 _ => throw new ArgumentException(
                     $"Navigate to {key} failed, unknown key",
                     nameof(key)

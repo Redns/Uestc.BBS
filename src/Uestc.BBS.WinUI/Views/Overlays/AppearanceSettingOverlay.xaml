@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Page
+    x:Class="Uestc.BBS.WinUI.Views.Overlays.AppearanceSettingOverlay"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:CommunityToolkit.WinUI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:Uestc.BBS.WinUI.Views.Overlays"
+    xmlns:local_converters="using:Uestc.BBS.WinUI.Converters"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="using:Uestc.BBS.Mvvm.Models"
+    xmlns:ui="using:CommunityToolkit.WinUI"
+    xmlns:viewmodels="using:Uestc.BBS.WinUI.ViewModels"
+    d:DataContext="{d:DesignInstance Type=viewmodels:AppearanceSettingsViewModel}"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <local_converters:Enum2LabelConverter x:Key="Enum2LabelConverter" />
+    </Page.Resources>
+
+    <ScrollViewer Margin="10" VerticalScrollBarVisibility="Hidden">
+        <StackPanel Spacing="5">
+            <!--  颜色  -->
+            <controls:SettingsCard
+                Description="更改应用中显示的颜色"
+                Header="主题"
+                HeaderIcon="{ui:FontIcon Glyph=&#xE793;}">
+                <ComboBox ItemsSource="{x:Bind ThemeColors}" SelectedItem="{x:Bind ViewModel.ApperanceSettingModel.ThemeColor, Mode=TwoWay}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Converter={StaticResource Enum2LabelConverter}}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </controls:SettingsCard>
+            <!--  搜索栏  -->
+            <controls:SettingsExpander
+                Description="每日一句、搜索历史"
+                Header="搜索栏"
+                HeaderIcon="{ui:FontIcon Glyph=&#xE721;}">
+                <controls:SettingsExpander.Items>
+                    <controls:SettingsCard Description="关闭后不会清除现有搜索记录" Header="搜索历史">
+                        <ToggleSwitch IsOn="{x:Bind ViewModel.ApperanceSettingModel.SearchBar.IsSearchHistoryEnabled, Mode=TwoWay}" />
+                    </controls:SettingsCard>
+                    <controls:SettingsCard Description="数据从旧版河畔首页抓取" Header="每日一句">
+                        <ToggleSwitch IsOn="{x:Bind ViewModel.ApperanceSettingModel.SearchBar.IsDailySentenceEnabled, Mode=TwoWay}" />
+                    </controls:SettingsCard>
+                    <controls:SettingsCard
+                        Description="轮询获取每日一句的周期"
+                        Header="更新间隔"
+                        IsEnabled="{x:Bind ViewModel.ApperanceSettingModel.SearchBar.IsDailySentenceEnabled, Mode=OneWay}">
+                        <StackPanel Orientation="Horizontal" Spacing="10">
+                            <NumberBox
+                                Maximum="3600"
+                                Minimum="10"
+                                Value="{x:Bind ViewModel.ApperanceSettingModel.SearchBar.DailySentenceUpdateTimeInterval, Mode=TwoWay}" />
+                            <TextBlock VerticalAlignment="Center" Text="秒" />
+                        </StackPanel>
+                    </controls:SettingsCard>
+                </controls:SettingsExpander.Items>
+            </controls:SettingsExpander>
+            <!--  导航栏  -->
+            <controls:SettingsExpander
+                Description="是否显示顶部导航栏（我的收藏/发布/回复/插眼）"
+                Header="顶部导航栏"
+                HeaderIcon="{ui:FontIcon Glyph=&#xF596;}">
+                <ToggleSwitch IsOn="{x:Bind ViewModel.ApperanceSettingModel.IsTopNavigateBarEnabled, Mode=TwoWay}" />
+                <controls:SettingsExpander.Items>
+                    <controls:SettingsCard>
+                        <controls:SettingsCard.Resources>
+                            <x:Double x:Key="SettingsCardWrapThreshold">10000</x:Double>
+                        </controls:SettingsCard.Resources>
+                        <controls:WrapPanel Orientation="Horizontal">
+                            <ListView
+                                AllowDrop="True"
+                                CanDrag="True"
+                                CanDragItems="True"
+                                CanReorderItems="True"
+                                ItemsSource="{x:Bind TopBarMenuItems, Mode=OneWay}"
+                                SelectionMode="None">
+                                <ListView.ItemContainerStyle>
+                                    <Style TargetType="ListViewItem">
+                                        <Setter Property="Padding" Value="0" />
+                                        <Setter Property="Margin" Value="0,0,0,10" />
+                                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                    </Style>
+                                </ListView.ItemContainerStyle>
+                                <!--<ListView.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Orientation="Horizontal" />
+                                    </ItemsPanelTemplate>
+                                </ListView.ItemsPanel>-->
+                                <ListView.ItemTemplate>
+                                    <DataTemplate x:DataType="models:MenuItemModel">
+                                        <StackPanel
+                                            Width="60"
+                                            Padding="0,8"
+                                            BorderBrush="{ThemeResource ControlStrokeColorOnAccentTertiaryBrush}"
+                                            BorderThickness="1.2"
+                                            CornerRadius="8"
+                                            Spacing="5">
+                                            <FontIcon FontSize="18" Glyph="{x:Bind Glyph, Mode=OneWay}" />
+                                            <TextBlock
+                                                VerticalAlignment="Center"
+                                                FontSize="12"
+                                                Text="{x:Bind Name, Mode=OneWay}"
+                                                TextAlignment="Center" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                            <Border
+                                Width="60"
+                                Padding="0,10"
+                                BorderBrush="{ThemeResource ControlStrokeColorOnAccentTertiaryBrush}"
+                                BorderThickness="1.2"
+                                CornerRadius="8">
+                                <FontIcon FontSize="18" Glyph="&#xE710;" />
+                            </Border>
+                        </controls:WrapPanel>
+                    </controls:SettingsCard>
+                </controls:SettingsExpander.Items>
+            </controls:SettingsExpander>
+            <controls:SettingsExpander
+                Description="启用、关闭或调整导航区块"
+                Header="侧边导航栏"
+                HeaderIcon="{ui:FontIcon Glyph=&#xE700;}">
+                <controls:SettingsExpander.Items>
+                    <controls:SettingsCard>
+                        <controls:SettingsCard.Resources>
+                            <x:Double x:Key="SettingsCardWrapThreshold">10000</x:Double>
+                        </controls:SettingsCard.Resources>
+                        <controls:WrapPanel Orientation="Horizontal" VerticalSpacing="10">
+                            <ItemsControl ItemsSource="{x:Bind LeftTopBarMenuItems, Mode=OneWay}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <controls:WrapPanel HorizontalSpacing="10" />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate x:DataType="models:MenuItemModel">
+                                        <StackPanel
+                                            Width="60"
+                                            Padding="0,8"
+                                            BorderBrush="{ThemeResource ControlStrokeColorOnAccentTertiaryBrush}"
+                                            BorderThickness="1.2"
+                                            CornerRadius="8"
+                                            Spacing="5">
+                                            <FontIcon FontSize="18" Glyph="{x:Bind Glyph, Mode=OneWay}" />
+                                            <TextBlock
+                                                FontSize="12"
+                                                Text="{x:Bind Name, Mode=OneWay}"
+                                                TextAlignment="Center" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                            <ItemsControl Margin="60,0,0,0" ItemsSource="{x:Bind LeftBottomBarMenuItems, Mode=OneWay}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <controls:WrapPanel HorizontalSpacing="10" />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate x:DataType="models:MenuItemModel">
+                                        <StackPanel
+                                            Width="60"
+                                            Padding="0,8"
+                                            BorderBrush="{ThemeResource ControlStrokeColorOnAccentTertiaryBrush}"
+                                            BorderThickness="1.2"
+                                            CornerRadius="8"
+                                            Spacing="5">
+                                            <FontIcon FontSize="18" Glyph="{x:Bind Glyph, Mode=OneWay}" />
+                                            <TextBlock
+                                                FontSize="12"
+                                                Text="{x:Bind Name, Mode=OneWay}"
+                                                TextAlignment="Center" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                            <Border
+                                Width="60"
+                                BorderBrush="{ThemeResource ControlStrokeColorOnAccentTertiaryBrush}"
+                                BorderThickness="1.2"
+                                CornerRadius="8">
+                                <FontIcon FontSize="18" Glyph="&#xE710;" />
+                            </Border>
+                        </controls:WrapPanel>
+                    </controls:SettingsCard>
+                </controls:SettingsExpander.Items>
+            </controls:SettingsExpander>
+            <!--  托盘图标  -->
+            <controls:SettingsExpander
+                Description="开启隐藏窗口功能时不能关闭托盘图标"
+                Header="托盘图标"
+                HeaderIcon="{ui:FontIcon Glyph=\&#xE945;}">
+                <ToggleSwitch />
+                <controls:SettingsExpander.Items>
+                    <controls:SettingsCard Header="图标内容">
+                        <Button Content="选择文件" />
+                    </controls:SettingsCard>
+                    <controls:SettingsCard Header="有新消息时闪烁">
+                        <ToggleSwitch />
+                    </controls:SettingsCard>
+                </controls:SettingsExpander.Items>
+            </controls:SettingsExpander>
+        </StackPanel>
+    </ScrollViewer>
+</Page>

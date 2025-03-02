@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Page
-    x:Class="Uestc.BBS.WinUI.Views.Overlays.ServicesSettingsOverlay"
+    x:Class="Uestc.BBS.WinUI.Views.Overlays.ServicesSettingOverlay"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="using:CommunityToolkit.WinUI.Controls"
@@ -48,24 +48,6 @@
                             AcceptsReturn="True"
                             Text="https://bbs.uestc.edu.cn/new"
                             TextAlignment="Center" />
-                    </controls:SettingsCard>
-                </controls:SettingsExpander.Items>
-            </controls:SettingsExpander>
-            <TextBlock
-                Margin="1,15,0,0"
-                FontSize="14"
-                Text="通用" />
-            <controls:SettingsExpander
-                Description="开启隐藏窗口功能时不能关闭托盘图标"
-                Header="托盘图标"
-                HeaderIcon="{ui:FontIcon Glyph=\&#xE945;}">
-                <ToggleSwitch />
-                <controls:SettingsExpander.Items>
-                    <controls:SettingsCard Header="图标内容">
-                        <Button Content="选择文件" />
-                    </controls:SettingsCard>
-                    <controls:SettingsCard Header="有新消息时闪烁">
-                        <ToggleSwitch />
                     </controls:SettingsCard>
                 </controls:SettingsExpander.Items>
             </controls:SettingsExpander>

@@ -68,7 +68,7 @@ namespace Uestc.BBS.Mvvm.ViewModels
             _notificationService = notificationService;
 
             AppSettingModel = appSettingModel;
-            PropertyChanged += (sender, args) =>
+            PropertyChanged += (_, args) =>
             {
                 if (args.PropertyName == nameof(Username) && SelectedCredential is not null)
                 {

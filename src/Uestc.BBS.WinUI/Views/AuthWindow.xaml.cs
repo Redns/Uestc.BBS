@@ -22,19 +22,19 @@ namespace Uestc.BBS.WinUI.Views
 
             // 设置主题色
             this.SetThemeColor(appSettingModel.Appearance.ThemeColor);
-            appSettingModel.Appearance.PropertyChanged += (sender, args) =>
+            appSettingModel.Appearance.PropertyChanged += (_, args) =>
             {
                 if (args.PropertyName == nameof(appSettingModel.Appearance.ThemeColor))
                 {
                     this.SetThemeColor(appSettingModel.Appearance.ThemeColor);
                 }
             };
-            App.SystemThemeChanged += (sender, args) =>
+            App.SystemThemeChanged += (_, args) =>
             {
                 AppWindow.TitleBar.SetThemeColor(args);
             };
         }
 
-        private void CloseWindow(object sender, RoutedEventArgs e) => Close();
+        private void CloseWindow(object _, RoutedEventArgs e) => Close();
     }
 }

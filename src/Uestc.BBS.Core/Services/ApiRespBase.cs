@@ -1,6 +1,4 @@
-﻿using System.Text.Json;
-using System.Text.Json.Serialization;
-using System.Text.Json.Serialization.Metadata;
+﻿using System.Text.Json.Serialization;
 
 namespace Uestc.BBS.Core.Services
 {
@@ -8,28 +6,24 @@ namespace Uestc.BBS.Core.Services
     {
         public int Rs { get; set; } = 0;
 
-        public string ErrCode {  get; set; } = string.Empty;
+        public string ErrCode { get; set; } = string.Empty;
 
         public ApiRespBaseHeader Head { get; set; } = new();
 
         public ApiRespBaseBody Body { get; set; } = new();
-
-        private static readonly JsonSerializerOptions _serializerOptions = new()
-        {
-            WriteIndented = true,
-            TypeInfoResolver = JsonTypeInfoResolver.Combine(ApiRespBaseContext.Default, new DefaultJsonTypeInfoResolver())
-        };
     }
 
     public class ApiRespBaseHeader
     {
         public int Alert { get; set; } = 0;
 
-        public string ErrCode { get; set; } = string.Empty;
+        [JsonPropertyName("errCode")]
+        public string ErrorCode { get; set; } = string.Empty;
 
-        public string ErrInfo {  get; set; } = string.Empty;
+        [JsonPropertyName("errInfo")]
+        public string ErrorInformation { get; set; } = string.Empty;
 
-        public string Version {  get; set; } = string.Empty;
+        public string Version { get; set; } = string.Empty;
     }
 
     public class ApiRespBaseBody
@@ -43,7 +37,10 @@ namespace Uestc.BBS.Core.Services
     }
 
     [JsonSerializable(typeof(ApiRespBase))]
-    public partial class ApiRespBaseContext : JsonSerializerContext
-    {
-    }
+    [JsonSourceGenerationOptions(
+        WriteIndented = true,
+        PropertyNamingPolicy = JsonKnownNamingPolicy.CamelCase,
+        PropertyNameCaseInsensitive = true
+    )]
+    public partial class ApiRespBaseContext : JsonSerializerContext { }
 }

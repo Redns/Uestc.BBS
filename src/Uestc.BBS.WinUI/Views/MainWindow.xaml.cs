@@ -4,7 +4,6 @@ using CommunityToolkit.Mvvm.Input;
 using H.NotifyIcon;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml.Controls;
-using Uestc.BBS.Core;
 using Uestc.BBS.Core.Models;
 using Uestc.BBS.WinUI.Helpers;
 using Uestc.BBS.WinUI.ViewModels;
@@ -38,14 +37,14 @@ namespace Uestc.BBS.WinUI.Views
 
             // 设置主题色
             this.SetThemeColor(viewModel.AppSettingModel.Appearance.ThemeColor);
-            viewModel.AppSettingModel.Appearance.PropertyChanged += (sender, args) =>
+            viewModel.AppSettingModel.Appearance.PropertyChanged += (_, args) =>
             {
                 if (args.PropertyName == nameof(viewModel.AppSettingModel.Appearance.ThemeColor))
                 {
                     this.SetThemeColor(viewModel.AppSettingModel.Appearance.ThemeColor);
                 }
             };
-            App.SystemThemeChanged += (sender, args) =>
+            App.SystemThemeChanged += (_, args) =>
             {
                 if (viewModel.AppSettingModel.Appearance.ThemeColor is ThemeColor.System)
                 {
@@ -54,7 +53,7 @@ namespace Uestc.BBS.WinUI.Views
             };
 
             // 设置窗口关闭策略
-            AppWindow.Closing += (window, args) =>
+            AppWindow.Closing += (_, args) =>
             {
                 if (
                     viewModel.AppSettingModel.Services.StartupAndShutdown.WindowCloseBehavior
@@ -122,6 +121,7 @@ namespace Uestc.BBS.WinUI.Views
                     Version = _appmanifest.Version,
                     CopyRight = _appmanifest.CopyRight,
                     SourceRepositoryUrl = _appmanifest.SourceRepositoryUrl,
+                    FeedbackUrl = _appmanifest.FeedbackUrl,
                 },
             }.ShowAsync();
     }

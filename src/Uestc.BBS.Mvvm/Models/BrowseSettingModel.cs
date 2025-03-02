@@ -16,7 +16,7 @@ namespace Uestc.BBS.Mvvm.Models
                     setting.HighlightHotTopic,
                     value,
                     setting,
-                    (setting, highlight) => setting.HighlightHotTopic = highlight
+                    (s, e) => s.HighlightHotTopic = e
                 );
         }
 
@@ -31,7 +31,7 @@ namespace Uestc.BBS.Mvvm.Models
                     setting.TopicHotThreshold,
                     value,
                     setting,
-                    (setting, threshold) => setting.TopicHotThreshold = threshold
+                    (s, e) => s.TopicHotThreshold = e
                 );
         }
 
@@ -65,7 +65,7 @@ namespace Uestc.BBS.Mvvm.Models
                     topicHotWeightingScheme.ViewsCoefficient,
                     value,
                     topicHotWeightingScheme,
-                    (scheme, coefficient) => scheme.ViewsCoefficient = coefficient
+                    (s, e) => s.ViewsCoefficient = e
                 );
         }
 
@@ -80,7 +80,7 @@ namespace Uestc.BBS.Mvvm.Models
                     topicHotWeightingScheme.RepliesCoefficient,
                     value,
                     topicHotWeightingScheme,
-                    (scheme, coefficient) => scheme.RepliesCoefficient = coefficient
+                    (s, e) => s.RepliesCoefficient = e
                 );
         }
 
@@ -95,7 +95,7 @@ namespace Uestc.BBS.Mvvm.Models
                     topicHotWeightingScheme.LikesCoefficient,
                     value,
                     topicHotWeightingScheme,
-                    (scheme, coefficient) => scheme.LikesCoefficient = coefficient
+                    (s, e) => s.LikesCoefficient = e
                 );
         }
     }
@@ -111,13 +111,7 @@ namespace Uestc.BBS.Mvvm.Models
         public bool IsNested
         {
             get => setting.IsNested;
-            set =>
-                SetProperty(
-                    setting.IsNested,
-                    value,
-                    setting,
-                    (setting, nested) => setting.IsNested = nested
-                );
+            set => SetProperty(setting.IsNested, value, setting, (s, e) => s.IsNested = e);
         }
 
         /// <summary>
@@ -126,13 +120,7 @@ namespace Uestc.BBS.Mvvm.Models
         public bool ForcedPinned
         {
             get => setting.ForcedPinned;
-            set =>
-                SetProperty(
-                    setting.ForcedPinned,
-                    value,
-                    setting,
-                    (setting, pinned) => setting.ForcedPinned = pinned
-                );
+            set => SetProperty(setting.ForcedPinned, value, setting, (s, e) => s.ForcedPinned = e);
         }
 
         /// <summary>
@@ -146,7 +134,7 @@ namespace Uestc.BBS.Mvvm.Models
                     setting.HotCommentLikesThreshold,
                     value,
                     setting,
-                    (setting, threshold) => setting.HotCommentLikesThreshold = threshold
+                    (s, e) => s.HotCommentLikesThreshold = e
                 );
         }
 
@@ -162,7 +150,7 @@ namespace Uestc.BBS.Mvvm.Models
                     setting.IsCommentFloorVisible,
                     value,
                     setting,
-                    (setting, visible) => setting.IsCommentFloorVisible = visible
+                    (s, e) => s.IsCommentFloorVisible = e
                 );
         }
 
@@ -177,7 +165,7 @@ namespace Uestc.BBS.Mvvm.Models
                     setting.IsUserLevelVisible,
                     value,
                     setting,
-                    (setting, visible) => setting.IsUserLevelVisible = visible
+                    (s, e) => s.IsUserLevelVisible = e
                 );
         }
 
@@ -192,7 +180,7 @@ namespace Uestc.BBS.Mvvm.Models
                     setting.IsUserBadgeVisible,
                     value,
                     setting,
-                    (setting, visible) => setting.IsUserBadgeVisible = visible
+                    (s, e) => s.IsUserBadgeVisible = e
                 );
         }
 
@@ -207,7 +195,7 @@ namespace Uestc.BBS.Mvvm.Models
                     setting.IsUserGroupVisible,
                     value,
                     setting,
-                    (setting, visible) => setting.IsUserGroupVisible = visible
+                    (s, e) => s.IsUserGroupVisible = e
                 );
         }
 
@@ -222,7 +210,7 @@ namespace Uestc.BBS.Mvvm.Models
                     setting.IsUserSignatureVisible,
                     value,
                     setting,
-                    (setting, visible) => setting.IsUserSignatureVisible = visible
+                    (s, e) => s.IsUserSignatureVisible = e
                 );
         }
         #endregion

@@ -3,6 +3,7 @@ using NLog;
 using Uestc.BBS.Core.Models;
 using Uestc.BBS.Core.Services;
 using Uestc.BBS.Core.Services.Auth;
+using Uestc.BBS.Core.Services.Forum;
 using Uestc.BBS.Core.Services.Forum.TopicList;
 using Uestc.BBS.Core.Services.System;
 using Uestc.BBS.Core.Services.User;
@@ -44,37 +45,46 @@ namespace Uestc.BBS.Core
                 })
                 // Forums
                 .AddTransient<IAuthService, AuthService>()
+                .AddTransient<ITopicService, TopicService>()
                 .AddTransient<ITopicListService, TopicListService>()
                 // 每日一句
                 .AddSingleton<IDailySentenceService, DailySentenceService>();
             // HttpClient
             ServiceCollection.AddHttpClient();
-            ServiceCollection.AddHttpClient<IDailySentenceService, DailySentenceService>(client =>
-            {
-                client.BaseAddress = new Uri("https://bbs.uestc.edu.cn/forum.php?mobile=no");
-            });
-            ServiceCollection.AddHttpClient<IAuthService, AuthService>(client =>
-            {
-                client.BaseAddress = new Uri(
-                    "https://bbs.uestc.edu.cn/mobcent/app/web/index.php?r=user/login"
-                );
-            });
+            ServiceCollection.AddHttpClient<IDailySentenceService, DailySentenceService>(
+                (services, client) =>
+                {
+                    client.BaseAddress = services
+                        .GetRequiredService<AppSetting>()
+                        .Api.DailySentenceUri;
+                }
+            );
+            ServiceCollection.AddHttpClient<IAuthService, AuthService>(
+                (services, client) =>
+                {
+                    client.BaseAddress = services.GetRequiredService<AppSetting>().Api.AuthUri;
+                }
+            );
             ServiceCollection.AddHttpClient<ITopicListService, TopicListService>(
                 (services, client) =>
                 {
-                    var credential = services.GetService<AuthCredential>();
-                    client.BaseAddress = new Uri(
-                        $"https://bbs.uestc.edu.cn/mobcent/app/web/index.php?accessToken={credential?.Token}&accessSecret={credential?.Secret}"
-                    );
+                    client.BaseAddress = services.GetRequiredService<AppSetting>().Api.TopicListUri;
+                }
+            );
+            ServiceCollection.AddHttpClient<ITopicService, TopicService>(
+                (services, client) =>
+                {
+                    client.BaseAddress = services
+                        .GetRequiredService<AppSetting>()
+                        .Api.TopicDetailUri;
                 }
             );
             ServiceCollection.AddHttpClient<IUserService, UserService>(
                 (services, client) =>
                 {
-                    var credential = services.GetService<AuthCredential>();
-                    client.BaseAddress = new Uri(
-                        $"https://bbs.uestc.edu.cn/mobcent/app/web/index.php?accessToken={credential?.Token}&accessSecret={credential?.Secret}"
-                    );
+                    client.BaseAddress = services
+                        .GetRequiredService<AppSetting>()
+                        .Api.UserDetailUri;
                 }
             );
 

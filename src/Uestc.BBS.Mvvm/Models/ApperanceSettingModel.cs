@@ -60,7 +60,7 @@ namespace Uestc.BBS.Mvvm.Models
                     _apperanceSetting.ThemeColor,
                     value,
                     _apperanceSetting,
-                    (setting, theme) => setting.ThemeColor = theme
+                    (s, e) => s.ThemeColor = e
                 );
         }
 
@@ -75,7 +75,7 @@ namespace Uestc.BBS.Mvvm.Models
                     _apperanceSetting.IsTopNavigateBarEnabled,
                     value,
                     _apperanceSetting,
-                    (setting, enabled) => setting.IsTopNavigateBarEnabled = enabled
+                    (s, e) => s.IsTopNavigateBarEnabled = e
                 );
         }
 
@@ -105,7 +105,7 @@ namespace Uestc.BBS.Mvvm.Models
                     _apperanceSetting.OfficialWebsite,
                     value,
                     _apperanceSetting,
-                    (setting, website) => setting.OfficialWebsite = website
+                    (s, e) => s.OfficialWebsite = e
                 );
         }
     }
@@ -118,7 +118,7 @@ namespace Uestc.BBS.Mvvm.Models
         {
             _setting = setting;
 
-            Items = [.. _setting.Items.Select(item => new BoardTabItemModel(item)),];
+            Items = [.. _setting.Items.Select(item => new BoardTabItemModel(item))];
             Items.CollectionChanged += (sender, args) =>
             {
                 switch (args.Action)
@@ -184,44 +184,31 @@ namespace Uestc.BBS.Mvvm.Models
         public MenuItemKey Key
         {
             get => menuItem.Key;
-            set => SetProperty(menuItem.Key, value, menuItem, (item, key) => item.Key = key);
+            set => SetProperty(menuItem.Key, value, menuItem, (s, e) => s.Key = e);
         }
 
         public string Name
         {
             get => menuItem.Name;
-            set => SetProperty(menuItem.Name, value, menuItem, (item, name) => item.Name = name);
+            set => SetProperty(menuItem.Name, value, menuItem, (s, e) => s.Name = e);
         }
 
         public string Symbol
         {
             get => menuItem.Symbol;
-            set =>
-                SetProperty(
-                    menuItem.Symbol,
-                    value,
-                    menuItem,
-                    (item, symbol) => item.Symbol = symbol
-                );
+            set => SetProperty(menuItem.Symbol, value, menuItem, (s, e) => s.Symbol = e);
         }
 
         public string Glyph
         {
             get => menuItem.Glyph;
-            set =>
-                SetProperty(menuItem.Glyph, value, menuItem, (item, glyph) => item.Glyph = glyph);
+            set => SetProperty(menuItem.Glyph, value, menuItem, (s, e) => s.Glyph = e);
         }
 
         public Position Position
         {
             get => menuItem.Position;
-            set =>
-                SetProperty(
-                    menuItem.Position,
-                    value,
-                    menuItem,
-                    (item, position) => item.Position = position
-                );
+            set => SetProperty(menuItem.Position, value, menuItem, (s, e) => s.Position = e);
         }
     }
 
@@ -232,61 +219,33 @@ namespace Uestc.BBS.Mvvm.Models
         public string Name
         {
             get => boardTabItem.Name;
-            set =>
-                SetProperty(
-                    boardTabItem.Name,
-                    value,
-                    boardTabItem,
-                    (item, name) => item.Name = name
-                );
+            set => SetProperty(boardTabItem.Name, value, boardTabItem, (s, e) => s.Name = e);
         }
 
         public string Route
         {
             get => boardTabItem.Route;
-            set =>
-                SetProperty(
-                    boardTabItem.Route,
-                    value,
-                    boardTabItem,
-                    (item, route) => item.Route = route
-                );
+            set => SetProperty(boardTabItem.Route, value, boardTabItem, (s, e) => s.Route = e);
         }
 
         public Board Board
         {
             get => boardTabItem.Board;
-            set =>
-                SetProperty(
-                    boardTabItem.Board,
-                    value,
-                    boardTabItem,
-                    (item, board) => item.Board = board
-                );
+            set => SetProperty(boardTabItem.Board, value, boardTabItem, (s, e) => s.Board = e);
         }
 
         public TopicSortType SortType
         {
             get => boardTabItem.SortType;
             set =>
-                SetProperty(
-                    boardTabItem.SortType,
-                    value,
-                    boardTabItem,
-                    (item, sortType) => item.SortType = sortType
-                );
+                SetProperty(boardTabItem.SortType, value, boardTabItem, (s, e) => s.SortType = e);
         }
 
         public uint PageSize
         {
             get => boardTabItem.PageSize;
             set =>
-                SetProperty(
-                    boardTabItem.PageSize,
-                    value,
-                    boardTabItem,
-                    (item, pageSize) => item.PageSize = pageSize
-                );
+                SetProperty(boardTabItem.PageSize, value, boardTabItem, (s, e) => s.PageSize = e);
         }
 
         public bool RequirePreviewSources
@@ -297,7 +256,7 @@ namespace Uestc.BBS.Mvvm.Models
                     boardTabItem.RequirePreviewSources,
                     value,
                     boardTabItem,
-                    (item, require) => item.RequirePreviewSources = require
+                    (s, e) => s.RequirePreviewSources = e
                 );
         }
 
@@ -305,12 +264,7 @@ namespace Uestc.BBS.Mvvm.Models
         {
             get => boardTabItem.ModuleId;
             set =>
-                SetProperty(
-                    boardTabItem.ModuleId,
-                    value,
-                    boardTabItem,
-                    (item, moduleId) => item.ModuleId = moduleId
-                );
+                SetProperty(boardTabItem.ModuleId, value, boardTabItem, (s, e) => s.ModuleId = e);
         }
 
         /// <summary>
@@ -335,7 +289,7 @@ namespace Uestc.BBS.Mvvm.Models
                     searchBarSetting.IsDailySentenceEnabled,
                     value,
                     searchBarSetting,
-                    (setting, enabled) => setting.IsDailySentenceEnabled = enabled
+                    (s, e) => s.IsDailySentenceEnabled = e
                 );
         }
 
@@ -350,7 +304,7 @@ namespace Uestc.BBS.Mvvm.Models
                     searchBarSetting.DailySentenceUpdateTimeInterval,
                     value,
                     searchBarSetting,
-                    (setting, interval) => setting.DailySentenceUpdateTimeInterval = interval
+                    (s, e) => s.DailySentenceUpdateTimeInterval = e
                 );
         }
 
@@ -365,7 +319,7 @@ namespace Uestc.BBS.Mvvm.Models
                     searchBarSetting.IsSearchHistoryEnabled,
                     value,
                     searchBarSetting,
-                    (setting, enabled) => setting.IsSearchHistoryEnabled = enabled
+                    (s, e) => s.IsSearchHistoryEnabled = e
                 );
         }
     }

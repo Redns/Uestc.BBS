@@ -1,13 +1,13 @@
 ﻿using System.Net;
 using System.Text.Json;
 using Uestc.BBS.Core.Helpers;
+using Uestc.BBS.Core.Models;
 
 namespace Uestc.BBS.Core.Services.Forum.TopicList
 {
-    public class TopicListService(HttpClient httpClient) : ITopicListService
+    public class TopicListService(HttpClient httpClient, AuthCredential credential)
+        : ITopicListService
     {
-        private readonly HttpClient _httpClient = httpClient;
-
         /// <summary>
         /// 获取帖子列表
         /// </summary>
@@ -33,12 +33,14 @@ namespace Uestc.BBS.Core.Services.Forum.TopicList
             CancellationToken cancellationToken = default
         )
         {
-            using var resp = await _httpClient.PostAsync(
+            using var resp = await httpClient.PostAsync(
                 string.Empty,
                 new FormUrlEncodedContent(
                     new Dictionary<string, string>
                     {
                         { "r", string.IsNullOrEmpty(route) ? "forum/topiclist" : route },
+                        { "accessToken", credential.Token },
+                        { "accessSecret", credential.Secret },
                         { nameof(page), page.ToString() },
                         { nameof(pageSize), pageSize.ToString() },
                         { nameof(boardId), boardId.ToInt32String() },
@@ -52,15 +54,12 @@ namespace Uestc.BBS.Core.Services.Forum.TopicList
                 cancellationToken
             );
 
-            if (resp.StatusCode is not HttpStatusCode.OK)
-            {
-                return null;
-            }
-
-            return JsonSerializer.Deserialize(
-                await resp.Content.ReadAsStreamAsync(cancellationToken),
-                TopicRespContext.Default.TopicListResp
-            );
+            return resp.StatusCode is HttpStatusCode.OK
+                ? JsonSerializer.Deserialize(
+                    await resp.Content.ReadAsStreamAsync(cancellationToken),
+                    TopicListRespContext.Default.TopicListResp
+                )
+                : null;
         }
     }
 }

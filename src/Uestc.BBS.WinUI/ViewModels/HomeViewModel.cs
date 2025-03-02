@@ -38,13 +38,13 @@ namespace Uestc.BBS.WinUI.ViewModels
                     IsStaggeredLayoutEnabled = AppSettingModel
                         .Appearance
                         .BoardTab
-                        .IsStaggeredLayoutEnabled
+                        .IsStaggeredLayoutEnabled,
                 }),
             ];
 
-            CurrentBoardTabItemModel!.PropertyChanged += (sender, e) =>
+            CurrentBoardTabItemModel!.PropertyChanged += (_, _) =>
                 OnPropertyChanged(nameof(CurrentBoardTabItemListView));
-            AppSettingModel.Appearance.BoardTab.PropertyChanged += (sender, e) =>
+            AppSettingModel.Appearance.BoardTab.PropertyChanged += (_, e) =>
             {
                 if (
                     e.PropertyName
@@ -60,7 +60,7 @@ namespace Uestc.BBS.WinUI.ViewModels
                     return;
                 }
             };
-            AppSettingModel.Appearance.BoardTab.Items.CollectionChanged += (sender, e) =>
+            AppSettingModel.Appearance.BoardTab.Items.CollectionChanged += (_, e) =>
             {
                 switch (e.Action)
                 {
@@ -73,7 +73,7 @@ namespace Uestc.BBS.WinUI.ViewModels
                                     IsStaggeredLayoutEnabled = AppSettingModel
                                         .Appearance
                                         .BoardTab
-                                        .IsStaggeredLayoutEnabled
+                                        .IsStaggeredLayoutEnabled,
                                 })
                         );
                         break;
@@ -110,15 +110,25 @@ namespace Uestc.BBS.WinUI.ViewModels
         [RelayCommand]
         private async Task RefreshBoardTabItems(ItemClickEventArgs e)
         {
-            if (
-                e.ClickedItem is not BoardTabItemModel boardTabItem
-                || boardTabItem != CurrentBoardTabItemModel
-            )
+            if (e.ClickedItem as BoardTabItemModel != CurrentBoardTabItemModel)
             {
                 return;
             }
 
-            await CurrentBoardTabItemListView!.Topics!.RefreshAsync();
+            if (CurrentBoardTabItemListView!.Topics!.IsLoading)
+            {
+                return;
+            }
+
+            // FIXME 瀑布流布局下单次点击不会刷新
+            for (var i = 0; i < 3; i++)
+            {
+                await CurrentBoardTabItemListView.Topics.RefreshAsync();
+                if (CurrentBoardTabItemListView.Topics.Count > 0)
+                {
+                    break;
+                }
+            }
         }
 
         public override Task DispatcherAsync(Action action) =>

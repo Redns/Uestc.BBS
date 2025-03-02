@@ -253,7 +253,7 @@ namespace Uestc.BBS.WinUI.Controls
                     Stretch = Stretch.Uniform,
                     Source = new BitmapImage(new Uri(sources[0]))
                     {
-                        DecodePixelHeight = topicOverview.LazyLoading ? 240 : 0
+                        DecodePixelHeight = topicOverview.LazyLoading ? 240 : 0,
                     },
                 };
                 image.PointerPressed += (sender, e) =>
@@ -278,10 +278,10 @@ namespace Uestc.BBS.WinUI.Controls
             var colums = sources.Length switch
             {
                 <= 4 => 2,
-                _ => 3
+                _ => 3,
             };
             var rows = (int)Math.Ceiling(sources.Length / (double)colums);
-            var imageHeight = 140 - rows * 15;
+            var imageHeight = 130 - rows * 15;
             topicOverview.PreviewGrid.SetRowsAndColumns(rows, colums);
 
             var images = sources
@@ -298,11 +298,11 @@ namespace Uestc.BBS.WinUI.Controls
                                     : imageHeight,
                             Source = new BitmapImage(new Uri(s))
                             {
-                                DecodePixelHeight = topicOverview.LazyLoading ? 140 - rows * 15 : 0
+                                DecodePixelHeight = topicOverview.LazyLoading ? 140 - rows * 15 : 0,
                             },
                             Stretch = Stretch.UniformToFill,
                         };
-                        image.PointerPressed += (sender, e) =>
+                        image.PointerPressed += (_, e) =>
                             OpenPreviewImage(
                                 topicOverview.PreviewSources,
                                 Array.IndexOf(sources, s),

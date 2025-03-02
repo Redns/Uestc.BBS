@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Page
+    x:Class="Uestc.BBS.WinUI.Views.Overlays.NotificationSettingOverlay"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:CommunityToolkit.WinUI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:Uestc.BBS.WinUI.Views.Overlays"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="using:CommunityToolkit.WinUI"
+    mc:Ignorable="d">
+
+    <ScrollViewer Margin="10" VerticalScrollBarVisibility="Hidden">
+        <StackPanel Spacing="5">
+            <controls:SettingsCard
+                Description="接收来自系统和其他用户的消息"
+                Header="通知"
+                HeaderIcon="{ui:FontIcon Glyph=&#xEA8F;}">
+                <ToggleSwitch IsOn="{x:Bind Model.IsEnabled, Mode=TwoWay}" />
+            </controls:SettingsCard>
+            <controls:SettingsCard
+                Description="置顶公告、水滴评分、红包楼奖励等"
+                Header="系统通知"
+                HeaderIcon="{ui:FontIcon Glyph=&#xE789;}"
+                IsEnabled="{x:Bind Model.IsEnabled, Mode=OneWay}">
+                <ToggleSwitch IsOn="{x:Bind Model.IsSystenMessageEnabled, Mode=TwoWay}" />
+            </controls:SettingsCard>
+            <controls:SettingsCard
+                Header="私信"
+                HeaderIcon="{ui:FontIcon Glyph=&#xE715;}"
+                IsEnabled="{x:Bind Model.IsEnabled, Mode=OneWay}">
+                <ToggleSwitch IsOn="{x:Bind Model.IsPrivateMessageEnabled, Mode=TwoWay}" />
+            </controls:SettingsCard>
+            <controls:SettingsCard
+                Header="回复"
+                HeaderIcon="{ui:FontIcon Glyph=&#xE8F2;}"
+                IsEnabled="{x:Bind Model.IsEnabled, Mode=OneWay}">
+                <ToggleSwitch IsOn="{x:Bind Model.IsNewReplyEnabled, Mode=TwoWay}" />
+            </controls:SettingsCard>
+            <controls:SettingsCard
+                Header="@我"
+                HeaderIcon="{ui:FontIcon Glyph=&#xE910;}"
+                IsEnabled="{x:Bind Model.IsEnabled, Mode=OneWay}">
+                <ToggleSwitch IsOn="{x:Bind Model.IsAtMeEnabled, Mode=TwoWay}" />
+            </controls:SettingsCard>
+            <controls:SettingsCard
+                Header="点评"
+                HeaderIcon="{ui:FontIcon Glyph=&#xEE56;}"
+                IsEnabled="{x:Bind Model.IsEnabled, Mode=OneWay}">
+                <ToggleSwitch IsOn="{x:Bind Model.IsReviewEnabled, Mode=TwoWay}" />
+            </controls:SettingsCard>
+            <controls:SettingsCard
+                Header="插眼"
+                HeaderIcon="{ui:FontIcon Glyph=&#xE7B3;}"
+                IsEnabled="{x:Bind Model.IsEnabled, Mode=OneWay}">
+                <ComboBox>
+                    <ComboBoxItem Content="关闭" />
+                    <ComboBoxItem Content="有新回复时" />
+                    <ComboBoxItem Content="楼主参与时" />
+                </ComboBox>
+            </controls:SettingsCard>
+        </StackPanel>
+    </ScrollViewer>
+
+</Page>

@@ -18,7 +18,7 @@ namespace Uestc.BBS.WinUI.Controls
 
         public RichTextContent[] TopicContents
         {
-            set => Content = RenderTopicContents(value);
+            set => TopicContentBorder.Child = RenderTopicContents(value);
         }
 
         public TopicContentControl()
@@ -28,7 +28,7 @@ namespace Uestc.BBS.WinUI.Controls
 
         private UIElement RenderTopicContents(RichTextContent[] contents)
         {
-            var richTextBlock = new RichTextBlock() { LineHeight = 26 };
+            var richTextBlock = new RichTextBlock { LineHeight = 26 };
 
             var paragraph = new Paragraph();
             foreach (var content in contents)
@@ -84,7 +84,7 @@ namespace Uestc.BBS.WinUI.Controls
                                 Stretch = Stretch.Uniform,
                                 VerticalAlignment = VerticalAlignment.Center,
                                 Source = new BitmapImage(new Uri(emoji.Groups["url"].Value)),
-                            }
+                            },
                         }
                     );
 
@@ -108,7 +108,7 @@ namespace Uestc.BBS.WinUI.Controls
                     {
                         NavigateUri = new Uri(content.Url),
                         Inlines = { new Run { Text = content.Information } },
-                    }
+                    },
                 ];
             }
 
@@ -130,8 +130,8 @@ namespace Uestc.BBS.WinUI.Controls
                             CornerRadius = new CornerRadius(6),
                             Margin = new Thickness(0, 10, 0, 10),
                             HorizontalAlignment = HorizontalAlignment.Left,
-                        }
-                    }
+                        },
+                    },
                 ];
             }
 
@@ -143,9 +143,9 @@ namespace Uestc.BBS.WinUI.Controls
                     {
                         Severity = InfoBarSeverity.Warning,
                         Title = "Ω‚Œˆ ß∞‹",
-                        Message = content.Information
-                    }
-                }
+                        Message = content.Information,
+                    },
+                },
             ];
         }
 

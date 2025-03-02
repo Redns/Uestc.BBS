@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using CommunityToolkit.WinUI;
 using CommunityToolkit.WinUI.Collections;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
@@ -35,7 +36,6 @@ namespace Uestc.BBS.WinUI.Controls
             set
             {
                 SetValue(BoardTabItemProperty, value);
-
                 Topics = new IncrementalLoadingCollection<TopicOverviewSource, TopicOverview>(
                     new TopicOverviewSource(_topicService, value)
                 );
@@ -76,9 +76,14 @@ namespace Uestc.BBS.WinUI.Controls
             set
             {
                 SetValue(IsStaggeredLayoutEnabledProperty, value);
-                if (value && BoardTabItemsRepeater.ItemsSource is null)
+
+                TopicListView.ItemsPanel = IsStaggeredLayoutEnabled
+                    ? StaggeredItemsPanelTemplate
+                    : StackItemsPanelTemplate;
+
+                if (Topics?.Count is 0 && Topics.IsLoading is false)
                 {
-                    Topics?.RefreshAsync();
+                    Topics.RefreshAsync();
                 }
             }
         }
@@ -95,28 +100,38 @@ namespace Uestc.BBS.WinUI.Controls
         public BoardTabItemListView()
         {
             InitializeComponent();
-        }
 
-        /// <summary>
-        /// 加载更多数据
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        public void LoadMoreData(object sender, ScrollViewerViewChangedEventArgs e)
-        {
-            if (sender is not ScrollViewer scrollViewer)
+            TopicListView.Loaded += (sender, e) =>
             {
-                return;
-            }
+                var scrollViewer = TopicListView.FindDescendant<ScrollViewer>();
+                if (scrollViewer is null)
+                {
+                    return;
+                }
 
-            var offset = scrollViewer.VerticalOffset;
-            var viewport = scrollViewer.ViewportHeight;
-            var extent = scrollViewer.ExtentHeight;
+                scrollViewer.ViewChanged += (sender, _) =>
+                {
+                    // 列表流下数据随滚动会自动加载
+                    if (!IsStaggeredLayoutEnabled)
+                    {
+                        return;
+                    }
 
-            if (extent - offset <= 2 * viewport && Topics?.IsLoading is not true)
-            {
-                Topics?.LoadMoreItemsAsync(BoardTabItem.PageSize);
-            }
+                    if (sender is not ScrollViewer scrollViewer)
+                    {
+                        return;
+                    }
+
+                    var offset = scrollViewer.VerticalOffset;
+                    var viewport = scrollViewer.ViewportHeight;
+                    var extent = scrollViewer.ExtentHeight;
+
+                    if (extent - offset <= 2 * viewport && Topics?.IsLoading is not true)
+                    {
+                        Topics?.LoadMoreItemsAsync(BoardTabItem.PageSize);
+                    }
+                };
+            };
         }
 
         private void ListView_ItemClick(object sender, ItemClickEventArgs e) =>

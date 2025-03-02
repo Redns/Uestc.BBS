@@ -238,6 +238,9 @@ namespace Uestc.BBS.Core.Services.Forum
 
         [Label("考试之家")]
         ExamiHome = 382,
+
+        [Label("公考选调")]
+        PublicServiceExaminationAndSelection = 430,
     }
 
     /// <summary>

@@ -1,5 +1,4 @@
 ﻿using System.Text.Json.Serialization;
-using FastEnumUtility;
 using Uestc.BBS.Core.JsonConverters;
 
 namespace Uestc.BBS.Core.Services.Forum
@@ -13,10 +12,10 @@ namespace Uestc.BBS.Core.Services.Forum
         public uint Id { get; set; }
 
         /// <summary>
-        /// 楼主（1 楼） pid
+        /// 类型
         /// </summary>
-        [JsonPropertyName("reply_posts_id")]
-        public uint ReplyPostsId { get; set; }
+        [JsonConverter(typeof(StringToReplyTypeConverter))]
+        public TopicType Type { get; set; }
 
         /// <summary>
         /// 标题
@@ -24,10 +23,29 @@ namespace Uestc.BBS.Core.Services.Forum
         public string Title { get; set; } = string.Empty;
 
         /// <summary>
-        /// 主题类型
+        /// 浏览量
         /// </summary>
-        [JsonConverter(typeof(StringToReplyTypeConverter))]
-        public TopicType Type { get; set; }
+        [JsonPropertyName("hits")]
+        public uint ViewCount { get; set; }
+
+        /// <summary>
+        /// 回复量
+        /// </summary>
+        [JsonPropertyName("replies")]
+        public uint ReplyCount { get; set; }
+
+        /// <summary>
+        /// 是否置顶
+        /// </summary>
+        [JsonPropertyName("top")]
+        [JsonConverter(typeof(UintToBoolConverter))]
+        public bool IsTop { get; set; }
+
+        /// <summary>
+        ///
+        /// </summary>
+        [JsonPropertyName("is_favor")]
+        public bool IsFavor { get; set; }
 
         /// <summary>
         ///
@@ -37,9 +55,37 @@ namespace Uestc.BBS.Core.Services.Forum
         public bool IsSpecial { get; set; }
 
         /// <summary>
-        ///
+        /// 是否为精华贴
         /// </summary>
-        public uint SortId { get; set; }
+        [JsonPropertyName("essence")]
+        [JsonConverter(typeof(UintToBoolConverter))]
+        public bool IsEssence { get; set; }
+
+        /// <summary>
+        /// 移动端标识
+        /// </summary>
+        public string MobileSign { get; set; } = string.Empty;
+
+        /// <summary>
+        /// 创建时间
+        /// </summary>
+        [JsonPropertyName("create_date")]
+        [JsonConverter(typeof(UnixTimestampStringToDateTimeConverter))]
+        public DateTime CreatedAt { get; set; }
+
+        /// <summary>
+        /// 主题内容
+        /// </summary>
+        [JsonPropertyName("content")]
+        public RichTextContent[] Contents { get; set; } = [];
+
+        /// <summary>
+        /// 楼主（1 楼） Pid
+        /// </summary>
+        [JsonPropertyName("reply_posts_id")]
+        public uint ReplyPostsId { get; set; }
+
+        #region 发帖用户
 
         /// <summary>
         /// 发帖用户 ID
@@ -82,23 +128,7 @@ namespace Uestc.BBS.Core.Services.Forum
         [JsonConverter(typeof(UintToBoolConverter))]
         public bool IsFollow { get; set; }
 
-        /// <summary>
-        /// 回复数量
-        /// </summary>
-        public uint Replies { get; set; }
-
-        /// <summary>
-        /// 浏览量
-        /// </summary>
-        [JsonPropertyName("hits")]
-        public uint Views { get; set; }
-
-        /// <summary>
-        /// 是否为精华贴
-        /// </summary>
-        [JsonPropertyName("essence")]
-        [JsonConverter(typeof(UintToBoolConverter))]
-        public bool IsEssence { get; set; }
+        #endregion
 
         /// <summary>
         /// 是否包含投票
@@ -113,171 +143,67 @@ namespace Uestc.BBS.Core.Services.Forum
         public uint Hot { get; set; }
 
         /// <summary>
-        /// 是否置顶
-        /// </summary>
-        [JsonPropertyName("top")]
-        [JsonConverter(typeof(UintToBoolConverter))]
-        public bool IsTop { get; set; }
-
-        /// <summary>
         ///
         /// </summary>
-        [JsonPropertyName("is_favor")]
-        public bool IsFavor { get; set; }
-
-        /// <summary>
-        /// 创建时间
-        /// </summary>
-        [JsonPropertyName("create_date")]
-        [JsonConverter(typeof(UnixTimestampStringToDateTimeConverter))]
-        public DateTime CreatedAt { get; set; }
-
-        /// <summary>
-        /// 移动端标识
-        /// </summary>
-        public string MobileSign { get; set; } = string.Empty;
+        public uint SortId { get; set; }
 
         /// <summary>
         ///
         /// </summary>
         public uint Status { get; set; }
 
-        public uint ReplyStatus { get; set; }
-    }
-
-    public class Reply
-    {
-        #region 用户
-
-        /// <summary>
-        /// 用户 ID
-        /// </summary>
-        [JsonPropertyName("reply_id")]
-        public string UserId { get; set; } = string.Empty;
-
-        /// <summary>
-        /// 用户昵称
-        /// </summary>
-        [JsonPropertyName("reply_name")]
-        public string UserNickName { get; set; } = string.Empty;
-
-        /// <summary>
-        /// 用户头像
-        /// </summary>
-        [JsonPropertyName("icon")]
-        public string UserAvatar { get; set; } = string.Empty;
-
-        /// <summary>
-        /// 用户等级
-        /// </summary>
-        [JsonPropertyName("level")]
-        public uint UserLevel { get; set; }
-
-        /// <summary>
-        /// 用户组
-        /// </summary>
-        public string UserTitle { get; set; } = string.Empty;
-
-        /// <summary>
-        /// 移动端标识
-        /// </summary>
-        public string MobileSign { get; set; } = string.Empty;
-
-        #endregion
-
-        #region 回复内容
-
-        /// <summary>
-        /// 回复 ID
-        /// </summary>
-        [JsonPropertyName("reply_posts_id")]
-        public uint Id { get; set; }
-
-        [JsonPropertyName("posts_date")]
-        [JsonConverter(typeof(UnixTimestampStringToDateTimeConverter))]
-        public DateTime CreatedAt { get; set; }
-
-        /// <summary>
-        /// 楼层
-        /// </summary>
-        public uint Position { get; set; }
-
-        /// <summary>
-        /// 回复内容
-        /// </summary>
-        [JsonPropertyName("reply_content")]
-        public RichTextContent[] Contents { get; set; } = [];
-
-        /// <summary>
-        /// 回复类型
-        /// </summary>
-        [JsonPropertyName("reply_type")]
-        [JsonConverter(typeof(StringToReplyTypeConverter))]
-        public ReplyType Type { get; set; } = ReplyType.Normal;
-        #endregion
-
-        #region 引用
-
-        /// <summary>
-        /// 是否引用
-        /// </summary>
-        [JsonPropertyName("is_quote")]
-        [JsonConverter(typeof(UintToBoolConverter))]
-        public bool IsQuote { get; set; }
-
-        /// <summary>
-        /// 被引用回复 ID
-        /// </summary>
-        [JsonPropertyName("quote_pid")]
-        public uint QuoteId { get; set; }
-
-        /// <summary>
-        /// 被引用楼层发表时间
-        /// </summary>
-        [JsonPropertyName("quote_time")]
-        [JsonConverter(typeof(UnixTimestampStringToDateTimeConverter))]
-        public DateTime QuoteCreatedAt { get; set; }
-
-        /// <summary>
-        /// 被引用用户昵称
-        /// </summary>
-        [JsonPropertyName("quote_user_name")]
-        public string QuoteUserName { get; set; } = string.Empty;
-
-        /// <summary>
-        /// 被引用回复内容
-        /// </summary>
-        [JsonPropertyName("quote_content_bare")]
-        public string QuoteContent { get; set; } = string.Empty;
-
-        #endregion
-    }
-
-    public enum ReplyType
-    {
-        Normal,
-    }
-
-    public class ExtraPanel
-    {
-        /// <summary>
-        /// 标题
-        /// </summary>
-        public string Title { get; set; } = string.Empty;
-
-        public ExtarPanelType Type { get; set; }
-
         /// <summary>
         ///
         /// </summary>
-        public string Action { get; set; } = string.Empty;
+        public uint ReplyStatus { get; set; }
 
-        public string RecommendAdd { get; set; } = string.Empty;
+        [Obsolete("This property is not used in the current version of the API.")]
+        public Rate RateList { get; set; } = new();
+
+        public ExtraPanel ExtraPanel { get; set; } = new();
     }
 
-    public enum ExtarPanelType
+    #region 评分
+    public class Rate
     {
-        [Label("支持")]
-        Support
+        public RateHead Head { get; set; } = new();
+
+        public RateTotal Total { get; set; } = new();
+
+        [JsonPropertyName("body")]
+        public RateItem[] Items { get; set; } = [];
+
+        public string ShowAllUrl { get; set; } = string.Empty;
     }
+
+    public class RateTotal
+    {
+        [JsonPropertyName("field1")]
+        public uint UserCount { get; set; }
+
+        [JsonPropertyName("field2")]
+        public uint WaterCount { get; set; }
+    }
+
+    public class RateHead
+    {
+        public string Field1 { get; set; } = string.Empty;
+
+        public string Field2 { get; set; } = string.Empty;
+
+        public string Field3 { get; set; } = string.Empty;
+    }
+
+    public class RateItem
+    {
+        public string UserName { get; set; } = string.Empty;
+
+        public int Score { get; set; }
+
+        public string Comment { get; set; } = string.Empty;
+    }
+
+    public class Reward { }
+
+    #endregion
 }

@@ -12,6 +12,10 @@
     d:DataContext="{d:DesignInstance Type=viewmodels:SettingsViewModel}"
     mc:Ignorable="d">
 
+    <Page.RenderTransform>
+        <TranslateTransform x:Name="NavigateTranslation" />
+    </Page.RenderTransform>
+
     <ScrollViewer Margin="10" VerticalScrollBarVisibility="Hidden">
         <ScrollViewer.RenderTransform>
             <TranslateTransform />
@@ -26,44 +30,45 @@
                 IsClickEnabled="True" />
             <controls:SettingsCard
                 Command="{x:Bind ViewModel.NavigateToSubSettingsOverlayCommand}"
-                CommandParameter="BrowseSettings"
-                Description="主题筛选、热门主题、点赞评论"
-                Header="浏览"
-                HeaderIcon="{ui:FontIcon Glyph=&#xE8A1;}"
-                IsClickEnabled="True" />
-            <controls:SettingsCard
-                Command="{x:Bind ViewModel.NavigateToSubSettingsOverlayCommand}"
                 CommandParameter="NotificationSettings"
                 Description="托盘图标、置顶公告、回复"
                 Header="通知"
                 HeaderIcon="{ui:FontIcon Glyph=&#xEA8F;}"
-                IsClickEnabled="True">
-                <ToggleSwitch />
-            </controls:SettingsCard>
+                IsClickEnabled="True" />
             <controls:SettingsCard
                 Command="{x:Bind ViewModel.NavigateToSubSettingsOverlayCommand}"
                 CommandParameter="AccountSettings"
                 Description="管理授权信息或切换账户"
                 Header="账户"
                 HeaderIcon="{ui:FontIcon Glyph=&#xE77B;}"
-                IsClickEnabled="True">
-                <Button Content="添加用户" />
-            </controls:SettingsCard>
+                IsClickEnabled="True" />
+            <controls:SettingsCard
+                Command="{x:Bind ViewModel.NavigateToSubSettingsOverlayCommand}"
+                CommandParameter="BrowseSettings"
+                Description="主题筛选、热门主题、点赞评论"
+                Header="浏览"
+                HeaderIcon="{ui:FontIcon Glyph=&#xE71D;}"
+                IsClickEnabled="True" />
             <controls:SettingsCard
                 Command="{x:Bind ViewModel.NavigateToSubSettingsOverlayCommand}"
                 CommandParameter="StorageSettings"
-                Description="缓存、WebDVA 同步"
+                Description="WebDVA 同步、存储空间、缓存"
                 Header="数据与存储"
-                HeaderIcon="{ui:FontIcon Glyph=&#xE72E;}"
-                IsClickEnabled="True">
-                <Button Content="立即同步" />
-            </controls:SettingsCard>
+                HeaderIcon="{ui:FontIcon Glyph=&#xEDA2;}"
+                IsClickEnabled="True" />
+            <controls:SettingsCard
+                Command="{x:Bind ViewModel.NavigateToSubSettingsOverlayCommand}"
+                CommandParameter="ApiSettings"
+                Description="证书校验、访问接口"
+                Header="API"
+                HeaderIcon="{ui:FontIcon Glyph=&#xF22C;}"
+                IsClickEnabled="True" />
             <controls:SettingsCard
                 Command="{x:Bind ViewModel.NavigateToSubSettingsOverlayCommand}"
                 CommandParameter="ServicesSettings"
-                Description="日志、应用更新"
+                Description="启动与关闭、应用更新、日志"
                 Header="服务"
-                HeaderIcon="{ui:FontIcon Glyph=&#xE81E;}"
+                HeaderIcon="{ui:FontIcon Glyph=&#xEC7A;}"
                 IsClickEnabled="True" />
             <!--  清水河畔  -->
             <controls:SettingsExpander

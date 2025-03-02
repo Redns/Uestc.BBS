@@ -1,13 +1,12 @@
+using System.Linq;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Animation;
 using Uestc.BBS.Core;
 using Uestc.BBS.WinUI.ViewModels;
-using Windows.Foundation;
 
 namespace Uestc.BBS.WinUI.Views
 {
@@ -20,24 +19,41 @@ namespace Uestc.BBS.WinUI.Views
         {
             InitializeComponent();
 
-            ViewModel.PropertyChanged += (sender, e) =>
+            ViewModel.PropertyChanging += (_, e) =>
             {
-                if (e.PropertyName != nameof(ViewModel.CurrentMenuKey))
+                if (
+                    e.PropertyName == nameof(ViewModel.CurrentMenuItem)
+                    && ViewModel.AppSettingModel.Appearance.MenuItems.Any(m =>
+                        m.Key == ViewModel.CurrentMenuKey
+                    )
+                )
                 {
+                    NavigateBottom2TopStoryboard.Begin();
                     return;
                 }
 
-                var transition = new TranslateTransform();
+                if (
+                    e.PropertyName == nameof(ViewModel.CurrentMenuKey)
+                    && !ViewModel.AppSettingModel.Appearance.MenuItems.Any(m =>
+                        m.Key == ViewModel.CurrentMenuKey
+                    )
+                )
+                {
+                    NavigateLeft2RightStoryboard.Begin();
+                    return;
+                }
+            };
 
-                ViewModel.CurrentMenuContent.RenderTransform = transition;
-                ViewModel.CurrentMenuContent.RenderTransformOrigin = new Point(0.5, 0.5);
-
-                var storyboard = (Storyboard)Application.Current.Resources["NavigateStoryboard"];
-
-                storyboard.Stop();
-                Storyboard.SetTargetName(storyboard.Children[0], "Translation");
-                Storyboard.SetTarget(storyboard, transition);
-                storyboard.Begin();
+            ViewModel.PropertyChanged += (_, e) =>
+            {
+                if (
+                    e.PropertyName == nameof(ViewModel.CurrentMenuKey)
+                    && ViewModel.CurrentMenuItem.Key != ViewModel.CurrentMenuKey
+                )
+                {
+                    NavigateRight2LeftStoryboard.Begin();
+                    return;
+                }
             };
         }
 
@@ -46,7 +62,7 @@ namespace Uestc.BBS.WinUI.Views
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void OpenPersonalCenterFlyout(object sender, PointerRoutedEventArgs e)
+        private void OpenPersonalCenterFlyout(object sender, PointerRoutedEventArgs _)
         {
             FlyoutBase.ShowAttachedFlyout(sender as FrameworkElement);
         }
@@ -57,8 +73,8 @@ namespace Uestc.BBS.WinUI.Views
         /// <param name="sender"></param>
         /// <param name="args"></param>
         private void ClearTopMenuSelection(
-            NavigationView sender,
-            NavigationViewItemInvokedEventArgs args
+            NavigationView _,
+            NavigationViewItemInvokedEventArgs e
         ) => TopMenuBar.SelectedIndex = -1;
     }
 }

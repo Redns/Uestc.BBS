@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Page
+    x:Class="Uestc.BBS.WinUI.Views.Overlays.ApiSettingOverlay"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:CommunityToolkit.WinUI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:Uestc.BBS.WinUI.Views.Overlays"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="using:Uestc.BBS.Mvvm.Models"
+    xmlns:ui="using:CommunityToolkit.WinUI"
+    d:DataContext="{d:DesignInstance Type=models:ApiSettingModel}"
+    mc:Ignorable="d">
+
+    <ScrollViewer Margin="10" VerticalScrollBarVisibility="Hidden">
+        <StackPanel Spacing="5">
+            <controls:SettingsCard
+                Description="检查服务器提供的 SSL/TLS 证书是否有效"
+                Header="证书校验"
+                HeaderIcon="{ui:FontIcon Glyph=&#xE72E;}">
+                <ToggleSwitch IsOn="{x:Bind Model.IsCertificateVerificationEnabled, Mode=TwoWay}" />
+            </controls:SettingsCard>
+            <controls:SettingsCard
+                Description="API 请求基地址（以 http/https 开头）"
+                Header="入口点"
+                HeaderIcon="{ui:FontIcon Glyph=&#xE774;}">
+                <TextBox Width="200" Text="{x:Bind Model.BaseUrl, Mode=TwoWay}" />
+            </controls:SettingsCard>
+            <controls:SettingsCard Header="每日一句" HeaderIcon="{ui:FontIcon Glyph=&#xEA80;}">
+                <TextBox Width="320" Text="{x:Bind Model.DailySentenceUrl, Mode=TwoWay}" />
+            </controls:SettingsCard>
+            <controls:SettingsCard
+                Description="获取 accessToken 和 accessSecret"
+                Header="登录"
+                HeaderIcon="{ui:FontIcon Glyph=&#xE78B;}">
+                <TextBox Width="320" Text="{x:Bind Model.AuthUrl, Mode=TwoWay}" />
+            </controls:SettingsCard>
+            <controls:SettingsCard Header="用户详情" HeaderIcon="{ui:FontIcon Glyph=&#xE77B;}">
+                <TextBox Width="320" Text="{x:Bind Model.UserDetailUrl, Mode=TwoWay}" />
+            </controls:SettingsCard>
+            <controls:SettingsCard
+                Description="获取指定板块下的主题"
+                Header="主题列表"
+                HeaderIcon="{ui:FontIcon Glyph=&#xE8FD;}">
+                <TextBox Width="320" Text="{x:Bind Model.TopicListUrl, Mode=TwoWay}" />
+            </controls:SettingsCard>
+            <controls:SettingsCard Header="主题详情" HeaderIcon="{ui:FontIcon Glyph=&#xF0E4;}">
+                <TextBox Width="320" Text="{x:Bind Model.TopicDetailUrl, Mode=TwoWay}" />
+            </controls:SettingsCard>
+        </StackPanel>
+    </ScrollViewer>
+</Page>

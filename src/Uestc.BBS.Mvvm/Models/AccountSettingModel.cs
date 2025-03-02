@@ -1,6 +1,6 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using CommunityToolkit.Mvvm.ComponentModel;
 using Uestc.BBS.Core.Models;
 
 namespace Uestc.BBS.Mvvm.Models
@@ -51,12 +51,7 @@ namespace Uestc.BBS.Mvvm.Models
         {
             get => _authSetting.AutoLogin;
             set =>
-                SetProperty(
-                    _authSetting.AutoLogin,
-                    value,
-                    _authSetting,
-                    (setting, autoLogin) => setting.AutoLogin = autoLogin
-                );
+                SetProperty(_authSetting.AutoLogin, value, _authSetting, (s, e) => s.AutoLogin = e);
         }
 
         /// <summary>
@@ -70,7 +65,7 @@ namespace Uestc.BBS.Mvvm.Models
                     _authSetting.RememberPassword,
                     value,
                     _authSetting,
-                    (setting, rememberPassword) => setting.RememberPassword = rememberPassword
+                    (s, e) => s.RememberPassword = e
                 );
         }
 
@@ -86,8 +81,7 @@ namespace Uestc.BBS.Mvvm.Models
                     _authSetting.DefaultCredentialUid,
                     value,
                     _authSetting,
-                    (setting, defaultCredentialUid) =>
-                        setting.DefaultCredentialUid = defaultCredentialUid
+                    (s, e) => s.DefaultCredentialUid = e
                 );
                 OnPropertyChanged(nameof(IsUserAuthed));
                 OnPropertyChanged(nameof(DefaultCredential));
@@ -124,13 +118,7 @@ namespace Uestc.BBS.Mvvm.Models
         public uint Uid
         {
             get => authCredential.Uid;
-            set =>
-                SetProperty(
-                    authCredential.Uid,
-                    value,
-                    authCredential,
-                    (credential, uid) => credential.Uid = uid
-                );
+            set => SetProperty(authCredential.Uid, value, authCredential, (s, e) => s.Uid = e);
         }
 
         /// <summary>
@@ -139,13 +127,7 @@ namespace Uestc.BBS.Mvvm.Models
         public string Name
         {
             get => authCredential.Name;
-            set =>
-                SetProperty(
-                    authCredential.Name,
-                    value,
-                    authCredential,
-                    (credential, name) => credential.Name = name
-                );
+            set => SetProperty(authCredential.Name, value, authCredential, (s, e) => s.Name = e);
         }
 
         /// <summary>
@@ -159,7 +141,7 @@ namespace Uestc.BBS.Mvvm.Models
                     authCredential.Password,
                     value,
                     authCredential,
-                    (credential, password) => credential.Password = password
+                    (s, e) => s.Password = e
                 );
         }
 
@@ -169,13 +151,7 @@ namespace Uestc.BBS.Mvvm.Models
         public string Token
         {
             get => authCredential.Token;
-            set =>
-                SetProperty(
-                    authCredential.Token,
-                    value,
-                    authCredential,
-                    (credential, token) => credential.Token = token
-                );
+            set => SetProperty(authCredential.Token, value, authCredential, (s, e) => s.Token = e);
         }
 
         /// <summary>
@@ -185,12 +161,7 @@ namespace Uestc.BBS.Mvvm.Models
         {
             get => authCredential.Secret;
             set =>
-                SetProperty(
-                    authCredential.Secret,
-                    value,
-                    authCredential,
-                    (credential, secert) => credential.Secret = secert
-                );
+                SetProperty(authCredential.Secret, value, authCredential, (s, e) => s.Secret = e);
         }
 
         /// <summary>
@@ -200,12 +171,7 @@ namespace Uestc.BBS.Mvvm.Models
         {
             get => authCredential.Avatar;
             set =>
-                SetProperty(
-                    authCredential.Avatar,
-                    value,
-                    authCredential,
-                    (credential, avatar) => credential.Avatar = avatar
-                );
+                SetProperty(authCredential.Avatar, value, authCredential, (s, e) => s.Avatar = e);
         }
 
         /// <summary>
@@ -214,13 +180,7 @@ namespace Uestc.BBS.Mvvm.Models
         public uint Level
         {
             get => authCredential.Level;
-            set =>
-                SetProperty(
-                    authCredential.Level,
-                    value,
-                    authCredential,
-                    (credential, level) => credential.Level = level
-                );
+            set => SetProperty(authCredential.Level, value, authCredential, (s, e) => s.Level = e);
         }
 
         /// <summary>
@@ -229,13 +189,7 @@ namespace Uestc.BBS.Mvvm.Models
         public string Group
         {
             get => authCredential.Group;
-            set =>
-                SetProperty(
-                    authCredential.Group,
-                    value,
-                    authCredential,
-                    (credential, group) => credential.Group = group
-                );
+            set => SetProperty(authCredential.Group, value, authCredential, (s, e) => s.Group = e);
         }
 
         /// <summary>
@@ -249,7 +203,7 @@ namespace Uestc.BBS.Mvvm.Models
                     authCredential.Signature,
                     value,
                     authCredential,
-                    (credential, signature) => credential.Signature = signature
+                    (s, e) => s.Signature = e
                 );
         }
     }
