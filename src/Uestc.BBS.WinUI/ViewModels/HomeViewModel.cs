@@ -6,6 +6,7 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml.Controls;
+using Uestc.BBS.Core.Services.Forum;
 using Uestc.BBS.Core.Services.Forum.TopicList;
 using Uestc.BBS.Core.Services.System;
 using Uestc.BBS.Mvvm.Models;
@@ -25,10 +26,11 @@ namespace Uestc.BBS.WinUI.ViewModels
 
         public HomeViewModel(
             ILogService logService,
-            ITopicListService topicService,
+            ITopicService topicService,
+            ITopicListService topicListService,
             AppSettingModel appSettingModel
         )
-            : base(logService, topicService, appSettingModel)
+            : base(logService, topicService, topicListService, appSettingModel)
         {
             _boardTabItems =
             [

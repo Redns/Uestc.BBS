@@ -8,16 +8,25 @@ namespace Uestc.BBS.Mvvm.ViewModels
 {
     public abstract partial class HomeViewModelBase(
         ILogService logService,
-        ITopicListService topicService,
+        ITopicService topicService,
+        ITopicListService topicListService,
         AppSettingModel appSettingModel
     ) : ObservableObject
     {
+        /// <summary>
+        /// 日志
+        /// </summary>
         protected readonly ILogService _logService = logService;
 
         /// <summary>
-        /// 主题相关服务
+        /// 主题内容
         /// </summary>
-        protected readonly ITopicListService _topicService = topicService;
+        protected readonly ITopicService _topicListService = topicService;
+
+        /// <summary>
+        /// 主题列表
+        /// </summary>
+        protected readonly ITopicListService _topicService = topicListService;
 
         /// <summary>
         /// 应用配置

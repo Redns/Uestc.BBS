@@ -1,7 +1,14 @@
-﻿namespace Uestc.BBS.Core.Models
+﻿using System.Text.Json.Serialization;
+
+namespace Uestc.BBS.Core.Models
 {
     public class ApiSetting
     {
+        /// <summary>
+        /// 是否启用系统代理
+        /// </summary>
+        public bool IsSystemProxyEnabled { get; set; } = false;
+
         /// <summary>
         /// 是否启用证书验证
         /// </summary>
@@ -23,6 +30,7 @@
             }
         } = "https://bbs.uestc.edu.cn";
 
+        [JsonIgnore]
         public Uri? BaseUri
         {
             get => field ??= new Uri(BaseUrl);
@@ -45,6 +53,7 @@
             }
         } = "forum.php?mobile=no";
 
+        [JsonIgnore]
         public Uri? DailySentenceUri
         {
             get => field ??= new Uri(BaseUri!, DailySentenceUrl);
@@ -67,6 +76,7 @@
             }
         } = "mobcent/app/web/index.php?r=user/login";
 
+        [JsonIgnore]
         public Uri? AuthUri
         {
             get => field ??= new Uri(BaseUri!, AuthUrl);
@@ -89,6 +99,7 @@
             }
         } = "mobcent/app/web/index.php?r=forum/postlist";
 
+        [JsonIgnore]
         public Uri? TopicDetailUri
         {
             get => field ??= new Uri(BaseUri!, TopicDetailUrl);
@@ -111,6 +122,7 @@
             }
         } = "mobcent/app/web/index.php";
 
+        [JsonIgnore]
         public Uri? TopicListUri
         {
             get => field ??= new Uri(BaseUri!, TopicListUrl);
@@ -133,6 +145,7 @@
             }
         } = "mobcent/app/web/index.php";
 
+        [JsonIgnore]
         public Uri? UserDetailUri
         {
             get => field ??= new Uri(BaseUri!, UserDetailUrl);

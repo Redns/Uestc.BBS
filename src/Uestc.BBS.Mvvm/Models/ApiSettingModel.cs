@@ -5,6 +5,18 @@ namespace Uestc.BBS.Mvvm.Models
 {
     public class ApiSettingModel(ApiSetting setting) : ObservableObject
     {
+        public bool IsSystermProxyEnabled
+        {
+            get => setting.IsSystemProxyEnabled;
+            set =>
+                SetProperty(
+                    setting.IsSystemProxyEnabled,
+                    value,
+                    setting,
+                    (s, e) => s.IsSystemProxyEnabled = e
+                );
+        }
+
         /// <summary>
         /// 是否启用证书验证
         /// </summary>

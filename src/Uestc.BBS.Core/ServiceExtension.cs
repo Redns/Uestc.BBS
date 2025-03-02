@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using System.Net.Security;
+using Microsoft.Extensions.DependencyInjection;
 using NLog;
 using Uestc.BBS.Core.Models;
 using Uestc.BBS.Core.Services;
@@ -51,42 +52,149 @@ namespace Uestc.BBS.Core
                 .AddSingleton<IDailySentenceService, DailySentenceService>();
             // HttpClient
             ServiceCollection.AddHttpClient();
-            ServiceCollection.AddHttpClient<IDailySentenceService, DailySentenceService>(
-                (services, client) =>
-                {
-                    client.BaseAddress = services
-                        .GetRequiredService<AppSetting>()
-                        .Api.DailySentenceUri;
-                }
-            );
-            ServiceCollection.AddHttpClient<IAuthService, AuthService>(
-                (services, client) =>
-                {
-                    client.BaseAddress = services.GetRequiredService<AppSetting>().Api.AuthUri;
-                }
-            );
-            ServiceCollection.AddHttpClient<ITopicListService, TopicListService>(
-                (services, client) =>
-                {
-                    client.BaseAddress = services.GetRequiredService<AppSetting>().Api.TopicListUri;
-                }
-            );
-            ServiceCollection.AddHttpClient<ITopicService, TopicService>(
-                (services, client) =>
-                {
-                    client.BaseAddress = services
-                        .GetRequiredService<AppSetting>()
-                        .Api.TopicDetailUri;
-                }
-            );
-            ServiceCollection.AddHttpClient<IUserService, UserService>(
-                (services, client) =>
-                {
-                    client.BaseAddress = services
-                        .GetRequiredService<AppSetting>()
-                        .Api.UserDetailUri;
-                }
-            );
+            ServiceCollection
+                .AddHttpClient<IDailySentenceService, DailySentenceService>(
+                    (services, client) =>
+                    {
+                        client.BaseAddress = services
+                            .GetRequiredService<AppSetting>()
+                            .Api.DailySentenceUri;
+                    }
+                )
+                .ConfigurePrimaryHttpMessageHandler(
+                    (handler, services) =>
+                    {
+                        var appSetting = services.GetRequiredService<AppSetting>();
+                        if (handler is SocketsHttpHandler socketsHttpHandler)
+                        {
+                            socketsHttpHandler.UseProxy = appSetting.Api.IsSystemProxyEnabled;
+                            socketsHttpHandler.SslOptions.RemoteCertificateValidationCallback = (
+                                sender,
+                                cert,
+                                chain,
+                                sslPolicyErrors
+                            ) =>
+                            {
+                                return appSetting.Api.IsCertificateVerificationEnabled
+                                    || sslPolicyErrors == SslPolicyErrors.None;
+                            };
+                        }
+                    }
+                );
+            ServiceCollection
+                .AddHttpClient<IAuthService, AuthService>(
+                    (services, client) =>
+                    {
+                        client.BaseAddress = services.GetRequiredService<AppSetting>().Api.AuthUri;
+                    }
+                )
+                .ConfigurePrimaryHttpMessageHandler(
+                    (handler, services) =>
+                    {
+                        var appSetting = services.GetRequiredService<AppSetting>();
+                        if (handler is SocketsHttpHandler socketsHttpHandler)
+                        {
+                            socketsHttpHandler.UseProxy = appSetting.Api.IsSystemProxyEnabled;
+                            socketsHttpHandler.SslOptions.RemoteCertificateValidationCallback = (
+                                sender,
+                                cert,
+                                chain,
+                                sslPolicyErrors
+                            ) =>
+                            {
+                                return appSetting.Api.IsCertificateVerificationEnabled
+                                    || sslPolicyErrors == SslPolicyErrors.None;
+                            };
+                        }
+                    }
+                );
+            ServiceCollection
+                .AddHttpClient<ITopicListService, TopicListService>(
+                    (services, client) =>
+                    {
+                        client.BaseAddress = services
+                            .GetRequiredService<AppSetting>()
+                            .Api.TopicListUri;
+                    }
+                )
+                .ConfigurePrimaryHttpMessageHandler(
+                    (handler, services) =>
+                    {
+                        var appSetting = services.GetRequiredService<AppSetting>();
+                        if (handler is SocketsHttpHandler socketsHttpHandler)
+                        {
+                            socketsHttpHandler.UseProxy = appSetting.Api.IsSystemProxyEnabled;
+                            socketsHttpHandler.SslOptions.RemoteCertificateValidationCallback = (
+                                sender,
+                                cert,
+                                chain,
+                                sslPolicyErrors
+                            ) =>
+                            {
+                                return appSetting.Api.IsCertificateVerificationEnabled
+                                    || sslPolicyErrors == SslPolicyErrors.None;
+                            };
+                        }
+                    }
+                );
+            ServiceCollection
+                .AddHttpClient<ITopicService, TopicService>(
+                    (services, client) =>
+                    {
+                        client.BaseAddress = services
+                            .GetRequiredService<AppSetting>()
+                            .Api.TopicDetailUri;
+                    }
+                )
+                .ConfigurePrimaryHttpMessageHandler(
+                    (handler, services) =>
+                    {
+                        var appSetting = services.GetRequiredService<AppSetting>();
+                        if (handler is SocketsHttpHandler socketsHttpHandler)
+                        {
+                            socketsHttpHandler.UseProxy = appSetting.Api.IsSystemProxyEnabled;
+                            socketsHttpHandler.SslOptions.RemoteCertificateValidationCallback = (
+                                sender,
+                                cert,
+                                chain,
+                                sslPolicyErrors
+                            ) =>
+                            {
+                                return appSetting.Api.IsCertificateVerificationEnabled
+                                    || sslPolicyErrors == SslPolicyErrors.None;
+                            };
+                        }
+                    }
+                );
+            ServiceCollection
+                .AddHttpClient<IUserService, UserService>(
+                    (services, client) =>
+                    {
+                        client.BaseAddress = services
+                            .GetRequiredService<AppSetting>()
+                            .Api.UserDetailUri;
+                    }
+                )
+                .ConfigurePrimaryHttpMessageHandler(
+                    (handler, services) =>
+                    {
+                        var appSetting = services.GetRequiredService<AppSetting>();
+                        if (handler is SocketsHttpHandler socketsHttpHandler)
+                        {
+                            socketsHttpHandler.UseProxy = appSetting.Api.IsSystemProxyEnabled;
+                            socketsHttpHandler.SslOptions.RemoteCertificateValidationCallback = (
+                                sender,
+                                cert,
+                                chain,
+                                sslPolicyErrors
+                            ) =>
+                            {
+                                return appSetting.Api.IsCertificateVerificationEnabled
+                                    || sslPolicyErrors == SslPolicyErrors.None;
+                            };
+                        }
+                    }
+                );
 
             return ServiceCollection;
         }
