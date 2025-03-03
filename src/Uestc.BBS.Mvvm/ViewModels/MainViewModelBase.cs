@@ -93,26 +93,33 @@ namespace Uestc.BBS.Mvvm.ViewModels
             _notificationService = notificationService;
             _dailySentenceService = dailySentenceService;
             _searchPlaceholderTextUpdateTimer = new Timer(
-                async _ =>
+                _ =>
                 {
                     if (!appSettingModel.Appearance.SearchBar.IsDailySentenceEnabled)
                     {
                         return;
                     }
 
-                    try
-                    {
-                        var sentence = await _dailySentenceService.GetDailySentenceAsync();
-                        if (string.IsNullOrEmpty(sentence) || sentence == SearchPlaceholderText)
+                    _dailySentenceService
+                        .GetDailySentenceAsync()
+                        .ContinueWith(async t =>
                         {
-                            return;
-                        }
-                        await DispatcherAsync(() => SearchPlaceholderText = sentence);
-                    }
-                    catch (Exception e)
-                    {
-                        _logService.Error("Failed to update daily sentence.", e);
-                    }
+                            if (t.IsFaulted)
+                            {
+                                _logService.Error(
+                                    "Dailysentence refresh failed",
+                                    t.Exception.InnerException!
+                                );
+                                return;
+                            }
+
+                            var sentence = t.Result;
+                            if (string.IsNullOrEmpty(sentence) || sentence == SearchPlaceholderText)
+                            {
+                                return;
+                            }
+                            await DispatcherAsync(() => SearchPlaceholderText = sentence);
+                        });
                 },
                 null,
                 0,

@@ -157,20 +157,38 @@ namespace Uestc.BBS.WinUI.Controls
         }
 
         /// <summary>
-        /// 模糊加载，限制预览图象的解码高度以减少资源占用，提升加载速度
+        /// 是否显示预览图片
         /// </summary>
-        private static readonly DependencyProperty LazyLoadingProperty =
+        private static readonly DependencyProperty ShowPreviewImageProperty =
             DependencyProperty.Register(
-                nameof(LazyLoading),
+                nameof(ShowPreviewImage),
+                typeof(bool),
+                typeof(TopicOverviewControl),
+                new PropertyMetadata(default(bool))
+            );
+
+        public bool ShowPreviewImage
+        {
+            get => (bool)GetValue(ShowPreviewImageProperty);
+            set => SetValue(ShowPreviewImageProperty, value);
+        }
+
+        /// <summary>
+        /// 预览图像解码优化
+        /// 限制预览图象的解码高度以减少资源占用，提升加载速度
+        /// </summary>
+        private static readonly DependencyProperty PreviewImageDecodeOptimizedProperty =
+            DependencyProperty.Register(
+                nameof(PreviewImageDecodeOptimized),
                 typeof(bool),
                 typeof(TopicOverviewControl),
                 new PropertyMetadata(false)
             );
 
-        public bool LazyLoading
+        public bool PreviewImageDecodeOptimized
         {
-            get => (bool)GetValue(LazyLoadingProperty);
-            set => SetValue(LazyLoadingProperty, value);
+            get => (bool)GetValue(PreviewImageDecodeOptimizedProperty);
+            set => SetValue(PreviewImageDecodeOptimizedProperty, value);
         }
 
         /// <summary>
@@ -236,7 +254,7 @@ namespace Uestc.BBS.WinUI.Controls
                 return;
             }
 
-            if (sender is not TopicOverviewControl topicOverview)
+            if (sender is not TopicOverviewControl topicOverview || !topicOverview.ShowPreviewImage)
             {
                 return;
             }
@@ -253,7 +271,7 @@ namespace Uestc.BBS.WinUI.Controls
                     Stretch = Stretch.Uniform,
                     Source = new BitmapImage(new Uri(sources[0]))
                     {
-                        DecodePixelHeight = topicOverview.LazyLoading ? 240 : 0,
+                        DecodePixelHeight = topicOverview.PreviewImageDecodeOptimized ? 240 : 0,
                     },
                 };
                 image.PointerPressed += (sender, e) =>
@@ -298,7 +316,9 @@ namespace Uestc.BBS.WinUI.Controls
                                     : imageHeight,
                             Source = new BitmapImage(new Uri(s))
                             {
-                                DecodePixelHeight = topicOverview.LazyLoading ? 140 - rows * 15 : 0,
+                                DecodePixelHeight = topicOverview.PreviewImageDecodeOptimized
+                                    ? 140 - rows * 15
+                                    : 0,
                             },
                             Stretch = Stretch.UniformToFill,
                         };

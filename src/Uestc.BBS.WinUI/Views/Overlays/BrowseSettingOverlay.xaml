@@ -22,15 +22,15 @@
                 HeaderIcon="{ui:FontIcon Glyph=&#xE8B1;}">
                 <ToggleSwitch IsOn="{x:Bind ViewModel.AppearanceSettingModel.BoardTab.IsStaggeredLayoutEnabled, Mode=TwoWay}" />
             </controls:SettingsCard>
-            <!--  缩略图  -->
+            <!--  预览图像  -->
             <controls:SettingsExpander
                 Description="在主题列表中显示缩略图"
                 Header="预览图像"
                 HeaderIcon="{ui:FontIcon Glyph=&#xE91B;}">
-                <ToggleSwitch />
+                <ToggleSwitch IsOn="{x:Bind ViewModel.BrowsingSettingModel.ShowPreviewImage, Mode=TwoWay}" />
                 <controls:SettingsExpander.Items>
                     <controls:SettingsCard Description="以较小尺寸解码预览图像，减少内存占用" Header="解码优化">
-                        <ToggleSwitch />
+                        <ToggleSwitch IsOn="{x:Bind ViewModel.BrowsingSettingModel.PreviewImageDecodeOptimization, Mode=TwoWay}" />
                     </controls:SettingsCard>
                 </controls:SettingsExpander.Items>
             </controls:SettingsExpander>
@@ -96,7 +96,7 @@
                     <controls:SettingsCard Header="屏蔽散水">
                         <ToggleSwitch />
                     </controls:SettingsCard>
-                    <controls:SettingsCard Description="不显示内容不含图片的主题" Header="无图拦截">
+                    <controls:SettingsCard Description="仅显示包含图像的主题" Header="无图拦截">
                         <ToggleSwitch />
                     </controls:SettingsCard>
                     <controls:SettingsCard Description="不显示内容长度（字节）小于阈值的主题" Header="短文过滤">
@@ -108,7 +108,7 @@
                             <Slider
                                 Width="160"
                                 Maximum="1024"
-                                Minimum="8" />
+                                Minimum="1" />
                         </StackPanel>
                     </controls:SettingsCard>
                     <controls:SettingsCard Description="仅当主题出现在其它板块（如：最新发表）下时屏蔽" Header="屏蔽板块">

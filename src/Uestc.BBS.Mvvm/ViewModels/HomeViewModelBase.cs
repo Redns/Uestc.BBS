@@ -57,7 +57,14 @@ namespace Uestc.BBS.Mvvm.ViewModels
                     sortby: tabItem.SortType,
                     getPreviewSources: tabItem.RequirePreviewSources
                 )
-                .ContinueWith(t => t.Result?.List ?? []);
+                .ContinueWith(t =>
+                {
+                    if (t.IsFaulted)
+                    {
+                        _logService.Error("Load topics failed", t.Exception.InnerException!);
+                    }
+                    return t.Result?.List ?? [];
+                });
 
         public abstract Task DispatcherAsync(Action action);
     }

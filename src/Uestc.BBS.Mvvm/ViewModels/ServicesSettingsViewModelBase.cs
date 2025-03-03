@@ -12,7 +12,7 @@ namespace Uestc.BBS.Mvvm.ViewModels
     {
         protected ILogService _logService;
 
-        public ServicesSettingModel ServicesSettingModel { get; init; } 
+        public ServicesSettingModel ServicesSettingModel { get; init; }
 
         public ServicesSettingsViewModelBase(
             ILogService logService,
@@ -55,7 +55,7 @@ namespace Uestc.BBS.Mvvm.ViewModels
 
             if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
-                Process.Start("explorer", $"-R {_logService.LogDirectory}");
+                Process.Start("open", $"-R {_logService.LogDirectory}");
                 return;
             }
 

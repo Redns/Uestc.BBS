@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Uestc.BBS.Core.Helpers;

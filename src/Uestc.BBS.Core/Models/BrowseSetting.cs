@@ -6,6 +6,16 @@
     public class BrowseSetting
     {
         /// <summary>
+        /// 是否显示预览图片
+        /// </summary>
+        public bool ShowPreviewImage { get; set; } = true;
+
+        /// <summary>
+        /// 预览图片解码优化
+        /// </summary>
+        public bool PreviewImageDecodeOptimization { get; set; } = false;
+
+        /// <summary>
         /// 高亮热门主题
         /// </summary>
         public bool HighlightHotTopic { get; set; } = true;

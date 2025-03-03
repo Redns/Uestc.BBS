@@ -33,7 +33,7 @@ namespace Uestc.BBS.WinUI.ViewModels
             }
             catch (Exception ex)
             {
-                _logService.Error("NavigateToMainView", ex);
+                _logService.Error("Navigate to main view failed", ex);
             }
             finally
             {

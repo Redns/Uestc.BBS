@@ -6,6 +6,36 @@ namespace Uestc.BBS.Mvvm.Models
     public class BrowseSettingModel(BrowseSetting setting) : ObservableObject
     {
         /// <summary>
+        /// 是否显示预览图片
+        /// </summary>
+        public bool ShowPreviewImage
+        {
+            get => setting.ShowPreviewImage;
+            set =>
+                SetProperty(
+                    setting.ShowPreviewImage,
+                    value,
+                    setting,
+                    (s, e) => s.ShowPreviewImage = e
+                );
+        }
+
+        /// <summary>
+        /// 预览图片解码优化
+        /// </summary>
+        public bool PreviewImageDecodeOptimization
+        {
+            get => setting.PreviewImageDecodeOptimization;
+            set =>
+                SetProperty(
+                    setting.PreviewImageDecodeOptimization,
+                    value,
+                    setting,
+                    (s, e) => s.PreviewImageDecodeOptimization = e
+                );
+        }
+
+        /// <summary>
         /// 高亮热门主题
         /// </summary>
         public bool HighlightHotTopic

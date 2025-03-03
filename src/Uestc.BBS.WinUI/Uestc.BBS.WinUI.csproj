@@ -12,16 +12,14 @@
     <EnableMsixTooling>true</EnableMsixTooling>
     <Nullable>enable</Nullable>
 	<LangVersion>preview</LangVersion>
+	<WindowsPackageType>None</WindowsPackageType>
   </PropertyGroup>
 
-<PropertyGroup>
+<PropertyGroup Condition="'$(Configuration)'=='Release'">
 	<!--AOT-->
 	<PublishAot>true</PublishAot>
 	<IsAotCompatible>true</IsAotCompatible>
-	<PlatformTarget>x64</PlatformTarget>
 	<PublishReadyToRun>true</PublishReadyToRun>
-	<!-- Unpackaged -->
-	<WindowsPackageType>None</WindowsPackageType>
 	<!-- 打包运行时 -->
 	<WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
 </PropertyGroup>
@@ -65,7 +63,7 @@
     <ProjectCapability Include="Msix" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="CommunityToolkit.Labs.WinUI.TokenView" Version="0.1.250220-build.2047" />
+    <PackageReference Include="CommunityToolkit.Labs.WinUI.TokenView" Version="0.1.250226-build.2050" />
     <PackageReference Include="CommunityToolkit.WinUI.Collections" Version="8.2.250129-preview2" />
     <PackageReference Include="CommunityToolkit.WinUI.Controls.Primitives" Version="8.2.250129-preview2" />
     <PackageReference Include="CommunityToolkit.WinUI.Controls.RangeSelector" Version="8.2.250129-preview2" />
@@ -73,10 +71,11 @@
     <PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.2.250129-preview2" />
     <PackageReference Include="CommunityToolkit.WinUI.Controls.Sizers" Version="8.2.250129-preview2" />
     <PackageReference Include="CommunityToolkit.WinUI.Converters" Version="8.2.250129-preview2" />
-    <PackageReference Include="H.NotifyIcon.WinUI" Version="2.2.0" />
+    <PackageReference Include="H.NotifyIcon.WinUI" Version="2.3.0" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1742" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.7.250208002-preview1" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.WinUI.Managed" Version="3.0.0" />
+    <PackageReference Include="System.Private.Uri" Version="4.3.2" />
     <PackageReference Include="WinUIEx" Version="2.5.1" />
   </ItemGroup>
   <ItemGroup>

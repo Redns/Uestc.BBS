@@ -3,10 +3,10 @@ using Uestc.BBS.Core.Services.Forum;
 
 namespace Uestc.BBS.Mvvm.Models
 {
-    public partial class TopicModel : ObservableObject
+    public partial class TopicModel(Topic topic) : ObservableObject
     {
         [ObservableProperty]
-        public partial int UserId { get; set; }
+        public partial uint UserId { get; set; } = topic.UserId;
 
         [ObservableProperty]
         public partial string UserName { get; set; } = string.Empty;

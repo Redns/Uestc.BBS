@@ -31,7 +31,7 @@
                 Header="入口点"
                 HeaderIcon="{ui:FontIcon Glyph=&#xE774;}">
                 <TextBox
-                    Width="200"
+                    Width="220"
                     Text="{x:Bind Model.BaseUrl, Mode=TwoWay}"
                     TextWrapping="Wrap" />
             </controls:SettingsCard>
@@ -40,7 +40,7 @@
                 Header="每日一句"
                 HeaderIcon="{ui:FontIcon Glyph=&#xEA80;}">
                 <TextBox
-                    Width="240"
+                    Width="220"
                     Text="{x:Bind Model.DailySentenceUrl, Mode=TwoWay}"
                     TextWrapping="Wrap" />
             </controls:SettingsCard>
@@ -49,7 +49,7 @@
                 Header="登录"
                 HeaderIcon="{ui:FontIcon Glyph=&#xE78B;}">
                 <TextBox
-                    Width="240"
+                    Width="220"
                     Text="{x:Bind Model.AuthUrl, Mode=TwoWay}"
                     TextWrapping="Wrap" />
             </controls:SettingsCard>
@@ -58,7 +58,7 @@
                 Header="用户详情"
                 HeaderIcon="{ui:FontIcon Glyph=&#xE77B;}">
                 <TextBox
-                    Width="240"
+                    Width="220"
                     Text="{x:Bind Model.UserDetailUrl, Mode=TwoWay}"
                     TextWrapping="Wrap" />
             </controls:SettingsCard>
@@ -67,7 +67,7 @@
                 Header="主题列表"
                 HeaderIcon="{ui:FontIcon Glyph=&#xE8FD;}">
                 <TextBox
-                    Width="240"
+                    Width="220"
                     Text="{x:Bind Model.TopicListUrl, Mode=TwoWay}"
                     TextWrapping="Wrap" />
             </controls:SettingsCard>
@@ -76,7 +76,7 @@
                 Header="主题详情"
                 HeaderIcon="{ui:FontIcon Glyph=&#xF0E4;}">
                 <TextBox
-                    Width="240"
+                    Width="220"
                     Text="{x:Bind Model.TopicDetailUrl, Mode=TwoWay}"
                     TextWrapping="Wrap" />
             </controls:SettingsCard>
