@@ -1,5 +1,4 @@
-﻿using System.Net;
-using System.Text.Json;
+﻿using System.Text.Json;
 using Uestc.BBS.Core.Helpers;
 using Uestc.BBS.Core.Models;
 
@@ -33,33 +32,33 @@ namespace Uestc.BBS.Core.Services.Forum.TopicList
             CancellationToken cancellationToken = default
         )
         {
-            using var resp = await httpClient.PostAsync(
-                string.Empty,
-                new FormUrlEncodedContent(
-                    new Dictionary<string, string>
-                    {
-                        { "r", string.IsNullOrEmpty(route) ? "forum/topiclist" : route },
-                        { "accessToken", credential.Token },
-                        { "accessSecret", credential.Secret },
-                        { nameof(page), page.ToString() },
-                        { nameof(pageSize), pageSize.ToString() },
-                        { nameof(boardId), boardId.ToInt32String() },
-                        { nameof(moduleId), moduleId.ToString() },
-                        { nameof(sortby), sortby.ToLowerString() },
-                        { nameof(topOrder), topOrder.ToInt32String() },
-                        { "circle", getPartialReply ? "1" : "0" },
-                        { "isImageList", getPreviewImages ? "1" : "0" },
-                    }
-                ),
-                cancellationToken
-            );
-
-            return resp.StatusCode is HttpStatusCode.OK
-                ? JsonSerializer.Deserialize(
-                    await resp.Content.ReadAsStreamAsync(cancellationToken),
-                    TopicListRespContext.Default.TopicListResp
+            using var resp = await httpClient
+                .PostAsync(
+                    string.Empty,
+                    new FormUrlEncodedContent(
+                        new Dictionary<string, string>
+                        {
+                            { "r", string.IsNullOrEmpty(route) ? "forum/topiclist" : route },
+                            { "accessToken", credential.Token },
+                            { "accessSecret", credential.Secret },
+                            { nameof(page), page.ToString() },
+                            { nameof(pageSize), pageSize.ToString() },
+                            { nameof(boardId), boardId.ToInt32String() },
+                            { nameof(moduleId), moduleId.ToString() },
+                            { nameof(sortby), sortby.ToLowerString() },
+                            { nameof(topOrder), topOrder.ToInt32String() },
+                            { "circle", getPartialReply ? "1" : "0" },
+                            { "isImageList", getPreviewImages ? "1" : "0" },
+                        }
+                    ),
+                    cancellationToken
                 )
-                : null;
+                .ContinueWith(t => t.Result.EnsureSuccessStatusCode());
+
+            return JsonSerializer.Deserialize(
+                await resp.Content.ReadAsStreamAsync(cancellationToken),
+                TopicListRespContext.Default.TopicListResp
+            );
         }
     }
 }

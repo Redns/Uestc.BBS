@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Avalonia.Controls;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Uestc.BBS.Core;
+using Uestc.BBS.Core.Models;
 using Uestc.BBS.Core.Services.Forum;
 using Uestc.BBS.Core.Services.Forum.TopicList;
 using Uestc.BBS.Mvvm.Models;
@@ -39,16 +39,7 @@ namespace Uestc.BBS.Desktop.ViewModels
             _topicService = topicService;
             BoardTabItems =
             [
-                .. appSetting.Apperance.BoardTabItems.Select(item => new BoardTabItemModel
-                {
-                    Name = item.Name,
-                    Route = item.Route,
-                    Board = item.Board,
-                    SortType = item.SortType,
-                    PageSize = item.PageSize,
-                    RequirePreviewSources = item.RequirePreviewSources,
-                    ModuleId = item.ModuleId,
-                }),
+                .. appSetting.Appearance.BoardTab.Items.Select(item => new BoardTabItemModel(item)),
             ];
 
             // 加载板块帖子
@@ -56,7 +47,7 @@ namespace Uestc.BBS.Desktop.ViewModels
                 BoardTabItems.Select(tabItem =>
                     Task.Run(async () =>
                     {
-                        tabItem.IsLoading = true;
+                        // tabItem.IsLoading = true;
 
                         var topics = await _topicService.GetTopicsAsync(
                             route: tabItem.Route,
@@ -72,7 +63,7 @@ namespace Uestc.BBS.Desktop.ViewModels
                             tabItem.Topics = [.. topics.List];
                         }
 
-                        tabItem.IsLoading = false;
+                        // tabItem.IsLoading = false;
                     })
                 )
             );
@@ -106,7 +97,7 @@ namespace Uestc.BBS.Desktop.ViewModels
 
         private async Task LoadTopicsAsync()
         {
-            CurrentBoardTabItemModel!.IsLoading = true;
+            // CurrentBoardTabItemModel!.IsLoading = true;
 
             // 加载帖子
             var currentTopics = CurrentBoardTabItemModel.Topics;
@@ -133,7 +124,7 @@ namespace Uestc.BBS.Desktop.ViewModels
                 currentTopics.Add(topic);
             }
 
-            CurrentBoardTabItemModel.IsLoading = false;
+            // CurrentBoardTabItemModel.IsLoading = false;
         }
 
         /// <summary>
@@ -147,10 +138,10 @@ namespace Uestc.BBS.Desktop.ViewModels
                 return;
             }
 
-            if (CurrentBoardTabItemModel.IsLoading)
-            {
-                return;
-            }
+            //if (CurrentBoardTabItemModel.IsLoading)
+            //{
+            //    return;
+            //}
 
             CurrentBoardTabItemModel.Topics.Clear();
             await LoadTopicsAsync();

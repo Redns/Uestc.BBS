@@ -7,6 +7,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.DependencyInjection;
 using Uestc.BBS.Core;
+using Uestc.BBS.Core.Models;
 using Uestc.BBS.Desktop.Models;
 using Uestc.BBS.Desktop.Views;
 using Uestc.BBS.Mvvm;
@@ -37,7 +38,7 @@ namespace Uestc.BBS.ViewModels
                 if (desktop.MainWindow is null)
                 {
                     var appSetting = ServiceExtension.Services.GetRequiredService<AppSetting>();
-                    desktop.MainWindow = appSetting.Auth.IsUserAuthed
+                    desktop.MainWindow = appSetting.Account.IsUserAuthed
                         ? ServiceExtension.Services.GetRequiredService<MainWindow>()
                         : ServiceExtension.Services.GetRequiredService<AuthWindow>();
                 }

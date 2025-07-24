@@ -4,6 +4,7 @@ using Avalonia;
 using Avalonia.Labs.Notifications;
 using Microsoft.Extensions.DependencyInjection;
 using Uestc.BBS.Core;
+using Uestc.BBS.Core.Models;
 using Uestc.BBS.Core.Services.System;
 using Uestc.BBS.Desktop.Helpers;
 using Uestc.BBS.Desktop.Models;
@@ -48,10 +49,10 @@ namespace Uestc.BBS.Desktop
                 .AddSingleton<AppSettingModel>()
                 .AddSingleton<SettingsViewModel>()
                 // Appmanifest
-                .AddSingleton(
+                .AddTransient<Appmanifest>(services =>
                     JsonSerializer.Deserialize<Appmanifest>(
                         ResourceHelper.Load("/Assets/appmanifest.json"),
-                        Appmanifest.SerializerOptions
+                        AppmanifestContext.Default.Options
                     ) ?? throw new ArgumentNullException(nameof(Appmanifest))
                 )
                 // 自启动

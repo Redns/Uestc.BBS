@@ -52,7 +52,7 @@
             HorizontalAlignment="Center"
             IsItemClickEnabled="True"
             ItemsSource="{x:Bind ViewModel.AppSettingModel.Appearance.BoardTab.Items, Mode=OneWay}"
-            SelectedItem="{x:Bind ViewModel.CurrentBoardTabItemModel, Mode=OneWay}"
+            SelectedItem="{x:Bind ViewModel.CurrentBoardTabItemModel, Mode=TwoWay}"
             Style="{StaticResource PivotSegmentedStyle}">
             <controls:Segmented.ItemTemplate>
                 <DataTemplate x:DataType="models:BoardTabItemModel">
@@ -76,14 +76,17 @@
             </interactivity:Interaction.Behaviors>
         </controls:Segmented>
         <!--  板块内容  -->
-        <UserControl
-            x:Name="BoardTabItemListView"
+        <local_controls:CustomFlipView
             Grid.Row="1"
-            Content="{x:Bind ViewModel.CurrentBoardTabItemListView, Mode=OneWay}">
-            <UserControl.RenderTransform>
-                <TranslateTransform x:Name="BoardSwitchTranslation" />
-            </UserControl.RenderTransform>
-        </UserControl>
+            Background="Transparent"
+            ItemsSource="{x:Bind ViewModel.AppSettingModel.Appearance.BoardTab.Items, Mode=OneWay}"
+            SelectedItem="{x:Bind ViewModel.CurrentBoardTabItemModel, Mode=OneWay}">
+            <local_controls:CustomFlipView.ItemTemplate>
+                <DataTemplate x:DataType="models:BoardTabItemModel">
+                    <local_controls:BoardTabItemListView BoardTabItem="{x:Bind}" />
+                </DataTemplate>
+            </local_controls:CustomFlipView.ItemTemplate>
+        </local_controls:CustomFlipView>
 
         <!--  主题内容  -->
         <ScrollViewer
@@ -124,8 +127,15 @@
                             Text="早熟的人通常都晚熟" />
                     </StackPanel>
                 </controls:DockPanel>
-
                 <local_controls:TopicContentControl TopicContents="{x:Bind TopicContents}" />
+                <WebView2
+                    x:Name="MyWebView2"
+                    Grid.Row="1"
+                    MinWidth="200"
+                    MinHeight="200"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    Source="{x:Bind VideoUrl}" />
             </StackPanel>
         </ScrollViewer>
 

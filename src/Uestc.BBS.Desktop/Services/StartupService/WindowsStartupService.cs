@@ -54,5 +54,10 @@ namespace Uestc.BBS.Desktop.Services.StartupService
 
             TaskService.Instance.RootFolder.RegisterTaskDefinition(_startupInfo.Name, taskService);
         }
+
+        public void SetStartup(bool enabled)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

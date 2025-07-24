@@ -68,8 +68,10 @@ namespace Uestc.BBS.WinUI.Views
                 }
             };
 
-            // 防截屏
+#if RELEASE
+            // TODO 仅在就业区防截屏
             WindowsHelper.SetWindowDisplayAffinity(WindowNative.GetWindowHandle(this), 0x11);
+#endif
         }
 
         [RelayCommand]

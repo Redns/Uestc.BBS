@@ -107,10 +107,10 @@ namespace Uestc.BBS.Desktop.ViewModels
             _authService = authService;
             _notification = nativeNotification;
 
-            AutoLogin = appSetting.Auth.AutoLogin;
-            RememberPassword = appSetting.Auth.RememberPassword;
-            SelectedCredential = appSetting.Auth.DefaultCredential;
-            Users = [.. appSetting.Auth.Credentials.OrderBy(c => c.Name)];
+            AutoLogin = appSetting.Account.AutoLogin;
+            RememberPassword = appSetting.Account.RememberPassword;
+            SelectedCredential = appSetting.Account.DefaultCredential;
+            Users = [.. appSetting.Account.Credentials.OrderBy(c => c.Name)];
         }
 
         [RelayCommand]
@@ -132,7 +132,7 @@ namespace Uestc.BBS.Desktop.ViewModels
         private void DeleteCredential(AuthCredential credential)
         {
             Users.Remove(credential);
-            if (_appSetting.Auth.Credentials.Remove(credential))
+            if (_appSetting.Account.Credentials.Remove(credential))
             {
                 _appSetting.Save();
             }
@@ -144,7 +144,7 @@ namespace Uestc.BBS.Desktop.ViewModels
         [RelayCommand]
         private void OpenOfficialWebsite()
         {
-            OperatingSystemHelper.OpenWebsite(_appSetting.Apperance.OfficialWebsite);
+            OperatingSystemHelper.OpenWebsite(_appSetting.Appearance.OfficialWebsite);
         }
 
         [RelayCommand]
@@ -174,11 +174,11 @@ namespace Uestc.BBS.Desktop.ViewModels
                 // 保存本地登录信息
                 if (SelectedCredential?.Equals(credential) is not true)
                 {
-                    _appSetting.Auth.Credentials.Add(credential);
+                    _appSetting.Account.Credentials.Add(credential);
                 }
-                _appSetting.Auth.DefaultCredentialUid = credential.Uid;
-                _appSetting.Auth.AutoLogin = AutoLogin;
-                _appSetting.Auth.RememberPassword = RememberPassword;
+                _appSetting.Account.DefaultCredentialUid = credential.Uid;
+                _appSetting.Account.AutoLogin = AutoLogin;
+                _appSetting.Account.RememberPassword = RememberPassword;
                 _appSetting.Save();
 
                 // 跳转至主页

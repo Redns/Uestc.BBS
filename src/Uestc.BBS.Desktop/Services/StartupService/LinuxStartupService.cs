@@ -54,5 +54,10 @@ namespace Uestc.BBS.Desktop.Services.StartupService
 
             File.WriteAllText(_configFilePath, configContent.ToString());
         }
+
+        public void SetStartup(bool enabled)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

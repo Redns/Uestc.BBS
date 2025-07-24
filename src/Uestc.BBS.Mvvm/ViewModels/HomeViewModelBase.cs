@@ -6,7 +6,7 @@ using Uestc.BBS.Mvvm.Models;
 
 namespace Uestc.BBS.Mvvm.ViewModels
 {
-    public abstract partial class HomeViewModelBase(
+    public partial class HomeViewModelBase(
         ILogService logService,
         ITopicService topicService,
         ITopicListService topicListService,
@@ -65,7 +65,5 @@ namespace Uestc.BBS.Mvvm.ViewModels
                     }
                     return t.Result?.List ?? [];
                 });
-
-        public abstract Task DispatcherAsync(Action action);
     }
 }

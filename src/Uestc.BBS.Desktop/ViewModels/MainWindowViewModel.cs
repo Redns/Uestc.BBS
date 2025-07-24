@@ -29,7 +29,7 @@ namespace Uestc.BBS.Desktop.ViewModels
 
         private readonly IDailySentenceService _dailySentenceService;
 
-        public string? Avatar => _appSetting.Auth.DefaultCredential?.Avatar;
+        public string? Avatar => _appSetting.Account.DefaultCredential?.Avatar;
 
         [ObservableProperty]
         private AppSettingModel _appSettingModel;
@@ -62,37 +62,42 @@ namespace Uestc.BBS.Desktop.ViewModels
             _appSettingModel = appSettingModel;
             _dailySentenceService = dailySentenceService;
 
-            Menus = new ObservableCollection<MenuItemViewModel>(
-                appSetting.Apperance.MenuItems.Select(m => new MenuItemViewModel
-                {
-                    Key = m.Key,
-                    Name = m.Name,
-                    Symbol = m.Symbol,
-                    IsActive = m.IsActive,
-                    Dock = m.DockTop ? Dock.Top : Dock.Bottom,
-                    MenuClickCommand = new RelayCommand<MenuItemViewModel>(
-                        (MenuItemViewModel? menuItem) =>
-                        {
-                            // 已选中菜单
-                            if (menuItem is null || menuItem.IsActive)
+            Menus =
+            [
+                .. appSetting
+                    .Appearance.MenuItems.Where(m =>
+                        m.Position == Position.LeftTop || m.Position == Position.LeftBottom
+                    )
+                    .Select(m => new MenuItemViewModel
+                    {
+                        Key = m.Key.ToString(),
+                        Name = m.Name,
+                        Symbol = m.Symbol,
+                        IsActive = false,
+                        Dock = m.Position == Position.Top ? Dock.Top : Dock.Bottom,
+                        MenuClickCommand = new RelayCommand<MenuItemViewModel>(
+                            (MenuItemViewModel? menuItem) =>
                             {
-                                return;
+                                // 已选中菜单
+                                if (menuItem is null || menuItem.IsActive)
+                                {
+                                    return;
+                                }
+
+                                // 清除先前选中项
+                                var beforeActived = Menus?.FirstOrDefault(m => m.IsActive);
+                                if (beforeActived is not null)
+                                {
+                                    beforeActived.IsActive = false;
+                                }
+
+                                menuItem.IsActive = true;
+
+                                Navigate(menuItem.Key);
                             }
-
-                            // 清除先前选中项
-                            var beforeActived = Menus?.FirstOrDefault(m => m.IsActive);
-                            if (beforeActived is not null)
-                            {
-                                beforeActived.IsActive = false;
-                            }
-
-                            menuItem.IsActive = true;
-
-                            Navigate(menuItem.Key);
-                        }
-                    ),
-                })
-            );
+                        ),
+                    })
+            ];
         }
 
         /// <summary>
@@ -104,7 +109,7 @@ namespace Uestc.BBS.Desktop.ViewModels
             Process.Start(
                 new ProcessStartInfo()
                 {
-                    FileName = _appSetting.Apperance.OfficialWebsite,
+                    FileName = _appSetting.Appearance.OfficialWebsite,
                     UseShellExecute = true,
                 }
             );

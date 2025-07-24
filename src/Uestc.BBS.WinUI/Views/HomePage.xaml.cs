@@ -1,5 +1,4 @@
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Media.Animation;
 using Uestc.BBS.Core.Services.Forum;
 using Uestc.BBS.Mvvm.Models;
 using Uestc.BBS.WinUI.ViewModels;
@@ -12,13 +11,12 @@ namespace Uestc.BBS.WinUI.Views
 
         private HomeViewModel ViewModel { get; init; }
 
-        private RichTextContent[] TopicContents { get; set; } =
+        private string VideoUrl { get; init; } =
+            "https://bbs.uestc.edu.cn/forum.php?mod=attachment&aid=MjUyNjIwNHw5MWNiODk4Y3wxNzQxMjUzNDkzfDI1NjgyNXwyMjU5NDI5";
+
+        private RichTextContent[] TopicContents { get; init; } =
             [
-                new RichTextContent
-                {
-                    Information = "【心理年龄测试】",
-                    Type = TopicContenType.Text,
-                },
+                new RichTextContent { Information = "【心理年龄测试】", Type = TopicContenType.Text, },
                 new RichTextContent
                 {
                     Information = "https://www.arealme.com/mental/cn/?_refluxos=a10",
@@ -58,38 +56,6 @@ namespace Uestc.BBS.WinUI.Views
             InitializeComponent();
 
             ViewModel = viewModel;
-
-            ViewModel.PropertyChanging += (_, e) =>
-            {
-                if (e.PropertyName == nameof(ViewModel.CurrentBoardTabItemModel))
-                {
-                    _lastBoardTabItem = ViewModel.CurrentBoardTabItemModel;
-                }
-            };
-
-            ViewModel.PropertyChanged += (_, e) =>
-            {
-                if (e.PropertyName != nameof(ViewModel.CurrentBoardTabItemModel))
-                {
-                    return;
-                }
-
-                var isRight2Left =
-                    ViewModel.CurrentBoardTabItemModel == null
-                    || _lastBoardTabItem == null
-                    || ViewModel.AppSettingModel.Appearance.BoardTab.Items.IndexOf(
-                        ViewModel.CurrentBoardTabItemModel
-                    )
-                        > ViewModel.AppSettingModel.Appearance.BoardTab.Items.IndexOf(
-                            _lastBoardTabItem
-                        );
-
-                BoardSwitchStoryboard
-                    .Children[0]
-                    .SetValue(DoubleAnimation.FromProperty, isRight2Left ? 100 : -100);
-                BoardSwitchStoryboard.Children[0].SetValue(DoubleAnimation.ToProperty, 0);
-                BoardSwitchStoryboard.Begin();
-            };
         }
     }
 }

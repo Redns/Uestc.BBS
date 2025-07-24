@@ -13,5 +13,10 @@ namespace Uestc.BBS.Desktop.Services.StartupService
         {
             throw new System.NotImplementedException();
         }
+
+        public void SetStartup(bool enabled)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

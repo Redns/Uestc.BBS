@@ -1,13 +1,7 @@
 using System;
-using System.Linq;
-using Microsoft.UI;
-using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Media.Imaging;
-using Uestc.BBS.WinUI.Helpers;
-using WinUIEx;
 
 namespace Uestc.BBS.WinUI.Controls
 {
@@ -147,7 +141,7 @@ namespace Uestc.BBS.WinUI.Controls
                 nameof(PreviewSources),
                 typeof(string[]),
                 typeof(TopicOverviewControl),
-                new PropertyMetadata(default(string[]), SetPreviewGrid)
+                new PropertyMetadata(default(string[]))
             );
 
         public string[] PreviewSources
@@ -242,151 +236,6 @@ namespace Uestc.BBS.WinUI.Controls
         public TopicOverviewControl()
         {
             InitializeComponent();
-        }
-
-        private static void SetPreviewGrid(
-            DependencyObject sender,
-            DependencyPropertyChangedEventArgs e
-        )
-        {
-            if (e.NewValue is not string[] sources || sources.Length == 0)
-            {
-                return;
-            }
-
-            if (sender is not TopicOverviewControl topicOverview || !topicOverview.ShowPreviewImage)
-            {
-                return;
-            }
-
-            topicOverview.PreviewGrid.Children.Clear();
-            topicOverview.PreviewGrid.RowDefinitions.Clear();
-            topicOverview.PreviewGrid.ColumnDefinitions.Clear();
-
-            if (sources.Length == 1)
-            {
-                var image = new Image
-                {
-                    MaxHeight = 240,
-                    Stretch = Stretch.Uniform,
-                    Source = new BitmapImage(new Uri(sources[0]))
-                    {
-                        DecodePixelHeight = topicOverview.PreviewImageDecodeOptimized ? 240 : 0,
-                    },
-                };
-                image.PointerPressed += (sender, e) =>
-                    OpenPreviewImage(
-                        topicOverview.PreviewSources,
-                        0,
-                        topicOverview.PreviewFlipViewDataTemplete
-                    );
-
-                topicOverview.PreviewGrid.Children.Add(
-                    new Border
-                    {
-                        Child = image,
-                        CornerRadius = new CornerRadius(6),
-                        HorizontalAlignment = HorizontalAlignment.Left,
-                    }
-                );
-                return;
-            }
-
-            // 计算 Grid 布局
-            var colums = sources.Length switch
-            {
-                <= 4 => 2,
-                _ => 3,
-            };
-            var rows = (int)Math.Ceiling(sources.Length / (double)colums);
-            var imageHeight = 130 - rows * 15;
-            topicOverview.PreviewGrid.SetRowsAndColumns(rows, colums);
-
-            var images = sources
-                .Take(9)
-                .Select(
-                    (s, index) =>
-                    {
-                        var image = new Image
-                        {
-                            // 图像较多时限制其整体高度，避免占据太多视觉空间
-                            Height =
-                                (index is 0 && sources.Length is 3)
-                                    ? imageHeight * 2 + topicOverview.PreviewGrid.RowSpacing
-                                    : imageHeight,
-                            Source = new BitmapImage(new Uri(s))
-                            {
-                                DecodePixelHeight = topicOverview.PreviewImageDecodeOptimized
-                                    ? 140 - rows * 15
-                                    : 0,
-                            },
-                            Stretch = Stretch.UniformToFill,
-                        };
-                        image.PointerPressed += (_, e) =>
-                            OpenPreviewImage(
-                                topicOverview.PreviewSources,
-                                Array.IndexOf(sources, s),
-                                topicOverview.PreviewFlipViewDataTemplete
-                            );
-                        return image;
-                    }
-                )
-                .Select(image => new Border
-                {
-                    Child = image,
-                    CornerRadius = new CornerRadius(6),
-                    HorizontalAlignment = HorizontalAlignment.Left,
-                })
-                .ToArray();
-
-            if (sources.Length == 3)
-            {
-                topicOverview.PreviewGrid.Add(images[0], 0, 0, 2, 1);
-                topicOverview.PreviewGrid.Add(images[1], 0, 1);
-                topicOverview.PreviewGrid.Add(images[2], 1, 1);
-                return;
-            }
-
-            for (var i = 0; i < images.Length; i++)
-            {
-                topicOverview.PreviewGrid.Add(images[i], i / colums, i % colums);
-            }
-        }
-
-        /// <summary>
-        /// 打开新窗口预览图像
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private static void OpenPreviewImage(
-            string[] sources,
-            int currentSourceIndex,
-            DataTemplate dataTemplate
-        )
-        {
-            var window = new WindowEx
-            {
-                ExtendsContentIntoTitleBar = true,
-                SystemBackdrop = new MicaBackdrop(),
-                PresenterKind = AppWindowPresenterKind.CompactOverlay,
-                Content = new ScrollViewer
-                {
-                    ZoomMode = ZoomMode.Enabled,
-                    Content = new FlipView
-                    {
-                        ItemsSource = sources,
-                        ItemTemplate = dataTemplate,
-                        SelectedIndex = currentSourceIndex,
-                        Background = new SolidColorBrush(Colors.Transparent),
-                    },
-                    VerticalScrollBarVisibility = ScrollBarVisibility.Hidden,
-                    HorizontalScrollBarVisibility = ScrollBarVisibility.Hidden,
-                },
-            };
-
-            window.SetWindowSize(1200, 800);
-            window.Activate();
-            window.CenterOnScreen();
         }
     }
 }

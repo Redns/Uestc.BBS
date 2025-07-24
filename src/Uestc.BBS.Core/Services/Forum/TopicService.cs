@@ -1,5 +1,4 @@
-﻿using System.Net;
-using System.Text.Json;
+﻿using System.Text.Json;
 using Uestc.BBS.Core.Models;
 
 namespace Uestc.BBS.Core.Services.Forum
@@ -21,27 +20,27 @@ namespace Uestc.BBS.Core.Services.Forum
             CancellationToken cancellationToken = default
         )
         {
-            using var resp = await httpClient.PostAsync(
-                string.Empty,
-                new FormUrlEncodedContent(
-                    new Dictionary<string, string>
-                    {
-                        { "accessToken", credential.Token },
-                        { "accessSecret", credential.Secret },
-                        { nameof(topicId), topicId.ToString() },
-                        { nameof(authorId), authorId?.ToString() ?? string.Empty },
-                        { "order", reverseReplyOrder.ToString() },
-                    }
-                ),
-                cancellationToken
-            );
-
-            return resp.StatusCode is HttpStatusCode.OK
-                ? JsonSerializer.Deserialize(
-                    await resp.Content.ReadAsStreamAsync(cancellationToken),
-                    TopicRespContext.Default.TopicResp
+            using var resp = await httpClient
+                .PostAsync(
+                    string.Empty,
+                    new FormUrlEncodedContent(
+                        new Dictionary<string, string>
+                        {
+                            { "accessToken", credential.Token },
+                            { "accessSecret", credential.Secret },
+                            { nameof(topicId), topicId.ToString() },
+                            { nameof(authorId), authorId?.ToString() ?? string.Empty },
+                            { "order", reverseReplyOrder.ToString() },
+                        }
+                    ),
+                    cancellationToken
                 )
-                : null;
+                .ContinueWith(t => t.Result.EnsureSuccessStatusCode());
+
+            return JsonSerializer.Deserialize(
+                await resp.Content.ReadAsStreamAsync(cancellationToken),
+                TopicRespContext.Default.TopicResp
+            );
         }
     }
 }

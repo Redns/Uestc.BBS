@@ -6,10 +6,10 @@ using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
 using Microsoft.Extensions.DependencyInjection;
 using Uestc.BBS.Core;
+using Uestc.BBS.Core.Models;
 using Uestc.BBS.Core.Services.System;
 using Uestc.BBS.Desktop.Models;
 using Uestc.BBS.Desktop.Views;
-using Uestc.BBS.Mvvm;
 using Uestc.BBS.ViewModels;
 
 namespace Uestc.BBS.Desktop;
@@ -35,9 +35,9 @@ public partial class App : Application
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
                 desktop.ShutdownMode = ShutdownMode.OnExplicitShutdown;
-                desktop.MainWindow = appSetting.Apperance.SlientStart
+                desktop.MainWindow = false
                     ? null
-                    : appSetting.Auth.IsUserAuthed
+                    : appSetting.Account.IsUserAuthed
                         ? ServiceExtension.Services.GetRequiredService<MainWindow>()
                         : ServiceExtension.Services.GetRequiredService<AuthWindow>();
                 Current!.ActualThemeVariantChanged += (sender, args) =>

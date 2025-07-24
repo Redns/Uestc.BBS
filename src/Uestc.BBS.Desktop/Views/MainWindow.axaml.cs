@@ -56,11 +56,11 @@ public partial class MainWindow : Window
 
     private void CloseWindow(object? sender, RoutedEventArgs e)
     {
-        if (_appSetting.Apperance.WindowCloseBehavior == WindowCloseBehavior.Hide)
-        {
-            Hide();
-            return;
-        }
+        //if (_appSetting.Appearance.WindowCloseBehavior == WindowCloseBehavior.Hide)
+        //{
+        //    Hide();
+        //    return;
+        //}
 
         if (
             Application.Current?.ApplicationLifetime

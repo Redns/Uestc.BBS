@@ -825,13 +825,7 @@
                                         Margin="3"
                                         Cursor="Hand"
                                         Source="{Binding Avatar}"
-                                        ToolTip.Tip="{Binding Name}">
-                                        <Interaction.Behaviors>
-                                            <RoutedEventTriggerBehavior RoutedEvent="{x:Static InputElement.PointerPressedEvent}">
-                                                <InvokeCommandAction Command="{Binding $parent[ItemsControl].((vm:SettingsViewModel)DataContext).OpenUrlCommand}" CommandParameter="{Binding HomePage}" />
-                                            </RoutedEventTriggerBehavior>
-                                        </Interaction.Behaviors>
-                                    </controls:Avatar>
+                                        ToolTip.Tip="{Binding Name}" />
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>

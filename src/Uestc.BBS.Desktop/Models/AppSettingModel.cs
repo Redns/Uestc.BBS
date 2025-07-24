@@ -176,107 +176,107 @@ namespace Uestc.BBS.Desktop.Models
             _dailySentenceService = dailySentenceService;
 
             #region 外观
-            _themeColor = appSetting.Apperance.ThemeMode;
-            _tintOpacity = appSetting.Apperance.TintOpacity;
-            _tintDarkColor = Color.Parse(appSetting.Apperance.TintDarkColor);
-            _tintLightColor = Color.Parse(appSetting.Apperance.TintLightColor);
-            _isDailySentenceShown = appSetting.Apperance.IsDailySentenceShown;
-            _materialOpacity = appSetting.Apperance.MaterialOpacity;
-            _officialWebsite = appSetting.Apperance.OfficialWebsite;
-            _isWindowPinned = appSetting.Apperance.IsWindowPinned;
-            _windowCloseBehavior = appSetting.Apperance.WindowCloseBehavior;
+            _themeColor = appSetting.Appearance.ThemeColor;
+            // _tintOpacity = appSetting.Appearance.TintOpacity;
+            // _tintDarkColor = Color.Parse(appSetting.Appearance.TintDarkColor);
+            // _tintLightColor = Color.Parse(appSetting.Appearance.TintLightColor);
+            _isDailySentenceShown = appSetting.Appearance.SearchBar.IsDailySentenceEnabled;
+            // _materialOpacity = appSetting.Appearance.MaterialOpacity;
+            _officialWebsite = appSetting.Appearance.OfficialWebsite;
+            //_isWindowPinned = appSetting.Appearance.IsWindowPinned;
+            //_windowCloseBehavior = appSetting.Appearance.WindowCloseBehavior;
 
             #endregion
 
             #region 账号
 
-            _autoLogin = appSetting.Auth.AutoLogin;
-            _rememberPassword = appSetting.Auth.RememberPassword;
+            _autoLogin = appSetting.Account.AutoLogin;
+            _rememberPassword = appSetting.Account.RememberPassword;
 
             #endregion
 
             #region 同步
-            _syncMode = appSetting.Sync.Mode;
-            _syncSecret = appSetting.Sync.Secret;
-            _syncTimeIntervalMinutes = appSetting.Sync.TimeInterval.TotalMinutes;
+            _syncMode = appSetting.Storage.Sync.Mode;
+            _syncSecret = appSetting.Storage.Sync.Secret;
+            _syncTimeIntervalMinutes = appSetting.Storage.Sync.TimeInterval.TotalMinutes;
 
-            _syncApi = appSetting.Sync.Api;
-            _syncUsername = appSetting.Sync.Username;
-            _syncPassword = appSetting.Sync.Password;
+            _syncApi = appSetting.Storage.Sync.Api;
+            _syncUsername = appSetting.Storage.Sync.Username;
+            _syncPassword = appSetting.Storage.Sync.Password;
             #endregion
 
             #region 启动
-            _slientStartup = appSetting.Apperance.SlientStart;
-            _startupOnLaunch = appSetting.Apperance.StartupOnLaunch;
+            _slientStartup = appSetting.Appearance.SearchBar.IsDailySentenceEnabled;
+            _startupOnLaunch = appSetting.Appearance.SearchBar.IsDailySentenceEnabled;
             #endregion
 
             #region 日志
-            _logEnable = appSetting.Log.IsEnable;
-            _logMinLevel = appSetting.Log.MinLevel;
-            _logOutputFormat = appSetting.Log.OutputFormat;
+            _logEnable = appSetting.Services.Log.IsEnable;
+            _logMinLevel = appSetting.Services.Log.MinLevel;
+            _logOutputFormat = appSetting.Services.Log.OutputFormat;
             _logSizeContent =
                 $"日志文件存储占用：{logService.LogDirectory.GetFileTotalSize($"*{AppDomain.CurrentDomain.FriendlyName}*.log").FormatFileSize()}";
             #endregion
 
             #region 更新
-            _upgradeMirror = appSetting.Upgrade.Mirror;
-            _lastUpgradeCheckTime = appSetting.Upgrade.LastCheckTime;
-            _acceptBetaVersion = appSetting.Upgrade.AcceptBetaVersion;
+            _upgradeMirror = appSetting.Services.Upgrade.Mirror;
+            _lastUpgradeCheckTime = appSetting.Services.Upgrade.LastCheckTime;
+            _acceptBetaVersion = appSetting.Services.Upgrade.AcceptBetaVersion;
             #endregion
 
             // 保存配置至本地
             PropertyChanged += (sender, e) =>
             {
                 #region 外观
-                appSetting.Apperance.ThemeMode = _themeColor;
-                appSetting.Apperance.TintOpacity = _tintOpacity;
-                appSetting.Apperance.TintDarkColor = _tintDarkColor.ToString();
-                appSetting.Apperance.TintLightColor = _tintLightColor.ToString();
-                appSetting.Apperance.MaterialOpacity = _materialOpacity;
-                appSetting.Apperance.IsDailySentenceShown = _isDailySentenceShown;
-                appSetting.Apperance.OfficialWebsite = _officialWebsite;
-                appSetting.Apperance.IsWindowPinned = _isWindowPinned;
-                appSetting.Apperance.WindowCloseBehavior = _windowCloseBehavior;
+                // appSetting.Appearance.ThemeMode = _themeColor;
+                // appSetting.Apperance.TintOpacity = _tintOpacity;
+                // appSetting.Apperance.TintDarkColor = _tintDarkColor.ToString();
+                // appSetting.Apperance.TintLightColor = _tintLightColor.ToString();
+                // appSetting.Apperance.MaterialOpacity = _materialOpacity;
+                appSetting.Appearance.SearchBar.IsDailySentenceEnabled = _isDailySentenceShown;
+                appSetting.Appearance.OfficialWebsite = _officialWebsite;
+                //appSetting.Apperance.IsWindowPinned = _isWindowPinned;
+                //appSetting.Apperance.WindowCloseBehavior = _windowCloseBehavior;
                 #endregion
 
                 #region 账号
-                appSetting.Auth.AutoLogin = _autoLogin;
-                appSetting.Auth.RememberPassword = _rememberPassword;
+                appSetting.Account.AutoLogin = _autoLogin;
+                appSetting.Account.RememberPassword = _rememberPassword;
                 #endregion
 
                 #region 同步
-                appSetting.Sync.Mode = _syncMode;
-                appSetting.Sync.Secret = _syncSecret;
-                appSetting.Sync.TimeInterval = TimeSpan.FromMinutes(_syncTimeIntervalMinutes);
+                appSetting.Storage.Sync.Mode = _syncMode;
+                appSetting.Storage.Sync.Secret = _syncSecret;
+                appSetting.Storage.Sync.TimeInterval = TimeSpan.FromMinutes(_syncTimeIntervalMinutes);
 
-                appSetting.Sync.Api = _syncApi;
-                appSetting.Sync.Username = _syncUsername;
-                appSetting.Sync.Password = _syncPassword;
+                appSetting.Storage.Sync.Api = _syncApi;
+                appSetting.Storage.Sync.Username = _syncUsername;
+                appSetting.Storage.Sync.Password = _syncPassword;
                 #endregion
 
                 #region 启动
-                appSetting.Apperance.SlientStart = _slientStartup;
-                appSetting.Apperance.StartupOnLaunch = _startupOnLaunch;
+                appSetting.Appearance.SearchBar.IsDailySentenceEnabled = _slientStartup;
+                appSetting.Appearance.SearchBar.IsDailySentenceEnabled = _startupOnLaunch;
                 #endregion
 
                 #region 日志
                 if (
-                    (appSetting.Log.IsEnable != _logEnable)
-                    || (appSetting.Log.MinLevel != _logMinLevel)
-                    || !appSetting.Log.OutputFormat.Equals(_logOutputFormat)
+                    (appSetting.Services.Log.IsEnable != _logEnable)
+                    || (appSetting.Services.Log.MinLevel != _logMinLevel)
+                    || !appSetting.Services.Log.OutputFormat.Equals(_logOutputFormat)
                 )
                 {
-                    appSetting.Log.IsEnable = _logEnable;
-                    appSetting.Log.MinLevel = _logMinLevel;
-                    appSetting.Log.OutputFormat = _logOutputFormat;
-                    logService.Setup(appSetting.Log);
+                    appSetting.Services.Log.IsEnable = _logEnable;
+                    appSetting.Services.Log.MinLevel = _logMinLevel;
+                    appSetting.Services.Log.OutputFormat = _logOutputFormat;
+                    logService.Setup(appSetting.Services.Log);
                 }
                 #endregion
 
                 #region 更新
-                appSetting.Upgrade.Mirror = _upgradeMirror;
-                appSetting.Upgrade.LastCheckTime = _lastUpgradeCheckTime;
-                appSetting.Upgrade.AcceptBetaVersion = _acceptBetaVersion;
+                appSetting.Services.Upgrade.Mirror = _upgradeMirror;
+                appSetting.Services.Upgrade.LastCheckTime = _lastUpgradeCheckTime;
+                appSetting.Services.Upgrade.AcceptBetaVersion = _acceptBetaVersion;
                 #endregion
             };
         }
