@@ -10,18 +10,11 @@
     xmlns:lc="using:Uestc.BBS.WinUI.Converters"
     xmlns:local="using:Uestc.BBS.WinUI.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="using:CommunityToolkit.WinUI"
     mc:Ignorable="d">
 
     <UserControl.Resources>
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
-        <!--  列表流  -->
-        <ItemsPanelTemplate x:Name="StackItemsPanelTemplate">
-            <ItemsStackPanel />
-        </ItemsPanelTemplate>
-        <!--  瀑布流  -->
-        <ItemsPanelTemplate x:Name="StaggeredItemsPanelTemplate">
-            <controls:StaggeredPanel ColumnSpacing="10" DesiredColumnWidth="280" />
-        </ItemsPanelTemplate>
     </UserControl.Resources>
 
     <Grid>
@@ -39,6 +32,11 @@
                     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                 </Style>
             </ListView.ItemContainerStyle>
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <ItemsStackPanel />
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="forum:TopicOverview">
                     <local:TopicOverviewControl

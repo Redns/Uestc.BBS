@@ -32,6 +32,23 @@
                 </DoubleAnimation.EasingFunction>
             </DoubleAnimation>
         </Storyboard>
+        <Style x:Key="FlipViewWithoutButtonsStyle" TargetType="FlipView">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="FlipView">
+                        <ScrollViewer
+                            x:Name="ScrollingHost"
+                            HorizontalScrollBarVisibility="Hidden"
+                            HorizontalScrollMode="Enabled"
+                            VerticalScrollBarVisibility="Hidden"
+                            VerticalScrollMode="Disabled"
+                            ZoomMode="Disabled">
+                            <ItemsPresenter />
+                        </ScrollViewer>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Page.Resources>
 
     <Grid
@@ -76,17 +93,30 @@
             </interactivity:Interaction.Behaviors>
         </controls:Segmented>
         <!--  板块内容  -->
-        <local_controls:CustomFlipView
+        <!--<local_controls:CustomFlipView
             Grid.Row="1"
             Background="Transparent"
             ItemsSource="{x:Bind ViewModel.AppSettingModel.Appearance.BoardTab.Items, Mode=OneWay}"
-            SelectedItem="{x:Bind ViewModel.CurrentBoardTabItemModel, Mode=OneWay}">
+            SelectedItem="{x:Bind ViewModel.CurrentBoardTabItemModel, Mode=OneWay}"
+            Style="{StaticResource FlipViewWithoutButtonsStyle}">
             <local_controls:CustomFlipView.ItemTemplate>
                 <DataTemplate x:DataType="models:BoardTabItemModel">
                     <local_controls:BoardTabItemListView BoardTabItem="{x:Bind}" />
                 </DataTemplate>
             </local_controls:CustomFlipView.ItemTemplate>
-        </local_controls:CustomFlipView>
+        </local_controls:CustomFlipView>-->
+        <FlipView
+            Grid.Row="1"
+            Background="Transparent"
+            ItemsSource="{x:Bind ViewModel.AppSettingModel.Appearance.BoardTab.Items, Mode=OneWay}"
+            SelectedItem="{x:Bind ViewModel.CurrentBoardTabItemModel, Mode=OneWay}"
+            Style="{StaticResource FlipViewWithoutButtonsStyle}">
+            <FlipView.ItemTemplate>
+                <DataTemplate x:DataType="models:BoardTabItemModel">
+                    <local_controls:BoardTabItemListView BoardTabItem="{x:Bind}" />
+                </DataTemplate>
+            </FlipView.ItemTemplate>
+        </FlipView>
 
         <!--  主题内容  -->
         <ScrollViewer
@@ -128,14 +158,6 @@
                     </StackPanel>
                 </controls:DockPanel>
                 <local_controls:TopicContentControl TopicContents="{x:Bind TopicContents}" />
-                <WebView2
-                    x:Name="MyWebView2"
-                    Grid.Row="1"
-                    MinWidth="200"
-                    MinHeight="200"
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Stretch"
-                    Source="{x:Bind VideoUrl}" />
             </StackPanel>
         </ScrollViewer>
 

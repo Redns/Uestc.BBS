@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.UI.Xaml.Controls;
 using Uestc.BBS.Core.Services.Forum;
@@ -26,11 +27,12 @@ namespace Uestc.BBS.WinUI.ViewModels
         [RelayCommand]
         private void SwitchBoardTabItem(SelectionChangedEventArgs e)
         {
-            //if (e.AddedItems.FirstOrDefault() is not BoardTabItemModel boardTabItem)
-            //{
-            //    return;
-            //}
-            //CurrentBoardTabItemModel = boardTabItem;
+            if (e.AddedItems.FirstOrDefault() is not BoardTabItemModel boardTabItem)
+            {
+                return;
+            }
+
+            CurrentBoardTabItemModel = boardTabItem;
         }
 
         /// <summary>
@@ -51,14 +53,10 @@ namespace Uestc.BBS.WinUI.ViewModels
             //    return;
             //}
 
-            //// FIXME 瀑布流布局下单次点击不会刷新
-            //for (var i = 0; i < 3; i++)
+            //await CurrentBoardTabItemListView.Topics.RefreshAsync();
+            //if (CurrentBoardTabItemListView.Topics.Count > 0)
             //{
-            //    await CurrentBoardTabItemListView.Topics.RefreshAsync();
-            //    if (CurrentBoardTabItemListView.Topics.Count > 0)
-            //    {
-            //        break;
-            //    }
+            //    break;
             //}
         }
     }

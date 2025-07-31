@@ -20,7 +20,7 @@ namespace Uestc.BBS.WinUI.Controls
             ServiceExtension.Services.GetRequiredService<ITopicListService>();
 
         /// <summary>
-        ///
+        /// 当前板块
         /// </summary>
         private static readonly DependencyProperty BoardTabItemProperty =
             DependencyProperty.Register(
@@ -60,35 +60,6 @@ namespace Uestc.BBS.WinUI.Controls
         }
 
         /// <summary>
-        /// 是否启用瀑布流布局
-        /// </summary>
-        private static readonly DependencyProperty IsStaggeredLayoutEnabledProperty =
-            DependencyProperty.Register(
-                nameof(IsStaggeredLayoutEnabled),
-                typeof(bool),
-                typeof(BoardTabItemListView),
-                new PropertyMetadata(false)
-            );
-
-        public bool IsStaggeredLayoutEnabled
-        {
-            get => (bool)GetValue(IsStaggeredLayoutEnabledProperty);
-            set
-            {
-                SetValue(IsStaggeredLayoutEnabledProperty, value);
-
-                TopicListView.ItemsPanel = IsStaggeredLayoutEnabled
-                    ? StaggeredItemsPanelTemplate
-                    : StackItemsPanelTemplate;
-
-                if (Topics?.Count is 0 && Topics.IsLoading is false)
-                {
-                    Topics.RefreshAsync();
-                }
-            }
-        }
-
-        /// <summary>
         /// 主题列表
         /// </summary>
         public IncrementalLoadingCollection<TopicOverviewSource, TopicOverview>? Topics
@@ -111,12 +82,6 @@ namespace Uestc.BBS.WinUI.Controls
 
                 scrollViewer.ViewChanged += (sender, _) =>
                 {
-                    // 列表流下数据随滚动会自动加载
-                    if (!IsStaggeredLayoutEnabled)
-                    {
-                        return;
-                    }
-
                     if (sender is not ScrollViewer scrollViewer)
                     {
                         return;

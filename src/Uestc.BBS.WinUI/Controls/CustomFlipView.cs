@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Linq;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Animation;
 using Uestc.BBS.Mvvm.Models;
 
@@ -12,54 +13,59 @@ namespace Uestc.BBS.WinUI.Controls
     {
         public CustomFlipView()
         {
+            RenderTransform = new TranslateTransform();
+
             SelectionChanged += (_, e) =>
             {
+#if DEBUG
                 Debug.WriteLine(
                     $"SelectionChanged: {((BoardTabItemModel?)e.AddedItems.FirstOrDefault())?.Name}, {((BoardTabItemModel?)e.RemovedItems.FirstOrDefault())?.Name}"
                 );
+#endif
+                if (e.AddedItems.Count == 0 || e.RemovedItems.Count == 0) return;
 
-                if (e.AddedItems.Count > 0 && e.RemovedItems.Count > 0)
+                int added = Items.IndexOf(e.AddedItems[0]);
+                int removed = Items.IndexOf(e.RemovedItems[0]);
+                if (added == removed) return;
+
+                bool toRight = added > removed;
+                double delta = ActualWidth;
+
+                var transform = (TranslateTransform)RenderTransform;
+
+                // 1. 滑出旧页
+                var slideOut = new DoubleAnimation
                 {
-                    var addedItemIndex = Items.IndexOf(e.AddedItems[0]);
-                    var removedItemIndex = Items.IndexOf(e.RemovedItems[0]);
+                    From = 0,
+                    To = toRight ? -delta : delta,
+                    Duration = TimeSpan.FromMilliseconds(300),
+                    EasingFunction = new QuadraticEase()
+                };
+                var sbOut = new Storyboard();
+                Storyboard.SetTarget(slideOut, transform);
+                Storyboard.SetTargetProperty(slideOut, "X");
+                sbOut.Children.Add(slideOut);
 
-                    if (addedItemIndex != removedItemIndex)
-                    {
-                        var direction = addedItemIndex > removedItemIndex ? "Right" : "Left";
-                        var storyboard = new Storyboard();
+                
+                // await sbOut.CompletedAsync();   // 等待结束
 
-                        var slideOutAnimation = new DoubleAnimation
-                        {
-                            From = 0,
-                            To = direction == "Right" ? -ActualWidth : ActualWidth,
-                            Duration = new Duration(TimeSpan.FromMilliseconds(300)),
-                            EasingFunction = new QuadraticEase()
-                        };
-                        var slideInAnimation = new DoubleAnimation
-                        {
-                            From = direction == "Right" ? ActualWidth : -ActualWidth,
-                            To = 0,
-                            Duration = new Duration(TimeSpan.FromMilliseconds(300)),
-                            EasingFunction = new QuadraticEase()
-                        };
+                // 2. 立即把偏移设到另一侧（无动画）
+                transform.X = toRight ? delta : -delta;
 
-                        Storyboard.SetTarget(slideOutAnimation, this);
-                        Storyboard.SetTargetProperty(
-                            slideOutAnimation,
-                            "(UIElement.RenderTransform).(TranslateTransform.X)"
-                        );
-                        Storyboard.SetTarget(slideInAnimation, this);
-                        Storyboard.SetTargetProperty(
-                            slideInAnimation,
-                            "(UIElement.RenderTransform).(TranslateTransform.X)"
-                        );
-
-                        storyboard.Children.Add(slideOutAnimation);
-                        storyboard.Children.Add(slideInAnimation);
-
-                        storyboard.Begin();
-                    }
-                }
+                // 3. 滑入新页
+                var slideIn = new DoubleAnimation
+                {
+                    From = toRight ? delta : -delta,
+                    To = 0,
+                    Duration = TimeSpan.FromMilliseconds(300),
+                    EasingFunction = new QuadraticEase()
+                };
+                var sbIn = new Storyboard();
+                Storyboard.SetTarget(slideIn, transform);
+                Storyboard.SetTargetProperty(slideIn, "X");
+                sbIn.Children.Add(slideIn);
+                //sbOut.Begin();
+                sbIn.Begin();
             };
         }
     }

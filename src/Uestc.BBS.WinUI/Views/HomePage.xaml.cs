@@ -11,12 +11,13 @@ namespace Uestc.BBS.WinUI.Views
 
         private HomeViewModel ViewModel { get; init; }
 
-        private string VideoUrl { get; init; } =
-            "https://bbs.uestc.edu.cn/forum.php?mod=attachment&aid=MjUyNjIwNHw5MWNiODk4Y3wxNzQxMjUzNDkzfDI1NjgyNXwyMjU5NDI5";
-
         private RichTextContent[] TopicContents { get; init; } =
             [
-                new RichTextContent { Information = "【心理年龄测试】", Type = TopicContenType.Text, },
+                new RichTextContent
+                {
+                    Information = "【心理年龄测试】",
+                    Type = TopicContenType.Text,
+                },
                 new RichTextContent
                 {
                     Information = "https://www.arealme.com/mental/cn/?_refluxos=a10",

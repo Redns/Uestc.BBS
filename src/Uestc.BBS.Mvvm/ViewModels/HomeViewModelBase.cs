@@ -40,9 +40,18 @@ namespace Uestc.BBS.Mvvm.ViewModels
         public partial BoardTabItemModel? CurrentBoardTabItemModel { get; set; } =
             appSettingModel.Appearance.BoardTab.Items.First();
 
+        /// <summary>
+        /// 选中的主题帖
+        /// </summary>
         [ObservableProperty]
         public partial TopicOverview? SeletedTopicOverview { get; set; }
 
+        /// <summary>
+        /// 加载主题列表
+        /// </summary>
+        /// <param name="tabItem"></param>
+        /// <param name="IsRefresh"></param>
+        /// <returns></returns>
         protected virtual async Task<TopicOverview[]> LoadTopicsAsync(
             BoardTabItemModel tabItem,
             bool IsRefresh = false

@@ -171,11 +171,6 @@ namespace Uestc.BBS.Core.Models
         public double Width { get; set; } = 330;
 
         /// <summary>
-        /// 首页版块 Tab 栏是否启用瀑布流
-        /// </summary>
-        public bool IsStaggeredLayoutEnabled { get; set; } = false;
-
-        /// <summary>
         /// 首页版块 Tab 栏
         /// </summary>
         public List<BoardTabItem> Items { get; init; } =
