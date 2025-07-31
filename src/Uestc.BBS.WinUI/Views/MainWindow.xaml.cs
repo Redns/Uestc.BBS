@@ -8,8 +8,11 @@ using Uestc.BBS.Core.Models;
 using Uestc.BBS.WinUI.Helpers;
 using Uestc.BBS.WinUI.ViewModels;
 using Uestc.BBS.WinUI.Views.ContentDialogs;
-using WinRT.Interop;
 using WinUIEx;
+#if RELEASE
+using WinRT.Interop;
+#endif
+
 
 namespace Uestc.BBS.WinUI.Views
 {
@@ -55,16 +58,17 @@ namespace Uestc.BBS.WinUI.Views
             // 设置窗口关闭策略
             AppWindow.Closing += (_, args) =>
             {
+                // 隐藏窗口/隐藏窗口+效率模式
                 if (
                     viewModel.AppSettingModel.Services.StartupAndShutdown.WindowCloseBehavior
                     is not WindowCloseBehavior.Exit
                 )
                 {
+                    args.Cancel = true;
                     this.Hide(
                         viewModel.AppSettingModel.Services.StartupAndShutdown.WindowCloseBehavior
                             is WindowCloseBehavior.HideWithEfficiencyMode
                     );
-                    args.Cancel = true;
                 }
             };
 
@@ -108,6 +112,7 @@ namespace Uestc.BBS.WinUI.Views
                 BringToFront();
                 return;
             }
+
             this.Show();
         }
 

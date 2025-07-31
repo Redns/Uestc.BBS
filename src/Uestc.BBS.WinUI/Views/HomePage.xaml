@@ -76,17 +76,24 @@
             </interactivity:Interaction.Behaviors>
         </controls:Segmented>
         <!--  板块内容  -->
-        <local_controls:CustomFlipView
+        <!--  TODO 在非相邻板块间切换时增加动画效果  -->
+        <FlipView
             Grid.Row="1"
             Background="Transparent"
             ItemsSource="{x:Bind ViewModel.AppSettingModel.Appearance.BoardTab.Items, Mode=OneWay}"
             SelectedItem="{x:Bind ViewModel.CurrentBoardTabItemModel, Mode=OneWay}">
-            <local_controls:CustomFlipView.ItemTemplate>
+            <!--  隐藏左右切换按钮  -->
+            <FlipView.Template>
+                <ControlTemplate TargetType="FlipView">
+                    <ItemsPresenter ManipulationMode="None" />
+                </ControlTemplate>
+            </FlipView.Template>
+            <FlipView.ItemTemplate>
                 <DataTemplate x:DataType="models:BoardTabItemModel">
                     <local_controls:BoardTabItemListView BoardTabItem="{x:Bind}" />
                 </DataTemplate>
-            </local_controls:CustomFlipView.ItemTemplate>
-        </local_controls:CustomFlipView>
+            </FlipView.ItemTemplate>
+        </FlipView>
 
         <!--  主题内容  -->
         <ScrollViewer

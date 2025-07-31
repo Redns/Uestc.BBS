@@ -5,15 +5,12 @@ using System.IO;
 using System.Net.Http;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
-using Avalonia;
-using Avalonia.Styling;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Uestc.BBS.Core;
 using Uestc.BBS.Core.Helpers;
 using Uestc.BBS.Core.Models;
 using Uestc.BBS.Core.Services.System;
-using Uestc.BBS.Desktop.Models;
+using Uestc.BBS.Mvvm.Models;
 
 namespace Uestc.BBS.Desktop.ViewModels
 {
@@ -23,7 +20,7 @@ namespace Uestc.BBS.Desktop.ViewModels
         HttpClient httpClient,
         Appmanifest appmanifest,
         ILogService logService
-        ) : ObservableObject
+    ) : ObservableObject
     {
         public string AppVersion => appmanifest.Version;
 
@@ -36,10 +33,10 @@ namespace Uestc.BBS.Desktop.ViewModels
                 : $"©{appmanifest.OriginalDate.Year}-{DateTime.Now.Year} Redns. MIT License";
 
         [ObservableProperty]
-        private bool _isCheckUpgrading = false;
+        public partial bool IsCheckUpgrading { get; set; } = false;
 
         [ObservableProperty]
-        private AppSettingModel _model = model;
+        public partial AppSettingModel Model { get; set; }
 
         [ObservableProperty]
         private IEnumerable<Contributor> _contributors = appmanifest.Contributors ?? [];
@@ -48,93 +45,14 @@ namespace Uestc.BBS.Desktop.ViewModels
         /// 主题切换
         /// </summary>
         [RelayCommand]
-        private void SetThemeColor() =>
-            Application.Current!.RequestedThemeVariant = Model.ThemeColor switch
-            {
-                ThemeColor.Dark => ThemeVariant.Dark,
-                ThemeColor.Light => ThemeVariant.Light,
-                _ => ThemeVariant.Default,
-            };
+        private void SetThemeColor() { }
 
-        /// <summary>
-        /// 添加用户
-        /// </summary>
-        [RelayCommand]
-        private void AddUser() { }
+        //Application.Current!.RequestedThemeVariant = Model.ThemeColor switch
+        //{
+        //    ThemeColor.Dark => ThemeVariant.Dark,
+        //    ThemeColor.Light => ThemeVariant.Light,
+        //    _ => ThemeVariant.Default,
+        //};
 
-        /// <summary>
-        /// 打开日志输出路径
-        /// </summary>
-        [RelayCommand]
-        private void OpenLogDirectory()
-        {
-            if (!Directory.Exists(logService.LogDirectory))
-            {
-                Directory.CreateDirectory(logService.LogDirectory);
-            }
-
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            {
-                Process.Start("explorer.exe", logService.LogDirectory);
-                return;
-            }
-
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-            {
-                Process.Start("explorer", $"-R {logService.LogDirectory}");
-                return;
-            }
-
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-            {
-                Process.Start("xdg-open", logService.LogDirectory);
-            }
-        }
-
-        /// <summary>
-        /// 清除日志
-        /// </summary>
-        [RelayCommand]
-        private void ClearLogs()
-        {
-            if (!Directory.Exists(logService.LogDirectory))
-            {
-                return;
-            }
-
-            logService.LogDirectory.DeleteFiles($"*{AppDomain.CurrentDomain.FriendlyName}*.log");
-
-            Model.LogSizeContent =
-                $"日志文件存储占用：{logService.LogDirectory.GetFileTotalSize($"*{AppDomain.CurrentDomain.FriendlyName}*.log").FormatFileSize()}";
-        }
-
-        [RelayCommand]
-        private async Task CheckUpgradeAsync()
-        {
-            IsCheckUpgrading = true;
-
-            await Task.Delay(1000);
-
-            Model.LastUpgradeCheckTime = DateTime.Now;
-
-            IsCheckUpgrading = false;
-        }
-
-        /// <summary>
-        /// 保存配置至本地
-        /// </summary>
-        [RelayCommand]
-        private void SaveAppSetting()
-        {
-            appSetting.Save();
-            Model.LogSizeContent =
-                $"日志文件存储占用：{logService.LogDirectory.GetFileTotalSize($"*{AppDomain.CurrentDomain.FriendlyName}*.log").FormatFileSize()}";
-        }
-
-        [RelayCommand]
-        private void OpenUrl(string url)
-        {
-            Process.Start(new ProcessStartInfo() { FileName = url, UseShellExecute = true });
-        }
     }
 }

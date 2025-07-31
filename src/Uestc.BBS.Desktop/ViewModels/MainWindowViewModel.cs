@@ -8,14 +8,14 @@ using Avalonia.Controls;
 using Avalonia.Styling;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using FastEnumUtility;
 using Microsoft.Extensions.DependencyInjection;
 using Uestc.BBS.Core;
 using Uestc.BBS.Core.Models;
 using Uestc.BBS.Core.Services;
 using Uestc.BBS.Core.Services.Forum.TopicList;
-using Uestc.BBS.Desktop.Models;
 using Uestc.BBS.Desktop.Views;
-using Uestc.BBS.Mvvm;
+using Uestc.BBS.Mvvm.Models;
 
 namespace Uestc.BBS.Desktop.ViewModels
 {
@@ -65,8 +65,11 @@ namespace Uestc.BBS.Desktop.ViewModels
             Menus =
             [
                 .. appSetting
-                    .Appearance.MenuItems.Where(m =>
-                        m.Position == Position.LeftTop || m.Position == Position.LeftBottom
+                    .Appearance.MenuItems.Where(m => m.Position == Position.LeftTop)
+                    .Concat(
+                        appSetting
+                            .Appearance.MenuItems.Where(m => m.Position == Position.LeftBottom)
+                            .Reverse()
                     )
                     .Select(m => new MenuItemViewModel
                     {
@@ -74,28 +77,25 @@ namespace Uestc.BBS.Desktop.ViewModels
                         Name = m.Name,
                         Symbol = m.Symbol,
                         IsActive = false,
-                        Dock = m.Position == Position.Top ? Dock.Top : Dock.Bottom,
-                        MenuClickCommand = new RelayCommand<MenuItemViewModel>(
-                            (MenuItemViewModel? menuItem) =>
+                        Dock = m.Position == Position.LeftTop ? Dock.Top : Dock.Bottom,
+                        MenuClickCommand = new RelayCommand<MenuItemViewModel>(menuItem =>
+                        {
+                            // 已选中菜单
+                            if (menuItem is null || menuItem.IsActive)
                             {
-                                // 已选中菜单
-                                if (menuItem is null || menuItem.IsActive)
-                                {
-                                    return;
-                                }
-
-                                // 清除先前选中项
-                                var beforeActived = Menus?.FirstOrDefault(m => m.IsActive);
-                                if (beforeActived is not null)
-                                {
-                                    beforeActived.IsActive = false;
-                                }
-
-                                menuItem.IsActive = true;
-
-                                Navigate(menuItem.Key);
+                                return;
                             }
-                        ),
+
+                            // 清除先前选中项
+                            var beforeActived = Menus?.FirstOrDefault(m => m.IsActive);
+                            if (beforeActived is not null)
+                            {
+                                beforeActived.IsActive = false;
+                            }
+                            menuItem.IsActive = true;
+
+                            Navigate(menuItem.Key);
+                        }),
                     })
             ];
         }
@@ -122,7 +122,7 @@ namespace Uestc.BBS.Desktop.ViewModels
         [RelayCommand]
         private void Navigate(string menu)
         {
-            if (Enum.TryParse<MenuItemKey>(menu, out var key) is false)
+            if (FastEnum.TryParse<MenuItemKey>(menu, out var key) is false)
             {
                 return;
             }
@@ -155,18 +155,18 @@ namespace Uestc.BBS.Desktop.ViewModels
                     ? ThemeVariant.Dark
                     : ThemeVariant.Light;
 
-            AppSettingModel.ThemeColor =
-                Application.Current.RequestedThemeVariant == ThemeVariant.Light
-                    ? ThemeColor.Light
-                    : ThemeColor.Dark;
+            //AppSettingModel.ThemeColor =
+            //    Application.Current.RequestedThemeVariant == ThemeVariant.Light
+            //        ? ThemeColor.Light
+            //        : ThemeColor.Dark;
         }
 
         /// <summary>
         /// 窗口固定切换
         /// </summary>
         [RelayCommand]
-        private void SwitchPinWindow() =>
-            AppSettingModel.IsWindowPinned = !AppSettingModel.IsWindowPinned;
+        private void SwitchPinWindow() { }
+        //AppSettingModel.IsWindowPinned = !AppSettingModel.IsWindowPinned;
     }
 
     public partial class MenuItemViewModel : ObservableObject

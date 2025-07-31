@@ -157,21 +157,6 @@ namespace Uestc.BBS.Mvvm.Models
         }
 
         /// <summary>
-        /// 首页版块 Tab 栏是否启用瀑布流
-        /// </summary>
-        public bool IsStaggeredLayoutEnabled
-        {
-            get => _setting.IsStaggeredLayoutEnabled;
-            set =>
-                SetProperty(
-                    _setting.IsStaggeredLayoutEnabled,
-                    value,
-                    _setting,
-                    (s, v) => s.IsStaggeredLayoutEnabled = v
-                );
-        }
-
-        /// <summary>
         /// 首页版块 Tab 栏
         /// </summary>
         public ObservableCollection<BoardTabItemModel> Items { get; init; } = [];

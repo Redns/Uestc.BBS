@@ -9,16 +9,13 @@ using Uestc.BBS.Mvvm.ViewModels;
 
 namespace Uestc.BBS.WinUI.ViewModels
 {
-    public partial class HomeViewModel : HomeViewModelBase
+    public partial class HomeViewModel(
+        ILogService logService,
+        ITopicService topicService,
+        ITopicListService topicListService,
+        AppSettingModel appSettingModel
+    ) : HomeViewModelBase(logService, topicService, topicListService, appSettingModel)
     {
-        public HomeViewModel(
-            ILogService logService,
-            ITopicService topicService,
-            ITopicListService topicListService,
-            AppSettingModel appSettingModel
-        )
-            : base(logService, topicService, topicListService, appSettingModel) { }
-
         /// <summary>
         /// 切换主题板块
         /// </summary>
@@ -26,11 +23,11 @@ namespace Uestc.BBS.WinUI.ViewModels
         [RelayCommand]
         private void SwitchBoardTabItem(SelectionChangedEventArgs e)
         {
-            //if (e.AddedItems.FirstOrDefault() is not BoardTabItemModel boardTabItem)
-            //{
-            //    return;
-            //}
-            //CurrentBoardTabItemModel = boardTabItem;
+            if (e.AddedItems[0] is not BoardTabItemModel boardTabItem)
+            {
+                return;
+            }
+            CurrentBoardTabItemModel = boardTabItem;
         }
 
         /// <summary>

@@ -22,7 +22,7 @@ namespace Uestc.BBS.Core.Services.Forum.TopicList
     public class TopicListResp : ApiRespBase
     {
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [JsonConverter(typeof(UintToBoolConverter))]
         public bool IsOnlyTopicType { get; set; }
@@ -54,7 +54,5 @@ namespace Uestc.BBS.Core.Services.Forum.TopicList
         PropertyNamingPolicy = JsonKnownNamingPolicy.CamelCase,
         PropertyNameCaseInsensitive = true
     )]
-    public partial class TopicListRespContext : JsonSerializerContext
-    {
-    }
+    public partial class TopicListRespContext : JsonSerializerContext { }
 }

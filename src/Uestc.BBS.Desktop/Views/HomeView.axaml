@@ -90,7 +90,7 @@
                                 StartAngle="50">
                                 <ui:ProgressRing.IsVisible>
                                     <MultiBinding Converter="{x:Static BoolConverters.And}">
-                                        <!--<Binding Mode="OneWay" Path="IsLoading" />-->
+                                        <!-- <Binding Mode="OneWay" Path="IsLoading" /> -->
                                         <Binding Converter="{x:Static view:HomeView.TopicOverviewObservableCollectionIsNotEmptyConverter}" Path="Topics" />
                                     </MultiBinding>
                                 </ui:ProgressRing.IsVisible>
