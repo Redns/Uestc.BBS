@@ -93,30 +93,18 @@
             </interactivity:Interaction.Behaviors>
         </controls:Segmented>
         <!--  板块内容  -->
-        <!--<local_controls:CustomFlipView
+        <!--  TODO 在非相邻板块间切换时增加动画效果  -->
+        <FlipView
             Grid.Row="1"
             Background="Transparent"
             ItemsSource="{x:Bind ViewModel.AppSettingModel.Appearance.BoardTab.Items, Mode=OneWay}"
-            SelectedItem="{x:Bind ViewModel.CurrentBoardTabItemModel, Mode=OneWay}"
-            Style="{StaticResource FlipViewWithoutButtonsStyle}">
+            SelectedItem="{x:Bind ViewModel.CurrentBoardTabItemModel, Mode=OneWay}">
             <local_controls:CustomFlipView.ItemTemplate>
                 <DataTemplate x:DataType="models:BoardTabItemModel">
                     <local_controls:BoardTabItemListView BoardTabItem="{x:Bind}" />
                 </DataTemplate>
             </local_controls:CustomFlipView.ItemTemplate>
-        </local_controls:CustomFlipView>-->
-        <FlipView
-            Grid.Row="1"
-            Background="Transparent"
-            ItemsSource="{x:Bind ViewModel.AppSettingModel.Appearance.BoardTab.Items, Mode=OneWay}"
-            SelectedItem="{x:Bind ViewModel.CurrentBoardTabItemModel, Mode=OneWay}"
-            Style="{StaticResource FlipViewWithoutButtonsStyle}">
-            <FlipView.ItemTemplate>
-                <DataTemplate x:DataType="models:BoardTabItemModel">
-                    <local_controls:BoardTabItemListView BoardTabItem="{x:Bind}" />
-                </DataTemplate>
-            </FlipView.ItemTemplate>
-        </FlipView>
+        </local_controls:CustomFlipView>
 
         <!--  主题内容  -->
         <ScrollViewer

@@ -8,11 +8,10 @@ using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.DependencyInjection;
 using Uestc.BBS.Core;
 using Uestc.BBS.Core.Models;
-using Uestc.BBS.Desktop.Models;
 using Uestc.BBS.Desktop.Views;
-using Uestc.BBS.Mvvm;
+using Uestc.BBS.Mvvm.Models;
 
-namespace Uestc.BBS.ViewModels
+namespace Uestc.BBS.Desktop.ViewModels
 {
     public partial class AppViewModel : ObservableObject
     {

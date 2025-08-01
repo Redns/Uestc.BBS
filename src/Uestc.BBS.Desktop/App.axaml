@@ -5,7 +5,7 @@
     xmlns:actipro="http://schemas.actiprosoftware.com/avaloniaui"
     xmlns:labs="using:Avalonia.Labs.Controls"
     xmlns:system="clr-namespace:System;assembly=mscorlib"
-    xmlns:vm="using:Uestc.BBS.ViewModels"
+    xmlns:vm="using:Uestc.BBS.Desktop.ViewModels"
     x:DataType="vm:AppViewModel"
     RequestedThemeVariant="Default">
     <!--  "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options.  -->

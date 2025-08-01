@@ -3,10 +3,9 @@ using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Input;
 using Avalonia.Interactivity;
-using Uestc.BBS.Core;
 using Uestc.BBS.Core.Models;
-using Uestc.BBS.Desktop.Models;
 using Uestc.BBS.Desktop.ViewModels;
+using Uestc.BBS.Mvvm.Models;
 
 namespace Uestc.BBS.Desktop.Views;
 
@@ -56,11 +55,14 @@ public partial class MainWindow : Window
 
     private void CloseWindow(object? sender, RoutedEventArgs e)
     {
-        //if (_appSetting.Appearance.WindowCloseBehavior == WindowCloseBehavior.Hide)
-        //{
-        //    Hide();
-        //    return;
-        //}
+        if (
+            _appSetting.Services.StartupAndShutdown.WindowCloseBehavior
+            is not WindowCloseBehavior.Exit
+        )
+        {
+            Hide();
+            return;
+        }
 
         if (
             Application.Current?.ApplicationLifetime

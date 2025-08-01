@@ -7,12 +7,10 @@ using Uestc.BBS.Core;
 using Uestc.BBS.Core.Models;
 using Uestc.BBS.Core.Services.System;
 using Uestc.BBS.Desktop.Helpers;
-using Uestc.BBS.Desktop.Models;
 using Uestc.BBS.Desktop.Services.StartupService;
 using Uestc.BBS.Desktop.ViewModels;
 using Uestc.BBS.Desktop.Views;
-using Uestc.BBS.Mvvm;
-using Uestc.BBS.ViewModels;
+using Uestc.BBS.Mvvm.Models;
 
 namespace Uestc.BBS.Desktop
 {

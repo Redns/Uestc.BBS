@@ -1,8 +1,8 @@
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
-using Uestc.BBS.Desktop.Models;
 using Uestc.BBS.Desktop.ViewModels;
+using Uestc.BBS.Mvvm.Models;
 
 namespace Uestc.BBS.Desktop.Views;
 
@@ -10,6 +10,9 @@ public partial class AuthWindow : Window
 {
 
 #if DEBUG
+    /// <summary>
+    /// 仅用于设计器预览
+    /// </summary>
     public AuthWindow()
     {
         InitializeComponent();

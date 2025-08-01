@@ -8,9 +8,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Uestc.BBS.Core;
 using Uestc.BBS.Core.Models;
 using Uestc.BBS.Core.Services.System;
-using Uestc.BBS.Desktop.Models;
+using Uestc.BBS.Desktop.ViewModels;
 using Uestc.BBS.Desktop.Views;
-using Uestc.BBS.ViewModels;
+using Uestc.BBS.Mvvm.Models;
 
 namespace Uestc.BBS.Desktop;
 
@@ -40,8 +40,8 @@ public partial class App : Application
                     : appSetting.Account.IsUserAuthed
                         ? ServiceExtension.Services.GetRequiredService<MainWindow>()
                         : ServiceExtension.Services.GetRequiredService<AuthWindow>();
-                Current!.ActualThemeVariantChanged += (sender, args) =>
-                    appSettingModel.NotifyTintColorChanged();
+                //Current!.ActualThemeVariantChanged += (sender, args) =>
+                //    appSettingModel.NotifyTintColorChanged();
                 base.OnFrameworkInitializationCompleted();
             }
         }
