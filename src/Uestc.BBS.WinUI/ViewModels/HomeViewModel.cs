@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.UI.Xaml.Controls;
@@ -7,16 +8,37 @@ using Uestc.BBS.Core.Services.Forum.TopicList;
 using Uestc.BBS.Core.Services.System;
 using Uestc.BBS.Mvvm.Models;
 using Uestc.BBS.Mvvm.ViewModels;
+using Uestc.BBS.WinUI.Controls;
 
 namespace Uestc.BBS.WinUI.ViewModels
 {
-    public partial class HomeViewModel(
-        ILogService logService,
-        ITopicService topicService,
-        ITopicListService topicListService,
-        AppSettingModel appSettingModel
-    ) : HomeViewModelBase(logService, topicService, topicListService, appSettingModel)
+    public partial class HomeViewModel : HomeViewModelBase
     {
+
+        public BoardTabItemListView CurrentBoardTabItemListView =>
+            _boardTabItemListViewList.FirstOrDefault(b =>
+                b.BoardTabItem == CurrentBoardTabItemModel
+            ) ?? _boardTabItemListViewList[0];
+
+        private List<BoardTabItemListView> _boardTabItemListViewList;
+
+        public HomeViewModel(
+            ILogService logService,
+            ITopicService topicService,
+            ITopicListService topicListService,
+            AppSettingModel appSettingModel
+        )
+            : base(logService, topicService, topicListService, appSettingModel)
+        {
+            _boardTabItemListViewList =
+            [
+                .. appSettingModel.Appearance.BoardTab.Items.Select(b => new BoardTabItemListView()
+                {
+                    BoardTabItem = b,
+                }),
+            ];
+        }
+
         /// <summary>
         /// 切换主题板块
         /// </summary>
@@ -28,7 +50,9 @@ namespace Uestc.BBS.WinUI.ViewModels
             {
                 return;
             }
+
             CurrentBoardTabItemModel = boardTabItem;
+            OnPropertyChanged(nameof(CurrentBoardTabItemListView));
         }
 
         /// <summary>
@@ -44,16 +68,12 @@ namespace Uestc.BBS.WinUI.ViewModels
                 return;
             }
 
-            //if (CurrentBoardTabItemListView!.Topics!.IsLoading)
-            //{
-            //    return;
-            //}
+            if (CurrentBoardTabItemListView!.Topics!.IsLoading)
+            {
+                return;
+            }
 
-            //await CurrentBoardTabItemListView.Topics.RefreshAsync();
-            //if (CurrentBoardTabItemListView.Topics.Count > 0)
-            //{
-            //    break;
-            //}
+            await CurrentBoardTabItemListView.Topics.RefreshAsync();
         }
     }
 }

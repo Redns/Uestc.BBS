@@ -97,12 +97,13 @@ namespace Uestc.BBS.Core.Services.Forum
         /// 浏览量
         /// </summary>
         [JsonPropertyName("hits")]
-        public uint Views { get; set; }
+        public uint ViewCount { get; set; }
 
         /// <summary>
         /// 评论数量
         /// </summary>
-        public uint Replies { get; set; }
+        [JsonPropertyName("replies")]
+        public uint ReplyCount { get; set; }
 
         /// <summary>
         /// 是否为精华贴
@@ -134,7 +135,7 @@ namespace Uestc.BBS.Core.Services.Forum
         public string Summary { get; set; } = string.Empty;
 
         /// <summary>
-        /// 预览图链接
+        /// 主题内首张图片（原图）
         /// </summary>
         [JsonPropertyName("pic_path")]
         public string? PicPath { get; set; }
@@ -163,7 +164,7 @@ namespace Uestc.BBS.Core.Services.Forum
         /// 点赞数
         /// </summary>
         [JsonPropertyName("recommendadd")]
-        public uint Likes { get; set; }
+        public uint LikeCount { get; set; }
 
         /// <summary>
         /// TODO WHAT'S THIS
@@ -176,22 +177,22 @@ namespace Uestc.BBS.Core.Services.Forum
         public int IsHasRecommendAdd { get; set; }
 
         /// <summary>
-        /// TODO WHAT'S THIS
+        /// 预览图
         /// </summary>
-        public string[] ImageList { get; set; } = [];
-
-        [JsonIgnore]
-        public string PreviewSource => ImageList.FirstOrDefault() ?? StringHelper.WhiteSpace;
+        [JsonPropertyName("imageList")]
+        public string[] PreviewImageUrls { get; set; } = [];
 
         /// <summary>
-        /// 源链接
+        /// 主题来源链接
         /// </summary>
         public string SourceWebUrl { get; set; } = string.Empty;
 
         /// <summary>
         /// TODO WHAT'S THIS
+        /// 参照帖子 https://bbs.uestc.edu.cn/forum.php?mod=viewthread&tid=2351215
         /// </summary>
-        public string[] Verify { get; set; } = [];
+        [JsonPropertyName("verify")]
+        public UserVerify[] Verifies { get; set; } = [];
     }
 
     /// <summary>

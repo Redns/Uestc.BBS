@@ -1,6 +1,30 @@
-﻿namespace Uestc.BBS.Core.Services.User
+﻿using System.Text.Json.Serialization;
+
+namespace Uestc.BBS.Core.Services.User
 {
     public partial class User { }
+
+    /// <summary>
+    /// WHAT'S THIS?
+    /// https://bbs.uestc.edu.cn/forum.php?mod=viewthread&tid=2351215
+    /// "verify": [
+    ///  {
+    ///    "icon": "https://bbs.uestc.edu.cn/data/attachment/common/c4/common_1_verify_icon.png",
+    ///    "vid": 1,
+    ///    "verifyName": "vip"
+    ///  }
+    ///]
+    /// </summary>
+    public class UserVerify
+    {
+        public int Vid { get; set; }
+
+        [JsonPropertyName("verifyName")]
+        public string Username { get; set; } = string.Empty;
+
+        [JsonPropertyName("icon")]
+        public string IconUrl { get; set; } = string.Empty;
+    }
 
     public static class UserExtension
     {

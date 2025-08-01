@@ -16,7 +16,7 @@ namespace Uestc.BBS.WinUI.Controls
 {
     public sealed partial class BoardTabItemListView : UserControl
     {
-        private static readonly ITopicListService _topicService =
+        private static readonly ITopicListService _topicListService =
             ServiceExtension.Services.GetRequiredService<ITopicListService>();
 
         /// <summary>
@@ -37,7 +37,7 @@ namespace Uestc.BBS.WinUI.Controls
             {
                 SetValue(BoardTabItemProperty, value);
                 Topics = new IncrementalLoadingCollection<TopicOverviewSource, TopicOverview>(
-                    new TopicOverviewSource(_topicService, value)
+                    new TopicOverviewSource(_topicListService, value)
                 );
             }
         }
@@ -72,7 +72,7 @@ namespace Uestc.BBS.WinUI.Controls
         {
             InitializeComponent();
 
-            TopicListView.Loaded += (sender, e) =>
+            TopicListView.Loaded += (_, _) =>
             {
                 var scrollViewer = TopicListView.FindDescendant<ScrollViewer>();
                 if (scrollViewer is null)
@@ -80,9 +80,14 @@ namespace Uestc.BBS.WinUI.Controls
                     return;
                 }
 
-                scrollViewer.ViewChanged += (sender, _) =>
+                scrollViewer.ViewChanged += (sender, e) =>
                 {
-                    if (sender is not ScrollViewer scrollViewer)
+                    if (e.IsIntermediate || sender is not ScrollViewer scrollViewer)
+                    {
+                        return;
+                    }
+
+                    if (Topics?.IsLoading is true)
                     {
                         return;
                     }
@@ -91,7 +96,7 @@ namespace Uestc.BBS.WinUI.Controls
                     var viewport = scrollViewer.ViewportHeight;
                     var extent = scrollViewer.ExtentHeight;
 
-                    if (extent - offset <= 2 * viewport && Topics?.IsLoading is not true)
+                    if (extent - offset <= 2 * viewport)
                     {
                         Topics?.LoadMoreItemsAsync(BoardTabItem.PageSize);
                     }
@@ -103,10 +108,12 @@ namespace Uestc.BBS.WinUI.Controls
             SelectedTopic = e.ClickedItem as TopicOverview;
     }
 
-    public class TopicOverviewSource(ITopicListService topicService, BoardTabItemModel boardTabItem)
-        : IIncrementalSource<TopicOverview>
+    public class TopicOverviewSource(
+        ITopicListService topicListService,
+        BoardTabItemModel boardTabItem
+    ) : IIncrementalSource<TopicOverview>
     {
-        private readonly ITopicListService _topicService = topicService;
+        private readonly ITopicListService _topicListService = topicListService;
 
         private readonly BoardTabItemModel boardTabItem = boardTabItem;
 
@@ -115,7 +122,7 @@ namespace Uestc.BBS.WinUI.Controls
             int pageSize,
             CancellationToken cancellationToken = default
         ) =>
-            await _topicService
+            await _topicListService
                 .GetTopicsAsync(
                     route: boardTabItem.Route,
                     page: (uint)pageIndex + 1,

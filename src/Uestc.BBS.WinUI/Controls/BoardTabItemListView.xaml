@@ -45,13 +45,13 @@
                         BoardName="{x:Bind BoardName}"
                         Date="{x:Bind DateTime}"
                         IsHot="{x:Bind IsHot}"
-                        Likes="{x:Bind Likes}"
-                        PreviewSources="{x:Bind ImageList}"
-                        Replies="{x:Bind Replies}"
+                        Likes="{x:Bind LikeCount}"
+                        PreviewSources="{x:Bind PreviewImageUrls}"
+                        Replies="{x:Bind ReplyCount}"
                         Subject="{x:Bind Subject}"
                         Summary="{x:Bind Summary}"
                         Username="{x:Bind UserNickName}"
-                        Views="{x:Bind Views}" />
+                        Views="{x:Bind ViewCount}" />
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>

@@ -22,33 +22,33 @@
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
         <local_converters:Double2GridLength x:Key="Double2GridLength" />
         <!--  BoardSwitch  -->
-        <Storyboard x:Name="BoardSwitchStoryboard">
+        <!--  BoardSwitch Right2Left  -->
+        <Storyboard x:Name="BoardSwitchRight2LeftStoryboard">
             <DoubleAnimation
                 Storyboard.TargetName="BoardSwitchTranslation"
                 Storyboard.TargetProperty="X"
-                Duration="0:0:0.2">
+                From="200"
+                To="0"
+                Duration="0:0:0.4">
                 <DoubleAnimation.EasingFunction>
-                    <ExponentialEase EasingMode="EaseOut" Exponent="7" />
+                    <QuinticEase />
                 </DoubleAnimation.EasingFunction>
             </DoubleAnimation>
         </Storyboard>
-        <Style x:Key="FlipViewWithoutButtonsStyle" TargetType="FlipView">
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="FlipView">
-                        <ScrollViewer
-                            x:Name="ScrollingHost"
-                            HorizontalScrollBarVisibility="Hidden"
-                            HorizontalScrollMode="Enabled"
-                            VerticalScrollBarVisibility="Hidden"
-                            VerticalScrollMode="Disabled"
-                            ZoomMode="Disabled">
-                            <ItemsPresenter />
-                        </ScrollViewer>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
+        <!--  BoardSwitch Left2Right  -->
+        <Storyboard x:Name="BoardSwitchLeft2RightStoryboard">
+            <DoubleAnimation
+                Storyboard.TargetName="BoardSwitchTranslation"
+                Storyboard.TargetProperty="X"
+                From="-200"
+                To="0"
+                Duration="0:0:0.4
+                ">
+                <DoubleAnimation.EasingFunction>
+                    <QuinticEase />
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+        </Storyboard>
     </Page.Resources>
 
     <Grid
@@ -69,7 +69,7 @@
             HorizontalAlignment="Center"
             IsItemClickEnabled="True"
             ItemsSource="{x:Bind ViewModel.AppSettingModel.Appearance.BoardTab.Items, Mode=OneWay}"
-            SelectedItem="{x:Bind ViewModel.CurrentBoardTabItemModel, Mode=TwoWay}"
+            SelectedItem="{x:Bind ViewModel.CurrentBoardTabItemModel, Mode=OneWay}"
             Style="{StaticResource PivotSegmentedStyle}">
             <controls:Segmented.ItemTemplate>
                 <DataTemplate x:DataType="models:BoardTabItemModel">
@@ -93,18 +93,11 @@
             </interactivity:Interaction.Behaviors>
         </controls:Segmented>
         <!--  板块内容  -->
-        <!--  TODO 在非相邻板块间切换时增加动画效果  -->
-        <FlipView
-            Grid.Row="1"
-            Background="Transparent"
-            ItemsSource="{x:Bind ViewModel.AppSettingModel.Appearance.BoardTab.Items, Mode=OneWay}"
-            SelectedItem="{x:Bind ViewModel.CurrentBoardTabItemModel, Mode=OneWay}">
-            <local_controls:CustomFlipView.ItemTemplate>
-                <DataTemplate x:DataType="models:BoardTabItemModel">
-                    <local_controls:BoardTabItemListView BoardTabItem="{x:Bind}" />
-                </DataTemplate>
-            </local_controls:CustomFlipView.ItemTemplate>
-        </local_controls:CustomFlipView>
+        <UserControl Grid.Row="1" Content="{x:Bind ViewModel.CurrentBoardTabItemListView, Mode=OneWay}">
+            <UserControl.RenderTransform>
+                <TranslateTransform x:Name="BoardSwitchTranslation" />
+            </UserControl.RenderTransform>
+        </UserControl>
 
         <!--  主题内容  -->
         <ScrollViewer

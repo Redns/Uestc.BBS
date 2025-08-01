@@ -30,6 +30,7 @@ namespace Uestc.BBS.WinUI.Controls
         {
             var richTextBlock = new RichTextBlock { LineHeight = 26 };
 
+            // TODO 优化渲染逻辑
             var paragraph = new Paragraph();
             foreach (var content in contents)
             {
@@ -47,6 +48,12 @@ namespace Uestc.BBS.WinUI.Controls
 
                 richTextBlock.Blocks.Add(new Paragraph { Inlines = { inlines.First() } });
                 paragraph = new Paragraph();
+            }
+
+            // XXX 若内容为纯文本，则上述循环不会将 paragraph 加入到 richTextBlock.Blocks 中
+            if (paragraph.Inlines.Count > 0)
+            {
+                richTextBlock.Blocks.Add(paragraph);
             }
 
             return richTextBlock;

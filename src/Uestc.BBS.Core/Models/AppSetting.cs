@@ -110,18 +110,17 @@ namespace Uestc.BBS.Core.Models
             return JsonSerializer.Serialize(this, SerializerOptions);
         }
 
-        public static readonly JsonSerializerOptions SerializerOptions =
-            new()
-            {
-                WriteIndented = true,
-                Encoder = JavaScriptEncoder.Create(UnicodeRanges.All),
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-                PropertyNameCaseInsensitive = true,
-                TypeInfoResolver = JsonTypeInfoResolver.Combine(
-                    AppSettingContext.Default,
-                    new DefaultJsonTypeInfoResolver()
-                ),
-            };
+        public static readonly JsonSerializerOptions SerializerOptions = new()
+        {
+            WriteIndented = true,
+            Encoder = JavaScriptEncoder.Create(UnicodeRanges.All),
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+            PropertyNameCaseInsensitive = true,
+            TypeInfoResolver = JsonTypeInfoResolver.Combine(
+                AppSettingContext.Default,
+                new DefaultJsonTypeInfoResolver()
+            ),
+        };
     }
 
     [JsonSerializable(typeof(AppSetting))]

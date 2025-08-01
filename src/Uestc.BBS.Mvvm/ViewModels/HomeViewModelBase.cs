@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using Uestc.BBS.Core.Models;
 using Uestc.BBS.Core.Services.Forum;
 using Uestc.BBS.Core.Services.Forum.TopicList;
 using Uestc.BBS.Core.Services.System;
@@ -6,45 +7,68 @@ using Uestc.BBS.Mvvm.Models;
 
 namespace Uestc.BBS.Mvvm.ViewModels
 {
-    public partial class HomeViewModelBase(
-        ILogService logService,
-        ITopicService topicService,
-        ITopicListService topicListService,
-        AppSettingModel appSettingModel
-    ) : ObservableObject
+    public partial class HomeViewModelBase : ObservableObject
     {
         /// <summary>
         /// 日志
         /// </summary>
-        protected readonly ILogService _logService = logService;
+        protected readonly ILogService _logService;
 
         /// <summary>
         /// 主题内容
         /// </summary>
-        protected readonly ITopicService _topicListService = topicService;
+        protected readonly ITopicService _topicService;
 
         /// <summary>
         /// 主题列表
         /// </summary>
-        protected readonly ITopicListService _topicService = topicListService;
+        protected readonly ITopicListService _topicListService;
 
         /// <summary>
         /// 应用配置
         /// </summary>
-        public AppSettingModel AppSettingModel { get; init; } = appSettingModel;
+        public AppSettingModel AppSettingModel { get; init; }
+
+        /// <summary>
+        /// 最后选中的 Tab 栏
+        /// </summary>
+        public BoardTabItemModel? LastBoardTabItemModel { get; private set; }
 
         /// <summary>
         /// 当前选中的 Tab 栏
         /// </summary>
         [ObservableProperty]
-        public partial BoardTabItemModel? CurrentBoardTabItemModel { get; set; } =
-            appSettingModel.Appearance.BoardTab.Items.First();
+        public partial BoardTabItemModel? CurrentBoardTabItemModel { get; set; }
 
         /// <summary>
         /// 选中的主题帖
         /// </summary>
         [ObservableProperty]
         public partial TopicOverview? SeletedTopicOverview { get; set; }
+
+        public HomeViewModelBase(
+            ILogService logService,
+            ITopicService topicService,
+            ITopicListService topicListService,
+            AppSettingModel appSettingModel
+        )
+        {
+            _logService = logService;
+            _topicService = topicService;
+            _topicListService = topicListService;
+
+            AppSettingModel = appSettingModel;
+            CurrentBoardTabItemModel = appSettingModel.Appearance.BoardTab.Items.First();
+
+            PropertyChanging += (_, e) =>
+            {
+                if (e.PropertyName == nameof(CurrentBoardTabItemModel))
+                {
+                    LastBoardTabItemModel = CurrentBoardTabItemModel;
+                    return;
+                }
+            };
+        }
 
         /// <summary>
         /// 加载主题列表
@@ -56,7 +80,7 @@ namespace Uestc.BBS.Mvvm.ViewModels
             BoardTabItemModel tabItem,
             bool IsRefresh = false
         ) =>
-            await _topicService
+            await _topicListService
                 .GetTopicsAsync(
                     route: tabItem.Route,
                     page: (uint)tabItem.Topics.Count / tabItem.PageSize + 1,

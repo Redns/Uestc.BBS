@@ -10,8 +10,8 @@
   <ItemGroup>
     <PackageReference Include="AWSSDK.S3" Version="4.0.6.2" />
     <PackageReference Include="FastEnum.Core" Version="2.0.5" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.7" />
-    <PackageReference Include="Microsoft.Extensions.Http" Version="9.0.7" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.0-preview.6.25358.103" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="10.0.0-preview.6.25358.103" />
     <PackageReference Include="NLog" Version="6.0.2" />
     <PackageReference Include="WebDav.Client" Version="2.9.0" />
   </ItemGroup>
