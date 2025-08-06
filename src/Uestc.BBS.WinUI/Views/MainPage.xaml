@@ -125,7 +125,7 @@
                 Background="Transparent"
                 BorderBrush="Transparent"
                 PointerPressed="OpenPersonalCenterFlyout"
-                ProfilePicture="https://bbs.uestc.edu.cn/uc_server/data/avatar/000/25/68/25_avatar_middle.jpg">
+                ProfilePicture="{x:Bind ViewModel.AppSettingModel.Account.DefaultCredential.Avatar, Mode=OneWay}">
                 <FlyoutBase.AttachedFlyout>
                     <Flyout Placement="BottomEdgeAlignedRight">
                         <local_controls:PersonProfile

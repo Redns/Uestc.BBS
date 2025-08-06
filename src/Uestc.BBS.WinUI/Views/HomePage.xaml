@@ -42,8 +42,7 @@
                 Storyboard.TargetProperty="X"
                 From="-200"
                 To="0"
-                Duration="0:0:0.4
-                ">
+                Duration="0:0:0.4                 ">
                 <DoubleAnimation.EasingFunction>
                     <QuinticEase />
                 </DoubleAnimation.EasingFunction>
@@ -69,7 +68,7 @@
             HorizontalAlignment="Center"
             IsItemClickEnabled="True"
             ItemsSource="{x:Bind ViewModel.AppSettingModel.Appearance.BoardTab.Items, Mode=OneWay}"
-            SelectedItem="{x:Bind ViewModel.CurrentBoardTabItemModel, Mode=OneWay}"
+            SelectedItem="{x:Bind ViewModel.CurrentBoardTabItemModel, Mode=TwoWay}"
             Style="{StaticResource PivotSegmentedStyle}">
             <controls:Segmented.ItemTemplate>
                 <DataTemplate x:DataType="models:BoardTabItemModel">
@@ -80,11 +79,6 @@
                 </DataTemplate>
             </controls:Segmented.ItemTemplate>
             <interactivity:Interaction.Behaviors>
-                <interactivity:EventTriggerBehavior EventName="SelectionChanged">
-                    <interactivity:EventTriggerBehavior.Actions>
-                        <interactivity:InvokeCommandAction Command="{x:Bind ViewModel.SwitchBoardTabItemCommand}" />
-                    </interactivity:EventTriggerBehavior.Actions>
-                </interactivity:EventTriggerBehavior>
                 <interactivity:EventTriggerBehavior EventName="ItemClick">
                     <interactivity:EventTriggerBehavior.Actions>
                         <interactivity:InvokeCommandAction Command="{x:Bind ViewModel.RefreshBoardTabItemsCommand}" />
@@ -110,7 +104,7 @@
                     <PersonPicture
                         Height="36"
                         VerticalAlignment="Top"
-                        ProfilePicture="https://bbs.uestc.edu.cn/uc_server/data/avatar/000/28/57/25_avatar_middle.jpg" />
+                        ProfilePicture="{x:Bind ViewModel.AppSettingModel.Account.DefaultCredential.Avatar, Mode=OneWay}" />
                     <!--  昵称、签名  -->
                     <StackPanel VerticalAlignment="Center" Spacing="3">
                         <StackPanel Orientation="Horizontal" Spacing="5">

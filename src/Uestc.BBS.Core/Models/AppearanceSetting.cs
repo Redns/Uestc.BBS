@@ -361,9 +361,6 @@ namespace Uestc.BBS.Core.Models
 
         [Label("服务")]
         ServicesSettings,
-
-        [Label("API")]
-        ApiSettings,
     }
 
     public enum Position

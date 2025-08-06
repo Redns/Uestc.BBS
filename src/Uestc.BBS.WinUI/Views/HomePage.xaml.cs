@@ -1,14 +1,11 @@
 using Microsoft.UI.Xaml.Controls;
 using Uestc.BBS.Core.Services.Forum;
-using Uestc.BBS.Mvvm.Models;
 using Uestc.BBS.WinUI.ViewModels;
 
 namespace Uestc.BBS.WinUI.Views
 {
     public sealed partial class HomePage : Page
     {
-        private BoardTabItemModel? _lastBoardTabItem;
-
         private HomeViewModel ViewModel { get; init; }
 
         private RichTextContent[] TopicContents { get; init; } =

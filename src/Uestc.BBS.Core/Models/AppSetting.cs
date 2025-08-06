@@ -47,11 +47,6 @@ namespace Uestc.BBS.Core.Models
         public StorageSetting Storage { get; set; } = new();
 
         /// <summary>
-        /// API
-        /// </summary>
-        public ApiSetting Api { get; set; } = new();
-
-        /// <summary>
         /// 加载配置文件
         /// </summary>
         /// <param name="path">配置文件路径</param>

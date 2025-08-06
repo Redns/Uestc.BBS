@@ -5,6 +5,6 @@ namespace Uestc.BBS.Mvvm.ViewModels
 {
     public class AccountSettingsViewModelBase(AppSettingModel appSettingModel) : ObservableObject
     {
-        public AccountSettingModel AccountSettingModel { get; init; } = appSettingModel.Account;
+        public AccountSettingModel AccountSettingModel { get; } = appSettingModel.Account;
     }
 }

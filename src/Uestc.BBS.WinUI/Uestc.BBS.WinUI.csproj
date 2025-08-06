@@ -41,7 +41,6 @@
   <None Remove="Views\MainPage.xaml" />
   <None Remove="Views\MessagesPage.xaml" />
   <None Remove="Views\MomentsPage.xaml" />
-  <None Remove="Views\Overlays\ApiSettingOverlay.xaml" />
   <None Remove="Views\Overlays\MyFavoritesOverlay.xaml" />
   <None Remove="Views\Overlays\MyMarksOverlay.xaml" />
   <None Remove="Views\Overlays\MyPostsOverlay.xaml" />
@@ -101,9 +100,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <Page Update="Controls\ImageMosaic.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Update="Views\Overlays\ApiSettingOverlay.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Update="Views\ImageViewerWindow.xaml">

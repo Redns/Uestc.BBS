@@ -5,6 +5,6 @@ namespace Uestc.BBS.Mvvm.ViewModels
 {
     public class StorageSettingViewModelBase(AppSettingModel appSettingModel) : ObservableObject
     {
-        public StorageSettingModel StorageSettingModel { get; init; } = appSettingModel.Storage;
+        public StorageSettingModel StorageSettingModel { get; } = appSettingModel.Storage;
     }
 }

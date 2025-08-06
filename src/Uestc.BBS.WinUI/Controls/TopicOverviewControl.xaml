@@ -16,14 +16,6 @@
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
         <converters:StringVisibilityConverter x:Key="StringVisibilityConverter" />
         <converters:CollectionVisibilityConverter x:Key="CollectionVisibilityConverter" />
-
-        <!--  预览图像模板  -->
-        <DataTemplate
-            x:Key="FlipViewDataTemplete"
-            x:Name="PreviewFlipViewDataTemplete"
-            x:DataType="x:String">
-            <Image Source="{x:Bind Mode=OneWay}" Stretch="Uniform" />
-        </DataTemplate>
     </UserControl.Resources>
 
     <Border

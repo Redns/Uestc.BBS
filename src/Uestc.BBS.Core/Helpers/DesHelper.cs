@@ -5,12 +5,15 @@ namespace Uestc.BBS.Core.Helpers
 {
     public static class DesHelper
     {
-        public static string SecretNormalization(string? secret) => string.IsNullOrEmpty(secret) ? string.Empty : secret.Length switch
-        {
-            < 16 => secret.PadRight(16, '0'),
-            16 => secret,
-            _ => secret[..16]
-        };
+        public static string SecretNormalization(string? secret) =>
+            string.IsNullOrEmpty(secret)
+                ? string.Empty
+                : secret.Length switch
+                {
+                    < 16 => secret.PadRight(16, '0'),
+                    16 => secret,
+                    _ => secret[..16],
+                };
 
         public static string Encrypt(this string content, string? secret = null)
         {
@@ -23,7 +26,11 @@ namespace Uestc.BBS.Core.Helpers
             var bVector = new byte[16];
             var plainBytes = Encoding.UTF8.GetBytes(content);
             Array.Copy(Encoding.UTF8.GetBytes(secret.PadRight(bKey.Length)), bKey, bKey.Length);
-            Array.Copy(Encoding.UTF8.GetBytes(secret.PadRight(bVector.Length)), bVector, bVector.Length);
+            Array.Copy(
+                Encoding.UTF8.GetBytes(secret.PadRight(bVector.Length)),
+                bVector,
+                bVector.Length
+            );
 
             var aes = Aes.Create();
             aes.Mode = CipherMode.CBC;
@@ -31,7 +38,11 @@ namespace Uestc.BBS.Core.Helpers
             aes.Padding = PaddingMode.PKCS7;
 
             using var memory = new MemoryStream();
-            using var encryptor = new CryptoStream(memory, aes.CreateEncryptor(bKey, bVector), CryptoStreamMode.Write);
+            using var encryptor = new CryptoStream(
+                memory,
+                aes.CreateEncryptor(bKey, bVector),
+                CryptoStreamMode.Write
+            );
             encryptor.Write(plainBytes, 0, plainBytes.Length);
             encryptor.FlushFinalBlock();
 
@@ -40,7 +51,10 @@ namespace Uestc.BBS.Core.Helpers
 
         public static string Decrypt(this string content, string? secret = null)
         {
-            if (string.IsNullOrEmpty(content) || string.IsNullOrEmpty(secret = SecretNormalization(secret)))
+            if (
+                string.IsNullOrEmpty(content)
+                || string.IsNullOrEmpty(secret = SecretNormalization(secret))
+            )
             {
                 return content;
             }
@@ -49,7 +63,11 @@ namespace Uestc.BBS.Core.Helpers
             var bVector = new byte[16];
             var encryptedBytes = Convert.FromBase64String(content);
             Array.Copy(Encoding.UTF8.GetBytes(secret.PadRight(bKey.Length)), bKey, bKey.Length);
-            Array.Copy(Encoding.UTF8.GetBytes(secret.PadRight(bVector.Length)), bVector, bVector.Length);
+            Array.Copy(
+                Encoding.UTF8.GetBytes(secret.PadRight(bVector.Length)),
+                bVector,
+                bVector.Length
+            );
 
             var aes = Aes.Create();
             aes.BlockSize = 128;
@@ -57,7 +75,11 @@ namespace Uestc.BBS.Core.Helpers
             aes.Padding = PaddingMode.PKCS7;
 
             using var memory = new MemoryStream(encryptedBytes);
-            using var Decryptor = new CryptoStream(memory, aes.CreateDecryptor(bKey, bVector), CryptoStreamMode.Read);
+            using var Decryptor = new CryptoStream(
+                memory,
+                aes.CreateDecryptor(bKey, bVector),
+                CryptoStreamMode.Read
+            );
             using var originalMemory = new MemoryStream();
 
             var readBytes = 0;

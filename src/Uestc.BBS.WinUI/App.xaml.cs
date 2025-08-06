@@ -71,7 +71,6 @@ namespace Uestc.BBS.WinUI
                 .AddTransient<NotificationSettingOverlay>()
                 .AddTransient<StorageSettingOverlay>()
                 .AddTransient<ServicesSettingOverlay>()
-                .AddTransient<ApiSettingOverlay>()
                 // ViewModels
                 .AddTransient<AuthViewModel>()
                 .AddTransient<MainViewModel>()

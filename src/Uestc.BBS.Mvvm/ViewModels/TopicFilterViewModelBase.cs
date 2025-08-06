@@ -5,6 +5,6 @@ namespace Uestc.BBS.Mvvm.ViewModels
 {
     public class TopicFilterViewModelBase(AppSettingModel appSettingModel) : ObservableObject
     {
-        public AccountSettingModel AppSettingModel { get; init; } = appSettingModel.Account;
+        public AccountSettingModel AppSettingModel { get; } = appSettingModel.Account;
     }
 }

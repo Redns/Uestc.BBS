@@ -41,7 +41,6 @@ namespace Uestc.BBS.WinUI.Services
                     _services.GetRequiredService<StorageSettingOverlay>(),
                 MenuItemKey.ServicesSettings =>
                     _services.GetRequiredService<ServicesSettingOverlay>(),
-                MenuItemKey.ApiSettings => _services.GetRequiredService<ApiSettingOverlay>(),
                 _ => throw new ArgumentException(
                     $"Navigate to {key} failed, unknown key",
                     nameof(key)

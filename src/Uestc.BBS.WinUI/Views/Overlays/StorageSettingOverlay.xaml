@@ -20,6 +20,19 @@
 
     <ScrollViewer Margin="10" VerticalScrollBarVisibility="Hidden">
         <StackPanel Spacing="5">
+            <!--  缓存  -->
+            <controls:SettingsExpander
+                Description="保存图像、视频等临时数据（当前已占用 178 MB）"
+                Header="缓存"
+                HeaderIcon="{ui:FontIcon Glyph=&#xE7B8;}">
+                <Button Content="清除缓存" />
+                <controls:SettingsExpander.Items>
+                    <controls:SettingsCard Header="缓存路径">
+                        <Button Content="选择文件夹" />
+                    </controls:SettingsCard>
+                </controls:SettingsExpander.Items>
+            </controls:SettingsExpander>
+            <!--  WebDAV 同步  -->
             <controls:SettingsExpander
                 Description="在不同设备间同步配置和数据"
                 Header="WebDAV 同步"
@@ -103,18 +116,6 @@
                                 HorizontalAlignment="Left"
                                 Content="验证服务器" />
                         </Grid>
-                    </controls:SettingsCard>
-                </controls:SettingsExpander.Items>
-            </controls:SettingsExpander>
-            <!--  缓存  -->
-            <controls:SettingsExpander
-                Description="存储图像、视频等临时数据（当前已占用 178 MB）"
-                Header="缓存"
-                HeaderIcon="{ui:FontIcon Glyph=&#xF156;}">
-                <Button Content="清除缓存" />
-                <controls:SettingsExpander.Items>
-                    <controls:SettingsCard Header="双击头像清除缓存">
-                        <ToggleSwitch />
                     </controls:SettingsCard>
                 </controls:SettingsExpander.Items>
             </controls:SettingsExpander>

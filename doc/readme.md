@@ -3,13 +3,13 @@
 应用版本号格式为 `Major.Minor.Build.Release<-beta>`
 
 - `Major`：主版本号，表示 **重大更新或不兼容的 API 改动**。当软件进行了重大的架构改变时递增，同时 Minor 和 Build 清零
-- `Minor`：次版本号，表示 **向后兼容的重要功能更新**。当软件添加了新功能或进行了一些较大的改进时递增，同时 Build 和 Revision 清零
+- `Minor`：次版本号，表示 **向后兼容的重要功能更新**。当软件添加了新功能或进行了一些较大的改进时递增，同时 Build 清零
 - `Build`：构建号，用于标识在同一次版本中的不同构建，通常用于修复 bug 或进行小的改进
 - `Release`：发布日期与应用起始创建时间（2024.7.16）的间隔（天）
 
 版本号后缀 `beta` 表示该版本属于预览版，可能存在功能性问题
 
-## 桌面端
+# 桌面端
 
 桌面版应用相关信息存储在 `Assets/appmanifest.json`，示例内容如下
 
@@ -59,11 +59,11 @@ sudo apt-get install clang zlib1g-dev
 
 ## 编译与打包
 
-桌面端和移动端均启用 `Navite-AOT` 编译，需要在特定平台编译（例如 Linux 可执行文件只能在 Linux 平台编译）
+桌面端启用 `Navite-AOT` 编译，需要在特定平台编译（例如 Linux 可执行文件只能在 Linux 平台编译）
 
 ### Windows
 
-若使用 `Visual Studio` 开发则鼠标选中 Uestc.BBS.Desktop ，右键点击发布
+若使用 `Visual Studio` 开发则选中 Uestc.BBS.Desktop ，右键点击发布
 
 ![image-20241223110112938](https://image.krins.cloud/f9ec8f991ad1d4d548aa2709c83fbb39.png)
 

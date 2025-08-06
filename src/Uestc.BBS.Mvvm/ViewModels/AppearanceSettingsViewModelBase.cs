@@ -6,7 +6,6 @@ namespace Uestc.BBS.Mvvm.ViewModels
     public partial class AppearanceSettingsViewModelBase(AppSettingModel appSettingModel)
         : ObservableObject
     {
-        public AppearanceSettingModel ApperanceSettingModel { get; init; } =
-            appSettingModel.Appearance;
+        public AppearanceSettingModel ApperanceSettingModel { get; } = appSettingModel.Appearance;
     }
 }

@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using CommunityToolkit.WinUI;
 using CommunityToolkit.WinUI.Collections;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
@@ -71,37 +70,6 @@ namespace Uestc.BBS.WinUI.Controls
         public BoardTabItemListView()
         {
             InitializeComponent();
-
-            TopicListView.Loaded += (_, _) =>
-            {
-                var scrollViewer = TopicListView.FindDescendant<ScrollViewer>();
-                if (scrollViewer is null)
-                {
-                    return;
-                }
-
-                scrollViewer.ViewChanged += (sender, e) =>
-                {
-                    if (e.IsIntermediate || sender is not ScrollViewer scrollViewer)
-                    {
-                        return;
-                    }
-
-                    if (Topics?.IsLoading is true)
-                    {
-                        return;
-                    }
-
-                    var offset = scrollViewer.VerticalOffset;
-                    var viewport = scrollViewer.ViewportHeight;
-                    var extent = scrollViewer.ExtentHeight;
-
-                    if (extent - offset <= 2 * viewport)
-                    {
-                        Topics?.LoadMoreItemsAsync(BoardTabItem.PageSize);
-                    }
-                };
-            };
         }
 
         private void ListView_ItemClick(object sender, ItemClickEventArgs e) =>

@@ -16,7 +16,7 @@
 
             if (fileSizeBytes < 1024)
             {
-                return $"{fileSizeBytes} B"; 
+                return $"{fileSizeBytes} B";
             }
 
             if (fileSizeBytes < 1024 * 1024)
@@ -42,7 +42,11 @@
             return new FileInfo(path).Length;
         }
 
-        public static void DeleteFiles(this string path, string searchPattern = "*", SearchOption searchOption = SearchOption.AllDirectories)
+        public static void DeleteFiles(
+            this string path,
+            string searchPattern = "*",
+            SearchOption searchOption = SearchOption.AllDirectories
+        )
         {
             if (!Directory.Exists(path))
             {
@@ -55,14 +59,20 @@
             }
         }
 
-        public static long GetFileTotalSize(this string path, string searchPattern = "*", SearchOption searchOption = SearchOption.AllDirectories)
+        public static long GetFileTotalSize(
+            this string path,
+            string searchPattern = "*",
+            SearchOption searchOption = SearchOption.AllDirectories
+        )
         {
             if (!Directory.Exists(path))
             {
                 return 0;
             }
 
-            return Directory.GetFiles(path, searchPattern, searchOption).Sum(f => new FileInfo(f).Length);
+            return Directory
+                .GetFiles(path, searchPattern, searchOption)
+                .Sum(f => new FileInfo(f).Length);
         }
     }
 }

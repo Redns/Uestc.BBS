@@ -52,21 +52,14 @@
             <controls:SettingsCard
                 Command="{x:Bind ViewModel.NavigateToSubSettingsOverlayCommand}"
                 CommandParameter="StorageSettings"
-                Description="WebDVA 同步、存储空间、缓存"
+                Description="缓存、WebDVA 同步"
                 Header="数据与存储"
                 HeaderIcon="{ui:FontIcon Glyph=&#xEDA2;}"
                 IsClickEnabled="True" />
             <controls:SettingsCard
                 Command="{x:Bind ViewModel.NavigateToSubSettingsOverlayCommand}"
-                CommandParameter="ApiSettings"
-                Description="证书校验、访问接口"
-                Header="API"
-                HeaderIcon="{ui:FontIcon Glyph=&#xF22C;}"
-                IsClickEnabled="True" />
-            <controls:SettingsCard
-                Command="{x:Bind ViewModel.NavigateToSubSettingsOverlayCommand}"
                 CommandParameter="ServicesSettings"
-                Description="启动与关闭、应用更新、日志"
+                Description="启动与关闭、网络连接、应用更新、日志"
                 Header="服务"
                 HeaderIcon="{ui:FontIcon Glyph=&#xEC7A;}"
                 IsClickEnabled="True" />

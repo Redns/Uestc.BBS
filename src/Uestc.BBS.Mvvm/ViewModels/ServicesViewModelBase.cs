@@ -5,6 +5,6 @@ namespace Uestc.BBS.Mvvm.ViewModels
 {
     public class ServicesViewModelBase(AppSettingModel appSettingModel) : ObservableObject
     {
-        public ServicesSettingModel ServicesSettingModel { get; init; } = appSettingModel.Services;
+        public ServicesSettingModel ServicesSettingModel { get; } = appSettingModel.Services;
     }
 }

@@ -11,9 +11,9 @@ namespace Uestc.BBS.Mvvm.ViewModels
         AppSettingModel appSettingModel
     ) : ObservableObject
     {
-        public Appmanifest Appmanifest { get; init; } = appmanifest;
+        public Appmanifest Appmanifest { get; } = appmanifest;
 
-        public AppSettingModel AppSettingModel { get; init; } = appSettingModel;
+        public AppSettingModel AppSettingModel { get; } = appSettingModel;
 
         [RelayCommand]
         private void OpenWebSite(string url) => OperatingSystemHelper.OpenWebsite(url);

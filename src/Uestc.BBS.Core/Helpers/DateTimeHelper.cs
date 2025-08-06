@@ -20,7 +20,7 @@ namespace Uestc.BBS.Core.Helpers
                 DayOfWeek.Friday => "五",
                 DayOfWeek.Saturday => "六",
                 DayOfWeek.Sunday => "日",
-                _ => throw new ArgumentOutOfRangeException(nameof(dayOfWeek))
+                _ => throw new ArgumentOutOfRangeException(nameof(dayOfWeek)),
             };
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace Uestc.BBS.Core.Helpers
                 return "上周" + date.DayOfWeek.GetDayOfWeekInChinese();
             }
 
-            if(date.Year == now.Year)
+            if (date.Year == now.Year)
             {
                 return date.ToString("MM/dd HH:mm");
             }

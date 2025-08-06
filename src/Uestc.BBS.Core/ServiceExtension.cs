@@ -58,7 +58,7 @@ namespace Uestc.BBS.Core
                     {
                         client.BaseAddress = services
                             .GetRequiredService<AppSetting>()
-                            .Api.DailySentenceUri;
+                            .Services.Network.DailySentenceUri;
                     }
                 )
                 .ConfigurePrimaryHttpMessageHandler(
@@ -67,7 +67,10 @@ namespace Uestc.BBS.Core
                         var appSetting = services.GetRequiredService<AppSetting>();
                         if (handler is SocketsHttpHandler socketsHttpHandler)
                         {
-                            socketsHttpHandler.UseProxy = appSetting.Api.IsSystemProxyEnabled;
+                            socketsHttpHandler.UseProxy = appSetting
+                                .Services
+                                .Network
+                                .IsSystemProxyEnabled;
                             socketsHttpHandler.SslOptions.RemoteCertificateValidationCallback = (
                                 sender,
                                 cert,
@@ -75,7 +78,7 @@ namespace Uestc.BBS.Core
                                 sslPolicyErrors
                             ) =>
                             {
-                                return appSetting.Api.IsCertificateVerificationEnabled
+                                return appSetting.Services.Network.IsCertificateVerificationEnabled
                                     || sslPolicyErrors == SslPolicyErrors.None;
                             };
                         }
@@ -85,7 +88,9 @@ namespace Uestc.BBS.Core
                 .AddHttpClient<IAuthService, AuthService>(
                     (services, client) =>
                     {
-                        client.BaseAddress = services.GetRequiredService<AppSetting>().Api.AuthUri;
+                        client.BaseAddress = services
+                            .GetRequiredService<AppSetting>()
+                            .Services.Network.AuthUri;
                     }
                 )
                 .ConfigurePrimaryHttpMessageHandler(
@@ -94,7 +99,10 @@ namespace Uestc.BBS.Core
                         var appSetting = services.GetRequiredService<AppSetting>();
                         if (handler is SocketsHttpHandler socketsHttpHandler)
                         {
-                            socketsHttpHandler.UseProxy = appSetting.Api.IsSystemProxyEnabled;
+                            socketsHttpHandler.UseProxy = appSetting
+                                .Services
+                                .Network
+                                .IsSystemProxyEnabled;
                             socketsHttpHandler.SslOptions.RemoteCertificateValidationCallback = (
                                 sender,
                                 cert,
@@ -102,7 +110,7 @@ namespace Uestc.BBS.Core
                                 sslPolicyErrors
                             ) =>
                             {
-                                return appSetting.Api.IsCertificateVerificationEnabled
+                                return appSetting.Services.Network.IsCertificateVerificationEnabled
                                     || sslPolicyErrors == SslPolicyErrors.None;
                             };
                         }
@@ -114,7 +122,7 @@ namespace Uestc.BBS.Core
                     {
                         client.BaseAddress = services
                             .GetRequiredService<AppSetting>()
-                            .Api.TopicListUri;
+                            .Services.Network.TopicListUri;
                     }
                 )
                 .ConfigurePrimaryHttpMessageHandler(
@@ -123,7 +131,10 @@ namespace Uestc.BBS.Core
                         var appSetting = services.GetRequiredService<AppSetting>();
                         if (handler is SocketsHttpHandler socketsHttpHandler)
                         {
-                            socketsHttpHandler.UseProxy = appSetting.Api.IsSystemProxyEnabled;
+                            socketsHttpHandler.UseProxy = appSetting
+                                .Services
+                                .Network
+                                .IsSystemProxyEnabled;
                             socketsHttpHandler.SslOptions.RemoteCertificateValidationCallback = (
                                 sender,
                                 cert,
@@ -131,7 +142,7 @@ namespace Uestc.BBS.Core
                                 sslPolicyErrors
                             ) =>
                             {
-                                return appSetting.Api.IsCertificateVerificationEnabled
+                                return appSetting.Services.Network.IsCertificateVerificationEnabled
                                     || sslPolicyErrors == SslPolicyErrors.None;
                             };
                         }
@@ -143,7 +154,7 @@ namespace Uestc.BBS.Core
                     {
                         client.BaseAddress = services
                             .GetRequiredService<AppSetting>()
-                            .Api.TopicDetailUri;
+                            .Services.Network.TopicDetailUri;
                     }
                 )
                 .ConfigurePrimaryHttpMessageHandler(
@@ -152,7 +163,10 @@ namespace Uestc.BBS.Core
                         var appSetting = services.GetRequiredService<AppSetting>();
                         if (handler is SocketsHttpHandler socketsHttpHandler)
                         {
-                            socketsHttpHandler.UseProxy = appSetting.Api.IsSystemProxyEnabled;
+                            socketsHttpHandler.UseProxy = appSetting
+                                .Services
+                                .Network
+                                .IsSystemProxyEnabled;
                             socketsHttpHandler.SslOptions.RemoteCertificateValidationCallback = (
                                 sender,
                                 cert,
@@ -160,7 +174,7 @@ namespace Uestc.BBS.Core
                                 sslPolicyErrors
                             ) =>
                             {
-                                return appSetting.Api.IsCertificateVerificationEnabled
+                                return appSetting.Services.Network.IsCertificateVerificationEnabled
                                     || sslPolicyErrors == SslPolicyErrors.None;
                             };
                         }
@@ -172,7 +186,7 @@ namespace Uestc.BBS.Core
                     {
                         client.BaseAddress = services
                             .GetRequiredService<AppSetting>()
-                            .Api.UserDetailUri;
+                            .Services.Network.UserDetailUri;
                     }
                 )
                 .ConfigurePrimaryHttpMessageHandler(
@@ -181,7 +195,10 @@ namespace Uestc.BBS.Core
                         var appSetting = services.GetRequiredService<AppSetting>();
                         if (handler is SocketsHttpHandler socketsHttpHandler)
                         {
-                            socketsHttpHandler.UseProxy = appSetting.Api.IsSystemProxyEnabled;
+                            socketsHttpHandler.UseProxy = appSetting
+                                .Services
+                                .Network
+                                .IsSystemProxyEnabled;
                             socketsHttpHandler.SslOptions.RemoteCertificateValidationCallback = (
                                 sender,
                                 cert,
@@ -189,7 +206,7 @@ namespace Uestc.BBS.Core
                                 sslPolicyErrors
                             ) =>
                             {
-                                return appSetting.Api.IsCertificateVerificationEnabled
+                                return appSetting.Services.Network.IsCertificateVerificationEnabled
                                     || sslPolicyErrors == SslPolicyErrors.None;
                             };
                         }
