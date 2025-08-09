@@ -136,7 +136,7 @@
                 <StackPanel Classes="MenuContent">
                     <DockPanel Classes="MenuItem">
                         <TextBlock Text="选择模式" />
-                        <ComboBox DockPanel.Dock="Right" SelectedIndex="{Binding Model.ThemeColor}">
+                        <!--<ComboBox DockPanel.Dock="Right" SelectedIndex="{Binding Model.ThemeColor}">
                             <ComboBoxItem Content="浅色" />
                             <ComboBoxItem Content="深色" />
                             <ComboBoxItem Content="跟随系统" />
@@ -145,12 +145,12 @@
                                     <InvokeCommandAction Command="{Binding SetThemeColorCommand}" />
                                 </RoutedEventTriggerBehavior>
                             </Interaction.Behaviors>
-                        </ComboBox>
+                        </ComboBox>-->
                     </DockPanel>
                     <Separator />
                     <DockPanel Classes="MenuItem">
                         <TextBlock Text="亮色背景" />
-                        <ColorPicker
+                        <!--<ColorPicker
                             Width="120"
                             Classes="has-value-text"
                             ColorSpectrumShape="Ring"
@@ -159,12 +159,12 @@
                             IsAlphaEnabled="False"
                             IsAlphaVisible="False"
                             IsColorSpectrumSliderVisible="False"
-                            Color="{Binding Model.TintLightColor}" />
+                            Color="{Binding Model.TintLightColor}" />-->
                     </DockPanel>
                     <Separator />
                     <DockPanel Classes="MenuItem">
                         <TextBlock Text="暗色背景" />
-                        <ColorPicker
+                        <!--<ColorPicker
                             Width="120"
                             Classes="has-value-text"
                             ColorSpectrumShape="Ring"
@@ -173,7 +173,7 @@
                             IsAlphaEnabled="False"
                             IsAlphaVisible="False"
                             IsColorSpectrumSliderVisible="False"
-                            Color="{Binding Model.TintDarkColor}" />
+                            Color="{Binding Model.TintDarkColor}" />-->
                     </DockPanel>
                     <Separator />
                     <DockPanel Classes="MenuItem">
@@ -181,17 +181,17 @@
                             <TextBlock Text="颜色不透明度" />
                             <TextBlock Classes="Note" Text="亚克力材质的色调颜色的不透明度" />
                         </StackPanel>
-                        <Slider
+                        <!--<Slider
                             Width="150"
                             VerticalAlignment="Center"
                             DockPanel.Dock="Right"
                             Maximum="2.0"
                             Minimum="0"
-                            Value="{Binding Model.TintOpacity}" />
-                        <TextBlock
+                            Value="{Binding Model.TintOpacity}" />-->
+                        <!--<TextBlock
                             Margin="10,0"
                             DockPanel.Dock="Right"
-                            Text="{Binding Model.TintOpacity, StringFormat=F2, Mode=OneWay}" />
+                            Text="{Binding Model.TintOpacity, StringFormat=F2, Mode=OneWay}" />-->
                     </DockPanel>
                     <Separator />
                     <DockPanel Classes="MenuItem">
@@ -199,7 +199,7 @@
                             <TextBlock Text="材质不透明度" />
                             <TextBlock Classes="Note" Text="{OnPlatform Default=亚克力材质的整体不透明度, Linux=亚克力材质的整体不透明度，Linux 下可能无法实现完整效果}" />
                         </StackPanel>
-                        <Slider
+                        <!--<Slider
                             Width="150"
                             VerticalAlignment="Center"
                             DockPanel.Dock="Right"
@@ -209,7 +209,7 @@
                         <TextBlock
                             Margin="10,0"
                             DockPanel.Dock="Right"
-                            Text="{Binding Model.MaterialOpacity, StringFormat=F2, Mode=OneWay}" />
+                            Text="{Binding Model.MaterialOpacity, StringFormat=F2, Mode=OneWay}" />-->
                     </DockPanel>
                 </StackPanel>
             </Expander>
@@ -232,7 +232,7 @@
                             actipro:ThemeProperties.ToggleSwitchHasFarAffinity="True"
                             Classes="theme-solid accent"
                             DockPanel.Dock="Right"
-                            IsChecked="{Binding Model.IsDailySentenceShown}"
+                            IsChecked="{Binding AppSettingModel.ApperanceSettingModel.SearchBar.IsDailySentenceEnabled}"
                             OffContent="关"
                             OnContent="开" />
                     </DockPanel>
@@ -407,10 +407,7 @@
                             <TextBlock Text="账户" />
                             <TextBlock Classes="Note" Text="管理授权信息或切换用户" />
                         </StackPanel>
-                        <Button
-                            Command="{Binding AddUserCommand}"
-                            Content="添加用户"
-                            DockPanel.Dock="Right" />
+                        <Button Content="添加用户" DockPanel.Dock="Right" />
                     </DockPanel>
                 </Expander.Header>
                 <StackPanel Classes="MenuContent">
@@ -720,11 +717,7 @@
                             <TextBlock DockPanel.Dock="Left" Text="清除日志记录" />
                             <TextBlock Classes="Note" Text="{Binding Model.LogSizeContent}" />
                         </StackPanel>
-
-                        <Button
-                            Command="{Binding ClearLogsCommand}"
-                            Content="清除"
-                            DockPanel.Dock="Right" />
+                        <Button Content="清除" DockPanel.Dock="Right" />
                     </DockPanel>
                 </StackPanel>
             </Expander>
@@ -745,10 +738,7 @@
                                 IsVisible="{Binding !IsCheckUpgrading}"
                                 Text="{Binding Model.LastUpgradeCheckTime, StringFormat=最近检查时间：{0:yyyy/MM/dd HH:mm:ss}}" />
                         </StackPanel>
-                        <Button
-                            Command="{Binding CheckUpgradeCommand}"
-                            Content="检查更新"
-                            DockPanel.Dock="Right" />
+                        <Button Content="检查更新" DockPanel.Dock="Right" />
                     </DockPanel>
                 </Expander.Header>
                 <StackPanel Classes="MenuContent" IsEnabled="{Binding !IsCheckUpgrading}">
@@ -787,13 +777,13 @@
                             Source="/Assets/Icons/app.ico" />
                         <StackPanel Classes="MenuTitle" DockPanel.Dock="Left">
                             <TextBlock Text="清水河畔" />
-                            <TextBlock Classes="Note" Text="{Binding Copyright, Mode=OneTime}" />
+                            <TextBlock Classes="Note" Text="{Binding Appmanifest.CopyRight, Mode=OneTime}" />
                         </StackPanel>
                         <TextBlock
                             Margin="8,0"
                             DockPanel.Dock="Right"
                             Foreground="Gray"
-                            Text="{Binding AppVersion, Mode=OneTime}" />
+                            Text="{Binding Appmanifest.Version, Mode=OneTime}" />
                     </DockPanel>
                 </Expander.Header>
                 <StackPanel Classes="MenuContent">
@@ -812,7 +802,7 @@
                         Orientation="Vertical"
                         Spacing="10">
                         <TextBlock Text="贡献者" />
-                        <ItemsControl ItemsSource="{Binding Contributors}">
+                        <ItemsControl ItemsSource="{Binding Appmanifest.Contributors}">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <WrapPanel Margin="-3,0" />

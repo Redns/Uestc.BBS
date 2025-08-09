@@ -3,9 +3,9 @@ using System.Text;
 
 namespace Uestc.BBS.Core.Helpers
 {
-    public static class DesHelper
+    public static class EncryptAndDecryptHelper
     {
-        public static string SecretNormalization(string? secret) =>
+        private static string SecretNormalization(string? secret) =>
             string.IsNullOrEmpty(secret)
                 ? string.Empty
                 : secret.Length switch
@@ -90,5 +90,8 @@ namespace Uestc.BBS.Core.Helpers
             }
             return Encoding.UTF8.GetString(originalMemory.ToArray());
         }
+
+        public static string ToMD5(this string content) =>
+            Convert.ToHexString(MD5.HashData(Encoding.UTF8.GetBytes(content)));
     }
 }

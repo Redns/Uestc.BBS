@@ -82,18 +82,14 @@ namespace Uestc.BBS.WinUI.Controls
                         );
                     }
 
-                    inlineList.Add(
-                        new InlineUIContainer
-                        {
-                            Child = new Image
-                            {
-                                Height = 26,
-                                Stretch = Stretch.Uniform,
-                                VerticalAlignment = VerticalAlignment.Center,
-                                Source = new BitmapImage(new Uri(emoji.Groups["url"].Value)),
-                            },
-                        }
-                    );
+                    var emojiImage = new Image
+                    {
+                        Height = 26,
+                        Stretch = Stretch.Uniform,
+                        VerticalAlignment = VerticalAlignment.Center,
+                    };
+                    ImageCacheHelper.SetSourceEx(emojiImage, new Uri(emoji.Groups["url"].Value));
+                    inlineList.Add(new InlineUIContainer { Child = emojiImage });
 
                     lastEnd = emoji.Index + emoji.Length;
                 }

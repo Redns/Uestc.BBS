@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Net.Http;
 using System.Text.Json;
 using H.NotifyIcon;
 using Microsoft.Extensions.DependencyInjection;
@@ -8,6 +9,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.Windows.AppLifecycle;
 using Uestc.BBS.Core;
 using Uestc.BBS.Core.Models;
+using Uestc.BBS.Core.Services.FileCache;
 using Uestc.BBS.Core.Services.System;
 using Uestc.BBS.Mvvm.Models;
 using Uestc.BBS.Mvvm.Services;
@@ -118,20 +120,35 @@ namespace Uestc.BBS.WinUI
                 // Navigate
                 .AddSingleton<INavigateService<Page>>(services => new NavigateService(services))
                 // Capture
-                .AddTransient<ICaptureService<UIElement>, CaptureService>();
+                .AddTransient<ICaptureService<UIElement>, CaptureService>()
+                // FileCache
+                .AddSingleton<IFileCache>(services =>
+                {
+                    var cacheRoot = Path.Combine(
+                        Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                        AppDomain.CurrentDomain.FriendlyName,
+                        "Cache"
+                    );
+                    Directory.CreateDirectory(cacheRoot);
+
+                    return new LocalFileCache(
+                        cacheRoot,
+                        services.GetRequiredService<IHttpClientFactory>()
+                    );
+                });
 
             // 监听系统主题变更
-            _uiSettings.ColorValuesChanged += (sender, args) =>
+            _uiSettings.ColorValuesChanged += (_, _) =>
             {
                 SystemThemeChanged(_uiSettings, SystemTheme);
             };
 
             // 应用退出时保存设置
-            AppDomain.CurrentDomain.ProcessExit += (sender, args) =>
+            AppDomain.CurrentDomain.ProcessExit += (_, _) =>
                 ServiceExtension.Services.GetRequiredService<AppSetting>().Save();
 
             // 捕获并记录未处理异常
-            Current.UnhandledException += (sender, args) =>
+            Current.UnhandledException += (_, args) =>
             {
                 ServiceExtension
                     .Services.GetRequiredService<ILogService>()

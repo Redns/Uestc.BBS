@@ -49,6 +49,9 @@ namespace Uestc.BBS.Mvvm.ViewModels
             set => SetProperty(ref field, value);
         } = string.Empty;
 
+        /// <summary>
+        /// 应用设置
+        /// </summary>
         public AppSettingModel AppSettingModel { get; init; }
 
         /// <summary>
@@ -107,7 +110,7 @@ namespace Uestc.BBS.Mvvm.ViewModels
                             if (t.IsFaulted)
                             {
                                 _logService.Error(
-                                    "Dailysentence refresh failed",
+                                    "Daily sentence refresh failed",
                                     t.Exception.InnerException!
                                 );
                                 return;

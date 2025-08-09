@@ -30,6 +30,9 @@
                 Header="启动与关闭"
                 HeaderIcon="{ui:FontIcon Glyph=&#xE7B5;}">
                 <controls:SettingsExpander.Items>
+                    <controls:SettingsCard Description="开机自动启动应用" Header="自启动">
+                        <ToggleSwitch />
+                    </controls:SettingsCard>
                     <controls:SettingsCard Description="启动后仅显示托盘图标" Header="静默启动">
                         <ToggleSwitch IsOn="{x:Bind ViewModel.ServicesSettingModel.StartupAndShutdown.SilentStart, Mode=TwoWay}" />
                     </controls:SettingsCard>

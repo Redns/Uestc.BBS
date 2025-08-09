@@ -32,11 +32,11 @@
                     <MenuFlyoutSeparator />
                     <ToggleMenuFlyoutItem
                         Command="{x:Bind ToggleSilentStartCommand}"
-                        IsChecked="{x:Bind ViewModel.AppSettingModel.Services.StartupAndShutdown.SilentStart, Mode=TwoWay}"
+                        IsChecked="{x:Bind AppSettingModel.Services.StartupAndShutdown.SilentStart, Mode=TwoWay}"
                         Text="静默启动" />
                     <ToggleMenuFlyoutItem
                         Command="{x:Bind ToggleDailysentenceEnabledCommand}"
-                        IsChecked="{x:Bind ViewModel.AppSettingModel.Appearance.SearchBar.IsDailySentenceEnabled, Mode=TwoWay}"
+                        IsChecked="{x:Bind AppSettingModel.Appearance.SearchBar.IsDailySentenceEnabled, Mode=TwoWay}"
                         Text="每日一句" />
                     <MenuFlyoutSeparator />
                     <MenuFlyoutItem Command="{x:Bind RestartCommand}" Text="重新启动" />

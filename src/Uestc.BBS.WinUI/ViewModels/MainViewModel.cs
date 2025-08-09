@@ -55,7 +55,7 @@ namespace Uestc.BBS.WinUI.ViewModels
                 navigateService
             )
         {
-            // TODO 疑似可以移除
+            // FIXME 修改菜单项后 CurrentMenuItem 在 set 时 value 为 null
             appSettingModel.Appearance.MenuItems.CollectionChanged += (_, _) =>
             {
                 OnPropertyChanged(nameof(TopMenuItems));

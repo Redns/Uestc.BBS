@@ -1,18 +1,19 @@
 ﻿using System;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.WinUI;
 using H.NotifyIcon;
+using Microsoft.UI.Dispatching;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml.Controls;
 using Uestc.BBS.Core.Models;
+using Uestc.BBS.Mvvm.Models;
 using Uestc.BBS.WinUI.Helpers;
-using Uestc.BBS.WinUI.ViewModels;
 using Uestc.BBS.WinUI.Views.ContentDialogs;
 using WinUIEx;
 #if RELEASE
 using WinRT.Interop;
 #endif
-
 
 namespace Uestc.BBS.WinUI.Views
 {
@@ -20,13 +21,18 @@ namespace Uestc.BBS.WinUI.Views
     {
         private readonly Appmanifest _appmanifest;
 
-        private MainViewModel ViewModel { get; init; }
+        private AppSettingModel AppSettingModel { get; init; }
 
-        public MainWindow(MainViewModel viewModel, Appmanifest appmanifest)
+        /// <summary>
+        /// 调度任务队列
+        /// </summary>
+        private readonly DispatcherQueue _dispatcherQueue = DispatcherQueue.GetForCurrentThread();
+
+        public MainWindow(AppSettingModel appSettingModel, Appmanifest appmanifest)
         {
             InitializeComponent();
 
-            ViewModel = viewModel;
+            AppSettingModel = appSettingModel;
             _appmanifest = appmanifest;
 
             // 设置窗口位置
@@ -39,19 +45,19 @@ namespace Uestc.BBS.WinUI.Views
             AppWindow.TitleBar.PreferredHeightOption = TitleBarHeightOption.Tall;
 
             // 设置主题色
-            this.SetThemeColor(viewModel.AppSettingModel.Appearance.ThemeColor);
-            viewModel.AppSettingModel.Appearance.PropertyChanged += (_, args) =>
+            this.SetThemeColor(AppSettingModel.Appearance.ThemeColor);
+            AppSettingModel.Appearance.PropertyChanged += (_, args) =>
             {
-                if (args.PropertyName == nameof(viewModel.AppSettingModel.Appearance.ThemeColor))
+                if (args.PropertyName == nameof(AppSettingModel.Appearance.ThemeColor))
                 {
-                    this.SetThemeColor(viewModel.AppSettingModel.Appearance.ThemeColor);
+                    this.SetThemeColor(AppSettingModel.Appearance.ThemeColor);
                 }
             };
             App.SystemThemeChanged += (_, args) =>
             {
-                if (viewModel.AppSettingModel.Appearance.ThemeColor is ThemeColor.System)
+                if (AppSettingModel.Appearance.ThemeColor is ThemeColor.System)
                 {
-                    ViewModel.DispatcherAsync(() => AppWindow.TitleBar.SetThemeColor(args));
+                    _dispatcherQueue.EnqueueAsync(() => AppWindow.TitleBar.SetThemeColor(args));
                 }
             };
 
@@ -60,13 +66,13 @@ namespace Uestc.BBS.WinUI.Views
             {
                 // 隐藏窗口/隐藏窗口+效率模式
                 if (
-                    viewModel.AppSettingModel.Services.StartupAndShutdown.WindowCloseBehavior
+                    AppSettingModel.Services.StartupAndShutdown.WindowCloseBehavior
                     is not WindowCloseBehavior.Exit
                 )
                 {
                     args.Cancel = true;
                     this.Hide(
-                        viewModel.AppSettingModel.Services.StartupAndShutdown.WindowCloseBehavior
+                        AppSettingModel.Services.StartupAndShutdown.WindowCloseBehavior
                             is WindowCloseBehavior.HideWithEfficiencyMode
                     );
                 }
@@ -80,16 +86,14 @@ namespace Uestc.BBS.WinUI.Views
 
         [RelayCommand]
         private void ToggleSilentStart() =>
-            ViewModel.AppSettingModel.Services.StartupAndShutdown.SilentStart = !ViewModel
-                .AppSettingModel
+            AppSettingModel.Services.StartupAndShutdown.SilentStart = AppSettingModel
                 .Services
                 .StartupAndShutdown
                 .SilentStart;
 
         [RelayCommand]
         private void ToggleDailysentenceEnabled() =>
-            ViewModel.AppSettingModel.Appearance.SearchBar.IsDailySentenceEnabled = !ViewModel
-                .AppSettingModel
+            AppSettingModel.Appearance.SearchBar.IsDailySentenceEnabled = !AppSettingModel
                 .Appearance
                 .SearchBar
                 .IsDailySentenceEnabled;
@@ -97,7 +101,7 @@ namespace Uestc.BBS.WinUI.Views
         [RelayCommand]
         private void Restart()
         {
-            ViewModel.AppSettingModel.Save();
+            AppSettingModel.Save();
             WindowsHelper.Restart();
         }
 

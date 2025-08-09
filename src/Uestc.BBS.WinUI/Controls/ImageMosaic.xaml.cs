@@ -5,7 +5,6 @@ using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Media.Imaging;
 using Uestc.BBS.WinUI.Helpers;
 using WinUIEx;
 
@@ -14,37 +13,36 @@ namespace Uestc.BBS.WinUI.Controls
     public sealed partial class ImageMosaic : UserControl
     {
         /// <summary>
-        /// 预览图片数据源
+        /// 图片数据源
         /// </summary>
-        private static readonly DependencyProperty PreviewSourcesProperty =
-            DependencyProperty.Register(
-                nameof(PreviewSources),
-                typeof(string[]),
-                typeof(ImageMosaic),
-                new PropertyMetadata(null, SetPreviewGrid)
-            );
+        private static readonly DependencyProperty SourcesProperty = DependencyProperty.Register(
+            nameof(Sources),
+            typeof(string[]),
+            typeof(ImageMosaic),
+            new PropertyMetadata(null, SetGrid)
+        );
 
-        public string[] PreviewSources
+        public string[] Sources
         {
-            get => (string[])GetValue(PreviewSourcesProperty);
-            set => SetValue(PreviewSourcesProperty, value);
+            get => (string[])GetValue(SourcesProperty);
+            set => SetValue(SourcesProperty, value);
         }
 
         /// <summary>
         /// 是否对预览图片进行优化，默认关闭
         /// </summary>
-        private static readonly DependencyProperty PreviewImageDecodeOptimizedProperty =
+        private static readonly DependencyProperty ImageDecodeOptimizedProperty =
             DependencyProperty.Register(
-                nameof(PreviewImageDecodeOptimized),
+                nameof(ImageDecodeOptimized),
                 typeof(bool),
                 typeof(ImageMosaic),
                 new PropertyMetadata(false)
             );
 
-        public bool PreviewImageDecodeOptimized
+        public bool ImageDecodeOptimized
         {
-            get => (bool)GetValue(PreviewImageDecodeOptimizedProperty);
-            set => SetValue(PreviewImageDecodeOptimizedProperty, value);
+            get => (bool)GetValue(ImageDecodeOptimizedProperty);
+            set => SetValue(ImageDecodeOptimizedProperty, value);
         }
 
         public ImageMosaic()
@@ -52,10 +50,12 @@ namespace Uestc.BBS.WinUI.Controls
             InitializeComponent();
         }
 
-        private static void SetPreviewGrid(
-            DependencyObject sender,
-            DependencyPropertyChangedEventArgs e
-        )
+        /// <summary>
+        /// 设置图像布局
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private static void SetGrid(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
             if (e.NewValue is not string[] sources || sources.Length == 0)
             {
@@ -69,21 +69,10 @@ namespace Uestc.BBS.WinUI.Controls
 
             if (sources.Length == 1)
             {
-                var image = new Image
-                {
-                    MaxHeight = 240,
-                    Stretch = Stretch.Uniform,
-                    Source = new BitmapImage(new Uri(sources[0]))
-                    {
-                        DecodePixelHeight = imageMosaic.PreviewImageDecodeOptimized ? 240 : 0,
-                    },
-                };
+                var image = new Image { MaxHeight = 240, Stretch = Stretch.Uniform };
+                ImageCacheHelper.SetSourceEx(image, new Uri(sources[0]));
                 image.PointerPressed += (_, _) =>
-                    OpenPreviewImage(
-                        imageMosaic.PreviewSources,
-                        0,
-                        imageMosaic.PreviewFlipViewDataTemplete
-                    );
+                    OpenImage(imageMosaic.Sources, 0, imageMosaic.PreviewFlipViewDataTemplete);
 
                 imageMosaic.Content = new Border
                 {
@@ -94,10 +83,12 @@ namespace Uestc.BBS.WinUI.Controls
                 return;
             }
 
+            // 多张图片采用 Grid 布局
             var grid = new Grid() { RowSpacing = 5, ColumnSpacing = 5 };
             imageMosaic.Content = grid;
 
-            // 计算 Grid 布局
+            // 4 张图片及以下采用 2 列布局
+            // 5 张图片及以上采用 3 列布局
             var colums = sources.Length switch
             {
                 <= 4 => 2,
@@ -106,7 +97,7 @@ namespace Uestc.BBS.WinUI.Controls
             var rows = (int)Math.Ceiling(sources.Length / (double)colums);
             var imageHeight = 130 - rows * 15;
             grid.SetRowsAndColumns(rows, colums);
-
+            // 最多仅显示 9 张图片
             var images = sources
                 .Take(9)
                 .Select(
@@ -119,17 +110,12 @@ namespace Uestc.BBS.WinUI.Controls
                                 (index is 0 && sources.Length is 3)
                                     ? imageHeight * 2 + grid.RowSpacing
                                     : imageHeight,
-                            Source = new BitmapImage(new Uri(s))
-                            {
-                                DecodePixelHeight = imageMosaic.PreviewImageDecodeOptimized
-                                    ? 140 - rows * 15
-                                    : 0,
-                            },
                             Stretch = Stretch.UniformToFill,
                         };
-                        image.PointerPressed += (_, e) =>
-                            OpenPreviewImage(
-                                imageMosaic.PreviewSources,
+                        ImageCacheHelper.SetSourceEx(image, new Uri(s));
+                        image.PointerPressed += (_, _) =>
+                            OpenImage(
+                                imageMosaic.Sources,
                                 Array.IndexOf(sources, s),
                                 imageMosaic.PreviewFlipViewDataTemplete
                             );
@@ -159,11 +145,12 @@ namespace Uestc.BBS.WinUI.Controls
         }
 
         /// <summary>
-        /// 打开新窗口预览图像
+        /// 打开新窗口浏览图像
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private static void OpenPreviewImage(
+        /// <param name="sources"></param>
+        /// <param name="currentSourceIndex"></param>
+        /// <param name="dataTemplate"></param>
+        private static void OpenImage(
             string[] sources,
             int currentSourceIndex,
             DataTemplate dataTemplate

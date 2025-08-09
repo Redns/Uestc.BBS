@@ -6,6 +6,7 @@
     xmlns:controls="using:CommunityToolkit.WinUI.Controls"
     xmlns:converters="using:CommunityToolkit.WinUI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helpers="using:Uestc.BBS.WinUI.Helpers"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:local="using:Uestc.BBS.WinUI.Views"
     xmlns:local_controls="using:Uestc.BBS.WinUI.Controls"
@@ -122,10 +123,10 @@
             <PersonPicture
                 Height="35"
                 controls:DockPanel.Dock="Right"
+                helpers:PersonPictureCacheHelper.ProfilePictureEx="{x:Bind ViewModel.AppSettingModel.Account.DefaultCredential.Avatar, Mode=OneWay}"
                 Background="Transparent"
                 BorderBrush="Transparent"
-                PointerPressed="OpenPersonalCenterFlyout"
-                ProfilePicture="{x:Bind ViewModel.AppSettingModel.Account.DefaultCredential.Avatar, Mode=OneWay}">
+                PointerPressed="OpenPersonalCenterFlyout">
                 <FlyoutBase.AttachedFlyout>
                     <Flyout Placement="BottomEdgeAlignedRight">
                         <local_controls:PersonProfile

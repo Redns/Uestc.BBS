@@ -16,6 +16,7 @@
     xmlns:ui="using:FluentAvalonia.UI.Controls"
     xmlns:view="using:Uestc.BBS.Desktop.Views"
     xmlns:vm="using:Uestc.BBS.Desktop.ViewModels"
+    d:DataContext="{d:DesignInstance {x:Type vm:HomeViewModel}}"
     d:DesignHeight="1440"
     d:DesignWidth="1920"
     x:DataType="vm:HomeViewModel"

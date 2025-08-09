@@ -61,10 +61,8 @@ namespace Uestc.BBS.WinUI.Views
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void OpenPersonalCenterFlyout(object sender, PointerRoutedEventArgs _)
-        {
+        private void OpenPersonalCenterFlyout(object sender, PointerRoutedEventArgs _) =>
             FlyoutBase.ShowAttachedFlyout(sender as FrameworkElement);
-        }
 
         /// <summary>
         /// 清除顶部菜单的选中状态

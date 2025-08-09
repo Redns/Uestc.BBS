@@ -8,7 +8,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AWSSDK.S3" Version="4.0.6.2" />
+    <Compile Remove="Services\Notification\**" />
+    <Compile Remove="Services\新文件夹1\**" />
+    <EmbeddedResource Remove="Services\Notification\**" />
+    <EmbeddedResource Remove="Services\新文件夹1\**" />
+    <None Remove="Services\Notification\**" />
+    <None Remove="Services\新文件夹1\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AWSSDK.S3" Version="4.0.6.4" />
     <PackageReference Include="FastEnum.Core" Version="2.0.5" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.0-preview.6.25358.103" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="10.0.0-preview.6.25358.103" />
@@ -18,7 +27,6 @@
 
   <ItemGroup>
     <Folder Include="Entities\" />
-    <Folder Include="Services\Notification\" />
   </ItemGroup>
 
 </Project>

@@ -13,8 +13,7 @@ namespace Uestc.BBS.WinUI.Services
         public NotificationService(string appName, Uri iconUri)
         {
             _appNotificationManager.Register(appName, iconUri);
-            AppDomain.CurrentDomain.ProcessExit += (sender, args) =>
-                _appNotificationManager.Unregister();
+            AppDomain.CurrentDomain.ProcessExit += (_, _) => _appNotificationManager.Unregister();
         }
 
         ~NotificationService()

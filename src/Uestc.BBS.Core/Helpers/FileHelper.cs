@@ -53,7 +53,7 @@
                 return;
             }
 
-            foreach (var file in Directory.GetFiles(path, searchPattern, searchOption))
+            foreach (var file in Directory.GetFiles(path, searchPattern, searchOption).AsParallel())
             {
                 File.Delete(file);
             }
@@ -72,6 +72,7 @@
 
             return Directory
                 .GetFiles(path, searchPattern, searchOption)
+                .AsParallel()
                 .Sum(f => new FileInfo(f).Length);
         }
     }

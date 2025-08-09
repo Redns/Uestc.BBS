@@ -6,6 +6,7 @@
     xmlns:controls="using:CommunityToolkit.WinUI.Controls"
     xmlns:converters="using:CommunityToolkit.WinUI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helpers="using:Uestc.BBS.WinUI.Helpers"
     xmlns:lc="using:Uestc.BBS.WinUI.Converters"
     xmlns:local="using:Uestc.BBS.WinUI.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -29,9 +30,9 @@
                     Width="36"
                     VerticalAlignment="Center"
                     controls:DockPanel.Dock="Left"
+                    helpers:PersonPictureCacheHelper.ProfilePictureEx="{x:Bind Avatar, Mode=OneWay}"
                     Background="Transparent"
-                    BorderBrush="Transparent"
-                    ProfilePicture="{x:Bind Avatar, Mode=OneWay}" />
+                    BorderBrush="Transparent" />
                 <StackPanel VerticalAlignment="Center" controls:DockPanel.Dock="Left">
                     <TextBlock Text="{x:Bind Username, Mode=OneWay}" />
                     <!--  热门主题显示发布时间  -->
@@ -77,8 +78,8 @@
                 Visibility="{x:Bind Summary, Converter={StaticResource StringVisibilityConverter}, Mode=OneWay}" />
             <!--  预览图  -->
             <local:ImageMosaic
-                PreviewImageDecodeOptimized="{x:Bind PreviewImageDecodeOptimized, Mode=OneWay}"
-                PreviewSources="{x:Bind PreviewSources, Mode=OneWay}"
+                ImageDecodeOptimized="{x:Bind PreviewImageDecodeOptimized, Mode=OneWay}"
+                Sources="{x:Bind PreviewSources, Mode=OneWay}"
                 Visibility="{x:Bind PreviewSources, Converter={StaticResource CollectionVisibilityConverter}, Mode=OneWay}" />
             <!--  浏览、点赞、评论  -->
             <Grid>

@@ -1,7 +1,6 @@
 using System;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Media;
 
 namespace Uestc.BBS.WinUI.Controls
 {
@@ -12,14 +11,14 @@ namespace Uestc.BBS.WinUI.Controls
         /// </summary>
         private static readonly DependencyProperty AvatarProperty = DependencyProperty.Register(
             nameof(Avatar),
-            typeof(ImageSource),
+            typeof(string),
             typeof(TopicOverviewControl),
-            new PropertyMetadata(default(ImageSource))
+            new PropertyMetadata(default(string))
         );
 
-        public ImageSource Avatar
+        public string Avatar
         {
-            get => (ImageSource)GetValue(AvatarProperty);
+            get => (string)GetValue(AvatarProperty);
             set => SetValue(AvatarProperty, value);
         }
 
