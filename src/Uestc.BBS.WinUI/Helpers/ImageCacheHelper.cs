@@ -8,7 +8,7 @@ using Uestc.BBS.Core.Services.FileCache;
 
 namespace Uestc.BBS.WinUI.Helpers
 {
-    public static class ImageCacheHelper
+    public class ImageCacheHelper
     {
         /// <summary>
         /// 文件缓存服务

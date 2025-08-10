@@ -11,7 +11,7 @@
     <UseWinUI>true</UseWinUI>
     <EnableMsixTooling>true</EnableMsixTooling>
     <Nullable>enable</Nullable>
-	<LangVersion>preview</LangVersion>
+	<LangVersion>12.0</LangVersion>
 	<WindowsPackageType>None</WindowsPackageType>
   </PropertyGroup>
 
@@ -63,7 +63,7 @@
     <ProjectCapability Include="Msix" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="CommunityToolkit.Labs.WinUI.TokenView" Version="0.1.250703-build.2173" />
+    <PackageReference Include="CommunityToolkit.Labs.WinUI.TokenView" Version="0.1.230830" />
     <PackageReference Include="CommunityToolkit.WinUI.Collections" Version="8.2.250402" />
     <PackageReference Include="CommunityToolkit.WinUI.Controls.Primitives" Version="8.2.250402" />
     <PackageReference Include="CommunityToolkit.WinUI.Controls.RangeSelector" Version="8.2.250402" />
@@ -72,11 +72,9 @@
     <PackageReference Include="CommunityToolkit.WinUI.Controls.Sizers" Version="8.2.250402" />
     <PackageReference Include="CommunityToolkit.WinUI.Converters" Version="8.2.250402" />
     <PackageReference Include="CommunityToolkit.WinUI.Extensions" Version="8.2.250402" />
-    <PackageReference Include="CommunityToolkit.WinUI.Media" Version="8.2.250402" />
-    <PackageReference Include="CompiledBindings.WinUI" Version="1.0.18" />
     <PackageReference Include="H.NotifyIcon.WinUI" Version="2.3.0" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.4654" />
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.8.250702007-experimental4" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.7.250606001" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.WinUI.Managed" Version="3.0.0" />
     <PackageReference Include="System.Private.Uri" Version="4.3.2" />
     <PackageReference Include="WinUIEx" Version="2.6.0" />
@@ -183,6 +181,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
+    <Folder Include="Properties\PublishProfiles\" />
   </ItemGroup>
 
   <!--

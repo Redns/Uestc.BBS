@@ -5,7 +5,43 @@ namespace Uestc.BBS.Mvvm.Models
 {
     public class StorageSettingModel(StorageSetting setting) : ObservableObject
     {
+        public CacheSettingModel Cache { get; init; } = new(setting.Cache);
+
         public SyncSettingModel Sync { get; init; } = new(setting.Sync);
+    }
+
+    /// <summary>
+    /// 缓存设置
+    /// </summary>
+    public class CacheSettingModel(CacheSetting setting) : ObservableObject
+    {
+        /// <summary>
+        /// 是否启用缓存
+        /// </summary>
+        public bool IsEnabled
+        {
+            get => setting.IsEnabled;
+            set => SetProperty(setting.IsEnabled, value, setting, (s, e) => s.IsEnabled = e);
+        }
+
+        /// <summary>
+        /// 缓存根目录
+        /// </summary>
+        public string RootDirectory
+        {
+            get => setting.RootDirectory;
+            set =>
+                SetProperty(setting.RootDirectory, value, setting, (s, e) => s.RootDirectory = e);
+        }
+
+        /// <summary>
+        /// 缓存有效时间（小时）
+        /// </summary>
+        public uint ValidHours
+        {
+            get => setting.ValidHours;
+            set => SetProperty(setting.ValidHours, value, setting, (s, e) => s.ValidHours = e);
+        }
     }
 
     /// <summary>

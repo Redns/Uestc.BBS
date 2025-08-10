@@ -48,7 +48,7 @@
                     <controls:SettingsCard
                         Description="轮询获取每日一句的周期"
                         Header="更新间隔"
-                        IsEnabled="{x:Bind ViewModel.ApperanceSettingModel.SearchBar.IsDailySentenceEnabled, Mode=OneWay}">
+                        IsEnabled="{x:Bind ViewModel.ApperanceSettingModel.SearchBar.IsDailySentenceEnabled}">
                         <StackPanel Orientation="Horizontal" Spacing="10">
                             <NumberBox
                                 Maximum="3600"
@@ -76,7 +76,7 @@
                                 CanDrag="True"
                                 CanDragItems="True"
                                 CanReorderItems="True"
-                                ItemsSource="{x:Bind TopBarMenuItems, Mode=OneWay}"
+                                ItemsSource="{x:Bind TopBarMenuItems}"
                                 SelectionMode="None">
                                 <ListView.ItemContainerStyle>
                                     <Style TargetType="ListViewItem">
@@ -99,11 +99,11 @@
                                             BorderThickness="1.2"
                                             CornerRadius="8"
                                             Spacing="5">
-                                            <FontIcon FontSize="18" Glyph="{x:Bind Glyph, Mode=OneWay}" />
+                                            <FontIcon FontSize="18" Glyph="{x:Bind Glyph}" />
                                             <TextBlock
                                                 VerticalAlignment="Center"
                                                 FontSize="12"
-                                                Text="{x:Bind Name, Mode=OneWay}"
+                                                Text="{x:Bind Name}"
                                                 TextAlignment="Center" />
                                         </StackPanel>
                                     </DataTemplate>
@@ -131,7 +131,7 @@
                             <x:Double x:Key="SettingsCardWrapThreshold">10000</x:Double>
                         </controls:SettingsCard.Resources>
                         <controls:WrapPanel Orientation="Horizontal" VerticalSpacing="10">
-                            <ItemsControl ItemsSource="{x:Bind LeftTopBarMenuItems, Mode=OneWay}">
+                            <ItemsControl ItemsSource="{x:Bind LeftTopBarMenuItems}">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <controls:WrapPanel HorizontalSpacing="10" />
@@ -146,16 +146,16 @@
                                             BorderThickness="1.2"
                                             CornerRadius="8"
                                             Spacing="5">
-                                            <FontIcon FontSize="18" Glyph="{x:Bind Glyph, Mode=OneWay}" />
+                                            <FontIcon FontSize="18" Glyph="{x:Bind Glyph}" />
                                             <TextBlock
                                                 FontSize="12"
-                                                Text="{x:Bind Name, Mode=OneWay}"
+                                                Text="{x:Bind Name}"
                                                 TextAlignment="Center" />
                                         </StackPanel>
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
                             </ItemsControl>
-                            <ItemsControl Margin="60,0,0,0" ItemsSource="{x:Bind LeftBottomBarMenuItems, Mode=OneWay}">
+                            <ItemsControl Margin="60,0,0,0" ItemsSource="{x:Bind LeftBottomBarMenuItems}">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <controls:WrapPanel HorizontalSpacing="10" />
@@ -170,10 +170,10 @@
                                             BorderThickness="1.2"
                                             CornerRadius="8"
                                             Spacing="5">
-                                            <FontIcon FontSize="18" Glyph="{x:Bind Glyph, Mode=OneWay}" />
+                                            <FontIcon FontSize="18" Glyph="{x:Bind Glyph}" />
                                             <TextBlock
                                                 FontSize="12"
-                                                Text="{x:Bind Name, Mode=OneWay}"
+                                                Text="{x:Bind Name}"
                                                 TextAlignment="Center" />
                                         </StackPanel>
                                     </DataTemplate>

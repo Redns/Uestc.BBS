@@ -4,7 +4,35 @@ namespace Uestc.BBS.Core.Models
 {
     public class StorageSetting
     {
+        public CacheSetting Cache { get; set; } = new();
+
         public SyncSetting Sync { get; set; } = new();
+    }
+
+    /// <summary>
+    /// 缓存设置
+    /// </summary>
+    public class CacheSetting
+    {
+        /// <summary>
+        /// 是否启用缓存
+        /// </summary>
+        public bool IsEnabled { get; set; } = true;
+
+        /// <summary>
+        /// 缓存根目录
+        /// </summary>
+        public string RootDirectory { get; set; } =
+            Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                AppDomain.CurrentDomain.FriendlyName,
+                "Cache"
+            );
+
+        /// <summary>
+        /// 缓存有效时间（小时）
+        /// </summary>
+        public uint ValidHours { get; set; } = 365 * 24;
     }
 
     /// <summary>

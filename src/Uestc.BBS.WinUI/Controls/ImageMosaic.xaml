@@ -15,7 +15,7 @@
             x:Key="FlipViewDataTemplete"
             x:Name="PreviewFlipViewDataTemplete"
             x:DataType="x:String">
-            <Image helpers:ImageCacheHelper.SourceEx="{x:Bind Mode=OneWay}" Stretch="Uniform" />
+            <Image helpers:ImageCacheHelper.SourceEx="{x:Bind}" Stretch="Uniform" />
         </DataTemplate>
     </UserControl.Resources>
 

@@ -26,7 +26,7 @@ namespace Uestc.BBS.WinUI.Controls
             InitializeComponent();
         }
 
-        private UIElement RenderTopicContents(RichTextContent[] contents)
+        private static RichTextBlock RenderTopicContents(RichTextContent[] contents)
         {
             var richTextBlock = new RichTextBlock { LineHeight = 26 };
 
@@ -59,7 +59,7 @@ namespace Uestc.BBS.WinUI.Controls
             return richTextBlock;
         }
 
-        private IEnumerable<Inline> RenderInlineContent(RichTextContent content)
+        private static List<Inline> RenderInlineContent(RichTextContent content)
         {
             // 【纯文本】Hello, world!
             // 【文本 + 表情包】Hello [mobcent_phiz=https://bbs.uestc.edu.cn/static/image/smiley/alu/22.gif], world!

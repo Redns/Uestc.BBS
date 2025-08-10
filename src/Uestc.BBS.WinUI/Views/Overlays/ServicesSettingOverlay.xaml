@@ -134,7 +134,7 @@
                     <controls:SettingsCard Header="清除日志记录">
                         <controls:SettingsCard.Description>
                             <TextBlock>
-                                <Run Text="日志文件已占用 " />
+                                <Run Text="日志文件已占用" />
                                 <Run Text="{x:Bind ViewModel.LogTotalSize, Converter={StaticResource FileSizeToFriendlyStringConverter}, Mode=OneWay}" />
                             </TextBlock>
                         </controls:SettingsCard.Description>

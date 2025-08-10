@@ -1,10 +1,15 @@
 using System;
 using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Media.Imaging;
+using Uestc.BBS.Core;
+using Uestc.BBS.Core.Services.FileCache;
 using Uestc.BBS.WinUI.Helpers;
 using WinUIEx;
 
@@ -12,6 +17,9 @@ namespace Uestc.BBS.WinUI.Controls
 {
     public sealed partial class ImageMosaic : UserControl
     {
+        private static readonly IFileCache _fileCache =
+            ServiceExtension.Services.GetRequiredService<IFileCache>();
+
         /// <summary>
         /// 图片数据源
         /// </summary>
@@ -55,7 +63,10 @@ namespace Uestc.BBS.WinUI.Controls
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private static void SetGrid(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+        private static async void SetGrid(
+            DependencyObject sender,
+            DependencyPropertyChangedEventArgs e
+        )
         {
             if (e.NewValue is not string[] sources || sources.Length == 0)
             {
@@ -69,8 +80,17 @@ namespace Uestc.BBS.WinUI.Controls
 
             if (sources.Length == 1)
             {
-                var image = new Image { MaxHeight = 240, Stretch = Stretch.Uniform };
-                ImageCacheHelper.SetSourceEx(image, new Uri(sources[0]));
+                var imageUri = await _fileCache.GetFileUriAsync(new Uri(sources[0]));
+                var image = new Image
+                {
+                    MaxHeight = 240,
+                    Stretch = Stretch.Uniform,
+                    Source = new BitmapImage(imageUri)
+                    {
+                        DecodePixelHeight = imageMosaic.ImageDecodeOptimized ? 240 : 0,
+                    },
+                };
+
                 image.PointerPressed += (_, _) =>
                     OpenImage(imageMosaic.Sources, 0, imageMosaic.PreviewFlipViewDataTemplete);
 
@@ -97,12 +117,14 @@ namespace Uestc.BBS.WinUI.Controls
             var rows = (int)Math.Ceiling(sources.Length / (double)colums);
             var imageHeight = 130 - rows * 15;
             grid.SetRowsAndColumns(rows, colums);
+
             // 最多仅显示 9 张图片
-            var images = sources
+            var imageTasks = sources
                 .Take(9)
                 .Select(
-                    (s, index) =>
+                    async (s, index) =>
                     {
+                        var imageUri = await _fileCache.GetFileUriAsync(new Uri(s));
                         var image = new Image
                         {
                             // 图像较多时限制其整体高度，避免占据太多视觉空间
@@ -111,24 +133,29 @@ namespace Uestc.BBS.WinUI.Controls
                                     ? imageHeight * 2 + grid.RowSpacing
                                     : imageHeight,
                             Stretch = Stretch.UniformToFill,
+                            Source = new BitmapImage(imageUri)
+                            {
+                                DecodePixelHeight = imageMosaic.ImageDecodeOptimized
+                                    ? imageHeight
+                                    : 0,
+                            },
                         };
-                        ImageCacheHelper.SetSourceEx(image, new Uri(s));
                         image.PointerPressed += (_, _) =>
                             OpenImage(
                                 imageMosaic.Sources,
                                 Array.IndexOf(sources, s),
                                 imageMosaic.PreviewFlipViewDataTemplete
                             );
-                        return image;
+
+                        return new Border
+                        {
+                            Child = image,
+                            CornerRadius = new CornerRadius(6),
+                            HorizontalAlignment = HorizontalAlignment.Left,
+                        };
                     }
-                )
-                .Select(image => new Border
-                {
-                    Child = image,
-                    CornerRadius = new CornerRadius(6),
-                    HorizontalAlignment = HorizontalAlignment.Left,
-                })
-                .ToArray();
+                );
+            var images = await Task.WhenAll(imageTasks);
 
             if (sources.Length == 3)
             {

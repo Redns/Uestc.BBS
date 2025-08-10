@@ -17,6 +17,16 @@ namespace Uestc.BBS.WinUI.Views.Overlays
             InitializeComponent();
 
             ViewModel = viewModel;
+
+            //CacheStatisticsPlot.Plot.Add.Signal(Generate.Sin(51));
+            //// 禁用交互
+            //CacheStatisticsPlot.UserInputProcessor.IsEnabled = false;
+            //// 设置透明背景
+            //CacheStatisticsPlot.Plot.FigureBackground = new BackgroundStyle
+            //{
+            //    Color = Color.FromARGB(0),
+            //};
+            //CacheStatisticsPlot.Refresh();
         }
     }
 }
