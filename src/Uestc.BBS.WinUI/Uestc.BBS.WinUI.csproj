@@ -16,10 +16,6 @@
   </PropertyGroup>
 
 <PropertyGroup Condition="'$(Configuration)'=='Release'">
-	<!--AOT-->
-	<PublishAot>true</PublishAot>
-	<IsAotCompatible>true</IsAotCompatible>
-	<PublishReadyToRun>true</PublishReadyToRun>
 	<!-- 打包运行时 -->
 	<WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
 </PropertyGroup>
@@ -201,23 +197,26 @@
     <PublishTrimmed Condition="'$(Configuration)' != 'Debug'">True</PublishTrimmed>
     <ApplicationIcon>Assets\Icons\app.ico</ApplicationIcon>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <!--AOT-->
+    <PublishAot>True</PublishAot>
+	  <IsAotCompatible>true</IsAotCompatible>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
-    <DebugType>portable</DebugType>
+    <DebugType>none</DebugType>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <DebugType>portable</DebugType>
+    <DebugType>none</DebugType>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
-    <DebugType>portable</DebugType>
+    <DebugType>none</DebugType>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
-    <DebugType>portable</DebugType>
+    <DebugType>none</DebugType>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <DebugType>portable</DebugType>
+    <DebugType>none</DebugType>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
-    <DebugType>portable</DebugType>
+    <DebugType>none</DebugType>
   </PropertyGroup>
 </Project>
