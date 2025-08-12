@@ -11,7 +11,7 @@
     <UseWinUI>true</UseWinUI>
     <EnableMsixTooling>true</EnableMsixTooling>
     <Nullable>enable</Nullable>
-	<LangVersion>12.0</LangVersion>
+	<LangVersion>preview</LangVersion>
 	<WindowsPackageType>None</WindowsPackageType>
   </PropertyGroup>
 
@@ -31,8 +31,10 @@
   <None Remove="Controls\PersonProfile.xaml" />
   <None Remove="Controls\TopicContentControl.xaml" />
   <None Remove="Views\AuthPage.xaml" />
+  <None Remove="Views\AuthSettingPage.xaml" />
   <None Remove="Views\ContentDialogs\AboutContentDialog.xaml" />
   <None Remove="Views\HomePage.xaml" />
+  <None Remove="Views\ImageBrowserWindow.xaml" />
   <None Remove="Views\ImageViewerWindow.xaml" />
   <None Remove="Views\MainPage.xaml" />
   <None Remove="Views\MessagesPage.xaml" />
@@ -93,6 +95,15 @@
     <None Update="Assets\Icons\auth_icon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Page Update="Views\ImageBrowserWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Views\AuthPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Views\AuthSettingPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Controls\ImageMosaic.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -147,9 +158,6 @@
     <Page Update="Views\ContentDialogs\AboutContentDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Update="Views\AuthPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Update="Views\AuthWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -202,21 +210,21 @@
 	  <IsAotCompatible>true</IsAotCompatible>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
-    <DebugType>none</DebugType>
+    <DebugType>full</DebugType>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <DebugType>none</DebugType>
+    <DebugType>full</DebugType>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
-    <DebugType>none</DebugType>
+    <DebugType>full</DebugType>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
-    <DebugType>none</DebugType>
+    <DebugType>full</DebugType>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <DebugType>none</DebugType>
+    <DebugType>full</DebugType>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
-    <DebugType>none</DebugType>
+    <DebugType>full</DebugType>
   </PropertyGroup>
 </Project>

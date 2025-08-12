@@ -1,4 +1,5 @@
 ﻿using System.Text.Json.Serialization;
+using Uestc.BBS.Core.Services.Forum;
 using Uestc.BBS.Core.Services.User;
 
 namespace Uestc.BBS.Core.Services.Api.Auth
@@ -25,7 +26,7 @@ namespace Uestc.BBS.Core.Services.Api.Auth
 
         public string Avatar { get; set; } = string.Empty;
 
-        public int Gender { get; set; } = 0;
+        public Gender Gender { get; set; } = 0;
         public string Mobile { get; set; } = string.Empty;
 
         #region UserTitle

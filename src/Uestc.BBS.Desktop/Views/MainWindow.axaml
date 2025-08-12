@@ -116,7 +116,7 @@
                     Width="480"
                     Margin="0,6,0,4"
                     Classes="Search"
-                    Watermark="{Binding AppSettingModel.DailySentence^, Mode=OneWay}">
+                    Watermark="{Binding SearchPlaceholderText, Mode=OneWay}">
                     <AutoCompleteBox.InnerRightContent>
                         <icon:SymbolIcon
                             Margin="0,0,10,0"
@@ -152,7 +152,7 @@
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
                 <ItemsControl.Styles>
-                    <Style x:DataType="vm:MenuItemViewModel" Selector="ContentPresenter">
+                    <Style x:DataType="vm:MenuItemModel" Selector="ContentPresenter">
                         <Setter Property="DockPanel.Dock" Value="{Binding Dock, Mode=OneWay}" />
                     </Style>
                 </ItemsControl.Styles>

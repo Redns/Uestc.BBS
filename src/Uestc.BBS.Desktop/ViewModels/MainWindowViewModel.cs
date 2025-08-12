@@ -38,7 +38,7 @@ namespace Uestc.BBS.Desktop.ViewModels
         /// 侧边栏菜单
         /// </summary>
         [ObservableProperty]
-        private ObservableCollection<MenuItemViewModel>? _menus;
+        private ObservableCollection<MenuItemModel>? _menus;
 
         /// <summary>
         /// 导航页面
@@ -71,14 +71,14 @@ namespace Uestc.BBS.Desktop.ViewModels
                             .Appearance.MenuItems.Where(m => m.Position == Position.LeftBottom)
                             .Reverse()
                     )
-                    .Select(m => new MenuItemViewModel
+                    .Select(m => new MenuItemModel
                     {
                         Key = m.Key.ToString(),
                         Name = m.Name,
                         Symbol = m.Symbol,
                         IsActive = false,
                         Dock = m.Position == Position.LeftTop ? Dock.Top : Dock.Bottom,
-                        MenuClickCommand = new RelayCommand<MenuItemViewModel>(menuItem =>
+                        MenuClickCommand = new RelayCommand<MenuItemModel>(menuItem =>
                         {
                             // 已选中菜单
                             if (menuItem is null || menuItem.IsActive)
@@ -96,7 +96,7 @@ namespace Uestc.BBS.Desktop.ViewModels
 
                             Navigate(menuItem.Key);
                         }),
-                    })
+                    }),
             ];
         }
 
@@ -130,16 +130,16 @@ namespace Uestc.BBS.Desktop.ViewModels
             CurrentPage = key switch
             {
                 MenuItemKey.Home => ServiceExtension.Services.GetRequiredService<HomeView>(),
-                MenuItemKey.Sections
-                    => ServiceExtension.Services.GetRequiredService<SectionsView>(),
-                MenuItemKey.Services
-                    => ServiceExtension.Services.GetRequiredService<ServicesView>(),
+                MenuItemKey.Sections =>
+                    ServiceExtension.Services.GetRequiredService<SectionsView>(),
+                MenuItemKey.Services =>
+                    ServiceExtension.Services.GetRequiredService<ServicesView>(),
                 MenuItemKey.Moments => ServiceExtension.Services.GetRequiredService<MomentsView>(),
                 MenuItemKey.Post => ServiceExtension.Services.GetRequiredService<PostView>(),
-                MenuItemKey.Messages
-                    => ServiceExtension.Services.GetRequiredService<MessagesView>(),
-                MenuItemKey.Settings
-                    => ServiceExtension.Services.GetRequiredService<SettingsView>(),
+                MenuItemKey.Messages =>
+                    ServiceExtension.Services.GetRequiredService<MessagesView>(),
+                MenuItemKey.Settings =>
+                    ServiceExtension.Services.GetRequiredService<SettingsView>(),
                 _ => CurrentPage,
             };
         }
@@ -169,7 +169,7 @@ namespace Uestc.BBS.Desktop.ViewModels
         //AppSettingModel.IsWindowPinned = !AppSettingModel.IsWindowPinned;
     }
 
-    public partial class MenuItemViewModel : ObservableObject
+    public partial class MenuItemModel : ObservableObject
     {
         public string Key { get; set; } = string.Empty;
 

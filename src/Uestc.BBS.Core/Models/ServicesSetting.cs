@@ -64,7 +64,7 @@ namespace Uestc.BBS.Core.Models
         /// <summary>
         /// 是否启用系统代理
         /// </summary>
-        public bool IsSystemProxyEnabled { get; set; } = false;
+        public bool UseSystemProxy { get; set; } = false;
 
         /// <summary>
         /// 是否启用证书验证

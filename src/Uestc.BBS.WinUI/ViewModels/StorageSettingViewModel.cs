@@ -10,7 +10,10 @@ namespace Uestc.BBS.WinUI.ViewModels
     {
         public override async void ChangeCacheRootDirectory()
         {
-            var folderPicker = new FolderPicker();
+            var folderPicker = new FolderPicker()
+            {
+                SuggestedStartLocation = PickerLocationId.ComputerFolder,
+            };
             var hWnd = WinRT.Interop.WindowNative.GetWindowHandle(App.CurrentWindow);
 
             // Initialize the folder picker with the window handle (HWND).

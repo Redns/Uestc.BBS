@@ -19,6 +19,8 @@ namespace Uestc.BBS.WinUI.Views
             ExtendsContentIntoTitleBar = true;
             // 设置可拖动区域
             SetTitleBar(AppTitleBar);
+            // 禁止最大化窗口
+            this.ForceDisableMaximize();
 
             // 设置主题色
             this.SetThemeColor(appSettingModel.Appearance.ThemeColor);

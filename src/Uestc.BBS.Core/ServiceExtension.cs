@@ -43,13 +43,7 @@ namespace Uestc.BBS.Core
                     var appSetting = services.GetRequiredService<AppSetting>();
                     nlogger.Setup(appSetting.Services.Log);
                     return nlogger;
-                })
-                // Forums
-                .AddTransient<IAuthService, AuthService>()
-                .AddTransient<ITopicService, TopicService>()
-                .AddTransient<ITopicListService, TopicListService>()
-                // 每日一句
-                .AddSingleton<IDailySentenceService, DailySentenceService>();
+                });
             // HttpClient
             ServiceCollection.AddHttpClient();
             ServiceCollection
@@ -70,7 +64,7 @@ namespace Uestc.BBS.Core
                             socketsHttpHandler.UseProxy = appSetting
                                 .Services
                                 .Network
-                                .IsSystemProxyEnabled;
+                                .UseSystemProxy;
                             socketsHttpHandler.SslOptions.RemoteCertificateValidationCallback = (
                                 sender,
                                 cert,
@@ -102,7 +96,7 @@ namespace Uestc.BBS.Core
                             socketsHttpHandler.UseProxy = appSetting
                                 .Services
                                 .Network
-                                .IsSystemProxyEnabled;
+                                .UseSystemProxy;
                             socketsHttpHandler.SslOptions.RemoteCertificateValidationCallback = (
                                 sender,
                                 cert,
@@ -134,7 +128,7 @@ namespace Uestc.BBS.Core
                             socketsHttpHandler.UseProxy = appSetting
                                 .Services
                                 .Network
-                                .IsSystemProxyEnabled;
+                                .UseSystemProxy;
                             socketsHttpHandler.SslOptions.RemoteCertificateValidationCallback = (
                                 sender,
                                 cert,
@@ -166,7 +160,7 @@ namespace Uestc.BBS.Core
                             socketsHttpHandler.UseProxy = appSetting
                                 .Services
                                 .Network
-                                .IsSystemProxyEnabled;
+                                .UseSystemProxy;
                             socketsHttpHandler.SslOptions.RemoteCertificateValidationCallback = (
                                 sender,
                                 cert,
@@ -198,7 +192,7 @@ namespace Uestc.BBS.Core
                             socketsHttpHandler.UseProxy = appSetting
                                 .Services
                                 .Network
-                                .IsSystemProxyEnabled;
+                                .UseSystemProxy;
                             socketsHttpHandler.SslOptions.RemoteCertificateValidationCallback = (
                                 sender,
                                 cert,

@@ -232,7 +232,7 @@
                             actipro:ThemeProperties.ToggleSwitchHasFarAffinity="True"
                             Classes="theme-solid accent"
                             DockPanel.Dock="Right"
-                            IsChecked="{Binding AppSettingModel.ApperanceSettingModel.SearchBar.IsDailySentenceEnabled}"
+                            IsChecked="{Binding AppSettingModel.Appearance.SearchBar.IsDailySentenceEnabled}"
                             OffContent="关"
                             OnContent="开" />
                     </DockPanel>

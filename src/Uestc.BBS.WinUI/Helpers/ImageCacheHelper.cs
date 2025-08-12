@@ -22,14 +22,14 @@ namespace Uestc.BBS.WinUI.Helpers
         public static readonly DependencyProperty SourceExProperty =
             DependencyProperty.RegisterAttached(
                 "SourceEx",
-                typeof(Uri),
+                typeof(string),
                 typeof(ImageCacheHelper),
                 new PropertyMetadata(null, OnSourceExChanged)
             );
 
-        public static Uri GetSourceEx(Image obj) => (Uri)obj.GetValue(SourceExProperty);
+        public static string GetSourceEx(Image obj) => (string)obj.GetValue(SourceExProperty);
 
-        public static void SetSourceEx(Image obj, Uri sourceEx) =>
+        public static void SetSourceEx(Image obj, string sourceEx) =>
             obj.SetValue(SourceExProperty, sourceEx);
 
         private static async void OnSourceExChanged(
@@ -37,11 +37,11 @@ namespace Uestc.BBS.WinUI.Helpers
             DependencyPropertyChangedEventArgs args
         )
         {
-            if (obj is not Image image || args.NewValue is not Uri uri)
+            if (obj is not Image image || args.NewValue is not string uri)
             {
                 return;
             }
-            image.Source = new BitmapImage(await _fileCache.GetFileUriAsync(uri));
+            image.Source = new BitmapImage(await _fileCache.GetFileUriAsync(new Uri(uri)));
         }
     }
 }

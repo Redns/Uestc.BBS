@@ -197,7 +197,7 @@
                 HeaderIcon="{ui:FontIcon Glyph=\&#xE945;}">
                 <ToggleSwitch />
                 <controls:SettingsExpander.Items>
-                    <controls:SettingsCard Header="图标内容">
+                    <controls:SettingsCard Header="图标文件">
                         <Button Content="选择文件" />
                     </controls:SettingsCard>
                     <controls:SettingsCard Header="有新消息时闪烁">

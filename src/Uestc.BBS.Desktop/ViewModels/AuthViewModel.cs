@@ -1,6 +1,8 @@
-﻿using System;
+﻿using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
+using Avalonia.Input;
+using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.DependencyInjection;
 using Uestc.BBS.Core;
 using Uestc.BBS.Core.Services.Auth;
@@ -41,6 +43,15 @@ namespace Uestc.BBS.Desktop.ViewModels
             // 隐藏登录窗口
             desktop.MainWindow?.Hide();
             desktop.MainWindow = mainWindow;
+        }
+
+        [RelayCommand(CanExecute = nameof(CanLogin))]
+        private async Task EnterToLoginAsync(KeyEventArgs args)
+        {
+            if (args.PhysicalKey is PhysicalKey.Enter)
+            {
+                await LoginAsync();
+            }
         }
     }
 }

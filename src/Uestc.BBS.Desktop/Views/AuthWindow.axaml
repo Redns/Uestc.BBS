@@ -32,7 +32,7 @@
         </Style>
     </Window.Styles>
     <Panel>
-        <ExperimentalAcrylicBorder IsHitTestVisible="False">
+        <!--<ExperimentalAcrylicBorder IsHitTestVisible="False">
             <ExperimentalAcrylicBorder.Material>
                 <ExperimentalAcrylicMaterial
                     BackgroundSource="Digger"
@@ -41,7 +41,7 @@
                     TintColor="{Binding AppSettingModel.TintColor, Mode=OneWay}"
                     TintOpacity="{Binding AppSettingModel.TintOpacity, Mode=OneWay}" />
             </ExperimentalAcrylicBorder.Material>
-        </ExperimentalAcrylicBorder>
+        </ExperimentalAcrylicBorder>-->
         <Grid RowDefinitions="auto,*">
             <DockPanel Background="{OnPlatform Linux=Transparent}" PointerPressed="{OnPlatform Linux=DragWindow}">
                 <Button
@@ -93,7 +93,7 @@
                                 <Button
                                     Width="32"
                                     Classes="theme-subtle"
-                                    Command="{Binding $parent[AutoCompleteBox].((vm:AuthViewModel)DataContext).DeleteCredentialCommand}"
+                                    Command="{Binding $parent[AutoCompleteBox].((vm:AuthViewModel)DataContext).DeleteAuthCredentialCommand}"
                                     CommandParameter="{Binding}"
                                     Cursor="Hand"
                                     DockPanel.Dock="Right">
@@ -151,11 +151,11 @@
                     <CheckBox
                         Classes="Auth"
                         Content="记住密码"
-                        IsChecked="{Binding RememberPassword}" />
+                        IsChecked="{Binding AppSettingModel.Account.RememberPassword}" />
                     <CheckBox
                         Classes="Auth"
                         Content="自动登录"
-                        IsChecked="{Binding AutoLogin}" />
+                        IsChecked="{Binding AppSettingModel.Account.AutoLogin}" />
                 </StackPanel>
                 <Button
                     Height="36"

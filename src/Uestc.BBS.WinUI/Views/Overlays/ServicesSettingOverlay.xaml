@@ -61,7 +61,7 @@
                 HeaderIcon="{ui:FontIcon Glyph=&#xE839;}">
                 <controls:SettingsExpander.Items>
                     <controls:SettingsCard Description="网络请求通过本地代理转发" Header="系统代理">
-                        <ToggleSwitch IsOn="{x:Bind ViewModel.ServicesSettingModel.Network.IsSystermProxyEnabled, Mode=TwoWay}" />
+                        <ToggleSwitch IsOn="{x:Bind ViewModel.ServicesSettingModel.Network.UseSystermProxy, Mode=TwoWay}" />
                     </controls:SettingsCard>
                     <controls:SettingsCard Description="检查服务器提供的 SSL/TLS 证书是否有效" Header="证书校验">
                         <ToggleSwitch IsOn="{x:Bind ViewModel.ServicesSettingModel.Network.IsCertificateVerificationEnabled, Mode=TwoWay}" />

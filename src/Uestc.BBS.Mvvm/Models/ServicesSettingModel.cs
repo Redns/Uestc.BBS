@@ -84,15 +84,15 @@ namespace Uestc.BBS.Mvvm.Models
 
     public class NetworkSettingModel(NetworkSetting setting) : ObservableObject
     {
-        public bool IsSystermProxyEnabled
+        public bool UseSystermProxy
         {
-            get => setting.IsSystemProxyEnabled;
+            get => setting.UseSystemProxy;
             set =>
                 SetProperty(
-                    setting.IsSystemProxyEnabled,
+                    setting.UseSystemProxy,
                     value,
                     setting,
-                    (s, e) => s.IsSystemProxyEnabled = e
+                    (s, e) => s.UseSystemProxy = e
                 );
         }
 
