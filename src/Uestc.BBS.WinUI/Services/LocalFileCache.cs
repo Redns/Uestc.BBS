@@ -30,7 +30,7 @@ namespace Uestc.BBS.WinUI.Services
         /// </summary>
         /// <param name="uri"></param>
         /// <returns></returns>
-        public async ValueTask<Uri> GetFileUriAsync(Uri uri)
+        public async Task<Uri> GetFileUriAsync(Uri uri)
         {
             if (uri.IsFile || uri.Scheme == "ms-appx" || uri.Scheme == "ms-appdata")
             {
@@ -47,8 +47,7 @@ namespace Uestc.BBS.WinUI.Services
                     imageFullPath,
                     async _ =>
                     {
-                        var httpClient = _httpClientFactory.CreateClient();
-                        var bytes = await httpClient.GetByteArrayAsync(uri);
+                        var bytes = await _httpClientFactory.CreateClient().GetByteArrayAsync(uri);
                         await File.WriteAllBytesAsync(imageFullPath, bytes);
                     }
                 );

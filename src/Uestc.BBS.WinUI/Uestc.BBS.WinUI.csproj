@@ -29,7 +29,6 @@
   <None Remove="Controls\BoardTabItemListView.xaml" />
   <None Remove="Controls\ImageMosaic.xaml" />
   <None Remove="Controls\PersonProfile.xaml" />
-  <None Remove="Controls\TopicContentControl.xaml" />
   <None Remove="Views\AuthPage.xaml" />
   <None Remove="Views\AuthSettingPage.xaml" />
   <None Remove="Views\ContentDialogs\AboutContentDialog.xaml" />
@@ -110,7 +109,7 @@
     <Page Update="Views\ImageViewerWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Update="Controls\TopicContentControl.xaml">
+    <Page Update="Controls\ThreadContentControl.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Update="Views\Overlays\ServicesSettingOverlay.xaml">

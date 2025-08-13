@@ -42,6 +42,7 @@ namespace Uestc.BBS.WinUI.Helpers
             {
                 return;
             }
+
             personPicture.ProfilePicture = new BitmapImage(
                 await _fileCache.GetFileUriAsync(new Uri(source))
             );

@@ -1,5 +1,6 @@
 ﻿using FastEnumUtility;
-using Uestc.BBS.Core.Services.Forum;
+using Uestc.BBS.Sdk.Services.Thread;
+using Uestc.BBS.Sdk.Services.Thread.ThreadList;
 
 namespace Uestc.BBS.Core.Models
 {
@@ -219,7 +220,7 @@ namespace Uestc.BBS.Core.Models
                 {
                     Name = "淘专辑",
                     Route = "forum/topiclist",
-                    Board = Board.ExamiHome,
+                    Board = Board.Examination,
                     SortType = TopicSortType.New,
                     PageSize = 15,
                     RequirePreviewSources = true,

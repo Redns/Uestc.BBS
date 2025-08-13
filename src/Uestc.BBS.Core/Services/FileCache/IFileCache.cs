@@ -7,6 +7,6 @@
         /// </summary>
         /// <param name="uri"></param>
         /// <returns></returns>
-        ValueTask<Uri> GetFileUriAsync(Uri uri);
+        Task<Uri> GetFileUriAsync(Uri uri);
     }
 }

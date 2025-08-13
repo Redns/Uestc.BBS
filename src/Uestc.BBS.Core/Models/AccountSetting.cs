@@ -1,4 +1,5 @@
 ﻿using System.Text.Json.Serialization;
+using Uestc.BBS.Sdk.Services.Auth;
 
 namespace Uestc.BBS.Core.Models
 {
@@ -41,67 +42,5 @@ namespace Uestc.BBS.Core.Models
         /// 授权信息列表（保存本地所有授权信息）
         /// </summary>
         public List<AuthCredential> Credentials { get; init; } = [];
-    }
-
-    /// <summary>
-    /// 授权信息
-    /// </summary>
-    public class AuthCredential
-    {
-        /// <summary>
-        /// 用户唯一识别码
-        /// </summary>
-        public uint Uid { get; set; }
-
-        /// <summary>
-        /// 用户名
-        /// </summary>
-        public string Name { get; set; } = string.Empty;
-
-        /// <summary>
-        /// 密码
-        /// </summary>
-        public string Password { get; set; } = string.Empty;
-
-        /// <summary>
-        /// 令牌
-        /// </summary>
-
-        public string Token { get; set; } = string.Empty;
-
-        /// <summary>
-        /// 密钥
-        /// </summary>
-
-        public string Secret { get; set; } = string.Empty;
-
-        /// <summary>
-        /// 头像
-        /// </summary>
-        public string Avatar { get; set; } = string.Empty;
-
-        /// <summary>
-        /// 用户等级
-        /// </summary>
-        public uint Level { get; set; } = 1;
-
-        /// <summary>
-        /// 用户组
-        /// </summary>
-        public string Group { get; set; } = string.Empty;
-
-        /// <summary>
-        /// 签名
-        /// </summary>
-        public string Signature { get; set; } = string.Empty;
-
-        /// <summary>
-        /// 此处序列化用户 AutoCompleteBox 显示
-        /// </summary>
-        /// <returns></returns>
-        public override string ToString()
-        {
-            return Name;
-        }
     }
 }

@@ -8,11 +8,11 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DebugType>none</DebugType>
+    <DebugType>full</DebugType>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DebugType>none</DebugType>
+    <DebugType>full</DebugType>
   </PropertyGroup>
 
   <ItemGroup>
@@ -30,10 +30,12 @@
   <ItemGroup>
     <PackageReference Include="AWSSDK.S3" Version="4.0.6.4" />
     <PackageReference Include="FastEnum.Core" Version="2.0.5" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.8" />
-    <PackageReference Include="Microsoft.Extensions.Http" Version="9.0.8" />
     <PackageReference Include="NLog" Version="6.0.2" />
     <PackageReference Include="WebDav.Client" Version="2.9.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Uestc.BBS.Sdk\Uestc.BBS.Sdk\Uestc.BBS.Sdk.csproj" />
   </ItemGroup>
 
 </Project>

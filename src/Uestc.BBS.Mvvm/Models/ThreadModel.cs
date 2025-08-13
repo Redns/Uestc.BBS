@@ -1,12 +1,12 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using Uestc.BBS.Core.Services.Forum;
+using Uestc.BBS.Sdk.Services.Thread;
 
 namespace Uestc.BBS.Mvvm.Models
 {
-    public partial class TopicModel(Topic topic) : ObservableObject
+    public partial class ThreadModel(ThreadOverview thread) : ObservableObject
     {
         [ObservableProperty]
-        public partial uint UserId { get; set; } = topic.UserId;
+        public partial uint UserId { get; set; } = thread.Uid;
 
         [ObservableProperty]
         public partial string UserName { get; set; } = string.Empty;

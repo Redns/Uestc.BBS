@@ -2,6 +2,7 @@
 using System.Collections.Specialized;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Uestc.BBS.Core.Models;
+using Uestc.BBS.Sdk.Services.Auth;
 
 namespace Uestc.BBS.Mvvm.Models
 {
@@ -124,10 +125,16 @@ namespace Uestc.BBS.Mvvm.Models
         /// <summary>
         /// 名称
         /// </summary>
-        public string Name
+        public string Username
         {
-            get => authCredential.Name;
-            set => SetProperty(authCredential.Name, value, authCredential, (s, e) => s.Name = e);
+            get => authCredential.Username;
+            set =>
+                SetProperty(
+                    authCredential.Username,
+                    value,
+                    authCredential,
+                    (s, e) => s.Username = e
+                );
         }
 
         /// <summary>
@@ -162,6 +169,31 @@ namespace Uestc.BBS.Mvvm.Models
             get => authCredential.Secret;
             set =>
                 SetProperty(authCredential.Secret, value, authCredential, (s, e) => s.Secret = e);
+        }
+
+        /// <summary>
+        /// Cookie
+        /// </summary>
+        public string Cookie
+        {
+            get => authCredential.Cookie;
+            set =>
+                SetProperty(authCredential.Cookie, value, authCredential, (s, e) => s.Cookie = e);
+        }
+
+        /// <summary>
+        /// Authorization
+        /// </summary>
+        public string Authorization
+        {
+            get => authCredential.Authorization;
+            set =>
+                SetProperty(
+                    authCredential.Authorization,
+                    value,
+                    authCredential,
+                    (s, e) => s.Authorization = e
+                );
         }
 
         /// <summary>

@@ -11,29 +11,9 @@
         public bool ShowPreviewImage { get; set; } = true;
 
         /// <summary>
-        /// 预览图片解码优化
-        /// </summary>
-        public bool PreviewImageDecodeOptimization { get; set; } = false;
-
-        /// <summary>
-        /// 高亮热门主题
-        /// </summary>
-        public bool HighlightHotTopic { get; set; } = true;
-
-        /// <summary>
-        /// 热门主题阈值
-        /// </summary>
-        public uint TopicHotThreshold { get; set; } = 1000;
-
-        /// <summary>
         /// 评论设置
         /// </summary>
         public CommentSetting Comment { get; set; } = new();
-
-        /// <summary>
-        /// 主题热度指数加权方案
-        /// </summary>
-        public TopicHotIndexWeightingScheme TopicHotIndexWeightingScheme { get; set; } = new();
     }
 
     /// <summary>
@@ -82,26 +62,5 @@
         /// </summary>
         public bool IsUserSignatureVisible { get; set; } = true;
         #endregion
-    }
-
-    /// <summary>
-    /// 主题热度指数加权方案
-    /// </summary>
-    public class TopicHotIndexWeightingScheme
-    {
-        /// <summary>
-        /// 浏览量系数
-        /// </summary>
-        public uint ViewsCoefficient { get; set; } = 1;
-
-        /// <summary>
-        /// 回复系数
-        /// </summary>
-        public uint RepliesCoefficient { get; set; } = 10;
-
-        /// <summary>
-        /// 点赞系数
-        /// </summary>
-        public uint LikesCoefficient { get; set; } = 8;
     }
 }

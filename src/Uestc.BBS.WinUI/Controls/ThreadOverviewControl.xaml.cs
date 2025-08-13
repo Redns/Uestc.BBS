@@ -4,7 +4,7 @@ using Microsoft.UI.Xaml.Controls;
 
 namespace Uestc.BBS.WinUI.Controls
 {
-    public sealed partial class TopicOverviewControl : UserControl
+    public sealed partial class ThreadOverviewControl : UserControl
     {
         /// <summary>
         /// 头像
@@ -12,7 +12,7 @@ namespace Uestc.BBS.WinUI.Controls
         private static readonly DependencyProperty AvatarProperty = DependencyProperty.Register(
             nameof(Avatar),
             typeof(string),
-            typeof(TopicOverviewControl),
+            typeof(ThreadOverviewControl),
             new PropertyMetadata(default(string))
         );
 
@@ -28,7 +28,7 @@ namespace Uestc.BBS.WinUI.Controls
         private static readonly DependencyProperty UsernameProperty = DependencyProperty.Register(
             nameof(Username),
             typeof(string),
-            typeof(TopicOverviewControl),
+            typeof(ThreadOverviewControl),
             new PropertyMetadata(default(string))
         );
 
@@ -45,7 +45,7 @@ namespace Uestc.BBS.WinUI.Controls
         private static readonly DependencyProperty DateProperty = DependencyProperty.Register(
             nameof(Date),
             typeof(DateTime),
-            typeof(TopicOverviewControl),
+            typeof(ThreadOverviewControl),
             new PropertyMetadata(default(DateTime))
         );
 
@@ -56,12 +56,12 @@ namespace Uestc.BBS.WinUI.Controls
         }
 
         /// <summary>
-        /// 是否热门
+        /// 是否为热门主题
         /// </summary>
         private static readonly DependencyProperty IsHotProperty = DependencyProperty.Register(
             nameof(IsHot),
             typeof(bool),
-            typeof(TopicOverviewControl),
+            typeof(ThreadOverviewControl),
             new PropertyMetadata(default(bool))
         );
 
@@ -77,7 +77,7 @@ namespace Uestc.BBS.WinUI.Controls
         private static readonly DependencyProperty BoardNameProperty = DependencyProperty.Register(
             nameof(BoardName),
             typeof(string),
-            typeof(TopicOverviewControl),
+            typeof(ThreadOverviewControl),
             new PropertyMetadata(default(string))
         );
 
@@ -93,7 +93,7 @@ namespace Uestc.BBS.WinUI.Controls
         private static readonly DependencyProperty TitleProperty = DependencyProperty.Register(
             nameof(Title),
             typeof(string),
-            typeof(TopicOverviewControl),
+            typeof(ThreadOverviewControl),
             new PropertyMetadata(default(string))
         );
 
@@ -109,7 +109,7 @@ namespace Uestc.BBS.WinUI.Controls
         private static readonly DependencyProperty SubjectProperty = DependencyProperty.Register(
             nameof(Subject),
             typeof(string),
-            typeof(TopicOverviewControl),
+            typeof(ThreadOverviewControl),
             new PropertyMetadata(default(string))
         );
 
@@ -119,19 +119,6 @@ namespace Uestc.BBS.WinUI.Controls
             set => SetValue(SubjectProperty, value);
         }
 
-        private static readonly DependencyProperty SummaryProperty = DependencyProperty.Register(
-            nameof(Summary),
-            typeof(string),
-            typeof(TopicOverviewControl),
-            new PropertyMetadata(default(string))
-        );
-
-        public string Summary
-        {
-            get => (string)GetValue(SummaryProperty);
-            set => SetValue(SummaryProperty, value);
-        }
-
         /// <summary>
         /// 预览图片地址
         /// </summary>
@@ -139,7 +126,7 @@ namespace Uestc.BBS.WinUI.Controls
             DependencyProperty.Register(
                 nameof(PreviewSources),
                 typeof(string[]),
-                typeof(TopicOverviewControl),
+                typeof(ThreadOverviewControl),
                 new PropertyMetadata(default(string[]))
             );
 
@@ -156,7 +143,7 @@ namespace Uestc.BBS.WinUI.Controls
             DependencyProperty.Register(
                 nameof(ShowPreviewImage),
                 typeof(bool),
-                typeof(TopicOverviewControl),
+                typeof(ThreadOverviewControl),
                 new PropertyMetadata(default(bool))
             );
 
@@ -167,30 +154,12 @@ namespace Uestc.BBS.WinUI.Controls
         }
 
         /// <summary>
-        /// 预览图像解码优化
-        /// 限制预览图象的解码高度以减少资源占用，提升加载速度
-        /// </summary>
-        private static readonly DependencyProperty PreviewImageDecodeOptimizedProperty =
-            DependencyProperty.Register(
-                nameof(PreviewImageDecodeOptimized),
-                typeof(bool),
-                typeof(TopicOverviewControl),
-                new PropertyMetadata(false)
-            );
-
-        public bool PreviewImageDecodeOptimized
-        {
-            get => (bool)GetValue(PreviewImageDecodeOptimizedProperty);
-            set => SetValue(PreviewImageDecodeOptimizedProperty, value);
-        }
-
-        /// <summary>
         /// 浏览量
         /// </summary>
         private static readonly DependencyProperty ViewsProperty = DependencyProperty.Register(
             nameof(Views),
             typeof(uint),
-            typeof(TopicOverviewControl),
+            typeof(ThreadOverviewControl),
             new PropertyMetadata(default(uint))
         );
 
@@ -206,7 +175,7 @@ namespace Uestc.BBS.WinUI.Controls
         private static readonly DependencyProperty RepliesProperty = DependencyProperty.Register(
             nameof(Replies),
             typeof(uint),
-            typeof(TopicOverviewControl),
+            typeof(ThreadOverviewControl),
             new PropertyMetadata(default(uint))
         );
 
@@ -222,7 +191,7 @@ namespace Uestc.BBS.WinUI.Controls
         private static readonly DependencyProperty LikesProperty = DependencyProperty.Register(
             nameof(Likes),
             typeof(uint),
-            typeof(TopicOverviewControl),
+            typeof(ThreadOverviewControl),
             new PropertyMetadata(default(uint))
         );
 
@@ -232,7 +201,7 @@ namespace Uestc.BBS.WinUI.Controls
             set => SetValue(LikesProperty, value);
         }
 
-        public TopicOverviewControl()
+        public ThreadOverviewControl()
         {
             InitializeComponent();
         }

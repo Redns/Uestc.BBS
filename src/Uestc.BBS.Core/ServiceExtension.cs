@@ -2,12 +2,8 @@
 using Microsoft.Extensions.DependencyInjection;
 using NLog;
 using Uestc.BBS.Core.Models;
-using Uestc.BBS.Core.Services;
-using Uestc.BBS.Core.Services.Auth;
-using Uestc.BBS.Core.Services.Forum;
-using Uestc.BBS.Core.Services.Forum.TopicList;
 using Uestc.BBS.Core.Services.System;
-using Uestc.BBS.Core.Services.User;
+using Uestc.BBS.Sdk;
 
 namespace Uestc.BBS.Core
 {
@@ -47,13 +43,8 @@ namespace Uestc.BBS.Core
             // HttpClient
             ServiceCollection.AddHttpClient();
             ServiceCollection
-                .AddHttpClient<IDailySentenceService, DailySentenceService>(
-                    (services, client) =>
-                    {
-                        client.BaseAddress = services
-                            .GetRequiredService<AppSetting>()
-                            .Services.Network.DailySentenceUri;
-                    }
+                .AddDailySentencesService(services =>
+                    services.GetRequiredService<AppSetting>().Services.Network.BaseUri
                 )
                 .ConfigurePrimaryHttpMessageHandler(
                     (handler, services) =>
@@ -79,13 +70,8 @@ namespace Uestc.BBS.Core
                     }
                 );
             ServiceCollection
-                .AddHttpClient<IAuthService, AuthService>(
-                    (services, client) =>
-                    {
-                        client.BaseAddress = services
-                            .GetRequiredService<AppSetting>()
-                            .Services.Network.AuthUri;
-                    }
+                .AddAuthService(services =>
+                    services.GetRequiredService<AppSetting>().Services.Network.BaseUri
                 )
                 .ConfigurePrimaryHttpMessageHandler(
                     (handler, services) =>
@@ -111,13 +97,8 @@ namespace Uestc.BBS.Core
                     }
                 );
             ServiceCollection
-                .AddHttpClient<ITopicListService, TopicListService>(
-                    (services, client) =>
-                    {
-                        client.BaseAddress = services
-                            .GetRequiredService<AppSetting>()
-                            .Services.Network.TopicListUri;
-                    }
+                .AddMobcentThreadListService(services =>
+                    services.GetRequiredService<AppSetting>().Services.Network.BaseUri
                 )
                 .ConfigurePrimaryHttpMessageHandler(
                     (handler, services) =>
@@ -143,45 +124,8 @@ namespace Uestc.BBS.Core
                     }
                 );
             ServiceCollection
-                .AddHttpClient<ITopicService, TopicService>(
-                    (services, client) =>
-                    {
-                        client.BaseAddress = services
-                            .GetRequiredService<AppSetting>()
-                            .Services.Network.TopicDetailUri;
-                    }
-                )
-                .ConfigurePrimaryHttpMessageHandler(
-                    (handler, services) =>
-                    {
-                        var appSetting = services.GetRequiredService<AppSetting>();
-                        if (handler is SocketsHttpHandler socketsHttpHandler)
-                        {
-                            socketsHttpHandler.UseProxy = appSetting
-                                .Services
-                                .Network
-                                .UseSystemProxy;
-                            socketsHttpHandler.SslOptions.RemoteCertificateValidationCallback = (
-                                sender,
-                                cert,
-                                chain,
-                                sslPolicyErrors
-                            ) =>
-                            {
-                                return appSetting.Services.Network.IsCertificateVerificationEnabled
-                                    || sslPolicyErrors == SslPolicyErrors.None;
-                            };
-                        }
-                    }
-                );
-            ServiceCollection
-                .AddHttpClient<IUserService, UserService>(
-                    (services, client) =>
-                    {
-                        client.BaseAddress = services
-                            .GetRequiredService<AppSetting>()
-                            .Services.Network.UserDetailUri;
-                    }
+                .AddMobcentThreadContentService(services =>
+                    services.GetRequiredService<AppSetting>().Services.Network.BaseUri
                 )
                 .ConfigurePrimaryHttpMessageHandler(
                     (handler, services) =>

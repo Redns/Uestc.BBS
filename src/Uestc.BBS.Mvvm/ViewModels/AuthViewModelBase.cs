@@ -1,10 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Uestc.BBS.Core.Helpers;
-using Uestc.BBS.Core.Models;
-using Uestc.BBS.Core.Services.Auth;
 using Uestc.BBS.Core.Services.System;
 using Uestc.BBS.Mvvm.Models;
+using Uestc.BBS.Sdk.Services.Auth;
 
 namespace Uestc.BBS.Mvvm.ViewModels
 {
@@ -42,7 +41,7 @@ namespace Uestc.BBS.Mvvm.ViewModels
         /// 选中的授权信息
         /// </summary>
         public AuthCredentialModel? SelectedCredential =>
-            AppSettingModel.Account.Credentials.FirstOrDefault(c => c.Name == Username);
+            AppSettingModel.Account.Credentials.FirstOrDefault(c => c.Username == Username);
 
         /// <summary>
         /// 用户名或密码为空时不能登录
@@ -120,36 +119,35 @@ namespace Uestc.BBS.Mvvm.ViewModels
             if (
                 !string.IsNullOrEmpty(SelectedCredential?.Token)
                 && !string.IsNullOrEmpty(SelectedCredential?.Secret)
+                && !string.IsNullOrEmpty(SelectedCredential.Cookie)
+                && !string.IsNullOrEmpty(SelectedCredential.Authorization)
                 && SelectedCredential?.Password == Password
             )
             {
                 return SelectedCredential;
             }
 
-            // 根据用户名和密码登录
-            var resp = await _authService.LoginAsync(Username!, Password!);
-            if (resp?.Success is not true)
-            {
-                _notificationService.Show("登陆失败", "用户不存在或密码错误");
-                return null;
-            }
-
             // 若授权信息不存在则创建
             var credential =
                 SelectedCredential
-                ?? new AuthCredentialModel(
-                    new AuthCredential
+                ?? new AuthCredentialModel(new AuthCredential { Username = Username! });
+            credential.Password = Password!;
+
+            // 根据用户名和密码登录
+            await _authService
+                .LoginAsync(credential.AuthCredential)
+                .ContinueWith(t =>
+                {
+                    if (t.IsFaulted)
                     {
-                        Uid = resp.Uid,
-                        Avatar = resp.Avatar,
-                        Name = resp.Username,
+                        _notificationService.Show("登陆失败", "用户不存在或密码错误");
+                        return;
                     }
-                );
-            credential.Token = resp.Token;
-            credential.Secret = resp.Secret;
-            credential.Password = AppSettingModel.Account.RememberPassword
-                ? Password!
-                : string.Empty;
+
+                    credential.Password = AppSettingModel.Account.RememberPassword
+                        ? Password!
+                        : string.Empty;
+                });
 
             return credential;
         }

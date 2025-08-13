@@ -6,6 +6,7 @@
     xmlns:controls="using:CommunityToolkit.WinUI.Controls"
     xmlns:converters="using:CommunityToolkit.WinUI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helpers="using:Uestc.BBS.WinUI.Helpers"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:local="using:Uestc.BBS.WinUI.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -48,9 +49,9 @@
                         Margin="0,5"
                         HorizontalSpacing="10"
                         LastChildFill="False">
-                        <PersonPicture Width="32" ProfilePicture="{x:Bind Avatar, Mode=OneWay}" />
+                        <PersonPicture Width="32" helpers:PersonPictureCacheHelper.ProfilePictureEx="{x:Bind Avatar, Mode=OneWay}" />
                         <StackPanel VerticalAlignment="Center">
-                            <TextBlock VerticalAlignment="Center" Text="{x:Bind Name, Mode=OneWay}" />
+                            <TextBlock VerticalAlignment="Center" Text="{x:Bind Username, Mode=OneWay}" />
                             <TextBlock
                                 FontSize="12"
                                 Foreground="{ThemeResource TextFillColorSecondaryBrush}"
@@ -75,7 +76,10 @@
             Foreground="{ThemeResource AccentTextFillColorTertiaryBrush}"
             Text="{x:Bind ViewModel.UsernameMessage, Mode=OneWay}" />
         <!--  密码  -->
-        <PasswordBox Password="{x:Bind ViewModel.Password, Mode=TwoWay}" PlaceholderText="密码" />
+        <PasswordBox
+            KeyDown="EnterToLogin"
+            Password="{x:Bind ViewModel.Password, Mode=TwoWay}"
+            PlaceholderText="密码" />
         <TextBlock
             Height="18"
             FontSize="10"

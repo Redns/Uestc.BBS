@@ -130,7 +130,7 @@
                 <FlyoutBase.AttachedFlyout>
                     <Flyout Placement="BottomEdgeAlignedRight">
                         <local_controls:PersonProfile
-                            Name="{x:Bind ViewModel.AppSettingModel.Account.DefaultCredential.Name, Mode=OneWay}"
+                            Name="{x:Bind ViewModel.AppSettingModel.Account.DefaultCredential.Username, Mode=OneWay}"
                             MaxWidth="300"
                             Avatar="{x:Bind ViewModel.AppSettingModel.Account.DefaultCredential.Avatar, Mode=OneWay}"
                             Group="{x:Bind ViewModel.AppSettingModel.Account.DefaultCredential.Group, Mode=OneWay}"

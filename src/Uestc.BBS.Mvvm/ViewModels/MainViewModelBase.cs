@@ -3,11 +3,11 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Uestc.BBS.Core.Helpers;
 using Uestc.BBS.Core.Models;
-using Uestc.BBS.Core.Services;
 using Uestc.BBS.Core.Services.System;
 using Uestc.BBS.Mvvm.Messages;
 using Uestc.BBS.Mvvm.Models;
 using Uestc.BBS.Mvvm.Services;
+using Uestc.BBS.Sdk.Services.System;
 
 namespace Uestc.BBS.Mvvm.ViewModels
 {

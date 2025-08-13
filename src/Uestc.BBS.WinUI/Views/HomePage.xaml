@@ -7,7 +7,7 @@
     xmlns:converters="using:CommunityToolkit.WinUI.Converters"
     xmlns:core="using:Uestc.BBS.Core"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:forum="using:Uestc.BBS.Core.Services.Forum"
+    xmlns:helpers="using:Uestc.BBS.WinUI.Helpers"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:local_controls="using:Uestc.BBS.WinUI.Controls"
     xmlns:local_converters="using:Uestc.BBS.WinUI.Converters"
@@ -19,8 +19,12 @@
     mc:Ignorable="d">
 
     <Page.Resources>
+        <converters:StringFormatConverter x:Key="StringFormatConverter" />
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        <converters:StringVisibilityConverter x:Key="StringVisibilityConverter" />
+        <local_converters:Null2Visibility x:Key="Null2Visibility" />
         <local_converters:Double2GridLength x:Key="Double2GridLength" />
+        <local_converters:Date2RelativeStringConverter x:Key="Date2RelativeStringConverter" />
         <!--  BoardSwitch  -->
         <!--  BoardSwitch Right2Left  -->
         <Storyboard x:Name="BoardSwitchRight2LeftStoryboard">
@@ -51,7 +55,7 @@
     </Page.Resources>
 
     <Grid
-        Margin="10,0,10,15"
+        Margin="10,0,0,15"
         ColumnSpacing="10"
         RowSpacing="10">
         <Grid.RowDefinitions>
@@ -98,24 +102,24 @@
             Grid.RowSpan="2"
             Grid.Column="1"
             Margin="0,10,0,0"
-            VerticalScrollBarVisibility="Hidden">
-            <StackPanel Spacing="10">
+            Padding="0,0,10,0">
+            <StackPanel Spacing="10" Visibility="{x:Bind ViewModel.CurrentThread, Converter={StaticResource Null2Visibility}, Mode=OneWay}">
                 <controls:DockPanel HorizontalSpacing="10" LastChildFill="False">
                     <PersonPicture
                         Height="36"
                         VerticalAlignment="Top"
-                        ProfilePicture="{x:Bind ViewModel.AppSettingModel.Account.DefaultCredential.Avatar, Mode=OneWay}" />
+                        helpers:PersonPictureCacheHelper.ProfilePictureEx="{x:Bind ViewModel.CurrentThread.UserAvatar, Mode=OneWay}" />
                     <!--  昵称、签名  -->
                     <StackPanel VerticalAlignment="Center" Spacing="3">
                         <StackPanel Orientation="Horizontal" Spacing="5">
-                            <TextBlock FontWeight="SemiBold" Text="Redns" />
+                            <TextBlock FontWeight="SemiBold" Text="{x:Bind ViewModel.CurrentThread.Username, Mode=OneWay}" />
                             <Border Background="{ThemeResource SystemFillColorSuccessBrush}" CornerRadius="3">
                                 <TextBlock
                                     Margin="3,0"
                                     Padding="0,1,0,0"
                                     FontSize="12"
                                     Foreground="White"
-                                    Text="Lv.8" />
+                                    Text="{x:Bind ViewModel.CurrentThread.UserLevel, Mode=OneWay, Converter={StaticResource StringFormatConverter}, ConverterParameter='Lv.{0}'}" />
                             </Border>
                             <Border Background="{ThemeResource AccentTextFillColorTertiaryBrush}" CornerRadius="3">
                                 <TextBlock
@@ -123,16 +127,17 @@
                                     Padding="0,1,0,0"
                                     FontSize="11"
                                     Foreground="White"
-                                    Text="成电校友" />
+                                    Text="{x:Bind ViewModel.CurrentThread.UserGroup, Mode=OneWay}"
+                                    Visibility="{x:Bind ViewModel.CurrentThread.UserGroup, Converter={StaticResource StringVisibilityConverter}, Mode=OneWay}" />
                             </Border>
                         </StackPanel>
                         <TextBlock
                             FontSize="12"
                             Foreground="Gray"
-                            Text="早熟的人通常都晚熟" />
+                            Text="{x:Bind ViewModel.CurrentThread.CreateTime, Converter={StaticResource Date2RelativeStringConverter}, Mode=OneWay}" />
                     </StackPanel>
                 </controls:DockPanel>
-                <local_controls:TopicContentControl TopicContents="{x:Bind TopicContents}" />
+                <local_controls:ThreadContentControl Contents="{x:Bind ViewModel.CurrentThread.Contents, Mode=OneWay}" />
             </StackPanel>
         </ScrollViewer>
 

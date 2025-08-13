@@ -16,66 +16,12 @@
     <ScrollViewer Margin="10" VerticalScrollBarVisibility="Hidden">
         <StackPanel Spacing="5">
             <!--  预览图像  -->
-            <controls:SettingsExpander
+            <controls:SettingsCard
                 Description="在主题列表中显示缩略图"
                 Header="预览图像"
-                HeaderIcon="{ui:FontIcon Glyph=&#xE91B;}">
+                HeaderIcon="{ui:FontIcon Glyph=&#xE8B9;}">
                 <ToggleSwitch IsOn="{x:Bind ViewModel.BrowsingSettingModel.ShowPreviewImage, Mode=TwoWay}" />
-                <controls:SettingsExpander.Items>
-                    <controls:SettingsCard Description="以较小尺寸解码预览图像，减少内存占用" Header="解码优化">
-                        <ToggleSwitch IsOn="{x:Bind ViewModel.BrowsingSettingModel.PreviewImageDecodeOptimization, Mode=TwoWay}" />
-                    </controls:SettingsCard>
-                </controls:SettingsExpander.Items>
-            </controls:SettingsExpander>
-            <!--  热门主题  -->
-            <controls:SettingsExpander
-                Description="高亮热门主题的浏览量和图标"
-                Header="标记热门主题"
-                HeaderIcon="{ui:FontIcon Glyph=&#xECAD;}">
-                <ToggleSwitch IsOn="{x:Bind ViewModel.BrowsingSettingModel.HighlightHotTopic, Mode=TwoWay}" />
-                <controls:SettingsExpander.Items>
-                    <controls:SettingsCard
-                        Description="加权系数高于阈值的主题将进行特殊高亮"
-                        Header="热门主题阈值"
-                        IsEnabled="{x:Bind ViewModel.BrowsingSettingModel.HighlightHotTopic, Mode=OneWay}">
-                        <StackPanel Orientation="Horizontal" Spacing="10">
-                            <TextBlock
-                                Padding="0,0,0,1"
-                                VerticalAlignment="Center"
-                                Text="{x:Bind ViewModel.BrowsingSettingModel.TopicHotThreshold, Mode=OneWay}" />
-                            <Slider
-                                Width="160"
-                                Maximum="10000"
-                                Minimum="100"
-                                Value="{x:Bind ViewModel.BrowsingSettingModel.TopicHotThreshold, Mode=TwoWay}" />
-                        </StackPanel>
-                    </controls:SettingsCard>
-                    <controls:SettingsCard Header="热门指数加权方案" IsEnabled="{x:Bind ViewModel.BrowsingSettingModel.HighlightHotTopic, Mode=OneWay}">
-                        <StackPanel Orientation="Horizontal" Spacing="5">
-                            <TextBlock VerticalAlignment="Center" Text="浏览量" />
-                            <TextBlock VerticalAlignment="Center" Text="×" />
-                            <NumberBox
-                                Maximum="10"
-                                Minimum="0"
-                                Value="{x:Bind ViewModel.BrowsingSettingModel.TopicHotIndexWeightingScheme.ViewsCoefficient, Mode=TwoWay}" />
-                            <TextBlock VerticalAlignment="Center" Text="＋" />
-                            <TextBlock VerticalAlignment="Center" Text="回复" />
-                            <TextBlock VerticalAlignment="Center" Text="×" />
-                            <NumberBox
-                                Maximum="10"
-                                Minimum="0"
-                                Value="{x:Bind ViewModel.BrowsingSettingModel.TopicHotIndexWeightingScheme.RepliesCoefficient, Mode=TwoWay}" />
-                            <TextBlock VerticalAlignment="Center" Text="＋" />
-                            <TextBlock VerticalAlignment="Center" Text="点赞" />
-                            <TextBlock VerticalAlignment="Center" Text="×" />
-                            <NumberBox
-                                Maximum="10"
-                                Minimum="0"
-                                Value="{x:Bind ViewModel.BrowsingSettingModel.TopicHotIndexWeightingScheme.LikesCoefficient, Mode=TwoWay}" />
-                        </StackPanel>
-                    </controls:SettingsCard>
-                </controls:SettingsExpander.Items>
-            </controls:SettingsExpander>
+            </controls:SettingsCard>
             <!--  筛选主题  -->
             <controls:SettingsExpander
                 Description="过滤指定主题和评论"

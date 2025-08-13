@@ -4,6 +4,7 @@ using System.Linq;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
 using Uestc.BBS.Core;
 using Uestc.BBS.Mvvm.Models;
 using Uestc.BBS.WinUI.ViewModels;
@@ -34,7 +35,8 @@ namespace Uestc.BBS.WinUI.Views
             if (UsernameAutoSuggestBox.ItemsSource is List<AuthCredentialModel> credentials)
             {
                 UsernameAutoSuggestBox.ItemsSource = credentials
-                    .Where(c => c.Name != credential.Name)
+                    .Where(c => !string.IsNullOrEmpty(c.Username))
+                    .Where(c => c.Username != credential.Username)
                     .ToList();
             }
         }
@@ -54,9 +56,9 @@ namespace Uestc.BBS.WinUI.Views
                 return;
             }
 
-            var newCredentials = ViewModel.AppSettingModel.Account.Credentials.Where(u =>
-                u.Name.Contains(sender.Text, StringComparison.OrdinalIgnoreCase)
-            );
+            var newCredentials = ViewModel
+                .AppSettingModel.Account.Credentials.Where(c => !string.IsNullOrEmpty(c.Username))
+                .Where(u => u.Username.Contains(sender.Text, StringComparison.OrdinalIgnoreCase));
             if (
                 sender.ItemsSource is not List<AuthCredentialModel> oldCredentials
                 || oldCredentials.Count != newCredentials.Count()
@@ -79,7 +81,15 @@ namespace Uestc.BBS.WinUI.Views
         {
             if (args.SelectedItem is AuthCredentialModel credential)
             {
-                sender.Text = credential.Name;
+                sender.Text = credential.Username;
+            }
+        }
+
+        private async void EnterToLogin(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key is Windows.System.VirtualKey.Enter && ViewModel.CanLogin)
+            {
+                await ViewModel.LoginAsync();
             }
         }
     }

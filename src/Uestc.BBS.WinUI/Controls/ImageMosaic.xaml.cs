@@ -36,23 +36,6 @@ namespace Uestc.BBS.WinUI.Controls
             set => SetValue(SourcesProperty, value);
         }
 
-        /// <summary>
-        /// 是否对预览图片进行优化，默认关闭
-        /// </summary>
-        private static readonly DependencyProperty ImageDecodeOptimizedProperty =
-            DependencyProperty.Register(
-                nameof(ImageDecodeOptimized),
-                typeof(bool),
-                typeof(ImageMosaic),
-                new PropertyMetadata(false)
-            );
-
-        public bool ImageDecodeOptimized
-        {
-            get => (bool)GetValue(ImageDecodeOptimizedProperty);
-            set => SetValue(ImageDecodeOptimizedProperty, value);
-        }
-
         public ImageMosaic()
         {
             InitializeComponent();
@@ -85,10 +68,7 @@ namespace Uestc.BBS.WinUI.Controls
                 {
                     MaxHeight = 240,
                     Stretch = Stretch.Uniform,
-                    Source = new BitmapImage(imageUri)
-                    {
-                        DecodePixelHeight = imageMosaic.ImageDecodeOptimized ? 240 : 0,
-                    },
+                    Source = new BitmapImage(imageUri),
                 };
 
                 image.PointerPressed += (_, _) =>
@@ -133,12 +113,7 @@ namespace Uestc.BBS.WinUI.Controls
                                     ? imageHeight * 2 + grid.RowSpacing
                                     : imageHeight,
                             Stretch = Stretch.UniformToFill,
-                            Source = new BitmapImage(imageUri)
-                            {
-                                DecodePixelHeight = imageMosaic.ImageDecodeOptimized
-                                    ? imageHeight
-                                    : 0,
-                            },
+                            Source = new BitmapImage(imageUri),
                         };
                         image.PointerPressed += (_, _) =>
                             OpenImage(

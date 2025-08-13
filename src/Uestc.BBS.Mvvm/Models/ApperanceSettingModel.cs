@@ -2,7 +2,8 @@
 using System.Collections.Specialized;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Uestc.BBS.Core.Models;
-using Uestc.BBS.Core.Services.Forum;
+using Uestc.BBS.Sdk.Services.Thread;
+using Uestc.BBS.Sdk.Services.Thread.ThreadList;
 
 namespace Uestc.BBS.Mvvm.Models
 {
@@ -255,7 +256,7 @@ namespace Uestc.BBS.Mvvm.Models
         /// <summary>
         /// 主题列表
         /// </summary>
-        public ObservableCollection<TopicOverview> Topics { get; set; } = [];
+        public ObservableCollection<ThreadOverview> Topics { get; set; } = [];
     }
 
     /// <summary>

@@ -12,10 +12,10 @@ using FastEnumUtility;
 using Microsoft.Extensions.DependencyInjection;
 using Uestc.BBS.Core;
 using Uestc.BBS.Core.Models;
-using Uestc.BBS.Core.Services;
-using Uestc.BBS.Core.Services.Forum.TopicList;
 using Uestc.BBS.Desktop.Views;
 using Uestc.BBS.Mvvm.Models;
+using Uestc.BBS.Sdk.Services.System;
+using Uestc.BBS.Sdk.Services.Thread.ThreadList;
 
 namespace Uestc.BBS.Desktop.ViewModels
 {
@@ -25,7 +25,7 @@ namespace Uestc.BBS.Desktop.ViewModels
 
         private readonly HttpClient _httpClient;
 
-        private readonly ITopicListService _topicService;
+        private readonly IThreadListService _threadListService;
 
         private readonly IDailySentenceService _dailySentenceService;
 
@@ -51,15 +51,15 @@ namespace Uestc.BBS.Desktop.ViewModels
             HomeView homeView,
             HttpClient httpClient,
             AppSettingModel appSettingModel,
-            ITopicListService topicService,
+            IThreadListService threadListService,
             IDailySentenceService dailySentenceService
         )
         {
             _appSetting = appSetting;
             _httpClient = httpClient;
             _currentPage = homeView;
-            _topicService = topicService;
             _appSettingModel = appSettingModel;
+            _threadListService = threadListService;
             _dailySentenceService = dailySentenceService;
 
             Menus =

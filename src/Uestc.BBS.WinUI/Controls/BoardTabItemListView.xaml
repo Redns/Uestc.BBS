@@ -6,10 +6,10 @@
     xmlns:controls="using:CommunityToolkit.WinUI.Controls"
     xmlns:converters="using:CommunityToolkit.WinUI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:forum="using:Uestc.BBS.Core.Services.Forum"
     xmlns:lc="using:Uestc.BBS.WinUI.Converters"
     xmlns:local="using:Uestc.BBS.WinUI.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:thread="using:Uestc.BBS.Sdk.Services.Thread"
     xmlns:ui="using:CommunityToolkit.WinUI"
     mc:Ignorable="d">
 
@@ -21,7 +21,7 @@
         <ListView
             x:Name="TopicListView"
             IsItemClickEnabled="True"
-            ItemClick="ListView_ItemClick"
+            ItemClick="SelectedThreadChanged"
             ItemsSource="{x:Bind Topics, Mode=OneWay}"
             ScrollViewer.VerticalScrollBarVisibility="Hidden"
             SelectionMode="None">
@@ -38,19 +38,18 @@
                 </ItemsPanelTemplate>
             </ListView.ItemsPanel>
             <ListView.ItemTemplate>
-                <DataTemplate x:DataType="forum:TopicOverview">
-                    <local:TopicOverviewControl
+                <DataTemplate x:DataType="thread:ThreadOverview">
+                    <local:ThreadOverviewControl
                         Title="{x:Bind Title}"
                         Avatar="{x:Bind UserAvatar}"
                         BoardName="{x:Bind BoardName}"
                         Date="{x:Bind DateTime}"
                         IsHot="{x:Bind IsHot}"
                         Likes="{x:Bind LikeCount}"
-                        PreviewSources="{x:Bind PreviewImageUrls}"
+                        PreviewSources="{x:Bind PreviewImageSources}"
                         Replies="{x:Bind ReplyCount}"
                         Subject="{x:Bind Subject}"
-                        Summary="{x:Bind Summary}"
-                        Username="{x:Bind UserNickName}"
+                        Username="{x:Bind Username}"
                         Views="{x:Bind ViewCount}" />
                 </DataTemplate>
             </ListView.ItemTemplate>

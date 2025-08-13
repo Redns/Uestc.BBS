@@ -2,31 +2,66 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Documents;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
-using Uestc.BBS.Core.Services.Forum;
+using Uestc.BBS.Core;
+using Uestc.BBS.Core.Services.FileCache;
+using Uestc.BBS.Sdk.Services.Thread;
 using Uestc.BBS.WinUI.Helpers;
 
 namespace Uestc.BBS.WinUI.Controls
 {
-    public sealed partial class TopicContentControl : UserControl
+    public sealed partial class ThreadContentControl : UserControl
     {
         private static readonly Regex _emojiRegex = EmojiRegex();
 
-        public RichTextContent[] TopicContents
+        private static readonly IFileCache _fileCache =
+            ServiceExtension.Services.GetRequiredService<IFileCache>();
+
+        private static readonly DependencyProperty ContentsProperty = DependencyProperty.Register(
+            nameof(Contents),
+            typeof(RichTextContent[]),
+            typeof(ThreadContentControl),
+            new PropertyMetadata(null, OnContentsChanged)
+        );
+
+        public RichTextContent[] Contents
         {
-            set => TopicContentBorder.Child = RenderTopicContents(value);
+            set => SetValue(ContentsProperty, value);
+            get => (RichTextContent[])GetValue(ContentsProperty);
         }
 
-        public TopicContentControl()
+        public ThreadContentControl()
         {
             InitializeComponent();
         }
 
-        private static RichTextBlock RenderTopicContents(RichTextContent[] contents)
+        private static async void OnContentsChanged(
+            DependencyObject d,
+            DependencyPropertyChangedEventArgs e
+        )
+        {
+            if (
+                d is not ThreadContentControl threadContentControl
+                || e.NewValue is not RichTextContent[] contents
+            )
+            {
+                return;
+            }
+
+            threadContentControl.TopicContentBorder.Child = await RenderTopicContentsAsync(
+                contents
+            );
+        }
+
+        private static async Task<RichTextBlock> RenderTopicContentsAsync(
+            RichTextContent[] contents
+        )
         {
             var richTextBlock = new RichTextBlock { LineHeight = 26 };
 
@@ -34,7 +69,7 @@ namespace Uestc.BBS.WinUI.Controls
             var paragraph = new Paragraph();
             foreach (var content in contents)
             {
-                var inlines = RenderInlineContent(content);
+                var inlines = await RenderInlineContentAsync(content);
                 if (content.Type is not TopicContenType.Image)
                 {
                     paragraph.AddRange(inlines);
@@ -59,7 +94,7 @@ namespace Uestc.BBS.WinUI.Controls
             return richTextBlock;
         }
 
-        private static List<Inline> RenderInlineContent(RichTextContent content)
+        private static async Task<List<Inline>> RenderInlineContentAsync(RichTextContent content)
         {
             // 【纯文本】Hello, world!
             // 【文本 + 表情包】Hello [mobcent_phiz=https://bbs.uestc.edu.cn/static/image/smiley/alu/22.gif], world!
@@ -118,6 +153,7 @@ namespace Uestc.BBS.WinUI.Controls
             // 图片
             if (content.Type is TopicContenType.Image)
             {
+                var imageUri = await _fileCache.GetFileUriAsync(new Uri(content.Information));
                 return
                 [
                     new InlineUIContainer
@@ -128,7 +164,7 @@ namespace Uestc.BBS.WinUI.Controls
                             {
                                 MaxHeight = 600,
                                 Stretch = Stretch.Uniform,
-                                Source = new BitmapImage(new Uri(content.Information)),
+                                Source = new BitmapImage(imageUri),
                             },
                             CornerRadius = new CornerRadius(6),
                             Margin = new Thickness(0, 10, 0, 10),

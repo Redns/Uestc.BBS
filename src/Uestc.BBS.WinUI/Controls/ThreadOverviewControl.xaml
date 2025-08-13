@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <UserControl
-    x:Class="Uestc.BBS.WinUI.Controls.TopicOverviewControl"
+    x:Class="Uestc.BBS.WinUI.Controls.ThreadOverviewControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="using:CommunityToolkit.WinUI.Controls"
@@ -71,16 +71,8 @@
                 Text="{x:Bind Subject, Mode=OneWay}"
                 TextWrapping="Wrap"
                 Visibility="{x:Bind Subject, Converter={StaticResource StringVisibilityConverter}, Mode=OneWay}" />
-            <TextBlock
-                Foreground="Gray"
-                Text="{x:Bind Summary, Mode=OneWay}"
-                TextWrapping="Wrap"
-                Visibility="{x:Bind Summary, Converter={StaticResource StringVisibilityConverter}, Mode=OneWay}" />
             <!--  预览图  -->
-            <local:ImageMosaic
-                ImageDecodeOptimized="{x:Bind PreviewImageDecodeOptimized, Mode=OneWay}"
-                Sources="{x:Bind PreviewSources, Mode=OneWay}"
-                Visibility="{x:Bind PreviewSources, Converter={StaticResource CollectionVisibilityConverter}, Mode=OneWay}" />
+            <local:ImageMosaic Sources="{x:Bind PreviewSources, Mode=OneWay}" Visibility="{x:Bind PreviewSources, Converter={StaticResource CollectionVisibilityConverter}, Mode=OneWay}" />
             <!--  浏览、点赞、评论  -->
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -90,26 +82,11 @@
                 </Grid.ColumnDefinitions>
                 <!--  浏览量  -->
                 <StackPanel Orientation="Horizontal" Spacing="6">
-                    <FontIcon
-                        FontSize="14"
-                        Foreground="#C99100"
-                        Glyph="&#xECAD;"
-                        Visibility="{x:Bind IsHot, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
+                    <FontIcon FontSize="14" Glyph="&#xE7B3;" />
                     <TextBlock
                         Padding="0,0,0,1"
                         VerticalAlignment="Center"
-                        Foreground="#C99100"
-                        Text="{x:Bind Views, Mode=OneWay}"
-                        Visibility="{x:Bind IsHot, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
-                    <FontIcon
-                        FontSize="14"
-                        Glyph="&#xE7B3;"
-                        Visibility="{x:Bind IsHot, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=true, Mode=OneWay}" />
-                    <TextBlock
-                        Padding="0,0,0,1"
-                        VerticalAlignment="Center"
-                        Text="{x:Bind Views, Mode=OneWay}"
-                        Visibility="{x:Bind IsHot, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=true, Mode=OneWay}" />
+                        Text="{x:Bind Views, Mode=OneWay}" />
                 </StackPanel>
                 <!--  回复数  -->
                 <StackPanel

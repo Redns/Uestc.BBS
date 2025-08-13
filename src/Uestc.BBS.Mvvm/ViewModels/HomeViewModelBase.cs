@@ -1,8 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using Uestc.BBS.Core.Services.Forum;
-using Uestc.BBS.Core.Services.Forum.TopicList;
 using Uestc.BBS.Core.Services.System;
 using Uestc.BBS.Mvvm.Models;
+using Uestc.BBS.Sdk.Services.Thread;
+using Uestc.BBS.Sdk.Services.Thread.ThreadList;
 
 namespace Uestc.BBS.Mvvm.ViewModels
 {
@@ -19,14 +19,9 @@ namespace Uestc.BBS.Mvvm.ViewModels
         protected readonly ILogService _logService;
 
         /// <summary>
-        /// 主题内容
-        /// </summary>
-        protected readonly ITopicService _topicService;
-
-        /// <summary>
         /// 主题列表
         /// </summary>
-        protected readonly ITopicListService _topicListService;
+        protected readonly IThreadListService _threaListService;
 
         /// <summary>
         /// Tab 栏对应的 View 列表
@@ -75,20 +70,18 @@ namespace Uestc.BBS.Mvvm.ViewModels
         /// 选中的主题帖
         /// </summary>
         [ObservableProperty]
-        public partial TopicOverview? SeletedTopicOverview { get; set; }
+        public partial ThreadContent? CurrentThread { get; set; }
 
         public HomeViewModelBase(
             ILogService logService,
-            ITopicService topicService,
-            ITopicListService topicListService,
+            IThreadListService threadListService,
             Func<BoardTabItemModel, IBoardTabItemListView> boardTabItemModelToView,
             Func<IBoardTabItemListView, BoardTabItemModel> boardTabItemModelFromView,
             AppSettingModel appSettingModel
         )
         {
             _logService = logService;
-            _topicService = topicService;
-            _topicListService = topicListService;
+            _threaListService = threadListService;
             _boardTabItemModelToView = boardTabItemModelToView;
             _boardTabItemModelFromView = boardTabItemModelFromView;
             _boardTabItemListViewList =
@@ -118,12 +111,12 @@ namespace Uestc.BBS.Mvvm.ViewModels
         /// <param name="tabItem"></param>
         /// <param name="IsRefresh"></param>
         /// <returns></returns>
-        protected virtual async Task<TopicOverview[]> LoadTopicsAsync(
+        protected virtual async Task<IEnumerable<ThreadOverview>> LoadTopicsAsync(
             BoardTabItemModel tabItem,
             bool IsRefresh = false
         ) =>
-            await _topicListService
-                .GetTopicsAsync(
+            await _threaListService
+                .GetThreadListAsync(
                     route: tabItem.Route,
                     page: IsRefresh ? 1 : (uint)tabItem.Topics.Count / tabItem.PageSize + 1,
                     pageSize: tabItem.PageSize,
@@ -138,7 +131,7 @@ namespace Uestc.BBS.Mvvm.ViewModels
                     {
                         _logService.Error("Load topics failed", t.Exception.InnerException!);
                     }
-                    return t.Result?.List ?? [];
+                    return t.Result ?? [];
                 });
     }
 }

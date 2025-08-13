@@ -5,11 +5,11 @@ using Avalonia.Input;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.DependencyInjection;
 using Uestc.BBS.Core;
-using Uestc.BBS.Core.Services.Auth;
 using Uestc.BBS.Core.Services.System;
 using Uestc.BBS.Desktop.Views;
 using Uestc.BBS.Mvvm.Models;
 using Uestc.BBS.Mvvm.ViewModels;
+using Uestc.BBS.Sdk.Services.Auth;
 
 namespace Uestc.BBS.Desktop.ViewModels
 {

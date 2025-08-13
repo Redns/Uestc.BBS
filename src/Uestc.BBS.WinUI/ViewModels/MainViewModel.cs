@@ -7,11 +7,11 @@ using CommunityToolkit.WinUI;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml.Controls;
 using Uestc.BBS.Core.Models;
-using Uestc.BBS.Core.Services;
 using Uestc.BBS.Core.Services.System;
 using Uestc.BBS.Mvvm.Models;
 using Uestc.BBS.Mvvm.Services;
 using Uestc.BBS.Mvvm.ViewModels;
+using Uestc.BBS.Sdk.Services.System;
 
 namespace Uestc.BBS.WinUI.ViewModels
 {

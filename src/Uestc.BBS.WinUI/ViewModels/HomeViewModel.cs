@@ -1,25 +1,23 @@
 ﻿using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.UI.Xaml.Controls;
-using Uestc.BBS.Core.Services.Forum;
-using Uestc.BBS.Core.Services.Forum.TopicList;
 using Uestc.BBS.Core.Services.System;
 using Uestc.BBS.Mvvm.Models;
 using Uestc.BBS.Mvvm.ViewModels;
+using Uestc.BBS.Sdk.Services.Thread;
+using Uestc.BBS.Sdk.Services.Thread.ThreadList;
 using Uestc.BBS.WinUI.Controls;
 
 namespace Uestc.BBS.WinUI.ViewModels
 {
     public partial class HomeViewModel(
         ILogService logService,
-        ITopicService topicService,
-        ITopicListService topicListService,
+        IThreadListService threadListService,
         AppSettingModel appSettingModel
     )
         : HomeViewModelBase<BoardTabItemListView>(
             logService,
-            topicService,
-            topicListService,
+            threadListService,
             model => new BoardTabItemListView() { BoardTabItem = model },
             view => view.BoardTabItem,
             appSettingModel
