@@ -2,5 +2,5 @@
 
 namespace Uestc.BBS.Mvvm.Messages
 {
-    public class ThreadChangedMessage(uint threadId) : ValueChangedMessage<uint>(threadId) { }
+    public class ThreadChangedMessage(uint id) : ValueChangedMessage<uint>(id) { }
 }

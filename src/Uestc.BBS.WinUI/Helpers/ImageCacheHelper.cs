@@ -32,7 +32,7 @@ namespace Uestc.BBS.WinUI.Helpers
         public static void SetSourceEx(Image obj, string sourceEx) =>
             obj.SetValue(SourceExProperty, sourceEx);
 
-        private static void OnSourceExChanged(
+        private static async void OnSourceExChanged(
             DependencyObject obj,
             DependencyPropertyChangedEventArgs args
         )
@@ -47,12 +47,7 @@ namespace Uestc.BBS.WinUI.Helpers
                 return;
             }
 
-            _fileCache
-                .GetFileUriAsync(new Uri(source))
-                .ContinueWith(task =>
-                {
-                    image.Source = new BitmapImage(task.Result);
-                });
+            image.Source = new BitmapImage(await _fileCache.GetFileUriAsync(new Uri(source)));
         }
     }
 }

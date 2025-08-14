@@ -13,11 +13,13 @@ namespace Uestc.BBS.WinUI.ViewModels
     public partial class HomeViewModel(
         ILogService logService,
         IThreadListService threadListService,
+        IThreadContentService threadContentService,
         AppSettingModel appSettingModel
     )
         : HomeViewModelBase<BoardTabItemListView>(
             logService,
             threadListService,
+            threadContentService,
             model => new BoardTabItemListView() { BoardTabItem = model },
             view => view.BoardTabItem,
             appSettingModel

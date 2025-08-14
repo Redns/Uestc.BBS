@@ -8,7 +8,16 @@ namespace Uestc.BBS.WinUI.Converters
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            return value is not null ? Visibility.Visible : Visibility.Collapsed;
+            return
+                parameter is not null
+                && bool.TryParse(parameter.ToString(), out bool reverse)
+                && reverse
+                ? value is null
+                    ? Visibility.Visible
+                    : Visibility.Collapsed
+                : value is null
+                    ? Visibility.Collapsed
+                    : Visibility.Visible;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)

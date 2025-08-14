@@ -1,5 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Messaging;
 using Uestc.BBS.Core.Services.System;
+using Uestc.BBS.Mvvm.Messages;
 using Uestc.BBS.Mvvm.Models;
 using Uestc.BBS.Sdk.Services.Thread;
 using Uestc.BBS.Sdk.Services.Thread.ThreadList;
@@ -22,6 +24,11 @@ namespace Uestc.BBS.Mvvm.ViewModels
         /// 主题列表
         /// </summary>
         protected readonly IThreadListService _threaListService;
+
+        /// <summary>
+        /// 主题内容
+        /// </summary>
+        protected readonly IThreadContentService _threadContentService;
 
         /// <summary>
         /// Tab 栏对应的 View 列表
@@ -70,11 +77,19 @@ namespace Uestc.BBS.Mvvm.ViewModels
         /// 选中的主题帖
         /// </summary>
         [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(IsCurrentThreadFromUs))]
         public partial ThreadContent? CurrentThread { get; set; }
+
+        /// <summary>
+        /// 当前选中的主题帖是否来自于自己
+        /// </summary>
+        public bool IsCurrentThreadFromUs =>
+            CurrentThread?.Uid == AppSettingModel.Account.DefaultCredentialUid;
 
         public HomeViewModelBase(
             ILogService logService,
             IThreadListService threadListService,
+            IThreadContentService threadContentService,
             Func<BoardTabItemModel, IBoardTabItemListView> boardTabItemModelToView,
             Func<IBoardTabItemListView, BoardTabItemModel> boardTabItemModelFromView,
             AppSettingModel appSettingModel
@@ -82,6 +97,7 @@ namespace Uestc.BBS.Mvvm.ViewModels
         {
             _logService = logService;
             _threaListService = threadListService;
+            _threadContentService = threadContentService;
             _boardTabItemModelToView = boardTabItemModelToView;
             _boardTabItemModelFromView = boardTabItemModelFromView;
             _boardTabItemListViewList =
@@ -103,6 +119,18 @@ namespace Uestc.BBS.Mvvm.ViewModels
                     return;
                 }
             };
+
+            // 注册主题选择消息
+            StrongReferenceMessenger.Default.Register<ThreadChangedMessage>(
+                this,
+                async (_, m) =>
+                    CurrentThread = await _threadContentService.GetThreadContentAsync(m.Value)
+            );
+        }
+
+        ~HomeViewModelBase()
+        {
+            StrongReferenceMessenger.Default.Unregister<ThreadChangedMessage>(this);
         }
 
         /// <summary>

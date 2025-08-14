@@ -2,15 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Documents;
 using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Media.Imaging;
-using Uestc.BBS.Core;
-using Uestc.BBS.Core.Services.FileCache;
 using Uestc.BBS.Sdk.Services.Thread;
 using Uestc.BBS.WinUI.Helpers;
 
@@ -19,9 +14,6 @@ namespace Uestc.BBS.WinUI.Controls
     public sealed partial class ThreadContentControl : UserControl
     {
         private static readonly Regex _emojiRegex = EmojiRegex();
-
-        private static readonly IFileCache _fileCache =
-            ServiceExtension.Services.GetRequiredService<IFileCache>();
 
         private static readonly DependencyProperty ContentsProperty = DependencyProperty.Register(
             nameof(Contents),
@@ -41,7 +33,7 @@ namespace Uestc.BBS.WinUI.Controls
             InitializeComponent();
         }
 
-        private static async void OnContentsChanged(
+        private static void OnContentsChanged(
             DependencyObject d,
             DependencyPropertyChangedEventArgs e
         )
@@ -54,14 +46,10 @@ namespace Uestc.BBS.WinUI.Controls
                 return;
             }
 
-            threadContentControl.TopicContentBorder.Child = await RenderTopicContentsAsync(
-                contents
-            );
+            threadContentControl.TopicContentBorder.Child = RenderTopicContents(contents);
         }
 
-        private static async Task<RichTextBlock> RenderTopicContentsAsync(
-            RichTextContent[] contents
-        )
+        public static RichTextBlock RenderTopicContents(RichTextContent[] contents)
         {
             var richTextBlock = new RichTextBlock { LineHeight = 26 };
 
@@ -69,7 +57,7 @@ namespace Uestc.BBS.WinUI.Controls
             var paragraph = new Paragraph();
             foreach (var content in contents)
             {
-                var inlines = await RenderInlineContentAsync(content);
+                var inlines = RenderInlineContent(content);
                 if (content.Type is not TopicContenType.Image)
                 {
                     paragraph.AddRange(inlines);
@@ -94,7 +82,7 @@ namespace Uestc.BBS.WinUI.Controls
             return richTextBlock;
         }
 
-        private static async Task<List<Inline>> RenderInlineContentAsync(RichTextContent content)
+        public static List<Inline> RenderInlineContent(RichTextContent content)
         {
             // 【纯文本】Hello, world!
             // 【文本 + 表情包】Hello [mobcent_phiz=https://bbs.uestc.edu.cn/static/image/smiley/alu/22.gif], world!
@@ -153,19 +141,16 @@ namespace Uestc.BBS.WinUI.Controls
             // 图片
             if (content.Type is TopicContenType.Image)
             {
-                var imageUri = await _fileCache.GetFileUriAsync(new Uri(content.Information));
+                var image = new Image { MaxHeight = 600, Stretch = Stretch.Uniform };
+                ImageCacheHelper.SetSourceEx(image, content.Information);
+
                 return
                 [
                     new InlineUIContainer
                     {
                         Child = new Border
                         {
-                            Child = new Image
-                            {
-                                MaxHeight = 600,
-                                Stretch = Stretch.Uniform,
-                                Source = new BitmapImage(imageUri),
-                            },
+                            Child = image,
                             CornerRadius = new CornerRadius(6),
                             Margin = new Thickness(0, 10, 0, 10),
                             HorizontalAlignment = HorizontalAlignment.Left,

@@ -7,5 +7,7 @@
     xmlns:local="using:Uestc.BBS.WinUI.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
+
     <Border Name="TopicContentBorder" CornerRadius="8" />
+
 </UserControl>

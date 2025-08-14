@@ -17,7 +17,7 @@ namespace Uestc.BBS.WinUI.Controls
 {
     public sealed partial class BoardTabItemListView : UserControl
     {
-        private static readonly IThreadListService _threaListService =
+        private readonly IThreadListService _threaListService =
             ServiceExtension.Services.GetRequiredService<IThreadListService>();
 
         /// <summary>
@@ -63,6 +63,7 @@ namespace Uestc.BBS.WinUI.Controls
             {
                 return;
             }
+
             StrongReferenceMessenger.Default.Send(new ThreadChangedMessage(threadOverview.Id));
         }
     }
@@ -72,16 +73,12 @@ namespace Uestc.BBS.WinUI.Controls
         BoardTabItemModel boardTabItem
     ) : IIncrementalSource<ThreadOverview>
     {
-        private readonly IThreadListService _threadListService = threadListService;
-
-        private readonly BoardTabItemModel boardTabItem = boardTabItem;
-
         public Task<IEnumerable<ThreadOverview>> GetPagedItemsAsync(
             int pageIndex,
             int pageSize,
             CancellationToken cancellationToken = default
         ) =>
-            _threadListService
+            threadListService
                 .GetThreadListAsync(
                     route: boardTabItem.Route,
                     page: (uint)pageIndex + 1,
@@ -92,13 +89,16 @@ namespace Uestc.BBS.WinUI.Controls
                     getPreviewSources: boardTabItem.RequirePreviewSources,
                     cancellationToken: cancellationToken
                 )
-                .ContinueWith(t =>
-                    t.Result.DistinctBy(o => o.Id)
-                        .Select(o =>
-                        {
-                            o.IsHot = boardTabItem.Board is Board.Hot;
-                            return o;
-                        })
+                .ContinueWith(
+                    t =>
+                        // TODO 部分板块加载时会出现重复主题，需要去重
+                        t.Result.DistinctBy(o => o.Id)
+                            .Select(o =>
+                            {
+                                o.IsHot = boardTabItem.Board is Board.Hot;
+                                return o;
+                            }),
+                    cancellationToken
                 );
     }
 }
