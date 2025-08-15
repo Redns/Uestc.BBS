@@ -70,11 +70,6 @@ namespace Uestc.BBS.Core.Helpers
                 return "周" + date.DayOfWeek.GetDayOfWeekInChinese();
             }
 
-            if (date >= startOfLastWeek && date < startOfWeek)
-            {
-                return "上周" + date.DayOfWeek.GetDayOfWeekInChinese();
-            }
-
             if (date.Year == now.Year)
             {
                 return date.ToString("MM/dd HH:mm");

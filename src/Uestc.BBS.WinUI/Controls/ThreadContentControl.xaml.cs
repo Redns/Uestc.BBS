@@ -46,10 +46,10 @@ namespace Uestc.BBS.WinUI.Controls
                 return;
             }
 
-            threadContentControl.TopicContentBorder.Child = RenderTopicContents(contents);
+            threadContentControl.TopicContentBorder.Child = RenderThreadContents(contents);
         }
 
-        public static RichTextBlock RenderTopicContents(RichTextContent[] contents)
+        public static RichTextBlock RenderThreadContents(RichTextContent[] contents)
         {
             var richTextBlock = new RichTextBlock { LineHeight = 26 };
 
@@ -86,6 +86,12 @@ namespace Uestc.BBS.WinUI.Controls
         {
             // 【纯文本】Hello, world!
             // 【文本 + 表情包】Hello [mobcent_phiz=https://bbs.uestc.edu.cn/static/image/smiley/alu/22.gif], world!
+            // 【代码块】您也可以下载数据以进行二次开发：\r\n\r\n```js\r\nconst CSV_URL = `https://file.range6.link/get/qshp/monitor/${dateStr}.csv?token=bbs.uestcer.org`;\r\nconst EXAMPLE = \"https://file.range6.link/get/qshp/monitor/2025-08-02.csv?token=bbs.uestcer.org\";\r\n```
+            // 【标题】## 主要功能
+            // 【无序列表】* 这是一个无序列表项
+            // 【加粗】**实时监控**：自动检测新回复消息
+            // 【斜体】*欢迎试用并反馈使用体验！*
+            // 【分割线】---
             if (content.Type is TopicContenType.Text)
             {
                 var emojis = _emojiRegex.Matches(content.Information).Where(m => m.Success);
@@ -128,6 +134,11 @@ namespace Uestc.BBS.WinUI.Controls
             // 内联链接
             if (content.Type is TopicContenType.InlineLink)
             {
+                if (string.IsNullOrEmpty(content.Information))
+                {
+                    return [];
+                }
+
                 return
                 [
                     new Hyperlink

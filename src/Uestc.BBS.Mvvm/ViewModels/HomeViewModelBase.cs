@@ -1,7 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Messaging;
 using Uestc.BBS.Core.Services.System;
-using Uestc.BBS.Mvvm.Messages;
 using Uestc.BBS.Mvvm.Models;
 using Uestc.BBS.Sdk.Services.Thread;
 using Uestc.BBS.Sdk.Services.Thread.ThreadList;
@@ -119,18 +117,6 @@ namespace Uestc.BBS.Mvvm.ViewModels
                     return;
                 }
             };
-
-            // 注册主题选择消息
-            StrongReferenceMessenger.Default.Register<ThreadChangedMessage>(
-                this,
-                async (_, m) =>
-                    CurrentThread = await _threadContentService.GetThreadContentAsync(m.Value)
-            );
-        }
-
-        ~HomeViewModelBase()
-        {
-            StrongReferenceMessenger.Default.Unregister<ThreadChangedMessage>(this);
         }
 
         /// <summary>

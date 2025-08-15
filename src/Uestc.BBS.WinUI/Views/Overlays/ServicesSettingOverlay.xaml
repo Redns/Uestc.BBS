@@ -74,14 +74,26 @@
                     </controls:SettingsCard>
                 </controls:SettingsExpander.Items>
             </controls:SettingsExpander>
+            <!--  自动答题  -->
+            <controls:SettingsExpander
+                Description="根据内置题库自动回答问题"
+                Header="自动答题"
+                HeaderIcon="{ui:FontIcon Glyph=&#xEADF;}">
+                <ToggleSwitch />
+                <controls:SettingsExpander.Items>
+                    <controls:SettingsCard>
+                        <TextBlock Text="暂无设置项" />
+                    </controls:SettingsCard>
+                </controls:SettingsExpander.Items>
+            </controls:SettingsExpander>
             <!--  日志记录  -->
             <controls:SettingsExpander
                 Description="查看应用日志或清除日志记录"
                 Header="日志记录"
-                HeaderIcon="{ui:FontIcon Glyph=&#xF0E3;}">
+                HeaderIcon="{ui:FontIcon Glyph=&#xEC5B;}">
                 <Button Command="{x:Bind ViewModel.OpenLogDirectoryCommand}" Content="打开文件夹" />
                 <controls:SettingsExpander.Items>
-                    <controls:SettingsCard Description="日志服务不会记录敏感信息" Header="启用服务">
+                    <controls:SettingsCard Description="日志服务仅用于排查异常，不会记录敏感信息" Header="启用服务">
                         <ToggleSwitch IsOn="{x:Bind ViewModel.ServicesSettingModel.Log.IsEnable, Mode=TwoWay}" />
                     </controls:SettingsCard>
                     <controls:SettingsCard

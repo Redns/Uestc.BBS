@@ -2,9 +2,9 @@ namespace Uestc.BBS.Core.Services.System
 {
     public interface IAppUpgradeService
     {
-        ValueTask<AppReleaseInfo> GetLatestRelease();
+        ValueTask<AppReleaseInfo> GetLatestRelease(CancellationToken token = default);
 
-        Task Upgrade(AppReleaseInfo info);
+        Task Upgrade(AppReleaseInfo info, CancellationToken cancellationToken = default);
     }
 
     public class AppReleaseInfo(string versionName, string description, string downloadUrl)
@@ -17,7 +17,10 @@ namespace Uestc.BBS.Core.Services.System
         /// <summary>
         /// 是否为 Beta 版本
         /// </summary>
-        public readonly bool IsBetaVersion = versionName.Contains("beta", StringComparison.CurrentCultureIgnoreCase);
+        public readonly bool IsBetaVersion = versionName.Contains(
+            "beta",
+            StringComparison.CurrentCultureIgnoreCase
+        );
 
         /// <summary>
         /// 版本名称

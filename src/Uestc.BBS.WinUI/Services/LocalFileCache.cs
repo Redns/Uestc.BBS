@@ -2,6 +2,7 @@
 using System.Collections.Concurrent;
 using System.IO;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using Uestc.BBS.Core.Helpers;
 using Uestc.BBS.Core.Services.FileCache;
@@ -30,7 +31,10 @@ namespace Uestc.BBS.WinUI.Services
         /// </summary>
         /// <param name="uri"></param>
         /// <returns></returns>
-        public async Task<Uri> GetFileUriAsync(Uri uri)
+        public async Task<Uri> GetFileUriAsync(
+            Uri uri,
+            CancellationToken cancellationToken = default
+        )
         {
             if (uri.IsFile || uri.Scheme == "ms-appx" || uri.Scheme == "ms-appdata")
             {
@@ -47,8 +51,17 @@ namespace Uestc.BBS.WinUI.Services
                     imageFullPath,
                     async _ =>
                     {
-                        var bytes = await _httpClientFactory.CreateClient().GetByteArrayAsync(uri);
-                        await File.WriteAllBytesAsync(imageFullPath, bytes);
+                        try
+                        {
+                            var client = _httpClientFactory.CreateClient();
+                            var bytes = await client.GetByteArrayAsync(uri, cancellationToken);
+                            await File.WriteAllBytesAsync(imageFullPath, bytes, cancellationToken);
+                        }
+                        catch
+                        {
+                            _downloadTasks.TryRemove(imageFullPath, out var _);
+                            throw;
+                        }
                     }
                 );
             }

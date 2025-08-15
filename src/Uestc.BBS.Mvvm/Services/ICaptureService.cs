@@ -9,6 +9,10 @@
         /// <param name="element"></param>
         /// <param name="filePath"></param>
         /// <returns></returns>
-        Task Capture(TUIElement element, string filePath);
+        Task Capture(
+            TUIElement element,
+            string filePath,
+            CancellationToken cancellationToken = default
+        );
     }
 }

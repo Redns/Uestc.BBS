@@ -35,6 +35,11 @@ namespace Uestc.BBS.Mvvm.ViewModels
         protected readonly IDailySentenceService _dailySentenceService;
 
         /// <summary>
+        /// 每日一句 CancellationTokenSource
+        /// </summary>
+        protected CancellationTokenSource? _daiysentenceCancelTokenSource;
+
+        /// <summary>
         /// 导航服务
         /// </summary>
         protected readonly INavigateService<TContent> _navigateService;
@@ -103,26 +108,36 @@ namespace Uestc.BBS.Mvvm.ViewModels
                         return;
                     }
 
-                    _dailySentenceService
-                        .GetDailySentenceAsync()
-                        .ContinueWith(async t =>
-                        {
-                            if (t.IsFaulted)
-                            {
-                                _logService.Error(
-                                    "Daily sentence refresh failed",
-                                    t.Exception.InnerException!
-                                );
-                                return;
-                            }
+                    _daiysentenceCancelTokenSource?.Cancel();
+                    _daiysentenceCancelTokenSource?.Dispose();
+                    _daiysentenceCancelTokenSource = new CancellationTokenSource();
 
-                            var sentence = t.Result;
-                            if (string.IsNullOrEmpty(sentence) || sentence == SearchPlaceholderText)
+                    _dailySentenceService
+                        .GetDailySentenceAsync(_daiysentenceCancelTokenSource.Token)
+                        .ContinueWith(
+                            t =>
                             {
-                                return;
-                            }
-                            await DispatcherAsync(() => SearchPlaceholderText = sentence);
-                        });
+                                if (t.IsFaulted)
+                                {
+                                    _logService.Error(
+                                        "Daily sentence refresh failed",
+                                        t.Exception.InnerException!
+                                    );
+                                    return;
+                                }
+
+                                var sentence = t.Result;
+                                if (
+                                    string.IsNullOrEmpty(sentence)
+                                    || sentence == SearchPlaceholderText
+                                )
+                                {
+                                    return;
+                                }
+                                DispatcherAsync(() => SearchPlaceholderText = sentence);
+                            },
+                            _daiysentenceCancelTokenSource.Token
+                        );
                 },
                 null,
                 0,

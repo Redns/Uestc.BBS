@@ -23,11 +23,6 @@ namespace Uestc.BBS.WinUI.Views
 
         private AppSettingModel AppSettingModel { get; init; }
 
-        /// <summary>
-        /// 调度任务队列
-        /// </summary>
-        private readonly DispatcherQueue _dispatcherQueue = DispatcherQueue.GetForCurrentThread();
-
         public MainWindow(AppSettingModel appSettingModel, Appmanifest appmanifest)
         {
             InitializeComponent();
@@ -57,7 +52,7 @@ namespace Uestc.BBS.WinUI.Views
             {
                 if (AppSettingModel.Appearance.ThemeColor is ThemeColor.System)
                 {
-                    _dispatcherQueue.EnqueueAsync(() => AppWindow.TitleBar.SetThemeColor(args));
+                    DispatcherQueue.EnqueueAsync(() => AppWindow.TitleBar.SetThemeColor(args));
                 }
             };
 

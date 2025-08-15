@@ -65,7 +65,8 @@
             <TextBlock
                 FontSize="16"
                 Text="{x:Bind Title, Mode=OneWay}"
-                TextWrapping="Wrap" />
+                TextWrapping="Wrap"
+                Visibility="{x:Bind Title, Converter={StaticResource StringVisibilityConverter}, Mode=OneWay}" />
             <TextBlock
                 Foreground="Gray"
                 Text="{x:Bind Subject, Mode=OneWay}"
