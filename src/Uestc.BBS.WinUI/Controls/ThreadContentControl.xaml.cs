@@ -117,6 +117,7 @@ namespace Uestc.BBS.WinUI.Controls
                         Stretch = Stretch.Uniform,
                         VerticalAlignment = VerticalAlignment.Center,
                     };
+                    // TODO 使用本地 alu-face 代替，同时统一行高
                     ImageCacheHelper.SetSourceEx(emojiImage, emoji.Groups["url"].Value);
                     inlineList.Add(new InlineUIContainer { Child = emojiImage });
 
@@ -153,6 +154,7 @@ namespace Uestc.BBS.WinUI.Controls
             if (content.Type is TopicContenType.Image)
             {
                 var image = new Image { MaxHeight = 600, Stretch = Stretch.Uniform };
+                ImageCacheHelper.SetSmartStretch(image, true);
                 ImageCacheHelper.SetSourceEx(image, content.Information);
 
                 return

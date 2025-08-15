@@ -79,6 +79,11 @@ namespace Uestc.BBS.Mvvm.ViewModels
         public partial ThreadContent? CurrentThread { get; set; }
 
         /// <summary>
+        /// 当前正在加载的主题帖 ID
+        /// </summary>
+        public uint CurrentLoadingThreadId { get; set; }
+
+        /// <summary>
         /// 当前选中的主题帖是否来自于自己
         /// </summary>
         public bool IsCurrentThreadFromUs =>

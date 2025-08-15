@@ -267,10 +267,12 @@
                             ToolTipService.ToolTip="分享" />
                     </StackPanel>
                 </controls:DockPanel>
+                <!--  标题  -->
                 <TextBlock
                     controls:DockPanel.Dock="Bottom"
                     FontSize="20"
                     Text="{x:Bind ViewModel.CurrentThread.Title, Mode=OneWay}" />
+                <!--  主题内容  -->
                 <local_controls:ThreadContentControl Contents="{x:Bind ViewModel.CurrentThread.Contents, Mode=OneWay}" />
             </StackPanel>
         </ScrollViewer>

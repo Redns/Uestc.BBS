@@ -59,6 +59,25 @@ namespace Uestc.BBS.WinUI.Helpers
         public static void SetSourceEx(Image obj, string sourceEx) =>
             obj.SetValue(SourceExProperty, sourceEx);
 
+        /// <summary>
+        /// 智能拉伸
+        /// 当 Image 设置 MaxHeight/MaxWidth 时，如果图像的实际 Height/Widht 比设置的 MaxHeight/MaxWidth 小，则保持原图尺寸；
+        /// 当 Image 设置 MinHeight/MinWidth 时，如果图像的实际 Height/Widht 比设置的 MinHeight/MinWidth 大，则保持原图尺寸；
+        /// 否则，根据图像的实际尺寸自动调整图像的拉伸方式。
+        /// </summary>
+        private static readonly DependencyProperty SmartStretchProperty =
+            DependencyProperty.RegisterAttached(
+                "SmartStretch",
+                typeof(bool),
+                typeof(ImageCacheHelper),
+                new PropertyMetadata(false)
+            );
+
+        public static bool GetSmartStretch(Image obj) => (bool)obj.GetValue(SmartStretchProperty);
+
+        public static void SetSmartStretch(Image obj, bool value) =>
+            obj.SetValue(SmartStretchProperty, value);
+
         private static async void OnSourceExChanged(
             DependencyObject obj,
             DependencyPropertyChangedEventArgs args
@@ -88,8 +107,45 @@ namespace Uestc.BBS.WinUI.Helpers
                     new Uri(sourceEx),
                     newCancellationTokenSource.Token
                 );
+                var bitmapImage = new BitmapImage(imageUri);
+                bitmapImage.ImageOpened += (_, __) =>
+                {
+                    if (!GetSmartStretch(image))
+                    {
+                        return;
+                    }
 
-                image.Source = new BitmapImage(imageUri);
+                    if (
+                        image.MaxHeight != double.PositiveInfinity
+                        || image.MaxWidth != double.PositiveInfinity
+                    )
+                    {
+                        if (
+                            bitmapImage.PixelHeight <= image.MaxHeight
+                            && bitmapImage.PixelWidth <= image.MaxWidth
+                        )
+                        {
+                            image.Width = bitmapImage.PixelWidth;
+                            image.Height = bitmapImage.PixelHeight;
+                            return;
+                        }
+                    }
+
+                    if (image.MinHeight != 0 || image.MinWidth != 0)
+                    {
+                        if (
+                            bitmapImage.PixelHeight >= image.MinHeight
+                            && bitmapImage.PixelWidth >= image.MinWidth
+                        )
+                        {
+                            image.Width = bitmapImage.PixelWidth;
+                            image.Height = bitmapImage.PixelHeight;
+                            return;
+                        }
+                    }
+                };
+
+                image.Source = bitmapImage;
             }
             catch (OperationCanceledException) { }
             catch (Exception ex)

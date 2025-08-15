@@ -101,43 +101,42 @@ namespace Uestc.BBS.Mvvm.ViewModels
             _notificationService = notificationService;
             _dailySentenceService = dailySentenceService;
             _searchPlaceholderTextUpdateTimer = new Timer(
-                _ =>
+                async _ =>
                 {
                     if (!appSettingModel.Appearance.SearchBar.IsDailySentenceEnabled)
                     {
                         return;
                     }
 
-                    _daiysentenceCancelTokenSource?.Cancel();
-                    _daiysentenceCancelTokenSource?.Dispose();
-                    _daiysentenceCancelTokenSource = new CancellationTokenSource();
+                    try
+                    {
+                        _daiysentenceCancelTokenSource?.Cancel();
+                        _daiysentenceCancelTokenSource?.Dispose();
+                        _daiysentenceCancelTokenSource = new CancellationTokenSource();
 
-                    _dailySentenceService
-                        .GetDailySentenceAsync(_daiysentenceCancelTokenSource.Token)
-                        .ContinueWith(
-                            t =>
-                            {
-                                if (t.IsFaulted)
-                                {
-                                    _logService.Error(
-                                        "Daily sentence refresh failed",
-                                        t.Exception.InnerException!
-                                    );
-                                    return;
-                                }
-
-                                var sentence = t.Result;
-                                if (
-                                    string.IsNullOrEmpty(sentence)
-                                    || sentence == SearchPlaceholderText
-                                )
-                                {
-                                    return;
-                                }
-                                DispatcherAsync(() => SearchPlaceholderText = sentence);
-                            },
+                        var sentence = await _dailySentenceService.GetDailySentenceAsync(
                             _daiysentenceCancelTokenSource.Token
                         );
+                        if (string.IsNullOrEmpty(sentence) || sentence == SearchPlaceholderText)
+                        {
+                            return;
+                        }
+                        await DispatcherAsync(() => SearchPlaceholderText = sentence);
+                    }
+                    catch (OperationCanceledException ex)
+                    {
+                        if (_daiysentenceCancelTokenSource?.IsCancellationRequested is false)
+                        {
+                            _logService.Error(
+                                "Daily sentence refresh canceled, task is cancelled",
+                                ex
+                            );
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        _logService.Error("Daily sentence refresh failed", ex);
+                    }
                 },
                 null,
                 0,

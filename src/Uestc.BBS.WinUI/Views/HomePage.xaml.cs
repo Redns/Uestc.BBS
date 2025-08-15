@@ -66,6 +66,16 @@ namespace Uestc.BBS.WinUI.Views
                 this,
                 async (_, m) =>
                 {
+                    // 避免重复点击同一主题造成的重复请求
+                    if (
+                        ViewModel.CurrentThread?.Id == m.Value
+                        || ViewModel.CurrentLoadingThreadId == m.Value
+                    )
+                    {
+                        return;
+                    }
+                    ViewModel.CurrentLoadingThreadId = m.Value;
+
                     try
                     {
                         _threadContentCancelTokenSource?.Cancel();
@@ -87,15 +97,13 @@ namespace Uestc.BBS.WinUI.Views
                     }
                     catch (OperationCanceledException ex)
                     {
-                        if (_threadContentCancelTokenSource?.IsCancellationRequested is true)
+                        if (_threadContentCancelTokenSource?.IsCancellationRequested is false)
                         {
-                            return;
+                            _logService.Error(
+                                $"Failed to get thread (id: {m.Value}) content, task is canceled",
+                                ex
+                            );
                         }
-
-                        _logService.Error(
-                            $"Failed to get thread (id: {m.Value}) content, task is canceled",
-                            ex
-                        );
                     }
                     catch (Exception ex)
                     {
