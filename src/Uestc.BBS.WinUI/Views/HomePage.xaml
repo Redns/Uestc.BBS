@@ -80,16 +80,18 @@
                     <TextBlock
                         Width="auto"
                         Margin="-3,0"
+                        PointerPressed="RefreshBoardTabItems"
                         Text="{x:Bind Name}" />
                 </DataTemplate>
             </controls:Segmented.ItemTemplate>
-            <interactivity:Interaction.Behaviors>
+            <!--  Native-AOT 编译后失效  -->
+            <!--<interactivity:Interaction.Behaviors>
                 <interactivity:EventTriggerBehavior EventName="ItemClick">
                     <interactivity:EventTriggerBehavior.Actions>
                         <interactivity:InvokeCommandAction Command="{x:Bind ViewModel.RefreshBoardTabItemsCommand}" />
                     </interactivity:EventTriggerBehavior.Actions>
                 </interactivity:EventTriggerBehavior>
-            </interactivity:Interaction.Behaviors>
+            </interactivity:Interaction.Behaviors>-->
         </controls:Segmented>
         <!--  板块内容  -->
         <UserControl Grid.Row="1" Content="{x:Bind ViewModel.CurrentBoardTabItemListView, Mode=OneWay}">
@@ -199,14 +201,6 @@
                             CornerRadius="0"
                             Icon="Memo"
                             ToolTipService.ToolTip="备份" />
-                        <AppBarButton
-                            Width="40"
-                            Height="47"
-                            Margin="0,-6,-2,-13"
-                            HorizontalAlignment="Right"
-                            CornerRadius="0"
-                            Icon="Refresh"
-                            ToolTipService.ToolTip="刷新" />
                         <AppBarButton
                             Width="40"
                             Height="47"

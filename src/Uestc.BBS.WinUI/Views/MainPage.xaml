@@ -85,7 +85,7 @@
                 <interactivity:Interaction.Behaviors>
                     <interactivity:EventTriggerBehavior EventName="PointerPressed">
                         <interactivity:EventTriggerBehavior.Actions>
-                            <interactivity:InvokeCommandAction Command="{x:Bind ViewModel.OpenWebSiteCommand}" CommandParameter="{x:Bind ViewModel.AppSettingModel.Appearance.OfficialWebsite}" />
+                            <interactivity:InvokeCommandAction Command="{x:Bind ViewModel.OpenOfficialWebsiteCommand}" />
                         </interactivity:EventTriggerBehavior.Actions>
                     </interactivity:EventTriggerBehavior>
                 </interactivity:Interaction.Behaviors>
@@ -145,7 +145,8 @@
                 Margin="15,0"
                 VerticalAlignment="Center"
                 PlaceholderText="{x:Bind ViewModel.SearchPlaceholderText, Mode=OneWay}"
-                QueryIcon="Find" />
+                QueryIcon="Find"
+                ToolTipService.ToolTip="{x:Bind ViewModel.SearchPlaceholderText, Mode=OneWay}" />
         </controls:DockPanel>
         <!--  导航栏  -->
         <NavigationView

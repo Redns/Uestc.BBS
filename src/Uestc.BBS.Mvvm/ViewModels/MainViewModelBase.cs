@@ -188,6 +188,7 @@ namespace Uestc.BBS.Mvvm.ViewModels
         /// </summary>
         /// <param name="url"></param>
         [RelayCommand]
-        private static void OpenWebSite(string url) => OperatingSystemHelper.OpenWebsite(url);
+        private void OpenOfficialWebsite() =>
+            OperatingSystemHelper.OpenWebsite(AppSettingModel.Appearance.OfficialWebsite);
     }
 }

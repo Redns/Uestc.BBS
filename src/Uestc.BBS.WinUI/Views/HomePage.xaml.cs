@@ -1,9 +1,11 @@
 using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.Messaging;
 using CommunityToolkit.WinUI;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
 using Uestc.BBS.Core.Helpers;
 using Uestc.BBS.Core.Services.System;
 using Uestc.BBS.Mvvm.Messages;
@@ -124,6 +126,36 @@ namespace Uestc.BBS.WinUI.Views
         ~HomePage()
         {
             StrongReferenceMessenger.Default.Unregister<ThreadChangedMessage>(this);
+        }
+
+        /// <summary>
+        /// 刷新当前板块的帖子列表
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="_"></param>
+        private async void RefreshBoardTabItems(object sender, PointerRoutedEventArgs _)
+        {
+            if (sender is not TextBlock textBlock)
+            {
+                return;
+            }
+
+            var clickedBoardTabItemModel =
+                ViewModel.AppSettingModel.Appearance.BoardTab.Items.First(b =>
+                    b.Name == textBlock.Text
+                );
+
+            if (clickedBoardTabItemModel != ViewModel.CurrentBoardTabItemModel)
+            {
+                return;
+            }
+
+            if (ViewModel.CurrentBoardTabItemListView!.Topics!.IsLoading)
+            {
+                return;
+            }
+
+            await ViewModel.CurrentBoardTabItemListView.Topics.RefreshAsync();
         }
     }
 }
