@@ -84,7 +84,7 @@
                         </StackPanel>
                     </controls:SettingsCard>
                     <controls:SettingsCard Description="数据将加密后上传至云端" Header="AES 密钥">
-                        <PasswordBox Width="260" Password="{x:Bind ViewModel.StorageSettingModel.Sync.Password, Mode=TwoWay}" />
+                        <PasswordBox Width="260" Password="{x:Bind ViewModel.StorageSettingModel.Sync.Secret, Mode=TwoWay}" />
                     </controls:SettingsCard>
                     <controls:SettingsCard>
                         <controls:SettingsCard.Resources>

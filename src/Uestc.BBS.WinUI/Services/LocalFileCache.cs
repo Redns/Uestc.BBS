@@ -12,16 +12,6 @@ namespace Uestc.BBS.WinUI.Services
     public class LocalFileCache(string cacheRoot, IHttpClientFactory httpClientFactory) : IFileCache
     {
         /// <summary>
-        /// 缓存根目录
-        /// </summary>
-        private readonly string _cacheRoot = cacheRoot;
-
-        /// <summary>
-        /// HttpClient
-        /// </summary>
-        private readonly IHttpClientFactory _httpClientFactory = httpClientFactory;
-
-        /// <summary>
         /// 防止重复下载
         /// </summary>
         private static readonly ConcurrentDictionary<string, Task> _downloadTasks = new();
@@ -36,14 +26,14 @@ namespace Uestc.BBS.WinUI.Services
             CancellationToken cancellationToken = default
         )
         {
-            if (uri.IsFile || uri.Scheme == "ms-appx" || uri.Scheme == "ms-appdata")
+            if (uri.IsFile)
             {
                 return uri;
             }
 
             // 网络图片
             // XXX AbsolutePath 不包含 Query 参数，头像链接包含 uid 参数
-            var imageFullPath = Path.Combine(_cacheRoot, uri.PathAndQuery.ToMD5());
+            var imageFullPath = Path.Combine(cacheRoot, uri.PathAndQuery.ToMD5());
             if (!File.Exists(imageFullPath))
             {
                 // 下载网络图片至本地缓存
@@ -53,13 +43,26 @@ namespace Uestc.BBS.WinUI.Services
                     {
                         try
                         {
-                            var client = _httpClientFactory.CreateClient();
-                            var bytes = await client.GetByteArrayAsync(uri, cancellationToken);
-                            await File.WriteAllBytesAsync(imageFullPath, bytes, cancellationToken);
+                            var client = httpClientFactory.CreateClient();
+                            using var imageReadStream =
+                                await client.GetStreamAsync(uri, cancellationToken)
+                                ?? throw new NullReferenceException(
+                                    "Cache image from network failed, response is null."
+                                );
+
+                            using var imageWriteStream = new FileStream(
+                                imageFullPath,
+                                FileMode.Create,
+                                FileAccess.Write,
+                                FileShare.None
+                            );
+                            await imageReadStream.CopyToAsync(imageWriteStream, cancellationToken);
+                            await imageWriteStream.FlushAsync(cancellationToken);
                         }
                         catch
                         {
                             _downloadTasks.TryRemove(imageFullPath, out var _);
+                            File.Delete(imageFullPath);
                             throw;
                         }
                     }

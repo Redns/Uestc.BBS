@@ -227,13 +227,6 @@ namespace Uestc.BBS.Mvvm.Models
                 SetProperty(boardTabItem.SortType, value, boardTabItem, (s, e) => s.SortType = e);
         }
 
-        public uint PageSize
-        {
-            get => boardTabItem.PageSize;
-            set =>
-                SetProperty(boardTabItem.PageSize, value, boardTabItem, (s, e) => s.PageSize = e);
-        }
-
         public bool RequirePreviewSources
         {
             get => boardTabItem.RequirePreviewSources;

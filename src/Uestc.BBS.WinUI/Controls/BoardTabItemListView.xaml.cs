@@ -38,7 +38,8 @@ namespace Uestc.BBS.WinUI.Controls
             {
                 SetValue(BoardTabItemProperty, value);
                 Topics = new IncrementalLoadingCollection<ThreadOverviewSource, ThreadOverview>(
-                    new ThreadOverviewSource(_threaListService, value)
+                    new ThreadOverviewSource(_threaListService, value),
+                    itemsPerPage: 30
                 );
             }
         }
@@ -73,32 +74,33 @@ namespace Uestc.BBS.WinUI.Controls
         BoardTabItemModel boardTabItem
     ) : IIncrementalSource<ThreadOverview>
     {
-        public Task<IEnumerable<ThreadOverview>> GetPagedItemsAsync(
+        public async Task<IEnumerable<ThreadOverview>> GetPagedItemsAsync(
             int pageIndex,
             int pageSize,
             CancellationToken cancellationToken = default
-        ) =>
-            threadListService
-                .GetThreadListAsync(
-                    route: boardTabItem.Route,
-                    page: (uint)pageIndex + 1,
-                    pageSize: (uint)pageSize,
-                    moduleId: boardTabItem.ModuleId,
-                    boardId: boardTabItem.Board,
-                    sortby: boardTabItem.SortType,
-                    getPreviewSources: boardTabItem.RequirePreviewSources,
-                    cancellationToken: cancellationToken
-                )
-                .ContinueWith(
-                    t =>
-                        // TODO 部分板块加载时会出现重复主题，需要去重
-                        t.Result.DistinctBy(o => o.Id)
-                            .Select(o =>
-                            {
-                                o.IsHot = boardTabItem.Board is Board.Hot;
-                                return o;
-                            }),
-                    cancellationToken
-                );
+        )
+        {
+            var threads = await threadListService.GetThreadListAsync(
+                route: boardTabItem.Route,
+                page: (uint)pageIndex + 1,
+                pageSize: (uint)pageSize,
+                moduleId: boardTabItem.ModuleId,
+                boardId: boardTabItem.Board,
+                sortby: boardTabItem.SortType,
+                getPreviewSources: boardTabItem.RequirePreviewSources,
+                cancellationToken: cancellationToken
+            );
+
+            return threads
+                .DistinctBy(o => o.Id)
+                .Select(o =>
+                {
+                    // XXX 热门板块的时间为发布时间，其余为最新回复时间
+                    // 由于热门板块实际上是由各板块主题组成，因此 Board 字段不是 Hot 而是其对应的板块名称
+                    // 因此这里需要判断板块是否为热门板块，并设置 IsHot 属性
+                    o.IsHot = boardTabItem.Board is Board.Hot;
+                    return o;
+                });
+        }
     }
 }

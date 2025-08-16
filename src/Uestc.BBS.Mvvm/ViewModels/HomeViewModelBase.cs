@@ -123,34 +123,5 @@ namespace Uestc.BBS.Mvvm.ViewModels
                 }
             };
         }
-
-        /// <summary>
-        /// 加载主题列表
-        /// </summary>
-        /// <param name="tabItem"></param>
-        /// <param name="IsRefresh"></param>
-        /// <returns></returns>
-        protected virtual async Task<IEnumerable<ThreadOverview>> LoadTopicsAsync(
-            BoardTabItemModel tabItem,
-            bool IsRefresh = false
-        ) =>
-            await _threaListService
-                .GetThreadListAsync(
-                    route: tabItem.Route,
-                    page: IsRefresh ? 1 : (uint)tabItem.Topics.Count / tabItem.PageSize + 1,
-                    pageSize: tabItem.PageSize,
-                    moduleId: tabItem.ModuleId,
-                    boardId: tabItem.Board,
-                    sortby: tabItem.SortType,
-                    getPreviewSources: tabItem.RequirePreviewSources
-                )
-                .ContinueWith(t =>
-                {
-                    if (t.IsFaulted)
-                    {
-                        _logService.Error("Load topics failed", t.Exception.InnerException!);
-                    }
-                    return t.Result ?? [];
-                });
     }
 }

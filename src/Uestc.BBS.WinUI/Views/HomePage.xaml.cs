@@ -1,8 +1,10 @@
 using System;
 using System.Threading;
+using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.Messaging;
 using CommunityToolkit.WinUI;
 using Microsoft.UI.Xaml.Controls;
+using Uestc.BBS.Core.Helpers;
 using Uestc.BBS.Core.Services.System;
 using Uestc.BBS.Mvvm.Messages;
 using Uestc.BBS.Sdk.Services.Thread;
@@ -56,6 +58,11 @@ namespace Uestc.BBS.WinUI.Views
                     BoardSwitchRight2LeftStoryboard.Begin();
                     return;
                 }
+
+                if (e.PropertyName == nameof(ViewModel.CurrentThread))
+                {
+                    ThreadContentScrollViewer.ScrollToVerticalOffset(0);
+                }
             };
 
             _logService = logService;
@@ -66,26 +73,26 @@ namespace Uestc.BBS.WinUI.Views
                 this,
                 async (_, m) =>
                 {
-                    // 避免重复点击同一主题造成的重复请求
-                    if (
-                        ViewModel.CurrentThread?.Id == m.Value
-                        || ViewModel.CurrentLoadingThreadId == m.Value
-                    )
+                    // 如果当前正在加载的主题与消息中的主题相同，则不进行任何操作
+                    // 如果当前并未加载主题，如果点击的是同一主题则仍然加载，等效于刷新
+                    if (ViewModel.CurrentLoadingThreadId == m.Value)
                     {
                         return;
                     }
                     ViewModel.CurrentLoadingThreadId = m.Value;
 
+                    // 取消上一次加载任务
+                    _threadContentCancelTokenSource?.Cancel();
+                    _threadContentCancelTokenSource?.Dispose();
+                    _threadContentCancelTokenSource = new CancellationTokenSource();
+
                     try
                     {
-                        _threadContentCancelTokenSource?.Cancel();
-                        _threadContentCancelTokenSource?.Dispose();
-                        _threadContentCancelTokenSource = new CancellationTokenSource();
-
-                        var threadContent = await _threadContentService.GetThreadContentAsync(
-                            m.Value,
-                            _threadContentCancelTokenSource.Token
-                        );
+                        // TODO 显示加载动画
+                        // TODO 超时时间可配置
+                        var threadContent = await _threadContentService
+                            .GetThreadContentAsync(m.Value, _threadContentCancelTokenSource.Token)
+                            .TimeoutCancelAsync(TimeSpan.FromSeconds(5));
                         await DispatcherQueue.EnqueueAsync(() =>
                         {
                             if (_threadContentCancelTokenSource?.IsCancellationRequested is true)
@@ -95,21 +102,20 @@ namespace Uestc.BBS.WinUI.Views
                             ViewModel.CurrentThread = threadContent;
                         });
                     }
-                    catch (OperationCanceledException ex)
+                    catch (TaskCanceledException) { }
+                    catch (TimeoutException)
                     {
-                        if (_threadContentCancelTokenSource?.IsCancellationRequested is false)
-                        {
-                            _logService.Error(
-                                $"Failed to get thread (id: {m.Value}) content, task is canceled",
-                                ex
-                            );
-                        }
+                        // TODO 显示超时信息
                     }
                     catch (Exception ex)
                     {
-                        System.Diagnostics.Debug.WriteLine(
-                            $"获取主题 {m.Value} 内容失败, {ex.Message}"
-                        );
+                        // TODO 显示错误信息
+
+                        _logService.Error($"Failed to load thread {m.Value}", ex);
+                    }
+                    finally
+                    {
+                        ViewModel.CurrentLoadingThreadId = 0;
                     }
                 }
             );

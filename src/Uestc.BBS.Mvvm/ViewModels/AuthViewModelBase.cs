@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using System.Security.Authentication;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Uestc.BBS.Core.Helpers;
 using Uestc.BBS.Core.Services.System;
@@ -86,11 +87,8 @@ namespace Uestc.BBS.Mvvm.ViewModels
             try
             {
                 // 获取授权信息
-                var credential = await GetAuthCredentialAsync();
-                if (credential is null)
-                {
-                    return;
-                }
+                var credential = await GetAuthCredentialAsync()
+                    .TimeoutCancelAsync(TimeSpan.FromSeconds(5));
 
                 // 保存本地登录信息
                 if (SelectedCredential?.Equals(credential) is false)
@@ -101,6 +99,14 @@ namespace Uestc.BBS.Mvvm.ViewModels
 
                 // 跳转至主页
                 NavigateToMainView();
+            }
+            catch (TimeoutException)
+            {
+                _notificationService.Show("登陆失败", "网络连接超时，请检查网络连接或稍后重试");
+            }
+            catch (AuthenticationException)
+            {
+                _notificationService.Show("登陆失败", "用户名或密码错误");
             }
             catch (Exception e)
             {
@@ -113,7 +119,7 @@ namespace Uestc.BBS.Mvvm.ViewModels
         /// 获取授权信息
         /// </summary>
         /// <returns></returns>
-        private async Task<AuthCredentialModel?> GetAuthCredentialAsync()
+        private async Task<AuthCredentialModel> GetAuthCredentialAsync()
         {
             // 选中授权信息有效，无需重新获取
             if (
@@ -124,7 +130,7 @@ namespace Uestc.BBS.Mvvm.ViewModels
                 && SelectedCredential?.Password == Password
             )
             {
-                return SelectedCredential;
+                return SelectedCredential!;
             }
 
             // 若授权信息不存在则创建
@@ -134,20 +140,10 @@ namespace Uestc.BBS.Mvvm.ViewModels
             credential.Password = Password!;
 
             // 根据用户名和密码登录
-            await _authService
-                .LoginAsync(credential.AuthCredential)
-                .ContinueWith(t =>
-                {
-                    if (t.IsFaulted)
-                    {
-                        _notificationService.Show("登陆失败", "用户不存在或密码错误");
-                        return;
-                    }
-
-                    credential.Password = AppSettingModel.Account.RememberPassword
-                        ? Password!
-                        : string.Empty;
-                });
+            await _authService.LoginAsync(credential.AuthCredential);
+            credential.Password = AppSettingModel.Account.RememberPassword
+                ? Password!
+                : string.Empty;
 
             return credential;
         }

@@ -8,12 +8,12 @@ using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml.Controls;
 using Uestc.BBS.Core.Models;
 using Uestc.BBS.Mvvm.Models;
+using Uestc.BBS.Sdk.Services.Thread;
 using Uestc.BBS.WinUI.Helpers;
+using Uestc.BBS.WinUI.ViewModels;
 using Uestc.BBS.WinUI.Views.ContentDialogs;
-using WinUIEx;
-#if RELEASE
 using WinRT.Interop;
-#endif
+using WinUIEx;
 
 namespace Uestc.BBS.WinUI.Views
 {
@@ -23,7 +23,11 @@ namespace Uestc.BBS.WinUI.Views
 
         private AppSettingModel AppSettingModel { get; init; }
 
-        public MainWindow(AppSettingModel appSettingModel, Appmanifest appmanifest)
+        public MainWindow(
+            AppSettingModel appSettingModel,
+            HomeViewModel homeViewModel,
+            Appmanifest appmanifest
+        )
         {
             InitializeComponent();
 
@@ -73,10 +77,19 @@ namespace Uestc.BBS.WinUI.Views
                 }
             };
 
-#if RELEASE
-            // TODO 仅在就业区防截屏
-            WindowsHelper.SetWindowDisplayAffinity(WindowNative.GetWindowHandle(this), 0x11);
-#endif
+            homeViewModel.PropertyChanged += (_, args) =>
+            {
+                if (args.PropertyName != nameof(homeViewModel.CurrentThread))
+                {
+                    // 就业区防截屏
+                    WindowsHelper.SetWindowDisplayAffinity(
+                        WindowNative.GetWindowHandle(this),
+                        homeViewModel.CurrentThread?.Board is Board.EmploymentAndEntrepreneurship
+                            ? 0x11U
+                            : 0x0U
+                    );
+                }
+            };
         }
 
         [RelayCommand]

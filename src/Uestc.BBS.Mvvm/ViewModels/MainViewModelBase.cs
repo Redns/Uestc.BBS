@@ -108,31 +108,23 @@ namespace Uestc.BBS.Mvvm.ViewModels
                         return;
                     }
 
+                    _daiysentenceCancelTokenSource?.Cancel();
+                    _daiysentenceCancelTokenSource?.Dispose();
+                    _daiysentenceCancelTokenSource = new CancellationTokenSource();
+
                     try
                     {
-                        _daiysentenceCancelTokenSource?.Cancel();
-                        _daiysentenceCancelTokenSource?.Dispose();
-                        _daiysentenceCancelTokenSource = new CancellationTokenSource();
-
-                        var sentence = await _dailySentenceService.GetDailySentenceAsync(
-                            _daiysentenceCancelTokenSource.Token
-                        );
+                        var sentence = await _dailySentenceService
+                            .GetDailySentenceAsync(_daiysentenceCancelTokenSource.Token)
+                            .TimeoutCancelAsync(TimeSpan.FromSeconds(60));
                         if (string.IsNullOrEmpty(sentence) || sentence == SearchPlaceholderText)
                         {
                             return;
                         }
                         await DispatcherAsync(() => SearchPlaceholderText = sentence);
                     }
-                    catch (OperationCanceledException ex)
-                    {
-                        if (_daiysentenceCancelTokenSource?.IsCancellationRequested is false)
-                        {
-                            _logService.Error(
-                                "Daily sentence refresh canceled, task is cancelled",
-                                ex
-                            );
-                        }
-                    }
+                    catch (TimeoutException) { }
+                    catch (TaskCanceledException) { }
                     catch (Exception ex)
                     {
                         _logService.Error("Daily sentence refresh failed", ex);
@@ -196,6 +188,6 @@ namespace Uestc.BBS.Mvvm.ViewModels
         /// </summary>
         /// <param name="url"></param>
         [RelayCommand]
-        private void OpenWebSite(string url) => OperatingSystemHelper.OpenWebsite(url);
+        private static void OpenWebSite(string url) => OperatingSystemHelper.OpenWebsite(url);
     }
 }

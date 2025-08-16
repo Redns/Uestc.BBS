@@ -182,7 +182,6 @@ namespace Uestc.BBS.Core.Models
                     Route = "forum/topiclist",
                     Board = Board.Latest,
                     SortType = TopicSortType.New,
-                    PageSize = 15,
                     RequirePreviewSources = true,
                     ModuleId = 0,
                 },
@@ -192,7 +191,6 @@ namespace Uestc.BBS.Core.Models
                     Route = "forum/topiclist",
                     Board = Board.Latest,
                     SortType = TopicSortType.All,
-                    PageSize = 15,
                     RequirePreviewSources = true,
                     ModuleId = 0,
                 },
@@ -202,7 +200,6 @@ namespace Uestc.BBS.Core.Models
                     Route = "portal/newslist",
                     Board = Board.Hot,
                     SortType = TopicSortType.All,
-                    PageSize = 15,
                     RequirePreviewSources = true,
                     ModuleId = 2,
                 },
@@ -212,7 +209,6 @@ namespace Uestc.BBS.Core.Models
                     Route = "forum/topiclist",
                     Board = Board.Latest,
                     SortType = TopicSortType.Essence,
-                    PageSize = 15,
                     RequirePreviewSources = true,
                     ModuleId = 0,
                 },
@@ -222,7 +218,6 @@ namespace Uestc.BBS.Core.Models
                     Route = "forum/topiclist",
                     Board = Board.Examination,
                     SortType = TopicSortType.New,
-                    PageSize = 15,
                     RequirePreviewSources = true,
                     ModuleId = 0,
                 },
@@ -280,11 +275,6 @@ namespace Uestc.BBS.Core.Models
         /// 排序类型
         /// </summary>
         public TopicSortType SortType { get; set; } = TopicSortType.New;
-
-        /// <summary>
-        /// 分页大小
-        /// </summary>
-        public uint PageSize { get; set; } = 15;
 
         /// <summary>
         /// 获取预览图

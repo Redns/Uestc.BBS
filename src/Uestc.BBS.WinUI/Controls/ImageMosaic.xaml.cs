@@ -1,15 +1,10 @@
 using System;
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Media.Imaging;
-using Uestc.BBS.Core;
-using Uestc.BBS.Core.Services.FileCache;
 using Uestc.BBS.WinUI.Helpers;
 using WinUIEx;
 
@@ -17,9 +12,6 @@ namespace Uestc.BBS.WinUI.Controls
 {
     public sealed partial class ImageMosaic : UserControl
     {
-        private static readonly IFileCache _fileCache =
-            ServiceExtension.Services.GetRequiredService<IFileCache>();
-
         /// <summary>
         /// Í¼Æ¬Êý¾ÝÔ´
         /// </summary>
