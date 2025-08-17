@@ -155,9 +155,13 @@ namespace Uestc.BBS.WinUI.Controls
             {
                 // TODO 优化图片渲染逻辑（缩放优化 + 懒加载 + 占位符）
                 // 现有逻辑限制图像最大高度，当图片为长截图等情况时，显示效果不佳
-                var image = new Image { MaxHeight = 1000, Stretch = Stretch.Uniform };
-                ImageCacheHelper.SetSmartStretch(image, true);
-                ImageCacheHelper.SetSourceEx(image, content.Information);
+                var image = new Image
+                {
+                    MaxHeight = 1000,
+                    Stretch = Stretch.Uniform,
+                    Tag = content.Information,
+                };
+                image.EffectiveViewportChanged += ImageCacheHelper.ImageLazyLoad;
 
                 return
                 [

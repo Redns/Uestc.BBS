@@ -121,7 +121,9 @@ namespace Uestc.BBS.Mvvm.ViewModels
                         {
                             return;
                         }
-                        await DispatcherAsync(() => SearchPlaceholderText = sentence);
+                        await DispatcherAsync(
+                            () => SearchPlaceholderText = sentence.TrimEnd(['，', '；', '。'])
+                        );
                     }
                     catch (TimeoutException) { }
                     catch (TaskCanceledException) { }

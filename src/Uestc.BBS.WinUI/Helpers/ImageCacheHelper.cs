@@ -153,5 +153,30 @@ namespace Uestc.BBS.WinUI.Helpers
                 _logService.Error($"Image source ({sourceEx}) is invalid", ex);
             }
         }
+
+        /// <summary>
+        /// 图像懒加载
+        /// </summary>
+        /// <param name="element"></param>
+        /// <param name="args"></param>
+        public static void ImageLazyLoad(
+            FrameworkElement element,
+            EffectiveViewportChangedEventArgs args
+        )
+        {
+            if (element is not Image image)
+            {
+                return;
+            }
+
+            // 当图像距离视窗底部小于两倍窗口高度时，开始加载图像
+            // 此处实际上应该使用 ScrollViewer 的高度，但 ScrollViewer 高度不确定，
+            // 由于首页显示主题列表的 ScrollViewer 高度与窗口近似，故使用 App.CurrentWindow.Bounds.Height
+            if (args.BringIntoViewDistanceY < App.CurrentWindow?.Bounds.Height * 2)
+            {
+                image.EffectiveViewportChanged -= ImageLazyLoad;
+                SetSourceEx(image, image.Tag as string ?? string.Empty);
+            }
+        }
     }
 }

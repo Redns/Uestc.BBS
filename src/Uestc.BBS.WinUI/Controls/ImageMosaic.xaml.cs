@@ -52,9 +52,14 @@ namespace Uestc.BBS.WinUI.Controls
 
             if (sources.Length == 1)
             {
-                var image = new Image { MaxHeight = 240, Stretch = Stretch.Uniform };
-                ImageCacheHelper.SetSourceEx(image, sources[0]);
+                var image = new Image
+                {
+                    MaxHeight = 240,
+                    Stretch = Stretch.Uniform,
+                    Tag = sources[0],
+                };
 
+                image.EffectiveViewportChanged += ImageCacheHelper.ImageLazyLoad;
                 image.PointerPressed += (_, _) =>
                     OpenImage(imageMosaic.Sources, 0, imageMosaic.PreviewFlipViewDataTemplete);
 
@@ -96,9 +101,10 @@ namespace Uestc.BBS.WinUI.Controls
                                     ? imageHeight * 2 + grid.RowSpacing
                                     : imageHeight,
                             Stretch = Stretch.UniformToFill,
+                            Tag = s,
                         };
-                        ImageCacheHelper.SetSourceEx(image, s);
 
+                        image.EffectiveViewportChanged += ImageCacheHelper.ImageLazyLoad;
                         image.PointerPressed += (_, _) =>
                             OpenImage(
                                 imageMosaic.Sources,
