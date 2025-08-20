@@ -35,10 +35,10 @@ namespace Uestc.BBS.WinUI.Helpers
                 new PropertyMetadata(null)
             );
 
-        public static CancellationTokenSource GetCancellationTokenSource(DependencyObject obj) =>
+        private static CancellationTokenSource GetCancellationTokenSource(DependencyObject obj) =>
             (CancellationTokenSource)obj.GetValue(CancellationTokenSourceProperty);
 
-        public static void SetCancellationTokenSource(
+        private static void SetCancellationTokenSource(
             DependencyObject obj,
             CancellationTokenSource value
         ) => obj.SetValue(CancellationTokenSourceProperty, value);

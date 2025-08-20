@@ -297,7 +297,7 @@
             </controls:Case>
             <controls:Case Value="Loading">
                 <AnimatedVisualPlayer Width="260">
-                    <animatedvisuals:AbstractIsometricLoader />
+                    <animatedvisuals:AmS7nmujvm />
                 </AnimatedVisualPlayer>
             </controls:Case>
             <controls:Case Value="Timeout">
