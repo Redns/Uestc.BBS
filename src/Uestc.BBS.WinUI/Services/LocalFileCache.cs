@@ -26,7 +26,7 @@ namespace Uestc.BBS.WinUI.Services
             CancellationToken cancellationToken = default
         )
         {
-            if (uri.IsFile)
+            if (uri.IsFile || uri.AbsoluteUri.StartsWith("ms-appx://"))
             {
                 return uri;
             }

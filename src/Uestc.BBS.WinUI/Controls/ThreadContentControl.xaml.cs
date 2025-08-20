@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -46,6 +46,11 @@ namespace Uestc.BBS.WinUI.Controls
                 return;
             }
 
+            if (contents.Length == 0)
+            {
+                return;
+            }
+
             threadContentControl.Content = RenderThreadContents(contents);
         }
 
@@ -53,7 +58,7 @@ namespace Uestc.BBS.WinUI.Controls
         {
             var richTextBlock = new RichTextBlock { LineHeight = 26 };
 
-            // TODO ÓÅ»¯äÖÈ¾Âß¼­
+            // TODO ä¼˜åŒ–æ¸²æŸ“é€»è¾‘
             var paragraph = new Paragraph();
             foreach (var content in contents)
             {
@@ -73,7 +78,7 @@ namespace Uestc.BBS.WinUI.Controls
                 paragraph = new Paragraph();
             }
 
-            // XXX ÈôÄÚÈİÎª´¿ÎÄ±¾£¬ÔòÉÏÊöÑ­»·²»»á½« paragraph ¼ÓÈëµ½ richTextBlock.Blocks ÖĞ
+            // XXX è‹¥å†…å®¹ä¸ºçº¯æ–‡æœ¬ï¼Œåˆ™ä¸Šè¿°å¾ªç¯ä¸ä¼šå°† paragraph åŠ å…¥åˆ° richTextBlock.Blocks ä¸­
             if (paragraph.Inlines.Count > 0)
             {
                 richTextBlock.Blocks.Add(paragraph);
@@ -82,16 +87,17 @@ namespace Uestc.BBS.WinUI.Controls
             return richTextBlock;
         }
 
+        // TODO ç»Ÿä¸€ä¸åŒå†…å®¹çš„æ¥å£ï¼ŒåŠ è½½æ—¶ä½¿ç”¨ Factory æ–¹å¼åˆ›å»ºå¯¹åº”æ§ä»¶
         public static List<Inline> RenderInlineContent(RichTextContent content)
         {
-            // ¡¾´¿ÎÄ±¾¡¿Hello, world!
-            // ¡¾ÎÄ±¾ + ±íÇé°ü¡¿Hello [mobcent_phiz=https://bbs.uestc.edu.cn/static/image/smiley/alu/22.gif], world!
-            // ¡¾´úÂë¿é¡¿ÄúÒ²¿ÉÒÔÏÂÔØÊı¾İÒÔ½øĞĞ¶ş´Î¿ª·¢£º\r\n\r\n```js\r\nconst CSV_URL = `https://file.range6.link/get/qshp/monitor/${dateStr}.csv?token=bbs.uestcer.org`;\r\nconst EXAMPLE = \"https://file.range6.link/get/qshp/monitor/2025-08-02.csv?token=bbs.uestcer.org\";\r\n```
-            // ¡¾±êÌâ¡¿## Ö÷Òª¹¦ÄÜ
-            // ¡¾ÎŞĞòÁĞ±í¡¿* ÕâÊÇÒ»¸öÎŞĞòÁĞ±íÏî
-            // ¡¾¼Ó´Ö¡¿**ÊµÊ±¼à¿Ø**£º×Ô¶¯¼ì²âĞÂ»Ø¸´ÏûÏ¢
-            // ¡¾Ğ±Ìå¡¿*»¶Ó­ÊÔÓÃ²¢·´À¡Ê¹ÓÃÌåÑé£¡*
-            // ¡¾·Ö¸îÏß¡¿---
+            // ã€çº¯æ–‡æœ¬ã€‘Hello, world!
+            // ã€æ–‡æœ¬ + è¡¨æƒ…åŒ…ã€‘Hello [mobcent_phiz=https://bbs.uestc.edu.cn/static/image/smiley/alu/22.gif], world!
+            // ã€ä»£ç å—ã€‘æ‚¨ä¹Ÿå¯ä»¥ä¸‹è½½æ•°æ®ä»¥è¿›è¡ŒäºŒæ¬¡å¼€å‘ï¼š\r\n\r\n```js\r\nconst CSV_URL = `https://file.range6.link/get/qshp/monitor/${dateStr}.csv?token=bbs.uestcer.org`;\r\nconst EXAMPLE = \"https://file.range6.link/get/qshp/monitor/2025-08-02.csv?token=bbs.uestcer.org\";\r\n```
+            // ã€æ ‡é¢˜ã€‘## ä¸»è¦åŠŸèƒ½
+            // ã€æ— åºåˆ—è¡¨ã€‘* è¿™æ˜¯ä¸€ä¸ªæ— åºåˆ—è¡¨é¡¹
+            // ã€åŠ ç²—ã€‘**å®æ—¶ç›‘æ§**ï¼šè‡ªåŠ¨æ£€æµ‹æ–°å›å¤æ¶ˆæ¯
+            // ã€æ–œä½“ã€‘*æ¬¢è¿è¯•ç”¨å¹¶åé¦ˆä½¿ç”¨ä½“éªŒï¼*
+            // ã€åˆ†å‰²çº¿ã€‘---
             if (content.Type is TopicContenType.Text)
             {
                 var emojis = _emojiRegex.Matches(content.Information).Where(m => m.Success);
@@ -117,7 +123,7 @@ namespace Uestc.BBS.WinUI.Controls
                         Stretch = Stretch.Uniform,
                         VerticalAlignment = VerticalAlignment.Center,
                     };
-                    // TODO Ê¹ÓÃ±¾µØ alu-face ´úÌæ£¬Í¬Ê±Í³Ò»ĞĞ¸ß
+                    // TODO ä½¿ç”¨æœ¬åœ° alu-face ä»£æ›¿ï¼ŒåŒæ—¶ç»Ÿä¸€è¡Œé«˜
                     ImageCacheHelper.SetSourceEx(emojiImage, emoji.Groups["url"].Value);
                     inlineList.Add(new InlineUIContainer { Child = emojiImage });
 
@@ -132,7 +138,7 @@ namespace Uestc.BBS.WinUI.Controls
                 return inlineList;
             }
 
-            // ÄÚÁªÁ´½Ó
+            // å†…è”é“¾æ¥
             if (content.Type is TopicContenType.InlineLink)
             {
                 if (string.IsNullOrEmpty(content.Information))
@@ -150,11 +156,11 @@ namespace Uestc.BBS.WinUI.Controls
                 ];
             }
 
-            // Í¼Æ¬
+            // å›¾ç‰‡
             if (content.Type is TopicContenType.Image)
             {
-                // TODO ÓÅ»¯Í¼Æ¬äÖÈ¾Âß¼­£¨Ëõ·ÅÓÅ»¯ + ÀÁ¼ÓÔØ + Õ¼Î»·û£©
-                // ÏÖÓĞÂß¼­ÏŞÖÆÍ¼Ïñ×î´ó¸ß¶È£¬µ±Í¼Æ¬Îª³¤½ØÍ¼µÈÇé¿öÊ±£¬ÏÔÊ¾Ğ§¹û²»¼Ñ
+                // TODO ä¼˜åŒ–å›¾ç‰‡æ¸²æŸ“é€»è¾‘ï¼ˆç¼©æ”¾ä¼˜åŒ– + æ‡’åŠ è½½ + å ä½ç¬¦ï¼‰
+                // ç°æœ‰é€»è¾‘é™åˆ¶å›¾åƒæœ€å¤§é«˜åº¦ï¼Œå½“å›¾ç‰‡ä¸ºé•¿æˆªå›¾ç­‰æƒ…å†µæ—¶ï¼Œæ˜¾ç¤ºæ•ˆæœä¸ä½³
                 var image = new Image
                 {
                     MaxHeight = 1000,
@@ -185,7 +191,7 @@ namespace Uestc.BBS.WinUI.Controls
                     Child = new InfoBar
                     {
                         Severity = InfoBarSeverity.Warning,
-                        Title = "½âÎöÊ§°Ü",
+                        Title = "è§£æå¤±è´¥",
                         Message = content.Information,
                     },
                 },

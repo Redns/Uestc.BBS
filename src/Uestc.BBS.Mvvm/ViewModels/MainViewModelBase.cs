@@ -122,7 +122,10 @@ namespace Uestc.BBS.Mvvm.ViewModels
                             return;
                         }
                         await DispatcherAsync(
-                            () => SearchPlaceholderText = sentence.TrimEnd(['，', '；', '。'])
+                            () =>
+                                SearchPlaceholderText = sentence.TrimEnd(
+                                    ['，', '；', '。', ',', ';', '.']
+                                )
                         );
                     }
                     catch (TimeoutException) { }

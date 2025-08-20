@@ -78,6 +78,7 @@ namespace Uestc.BBS.Core
                     var appSetting = services.GetRequiredService<AppSetting>();
                     if (handler is SocketsHttpHandler socketsHttpHandler)
                     {
+                        // 系统代理 & SSL
                         socketsHttpHandler.UseProxy = appSetting.Services.Network.UseSystemProxy;
                         socketsHttpHandler.SslOptions.RemoteCertificateValidationCallback = (
                             sender,

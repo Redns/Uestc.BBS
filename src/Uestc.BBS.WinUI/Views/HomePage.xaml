@@ -3,6 +3,7 @@
     x:Class="Uestc.BBS.WinUI.Views.HomePage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:animatedvisuals="using:AnimatedVisuals"
     xmlns:controls="using:CommunityToolkit.WinUI.Controls"
     xmlns:converters="using:CommunityToolkit.WinUI.Converters"
     xmlns:core="using:Uestc.BBS.Core"
@@ -13,6 +14,7 @@
     xmlns:local_converters="using:Uestc.BBS.WinUI.Converters"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="using:Uestc.BBS.Mvvm.Models"
+    xmlns:thread="using:Uestc.BBS.Sdk.Services.Thread"
     xmlns:ui="using:CommunityToolkit.WinUI"
     xmlns:vm="using:Uestc.BBS.WinUI.ViewModels"
     d:DataContext="{d:DesignInstance Type=vm:HomeViewModel}"
@@ -101,176 +103,214 @@
         </UserControl>
 
         <!--  主题内容  -->
-        <ScrollViewer
-            x:Name="ThreadContentScrollViewer"
+        <controls:SwitchPresenter
             Grid.RowSpan="2"
             Grid.Column="1"
-            Margin="0,10,0,0"
-            Padding="0,0,10,0">
-            <StackPanel Spacing="10" Visibility="{x:Bind ViewModel.CurrentThread, Converter={StaticResource Null2Visibility}, Mode=OneWay}">
-                <controls:DockPanel HorizontalSpacing="10" LastChildFill="False">
-                    <PersonPicture
-                        Height="36"
-                        VerticalAlignment="Top"
-                        helpers:PersonPictureCacheHelper.ProfilePictureEx="{x:Bind ViewModel.CurrentThread.UserAvatar, Mode=OneWay}" />
-                    <!--  昵称、签名  -->
-                    <StackPanel VerticalAlignment="Center" Spacing="3">
-                        <StackPanel Orientation="Horizontal" Spacing="5">
-                            <TextBlock FontWeight="SemiBold" Text="{x:Bind ViewModel.CurrentThread.Username, Mode=OneWay}" />
-                            <!--  等级（如：Lv.x）  -->
-                            <Border
-                                Background="{ThemeResource SystemFillColorSuccessBrush}"
-                                CornerRadius="3"
-                                Visibility="{x:Bind ViewModel.CurrentThread.UserLevel, Converter={StaticResource DoubleToVisibilityConverter}, Mode=OneWay}">
+            TargetType="vm:PageStatus"
+            Value="{x:Bind ViewModel.PageStatus, Mode=OneWay}">
+            <controls:Case Value="Idle" />
+            <controls:Case Value="Success">
+                <ScrollViewer
+                    x:Name="ThreadContentScrollViewer"
+                    Margin="0,10,0,0"
+                    Padding="0,0,10,0">
+                    <StackPanel Spacing="10" Visibility="{x:Bind ViewModel.CurrentThread, Converter={StaticResource Null2Visibility}, Mode=OneWay}">
+                        <controls:DockPanel HorizontalSpacing="10" LastChildFill="False">
+                            <PersonPicture
+                                Height="36"
+                                VerticalAlignment="Top"
+                                helpers:PersonPictureCacheHelper.ProfilePictureEx="{x:Bind ViewModel.CurrentThread.UserAvatar, Mode=OneWay}" />
+                            <!--  昵称、签名  -->
+                            <StackPanel VerticalAlignment="Center" Spacing="3">
+                                <StackPanel Orientation="Horizontal" Spacing="5">
+                                    <TextBlock FontWeight="SemiBold" Text="{x:Bind ViewModel.CurrentThread.Username, Mode=OneWay}" />
+                                    <!--  等级（如：Lv.x）  -->
+                                    <Border
+                                        Background="{ThemeResource SystemFillColorSuccessBrush}"
+                                        CornerRadius="3"
+                                        Visibility="{x:Bind ViewModel.CurrentThread.UserLevel, Converter={StaticResource DoubleToVisibilityConverter}, Mode=OneWay}">
+                                        <TextBlock
+                                            Margin="3,0"
+                                            Padding="0,1,0,0"
+                                            FontSize="12"
+                                            Foreground="White"
+                                            Text="{x:Bind ViewModel.CurrentThread.UserLevel, Mode=OneWay, Converter={StaticResource StringFormatConverter}, ConverterParameter='Lv.{0}'}" />
+                                    </Border>
+                                    <!--  用户组（如：管理员）  -->
+                                    <Border Background="{ThemeResource AccentTextFillColorTertiaryBrush}" CornerRadius="3">
+                                        <TextBlock
+                                            Margin="3,0"
+                                            Padding="0,1,0,0"
+                                            FontSize="11"
+                                            Foreground="White"
+                                            Text="{x:Bind ViewModel.CurrentThread.UserGroup, Mode=OneWay}"
+                                            Visibility="{x:Bind ViewModel.CurrentThread.UserGroup, Converter={StaticResource StringVisibilityConverter}, Mode=OneWay}" />
+                                    </Border>
+                                </StackPanel>
                                 <TextBlock
-                                    Margin="3,0"
-                                    Padding="0,1,0,0"
                                     FontSize="12"
-                                    Foreground="White"
-                                    Text="{x:Bind ViewModel.CurrentThread.UserLevel, Mode=OneWay, Converter={StaticResource StringFormatConverter}, ConverterParameter='Lv.{0}'}" />
-                            </Border>
-                            <!--  用户组（如：管理员）  -->
-                            <Border Background="{ThemeResource AccentTextFillColorTertiaryBrush}" CornerRadius="3">
-                                <TextBlock
-                                    Margin="3,0"
-                                    Padding="0,1,0,0"
-                                    FontSize="11"
-                                    Foreground="White"
-                                    Text="{x:Bind ViewModel.CurrentThread.UserGroup, Mode=OneWay}"
-                                    Visibility="{x:Bind ViewModel.CurrentThread.UserGroup, Converter={StaticResource StringVisibilityConverter}, Mode=OneWay}" />
-                            </Border>
-                        </StackPanel>
+                                    Foreground="Gray"
+                                    Text="{x:Bind ViewModel.CurrentThread.CreateTime, Converter={StaticResource Date2RelativeStringConverter}, Mode=OneWay}" />
+                            </StackPanel>
+                            <!--  操作按钮  -->
+                            <StackPanel
+                                controls:DockPanel.Dock="Right"
+                                Orientation="Horizontal"
+                                Spacing="-2">
+                                <AppBarButton
+                                    Width="40"
+                                    Height="47"
+                                    Margin="0,-6,-2,-13"
+                                    HorizontalAlignment="Right"
+                                    CornerRadius="0"
+                                    Icon="Like"
+                                    ToolTipService.ToolTip="点赞"
+                                    Visibility="{x:Bind ViewModel.IsCurrentThreadFromUs, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True, Mode=OneWay}" />
+                                <AppBarButton
+                                    Width="40"
+                                    Height="47"
+                                    Margin="0,-6,-2,-13"
+                                    HorizontalAlignment="Right"
+                                    CornerRadius="0"
+                                    Icon="Dislike"
+                                    ToolTipService.ToolTip="点踩"
+                                    Visibility="{x:Bind ViewModel.IsCurrentThreadFromUs, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True, Mode=OneWay}" />
+                                <AppBarButton
+                                    Width="40"
+                                    Height="47"
+                                    Margin="0,-6,-2,-13"
+                                    HorizontalAlignment="Right"
+                                    CornerRadius="0"
+                                    Icon="{ui:FontIcon Glyph=&#xED1A;}"
+                                    ToolTipService.ToolTip="插眼" />
+                                <AppBarButton
+                                    Width="40"
+                                    Height="47"
+                                    Margin="0,-6,-2,-13"
+                                    HorizontalAlignment="Right"
+                                    CornerRadius="0"
+                                    Icon="Favorite"
+                                    ToolTipService.ToolTip="收藏"
+                                    Visibility="{x:Bind ViewModel.IsCurrentThreadFromUs, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True, Mode=OneWay}" />
+                                <AppBarButton
+                                    Width="40"
+                                    Height="47"
+                                    Margin="0,-6,-2,-13"
+                                    HorizontalAlignment="Right"
+                                    CornerRadius="0"
+                                    Icon="Memo"
+                                    ToolTipService.ToolTip="备份" />
+                                <AppBarButton
+                                    Width="40"
+                                    Height="47"
+                                    Margin="0,-6,-2,-13"
+                                    HorizontalAlignment="Right"
+                                    CornerRadius="0"
+                                    Icon="{ui:FontIcon Glyph=&#xE932;}"
+                                    ToolTipService.ToolTip="编辑"
+                                    Visibility="{x:Bind ViewModel.IsCurrentThreadFromUs, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
+                                <AppBarButton
+                                    Width="40"
+                                    Height="47"
+                                    Margin="0,-6,-2,-13"
+                                    HorizontalAlignment="Right"
+                                    CornerRadius="0"
+                                    Icon="Delete"
+                                    ToolTipService.ToolTip="删除"
+                                    Visibility="{x:Bind ViewModel.IsCurrentThreadFromUs, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
+                                <AppBarButton
+                                    Width="40"
+                                    Height="47"
+                                    Margin="0,-6,-2,-13"
+                                    HorizontalAlignment="Right"
+                                    CornerRadius="0"
+                                    Icon="ReportHacked"
+                                    ToolTipService.ToolTip="举报"
+                                    Visibility="{x:Bind ViewModel.IsCurrentThreadFromUs, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True, Mode=OneWay}" />
+                                <AppBarButton
+                                    Width="40"
+                                    Height="47"
+                                    Margin="0,-6,-2,-13"
+                                    HorizontalAlignment="Right"
+                                    CornerRadius="0"
+                                    Icon="{ui:FontIcon Glyph=&#xF406;}"
+                                    ToolTipService.ToolTip="截屏" />
+                                <AppBarButton
+                                    Width="40"
+                                    Height="47"
+                                    Margin="0,-6,-2,-13"
+                                    HorizontalAlignment="Right"
+                                    CornerRadius="0"
+                                    Icon="Globe"
+                                    ToolTipService.ToolTip="在浏览器中打开" />
+                                <AppBarButton
+                                    Width="40"
+                                    Height="47"
+                                    Margin="0,-6,-2,-13"
+                                    HorizontalAlignment="Right"
+                                    CornerRadius="0"
+                                    Icon="{ui:FontIcon Glyph=&#xE82E;}"
+                                    ToolTipService.ToolTip="添加到淘专辑" />
+                                <AppBarButton
+                                    Width="40"
+                                    Height="47"
+                                    Margin="0,-6,-2,-13"
+                                    HorizontalAlignment="Right"
+                                    CornerRadius="0"
+                                    Icon="Share"
+                                    ToolTipService.ToolTip="分享" />
+                            </StackPanel>
+                        </controls:DockPanel>
+                        <!--  标题  -->
                         <TextBlock
-                            FontSize="12"
-                            Foreground="Gray"
-                            Text="{x:Bind ViewModel.CurrentThread.CreateTime, Converter={StaticResource Date2RelativeStringConverter}, Mode=OneWay}" />
+                            controls:DockPanel.Dock="Bottom"
+                            FontSize="20"
+                            Text="{x:Bind ViewModel.CurrentThread.Title, Mode=OneWay}" />
+                        <!--  主题内容  -->
+                        <local_controls:ThreadContentControl Contents="{x:Bind ViewModel.CurrentThread.Contents, Mode=OneWay}" />
+                        <!--  评论  -->
+                        <!--<ListView
+                            IsItemClickEnabled="True"
+                            ItemsSource="{x:Bind Replies, Mode=OneWay}"
+                            ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                            SelectionMode="None">
+                            <ListView.ItemContainerStyle>
+                                <Style TargetType="ListViewItem">
+                                    <Setter Property="Padding" Value="0" />
+                                    <Setter Property="Margin" Value="0,0,0,10" />
+                                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                </Style>
+                            </ListView.ItemContainerStyle>
+                            <ListView.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <ItemsStackPanel />
+                                </ItemsPanelTemplate>
+                            </ListView.ItemsPanel>
+                            <ListView.ItemTemplate>
+                                <DataTemplate x:DataType="thread:ThreadReply">
+                                    <TextBlock Text="{x:Bind QuoteContent, Mode=OneWay}" />
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>-->
                     </StackPanel>
-                    <!--  操作按钮  -->
-                    <StackPanel
-                        controls:DockPanel.Dock="Right"
-                        Orientation="Horizontal"
-                        Spacing="-2">
-                        <AppBarButton
-                            Width="40"
-                            Height="47"
-                            Margin="0,-6,-2,-13"
-                            HorizontalAlignment="Right"
-                            CornerRadius="0"
-                            Icon="Like"
-                            ToolTipService.ToolTip="点赞"
-                            Visibility="{x:Bind ViewModel.IsCurrentThreadFromUs, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True, Mode=OneWay}" />
-                        <AppBarButton
-                            Width="40"
-                            Height="47"
-                            Margin="0,-6,-2,-13"
-                            HorizontalAlignment="Right"
-                            CornerRadius="0"
-                            Icon="Dislike"
-                            ToolTipService.ToolTip="点踩"
-                            Visibility="{x:Bind ViewModel.IsCurrentThreadFromUs, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True, Mode=OneWay}" />
-                        <AppBarButton
-                            Width="40"
-                            Height="47"
-                            Margin="0,-6,-2,-13"
-                            HorizontalAlignment="Right"
-                            CornerRadius="0"
-                            Icon="{ui:FontIcon Glyph=&#xED1A;}"
-                            ToolTipService.ToolTip="插眼" />
-                        <AppBarButton
-                            Width="40"
-                            Height="47"
-                            Margin="0,-6,-2,-13"
-                            HorizontalAlignment="Right"
-                            CornerRadius="0"
-                            Icon="Favorite"
-                            ToolTipService.ToolTip="收藏"
-                            Visibility="{x:Bind ViewModel.IsCurrentThreadFromUs, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True, Mode=OneWay}" />
-                        <AppBarButton
-                            Width="40"
-                            Height="47"
-                            Margin="0,-6,-2,-13"
-                            HorizontalAlignment="Right"
-                            CornerRadius="0"
-                            Icon="Copy"
-                            ToolTipService.ToolTip="复制全文" />
-                        <AppBarButton
-                            Width="40"
-                            Height="47"
-                            Margin="0,-6,-2,-13"
-                            HorizontalAlignment="Right"
-                            CornerRadius="0"
-                            Icon="Memo"
-                            ToolTipService.ToolTip="备份" />
-                        <AppBarButton
-                            Width="40"
-                            Height="47"
-                            Margin="0,-6,-2,-13"
-                            HorizontalAlignment="Right"
-                            CornerRadius="0"
-                            Icon="{ui:FontIcon Glyph=&#xE932;}"
-                            ToolTipService.ToolTip="编辑"
-                            Visibility="{x:Bind ViewModel.IsCurrentThreadFromUs, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
-                        <AppBarButton
-                            Width="40"
-                            Height="47"
-                            Margin="0,-6,-2,-13"
-                            HorizontalAlignment="Right"
-                            CornerRadius="0"
-                            Icon="Delete"
-                            ToolTipService.ToolTip="删除"
-                            Visibility="{x:Bind ViewModel.IsCurrentThreadFromUs, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
-                        <AppBarButton
-                            Width="40"
-                            Height="47"
-                            Margin="0,-6,-2,-13"
-                            HorizontalAlignment="Right"
-                            CornerRadius="0"
-                            Icon="ReportHacked"
-                            ToolTipService.ToolTip="举报"
-                            Visibility="{x:Bind ViewModel.IsCurrentThreadFromUs, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True, Mode=OneWay}" />
-                        <AppBarButton
-                            Width="40"
-                            Height="47"
-                            Margin="0,-6,-2,-13"
-                            HorizontalAlignment="Right"
-                            CornerRadius="0"
-                            Icon="{ui:FontIcon Glyph=&#xF406;}"
-                            ToolTipService.ToolTip="截屏" />
-                        <AppBarButton
-                            Width="40"
-                            Height="47"
-                            Margin="0,-6,-2,-13"
-                            HorizontalAlignment="Right"
-                            CornerRadius="0"
-                            Icon="Globe"
-                            ToolTipService.ToolTip="在浏览器中打开" />
-                        <AppBarButton
-                            Width="40"
-                            Height="47"
-                            Margin="0,-6,-2,-13"
-                            HorizontalAlignment="Right"
-                            CornerRadius="0"
-                            Icon="{ui:FontIcon Glyph=&#xE82E;}"
-                            ToolTipService.ToolTip="添加到淘专辑" />
-                        <AppBarButton
-                            Width="40"
-                            Height="47"
-                            Margin="0,-6,-2,-13"
-                            HorizontalAlignment="Right"
-                            CornerRadius="0"
-                            Icon="Share"
-                            ToolTipService.ToolTip="分享" />
-                    </StackPanel>
-                </controls:DockPanel>
-                <!--  标题  -->
-                <TextBlock
-                    controls:DockPanel.Dock="Bottom"
-                    FontSize="20"
-                    Text="{x:Bind ViewModel.CurrentThread.Title, Mode=OneWay}" />
-                <!--  主题内容  -->
-                <local_controls:ThreadContentControl Contents="{x:Bind ViewModel.CurrentThread.Contents, Mode=OneWay}" />
-            </StackPanel>
-        </ScrollViewer>
+                </ScrollViewer>
+            </controls:Case>
+            <controls:Case Value="Loading">
+                <AnimatedVisualPlayer Width="260">
+                    <animatedvisuals:AbstractIsometricLoader />
+                </AnimatedVisualPlayer>
+            </controls:Case>
+            <controls:Case Value="Timeout">
+                <AnimatedVisualPlayer Width="150">
+                    <animatedvisuals:CryingEmoji />
+                </AnimatedVisualPlayer>
+            </controls:Case>
+            <controls:Case Value="Error">
+                <AnimatedVisualPlayer Width="150">
+                    <animatedvisuals:CryingEmoji />
+                </AnimatedVisualPlayer>
+            </controls:Case>
+        </controls:SwitchPresenter>
 
         <!--  分割线  -->
         <controls:GridSplitter

@@ -1,5 +1,6 @@
-using System;
+ï»¿using System;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.Messaging;
@@ -16,11 +17,11 @@ namespace Uestc.BBS.WinUI.Views
 {
     public sealed partial class HomePage : Page
     {
-        private HomeViewModel ViewModel { get; init; }
-
         private readonly ILogService _logService;
 
         private readonly IThreadContentService _threadContentService;
+
+        private HomeViewModel ViewModel { get; init; }
 
         private CancellationTokenSource? _threadContentCancelTokenSource;
 
@@ -70,31 +71,46 @@ namespace Uestc.BBS.WinUI.Views
             _logService = logService;
             _threadContentService = threadContentService;
 
-            // ×¢²áÖ÷ÌâÑ¡ÔñÏûÏ¢
+            // æ³¨å†Œä¸»é¢˜é€‰æ‹©æ¶ˆæ¯
             StrongReferenceMessenger.Default.Register<ThreadChangedMessage>(
                 this,
                 async (_, m) =>
                 {
-                    // Èç¹ûµ±Ç°ÕıÔÚ¼ÓÔØµÄÖ÷ÌâÓëÏûÏ¢ÖĞµÄÖ÷ÌâÏàÍ¬£¬Ôò²»½øĞĞÈÎºÎ²Ù×÷
-                    // Èç¹ûµ±Ç°²¢Î´¼ÓÔØÖ÷Ìâ£¬Èç¹ûµã»÷µÄÊÇÍ¬Ò»Ö÷ÌâÔòÈÔÈ»¼ÓÔØ£¬µÈĞ§ÓÚË¢ĞÂ
+                    // å¦‚æœå½“å‰æ­£åœ¨åŠ è½½çš„ä¸»é¢˜ä¸æ¶ˆæ¯ä¸­çš„ä¸»é¢˜ç›¸åŒï¼Œåˆ™ä¸è¿›è¡Œä»»ä½•æ“ä½œ
+                    // å¦‚æœå½“å‰å¹¶æœªåŠ è½½ä¸»é¢˜ï¼Œå¦‚æœç‚¹å‡»çš„æ˜¯åŒä¸€ä¸»é¢˜åˆ™ä»ç„¶åŠ è½½ï¼Œç­‰æ•ˆäºåˆ·æ–°
                     if (ViewModel.CurrentLoadingThreadId == m.Value)
                     {
                         return;
                     }
                     ViewModel.CurrentLoadingThreadId = m.Value;
 
-                    // È¡ÏûÉÏÒ»´Î¼ÓÔØÈÎÎñ
+                    // å–æ¶ˆä¸Šä¸€æ¬¡åŠ è½½ä»»åŠ¡
                     _threadContentCancelTokenSource?.Cancel();
                     _threadContentCancelTokenSource?.Dispose();
                     _threadContentCancelTokenSource = new CancellationTokenSource();
 
                     try
                     {
-                        // TODO ÏÔÊ¾¼ÓÔØ¶¯»­
-                        // TODO ³¬Ê±Ê±¼ä¿ÉÅäÖÃ
+                        ViewModel.PageStatus = PageStatus.Loading;
+
+                        // TODO è¶…æ—¶æ—¶é—´å¯é…ç½®
                         var threadContent = await _threadContentService
                             .GetThreadContentAsync(m.Value, _threadContentCancelTokenSource.Token)
                             .TimeoutCancelAsync(TimeSpan.FromSeconds(5));
+                        threadContent.UserAvatar = threadContent.Uid is 0
+                            ? "ms-appx:///Assets/Icons/anonymous.png"
+                            : threadContent.UserAvatar;
+
+                        if (threadContent.Contents.Length is 0)
+                        {
+                            return;
+                        }
+
+                        if (EmploymentWarningRegex().IsMatch(threadContent.Contents[0].Information))
+                        {
+                            threadContent.Contents = threadContent.Contents[1..];
+                        }
+
                         await DispatcherQueue.EnqueueAsync(() =>
                         {
                             if (_threadContentCancelTokenSource?.IsCancellationRequested is true)
@@ -102,16 +118,17 @@ namespace Uestc.BBS.WinUI.Views
                                 return;
                             }
                             ViewModel.CurrentThread = threadContent;
+                            ViewModel.PageStatus = PageStatus.Success;
                         });
                     }
                     catch (TaskCanceledException) { }
                     catch (TimeoutException)
                     {
-                        // TODO ÏÔÊ¾³¬Ê±ĞÅÏ¢
+                        ViewModel.PageStatus = PageStatus.Timeout;
                     }
                     catch (Exception ex)
                     {
-                        // TODO ÏÔÊ¾´íÎóĞÅÏ¢
+                        ViewModel.PageStatus = PageStatus.Error;
 
                         _logService.Error($"Failed to load thread {m.Value}", ex);
                     }
@@ -129,7 +146,7 @@ namespace Uestc.BBS.WinUI.Views
         }
 
         /// <summary>
-        /// Ë¢ĞÂµ±Ç°°å¿éµÄÌû×ÓÁĞ±í
+        /// åˆ·æ–°å½“å‰æ¿å—çš„å¸–å­åˆ—è¡¨
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="_"></param>
@@ -157,5 +174,15 @@ namespace Uestc.BBS.WinUI.Views
 
             await ViewModel.CurrentBoardTabItemListView.Topics.RefreshAsync();
         }
+
+        /// <summary>
+        /// å°±ä¸šåŒºä¸»é¢˜å†…å®¹ä¼šåŒ…å«è­¦å‘Šä¿¡æ¯
+        /// </summary>
+        /// <returns></returns>
+        [GeneratedRegex(
+            @"^âš ï¸âš ï¸å°±ä¸šåŒºä»…é™å†…éƒ¨äº¤æµï¼ä¸¥ç¦å¤–ä¼ ï¼âš ï¸âš ï¸\r\n------------(\w+)-(\w+)------------$",
+            RegexOptions.Multiline
+        )]
+        private static partial Regex EmploymentWarningRegex();
     }
 }
