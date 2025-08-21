@@ -2,7 +2,7 @@
 using Uestc.BBS.Core.Services.System;
 using Uestc.BBS.Mvvm.Models;
 using Uestc.BBS.Mvvm.ViewModels;
-using Uestc.BBS.Sdk.Services.Thread;
+using Uestc.BBS.Sdk.Services.Thread.ThreadContent;
 using Uestc.BBS.Sdk.Services.Thread.ThreadList;
 using Uestc.BBS.WinUI.Controls;
 

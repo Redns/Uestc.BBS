@@ -14,7 +14,7 @@
     xmlns:local_converters="using:Uestc.BBS.WinUI.Converters"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="using:Uestc.BBS.Mvvm.Models"
-    xmlns:thread="using:Uestc.BBS.Sdk.Services.Thread"
+    xmlns:thread="using:Uestc.BBS.Sdk.Services.Thread.ThreadContent"
     xmlns:ui="using:CommunityToolkit.WinUI"
     xmlns:vm="using:Uestc.BBS.WinUI.ViewModels"
     d:DataContext="{d:DesignInstance Type=vm:HomeViewModel}"
@@ -26,7 +26,9 @@
         <converters:StringVisibilityConverter x:Key="StringVisibilityConverter" />
         <converters:DoubleToVisibilityConverter x:Key="DoubleToVisibilityConverter" GreaterThan="0" />
         <local_converters:Null2Visibility x:Key="Null2Visibility" />
+        <local_converters:Uint2Visibility x:Key="Uint2Visibility" />
         <local_converters:Double2GridLength x:Key="Double2GridLength" />
+        <local_converters:UserLevel2BadgeBackground x:Key="UserLevel2BadgeBackground" />
         <local_converters:Date2RelativeStringConverter x:Key="Date2RelativeStringConverter" />
         <!--  BoardSwitch  -->
         <!--  BoardSwitch Right2Left  -->
@@ -101,7 +103,6 @@
                 <TranslateTransform x:Name="BoardSwitchTranslation" />
             </UserControl.RenderTransform>
         </UserControl>
-
         <!--  主题内容  -->
         <controls:SwitchPresenter
             Grid.RowSpan="2"
@@ -110,10 +111,7 @@
             Value="{x:Bind ViewModel.PageStatus, Mode=OneWay}">
             <controls:Case Value="Idle" />
             <controls:Case Value="Success">
-                <ScrollViewer
-                    x:Name="ThreadContentScrollViewer"
-                    Margin="0,10,0,0"
-                    Padding="0,0,10,0">
+                <ScrollViewer x:Name="ThreadContentScrollViewer" Padding="0,10,12,0">
                     <StackPanel Spacing="10" Visibility="{x:Bind ViewModel.CurrentThread, Converter={StaticResource Null2Visibility}, Mode=OneWay}">
                         <controls:DockPanel HorizontalSpacing="10" LastChildFill="False">
                             <PersonPicture
@@ -126,7 +124,7 @@
                                     <TextBlock FontWeight="SemiBold" Text="{x:Bind ViewModel.CurrentThread.Username, Mode=OneWay}" />
                                     <!--  等级（如：Lv.x）  -->
                                     <Border
-                                        Background="{ThemeResource SystemFillColorSuccessBrush}"
+                                        Background="{x:Bind ViewModel.CurrentThread.UserLevel, Converter={StaticResource UserLevel2BadgeBackground}, Mode=OneWay}"
                                         CornerRadius="3"
                                         Visibility="{x:Bind ViewModel.CurrentThread.UserLevel, Converter={StaticResource DoubleToVisibilityConverter}, Mode=OneWay}">
                                         <TextBlock
@@ -137,14 +135,16 @@
                                             Text="{x:Bind ViewModel.CurrentThread.UserLevel, Mode=OneWay, Converter={StaticResource StringFormatConverter}, ConverterParameter='Lv.{0}'}" />
                                     </Border>
                                     <!--  用户组（如：管理员）  -->
-                                    <Border Background="{ThemeResource AccentTextFillColorTertiaryBrush}" CornerRadius="3">
+                                    <Border
+                                        Background="{ThemeResource AccentTextFillColorTertiaryBrush}"
+                                        CornerRadius="3"
+                                        Visibility="{x:Bind ViewModel.CurrentThread.UserGroup, Converter={StaticResource StringVisibilityConverter}, Mode=OneWay}">
                                         <TextBlock
                                             Margin="3,0"
                                             Padding="0,1,0,0"
                                             FontSize="11"
                                             Foreground="White"
-                                            Text="{x:Bind ViewModel.CurrentThread.UserGroup, Mode=OneWay}"
-                                            Visibility="{x:Bind ViewModel.CurrentThread.UserGroup, Converter={StaticResource StringVisibilityConverter}, Mode=OneWay}" />
+                                            Text="{x:Bind ViewModel.CurrentThread.UserGroup, Mode=OneWay}" />
                                     </Border>
                                 </StackPanel>
                                 <TextBlock
@@ -267,17 +267,18 @@
                             FontSize="20"
                             Text="{x:Bind ViewModel.CurrentThread.Title, Mode=OneWay}" />
                         <!--  主题内容  -->
-                        <local_controls:ThreadContentControl Contents="{x:Bind ViewModel.CurrentThread.Contents, Mode=OneWay}" />
+                        <local_controls:RichText Contents="{x:Bind ViewModel.CurrentThread.Contents, Mode=OneWay}" />
                         <!--  评论  -->
-                        <!--<ListView
-                            IsItemClickEnabled="True"
-                            ItemsSource="{x:Bind Replies, Mode=OneWay}"
+                        <ListView
+                            Margin="0,40,0,0"
+                            IsItemClickEnabled="False"
+                            ItemsSource="{x:Bind ViewModel.CurrentThread.Replies, Mode=OneWay}"
                             ScrollViewer.VerticalScrollBarVisibility="Hidden"
                             SelectionMode="None">
                             <ListView.ItemContainerStyle>
                                 <Style TargetType="ListViewItem">
                                     <Setter Property="Padding" Value="0" />
-                                    <Setter Property="Margin" Value="0,0,0,10" />
+                                    <Setter Property="Margin" Value="0,0,0,30" />
                                     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                                 </Style>
                             </ListView.ItemContainerStyle>
@@ -288,10 +289,81 @@
                             </ListView.ItemsPanel>
                             <ListView.ItemTemplate>
                                 <DataTemplate x:DataType="thread:ThreadReply">
-                                    <TextBlock Text="{x:Bind QuoteContent, Mode=OneWay}" />
+                                    <Grid ColumnSpacing="10">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="auto" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <PersonPicture
+                                            Grid.Column="0"
+                                            Height="36"
+                                            VerticalAlignment="Top"
+                                            helpers:PersonPictureCacheHelper.ProfilePictureEx="{x:Bind UserAvatar}" />
+                                        <StackPanel Grid.Column="1" Spacing="6">
+                                            <!--  用户名、等级、用户组  -->
+                                            <StackPanel Orientation="Horizontal" Spacing="5">
+                                                <!--  用户名  -->
+                                                <TextBlock
+                                                    FontSize="12"
+                                                    FontWeight="SemiBold"
+                                                    Text="{x:Bind Username}" />
+                                                <!--  等级（如：Lv.x）  -->
+                                                <Border
+                                                    Background="{x:Bind UserLevel, Converter={StaticResource UserLevel2BadgeBackground}, Mode=OneWay}"
+                                                    CornerRadius="3"
+                                                    Visibility="{x:Bind UserLevel, Converter={StaticResource DoubleToVisibilityConverter}}">
+                                                    <TextBlock
+                                                        Margin="3,0"
+                                                        Padding="0,0,0,1"
+                                                        FontSize="12"
+                                                        Foreground="White"
+                                                        Text="{x:Bind UserLevel, Converter={StaticResource StringFormatConverter}, ConverterParameter='Lv.{0}'}" />
+                                                </Border>
+                                                <!--  用户组（如：管理员）  -->
+                                                <Border
+                                                    Background="{ThemeResource AccentTextFillColorTertiaryBrush}"
+                                                    CornerRadius="3"
+                                                    Visibility="{x:Bind UserGroup, Converter={StaticResource StringVisibilityConverter}}">
+                                                    <TextBlock
+                                                        Margin="3,0"
+                                                        Padding="0,0,0,1"
+                                                        FontSize="11"
+                                                        Foreground="White"
+                                                        Text="{x:Bind UserGroup}" />
+                                                </Border>
+                                                <!--  楼主  -->
+                                                <Border
+                                                    BorderBrush="#0067C0"
+                                                    BorderThickness="1"
+                                                    CornerRadius="3"
+                                                    Visibility="{x:Bind IsFromThreadMaster, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
+                                                    <TextBlock
+                                                        Margin="3,0"
+                                                        Padding="0,0,0,1"
+                                                        FontSize="11"
+                                                        Foreground="#0067C0"
+                                                        Text="楼主" />
+                                                </Border>
+                                            </StackPanel>
+                                            <!--  评论时间  -->
+                                            <TextBlock
+                                                Margin="0,-5,0,0"
+                                                FontSize="12"
+                                                Foreground="Gray"
+                                                Text="{x:Bind CreateTime, Converter={StaticResource Date2RelativeStringConverter}}" />
+                                            <!--  评论内容  -->
+                                            <local_controls:RichText Contents="{x:Bind Contents}" />
+                                        </StackPanel>
+                                        <!--  楼层  -->
+                                        <TextBlock
+                                            Grid.Column="2"
+                                            Foreground="Gray"
+                                            Text="{x:Bind Position, Converter={StaticResource StringFormatConverter}, ConverterParameter='#{0}'}" />
+                                    </Grid>
                                 </DataTemplate>
                             </ListView.ItemTemplate>
-                        </ListView>-->
+                        </ListView>
                     </StackPanel>
                 </ScrollViewer>
             </controls:Case>
@@ -311,6 +383,7 @@
                 </AnimatedVisualPlayer>
             </controls:Case>
         </controls:SwitchPresenter>
+
 
         <!--  分割线  -->
         <controls:GridSplitter

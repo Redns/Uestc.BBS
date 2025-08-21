@@ -31,6 +31,7 @@
   <Content Remove="Assets\appmanifest.json" />
   <Content Remove="Assets\Icons\Anonymous.png" />
   <Content Remove="Assets\Icons\auth_icon.png" />
+  <Content Remove="Assets\Images\loading.gif" />
 </ItemGroup>
 
 <ItemGroup>
@@ -38,6 +39,7 @@
   <None Remove="Controls\BoardTabItemListView.xaml" />
   <None Remove="Controls\ImageMosaic.xaml" />
   <None Remove="Controls\PersonProfile.xaml" />
+  <None Remove="Controls\RichText.xaml" />
   <None Remove="Views\AuthPage.xaml" />
   <None Remove="Views\AuthSettingPage.xaml" />
   <None Remove="Views\ContentDialogs\AboutContentDialog.xaml" />
@@ -80,7 +82,7 @@
     <PackageReference Include="CommunityToolkit.WinUI.Extensions" Version="8.2.250402" />
     <PackageReference Include="H.NotifyIcon.WinUI" Version="2.3.0" />
     <PackageReference Include="Microsoft.Graphics.Win2D" Version="1.3.2" />
-    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.4654" />
+    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.4948" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.7.250606001" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.WinUI.Managed" Version="3.0.0" />
     <PackageReference Include="System.Private.Uri" Version="4.3.2" />
@@ -110,6 +112,12 @@
     <None Update="Assets\Icons\auth_icon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Assets\Images\loading.gif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <Page Update="Controls\RichText.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Controls\AdvancedImage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -126,9 +134,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Update="Views\ImageViewerWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Update="Controls\ThreadContentControl.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Update="Views\Overlays\ServicesSettingOverlay.xaml">

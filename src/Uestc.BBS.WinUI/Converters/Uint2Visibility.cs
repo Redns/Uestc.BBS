@@ -5,11 +5,11 @@ using Microsoft.UI.Xaml.Data;
 
 namespace Uestc.BBS.WinUI.Converters
 {
-    public partial class Int2Visibility : IValueConverter
+    public partial class Uint2Visibility : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            if (value is not int num)
+            if (value is not uint num)
             {
                 return Visibility.Collapsed;
             }

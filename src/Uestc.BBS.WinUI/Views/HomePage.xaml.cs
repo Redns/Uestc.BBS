@@ -10,7 +10,7 @@ using Microsoft.UI.Xaml.Input;
 using Uestc.BBS.Core.Helpers;
 using Uestc.BBS.Core.Services.System;
 using Uestc.BBS.Mvvm.Messages;
-using Uestc.BBS.Sdk.Services.Thread;
+using Uestc.BBS.Sdk.Services.Thread.ThreadContent;
 using Uestc.BBS.WinUI.ViewModels;
 
 namespace Uestc.BBS.WinUI.Views
@@ -39,8 +39,8 @@ namespace Uestc.BBS.WinUI.Views
                 if (e.PropertyName == nameof(viewModel.CurrentBoardTabItemListView))
                 {
                     if (
-                        viewModel.CurrentBoardTabItemListView.Topics!.IsLoading
-                        || viewModel.CurrentBoardTabItemListView.Topics.Count is 0
+                        viewModel.CurrentBoardTabItemListView.Threads!.IsLoading
+                        || viewModel.CurrentBoardTabItemListView.Threads.Count is 0
                     )
                     {
                         return;
@@ -64,6 +64,7 @@ namespace Uestc.BBS.WinUI.Views
 
                 if (e.PropertyName == nameof(ViewModel.CurrentThread))
                 {
+                    // 滚动至顶部
                     ThreadContentScrollViewer.ScrollToVerticalOffset(0);
                 }
             };
@@ -95,7 +96,12 @@ namespace Uestc.BBS.WinUI.Views
 
                         // TODO 超时时间可配置
                         var threadContent = await _threadContentService
-                            .GetThreadContentAsync(m.Value, _threadContentCancelTokenSource.Token)
+                            .GetThreadContentAsync(
+                                m.Value,
+                                page: 1,
+                                pageSize: 100,
+                                cancellationToken: _threadContentCancelTokenSource.Token
+                            )
                             .TimeoutCancelAsync(TimeSpan.FromSeconds(5));
                         threadContent.UserAvatar = threadContent.Uid is 0
                             ? "ms-appx:///Assets/Icons/anonymous.png"
@@ -167,12 +173,12 @@ namespace Uestc.BBS.WinUI.Views
                 return;
             }
 
-            if (ViewModel.CurrentBoardTabItemListView!.Topics!.IsLoading)
+            if (ViewModel.CurrentBoardTabItemListView!.Threads!.IsLoading)
             {
                 return;
             }
 
-            await ViewModel.CurrentBoardTabItemListView.Topics.RefreshAsync();
+            await ViewModel.CurrentBoardTabItemListView.Threads.RefreshAsync();
         }
 
         /// <summary>

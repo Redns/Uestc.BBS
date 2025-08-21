@@ -37,7 +37,7 @@ namespace Uestc.BBS.WinUI.Controls
             set
             {
                 SetValue(BoardTabItemProperty, value);
-                Topics = new IncrementalLoadingCollection<ThreadOverviewSource, ThreadOverview>(
+                Threads = new IncrementalLoadingCollection<ThreadOverviewSource, ThreadOverview>(
                     new ThreadOverviewSource(_threaListService, value),
                     itemsPerPage: 30
                 );
@@ -47,7 +47,7 @@ namespace Uestc.BBS.WinUI.Controls
         /// <summary>
         /// 主题列表
         /// </summary>
-        public IncrementalLoadingCollection<ThreadOverviewSource, ThreadOverview>? Topics
+        public IncrementalLoadingCollection<ThreadOverviewSource, ThreadOverview>? Threads
         {
             get;
             private set;
@@ -101,10 +101,6 @@ namespace Uestc.BBS.WinUI.Controls
                     // 由于热门板块实际上是由各板块主题组成，因此 Board 字段不是 Hot 而是其对应的板块名称
                     // 因此这里需要判断板块是否为热门板块，并设置 IsHot 属性
                     o.IsHot = boardTabItem.Board is Board.Hot;
-                    // 设置匿名用户头像
-                    o.UserAvatar = o.IsAnonymous
-                        ? "ms-appx:///Assets/Icons/anonymous.png"
-                        : o.UserAvatar;
                     return o;
                 });
         }

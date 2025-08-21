@@ -19,7 +19,12 @@
         Value="{x:Bind Status, Mode=OneWay}">
         <controls:Case Value="Idle" />
         <controls:Case Value="Loading">
-            <AnimatedVisualPlayer Stretch="{x:Bind Stretch, Mode=OneWay}">
+            <!--<Image
+                MaxWidth="280"
+                MaxHeight="280"
+                Source="/Assets/Images/loading.gif"
+                Stretch="Uniform" />-->
+            <AnimatedVisualPlayer MaxHeight="280" Stretch="Uniform">
                 <animatedvisuals:SendButton />
             </AnimatedVisualPlayer>
         </controls:Case>

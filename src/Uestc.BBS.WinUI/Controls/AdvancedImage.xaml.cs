@@ -116,6 +116,7 @@ namespace Uestc.BBS.WinUI.Controls
                         image.Height is not double.PositiveInfinity ? (int)image.Height
                         : image.MaxHeight is not double.PositiveInfinity ? (int)image.MaxHeight
                         : 0,
+                    DecodePixelType = DecodePixelType.Logical,
                 };
 
                 image.Status = ImageStatus.Success;

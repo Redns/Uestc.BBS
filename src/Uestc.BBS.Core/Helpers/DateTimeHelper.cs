@@ -63,7 +63,6 @@ namespace Uestc.BBS.Core.Helpers
                     now.DayOfWeek - CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek
                 )
             );
-            var startOfLastWeek = startOfWeek.Subtract(TimeSpan.FromDays(7));
 
             if (date >= startOfWeek)
             {

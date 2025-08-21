@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
@@ -73,6 +74,11 @@ namespace Uestc.BBS.WinUI.Helpers
             if (string.IsNullOrEmpty(source))
             {
                 return;
+            }
+
+            if (source.Split('?').LastOrDefault() is "uid=0&size=middle")
+            {
+                source = "ms-appx:///Assets/Icons/anonymous.png";
             }
 
             try
