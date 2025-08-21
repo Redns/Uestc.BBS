@@ -117,14 +117,14 @@ namespace Uestc.BBS.WinUI.Controls
                         );
                     }
 
-                    var emojiImage = new Image
+                    var emojiImage = new AdvancedImage
                     {
                         Height = 26,
                         Stretch = Stretch.Uniform,
                         VerticalAlignment = VerticalAlignment.Center,
+                        Source = emoji.Groups["url"].Value,
                     };
                     // TODO 使用本地 alu-face 代替，同时统一行高
-                    ImageCacheHelper.SetSourceEx(emojiImage, emoji.Groups["url"].Value);
                     inlineList.Add(new InlineUIContainer { Child = emojiImage });
 
                     lastEnd = emoji.Index + emoji.Length;
@@ -161,13 +161,13 @@ namespace Uestc.BBS.WinUI.Controls
             {
                 // TODO 优化图片渲染逻辑（缩放优化 + 懒加载 + 占位符）
                 // 现有逻辑限制图像最大高度，当图片为长截图等情况时，显示效果不佳
-                var image = new Image
+                var image = new AdvancedImage
                 {
                     MaxHeight = 1000,
                     Stretch = Stretch.Uniform,
-                    Tag = content.Information,
+                    Source = content.Information,
+                    IsCachedEnable = true,
                 };
-                image.EffectiveViewportChanged += ImageCacheHelper.ImageLazyLoad;
 
                 return
                 [

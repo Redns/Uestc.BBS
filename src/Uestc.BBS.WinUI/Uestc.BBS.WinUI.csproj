@@ -34,6 +34,7 @@
 </ItemGroup>
 
 <ItemGroup>
+  <None Remove="Controls\AdvancedImage.xaml" />
   <None Remove="Controls\BoardTabItemListView.xaml" />
   <None Remove="Controls\ImageMosaic.xaml" />
   <None Remove="Controls\PersonProfile.xaml" />
@@ -109,6 +110,9 @@
     <None Update="Assets\Icons\auth_icon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Page Update="Controls\AdvancedImage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Views\ImageBrowserWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

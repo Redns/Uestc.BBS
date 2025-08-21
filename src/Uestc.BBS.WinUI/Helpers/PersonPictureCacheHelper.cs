@@ -31,7 +31,7 @@ namespace Uestc.BBS.WinUI.Helpers
             DependencyProperty.RegisterAttached(
                 "CancellationTokenSource",
                 typeof(CancellationTokenSource),
-                typeof(ImageCacheHelper),
+                typeof(PersonPictureCacheHelper),
                 new PropertyMetadata(null)
             );
 

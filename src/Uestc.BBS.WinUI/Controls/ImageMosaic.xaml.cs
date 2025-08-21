@@ -52,14 +52,13 @@ namespace Uestc.BBS.WinUI.Controls
 
             if (sources.Length == 1)
             {
-                var image = new Image
+                var image = new AdvancedImage
                 {
                     MaxHeight = 240,
                     Stretch = Stretch.Uniform,
-                    Tag = sources[0],
+                    Source = sources[0],
+                    IsCachedEnable = true,
                 };
-
-                image.EffectiveViewportChanged += ImageCacheHelper.ImageLazyLoad;
                 image.PointerPressed += (_, _) =>
                     OpenImage(imageMosaic.Sources, 0, imageMosaic.PreviewFlipViewDataTemplete);
 
@@ -93,7 +92,7 @@ namespace Uestc.BBS.WinUI.Controls
                 .Select(
                     (s, index) =>
                     {
-                        var image = new Image
+                        var image = new AdvancedImage
                         {
                             // 图像较多时限制其整体高度，避免占据太多视觉空间
                             Height =
@@ -101,10 +100,10 @@ namespace Uestc.BBS.WinUI.Controls
                                     ? imageHeight * 2 + grid.RowSpacing
                                     : imageHeight,
                             Stretch = Stretch.UniformToFill,
-                            Tag = s,
+                            Source = s,
+                            IsCachedEnable = true,
                         };
 
-                        image.EffectiveViewportChanged += ImageCacheHelper.ImageLazyLoad;
                         image.PointerPressed += (_, _) =>
                             OpenImage(
                                 imageMosaic.Sources,
