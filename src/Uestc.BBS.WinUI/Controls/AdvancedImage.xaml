@@ -24,10 +24,7 @@
             </AnimatedVisualPlayer>
         </controls:Case>
         <controls:Case Value="Success">
-            <Image
-                x:Name="SuccessImage"
-                Source="{x:Bind Source, Mode=OneWay}"
-                Stretch="{x:Bind Stretch, Mode=OneWay}" />
+            <Image x:Name="SuccessImage" Stretch="{x:Bind Stretch, Mode=OneWay}" />
         </controls:Case>
         <controls:Case Value="Timeout" />
         <controls:Case Value="Error" />

@@ -163,12 +163,12 @@ namespace Uestc.BBS.WinUI.Controls
                 // 现有逻辑限制图像最大高度，当图片为长截图等情况时，显示效果不佳
                 var image = new AdvancedImage
                 {
-                    MaxHeight = 1000,
+                    MaxHeight = 600,
                     Stretch = Stretch.Uniform,
                     Source = content.Information,
                     IsCachedEnable = true,
                 };
-
+                
                 return
                 [
                     new InlineUIContainer
