@@ -15,6 +15,10 @@
             <!--  Other app resources here  -->
             <SolidColorBrush x:Key="NavigationViewContentBackground" Color="Transparent" />
             <SolidColorBrush x:Key="NavigationViewContentGridBorderBrush" Color="Transparent" />
+            <!--  TODO 自定义字体  -->
+            <!--<FontFamily x:Key="ContentControlThemeFontFamily">
+                ms-appx:///Assets/Fonts/HarmonyOS_Sans_SC_Regular.ttf#HarmonyOS Sans SC
+            </FontFamily>-->
         </ResourceDictionary>
     </Application.Resources>
 </Application>

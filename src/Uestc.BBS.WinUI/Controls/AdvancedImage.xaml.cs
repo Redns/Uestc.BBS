@@ -129,7 +129,7 @@ namespace Uestc.BBS.WinUI.Controls
             {
                 image.Status = ImageStatus.Error;
 
-                _logService.Error($"Image source ({source}) is invalid", ex);
+                _logService.Error($"Failed to load image {source}", ex);
             }
         }
 

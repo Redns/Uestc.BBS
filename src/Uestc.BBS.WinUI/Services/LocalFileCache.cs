@@ -33,9 +33,16 @@ namespace Uestc.BBS.WinUI.Services
 
             // 网络图片
             // XXX AbsolutePath 不包含 Query 参数，头像链接包含 uid 参数
-            var imageFullPath = Path.Combine(cacheRoot, uri.PathAndQuery.ToMD5());
+            var imageKey = uri.PathAndQuery.ToMD5();
+            var imageFullPath = Path.Combine(cacheRoot, imageKey);
             if (!File.Exists(imageFullPath))
             {
+                // 缓存图片临时路径
+                var imageTempPath = Path.Combine(
+                    Environment.GetFolderPath(Environment.SpecialFolder.InternetCache),
+                    imageKey
+                );
+
                 // 下载网络图片至本地缓存
                 await _downloadTasks.GetOrAdd(
                     imageFullPath,
@@ -51,18 +58,23 @@ namespace Uestc.BBS.WinUI.Services
                                 );
 
                             using var imageWriteStream = new FileStream(
-                                imageFullPath,
+                                imageTempPath,
                                 FileMode.Create,
                                 FileAccess.Write,
-                                FileShare.None
+                                FileShare.None,
+                                80 * 1024,
+                                FileOptions.Asynchronous | FileOptions.SequentialScan
                             );
                             await imageReadStream.CopyToAsync(imageWriteStream, cancellationToken);
-                            await imageWriteStream.FlushAsync(cancellationToken);
+                            imageWriteStream.Close();
+
+                            // XXX 原子化操作，避免缓存图片时出现异常导致缓存文件不完整
+                            File.Move(imageTempPath, imageFullPath);
                         }
                         catch
                         {
                             _downloadTasks.TryRemove(imageFullPath, out var _);
-                            File.Delete(imageFullPath);
+                            File.Delete(imageTempPath);
                             throw;
                         }
                     }
