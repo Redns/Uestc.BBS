@@ -31,7 +31,6 @@
   <Content Remove="Assets\appmanifest.json" />
   <Content Remove="Assets\Icons\Anonymous.png" />
   <Content Remove="Assets\Icons\auth_icon.png" />
-  <Content Remove="Assets\Images\loading.gif" />
 </ItemGroup>
 
 <ItemGroup>
@@ -110,9 +109,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Assets\Icons\auth_icon.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Assets\Images\loading.gif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <Page Update="Controls\RichText.xaml">
@@ -207,6 +203,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Assets\Emojis\" />
     <Folder Include="Models\" />
     <Folder Include="Properties\PublishProfiles\" />
   </ItemGroup>

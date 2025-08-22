@@ -54,10 +54,18 @@ namespace Uestc.BBS.WinUI.Controls
         // TODO 启用虚拟化
         public static RichTextBlock RenderThreadContents(RichTextContent[] contents)
         {
-            var richTextBlock = new RichTextBlock { LineHeight = 26 };
+            var richTextBlock = new RichTextBlock
+            {
+                LineHeight = 28,
+                // FIXME 鼠标选中文本时最后一行文本下半部分缺失
+                TextLineBounds = TextLineBounds.TrimToBaseline,
+            };
 
             // TODO 优化渲染逻辑
-            var paragraph = new Paragraph();
+            var paragraph = new Paragraph()
+            {
+                LineStackingStrategy = LineStackingStrategy.BlockLineHeight,
+            };
             foreach (var content in contents)
             {
                 var inlines = RenderInlineContent(content);
@@ -73,7 +81,10 @@ namespace Uestc.BBS.WinUI.Controls
                 }
 
                 richTextBlock.Blocks.Add(new Paragraph { Inlines = { inlines.First() } });
-                paragraph = new Paragraph();
+                paragraph = new Paragraph()
+                {
+                    LineStackingStrategy = LineStackingStrategy.BlockLineHeight,
+                };
             }
 
             // XXX 若内容为纯文本，则上述循环不会将 paragraph 加入到 richTextBlock.Blocks 中
@@ -123,8 +134,9 @@ namespace Uestc.BBS.WinUI.Controls
                     {
                         Height = 26,
                         Stretch = Stretch.Uniform,
-                        VerticalAlignment = VerticalAlignment.Center,
                         Source = emoji.Groups["url"].Value,
+                        VerticalAlignment = VerticalAlignment.Center,
+                        RenderTransform = new TranslateTransform { Y = 6 },
                     };
                     // TODO 使用本地 alu-face 代替，同时统一行高
                     inlineList.Add(new InlineUIContainer { Child = emojiImage });
@@ -132,6 +144,7 @@ namespace Uestc.BBS.WinUI.Controls
                     lastEnd = emoji.Index + emoji.Length;
                 }
 
+                // 使用 TextDecorations 属性设置删除线
                 if (lastEnd < content.Information.Length)
                 {
                     inlineList.Add(new Run { Text = content.Information[lastEnd..] });

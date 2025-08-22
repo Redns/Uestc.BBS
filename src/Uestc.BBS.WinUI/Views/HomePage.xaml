@@ -269,7 +269,7 @@
                             FontSize="20"
                             Text="{x:Bind ViewModel.CurrentThread.Title, Mode=OneWay}" />
                         <!--  主题内容  -->
-                        <local_controls:RichText Contents="{x:Bind ViewModel.CurrentThread.Contents, Mode=OneWay}" />
+                        <local_controls:RichText Margin="0,-10,0,0" Contents="{x:Bind ViewModel.CurrentThread.Contents, Mode=OneWay}" />
                         <!--  评论  -->
                         <ListView
                             Margin="0,40,0,0"
@@ -356,7 +356,7 @@
                                                 Text="{x:Bind CreateTime, Converter={StaticResource Date2RelativeStringConverter}}" />
                                             <!--  引用内容  -->
                                             <Border
-                                                Margin="2,0,0,0"
+                                                Margin="2,5,0,0"
                                                 Padding="8"
                                                 BorderBrush="#1976D2"
                                                 BorderThickness="2,0,0,0"
@@ -380,7 +380,7 @@
                                                 </StackPanel>
                                             </Border>
                                             <!--  评论内容  -->
-                                            <local_controls:RichText Contents="{x:Bind Contents}" />
+                                            <local_controls:RichText Margin="0,-10,0,0" Contents="{x:Bind Contents}" />
                                         </StackPanel>
                                         <!--  楼层  -->
                                         <TextBlock
