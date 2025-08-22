@@ -28,6 +28,8 @@
         <local_converters:Null2Visibility x:Key="Null2Visibility" />
         <local_converters:Uint2Visibility x:Key="Uint2Visibility" />
         <local_converters:Double2GridLength x:Key="Double2GridLength" />
+        <local_converters:UserGroup2Visibility x:Key="UserGroup2Visibility" />
+        <local_converters:UserGroup2BadgeBrush x:Key="UserGroup2BadgeBrush" />
         <local_converters:UserLevel2BadgeBackground x:Key="UserLevel2BadgeBackground" />
         <local_converters:Date2RelativeStringConverter x:Key="Date2RelativeStringConverter" />
         <!--  BoardSwitch  -->
@@ -129,16 +131,16 @@
                                         Visibility="{x:Bind ViewModel.CurrentThread.UserLevel, Converter={StaticResource DoubleToVisibilityConverter}, Mode=OneWay}">
                                         <TextBlock
                                             Margin="3,0"
-                                            Padding="0,1,0,0"
+                                            Padding="0,0.5,0,0"
                                             FontSize="12"
                                             Foreground="White"
                                             Text="{x:Bind ViewModel.CurrentThread.UserLevel, Mode=OneWay, Converter={StaticResource StringFormatConverter}, ConverterParameter='Lv.{0}'}" />
                                     </Border>
                                     <!--  用户组（如：管理员）  -->
                                     <Border
-                                        Background="{ThemeResource AccentTextFillColorTertiaryBrush}"
+                                        Background="{x:Bind ViewModel.CurrentThread.UserGroup, Converter={StaticResource UserGroup2BadgeBrush}, Mode=OneWay}"
                                         CornerRadius="3"
-                                        Visibility="{x:Bind ViewModel.CurrentThread.UserGroup, Converter={StaticResource StringVisibilityConverter}, Mode=OneWay}">
+                                        Visibility="{x:Bind ViewModel.CurrentThread.UserGroup, Converter={StaticResource UserGroup2Visibility}, Mode=OneWay}">
                                         <TextBlock
                                             Margin="3,0"
                                             Padding="0,1,0,0"
@@ -322,12 +324,12 @@
                                                 </Border>
                                                 <!--  用户组（如：管理员）  -->
                                                 <Border
-                                                    Background="{ThemeResource AccentTextFillColorTertiaryBrush}"
+                                                    Background="{x:Bind UserGroup, Converter={StaticResource UserGroup2BadgeBrush}}"
                                                     CornerRadius="3"
-                                                    Visibility="{x:Bind UserGroup, Converter={StaticResource StringVisibilityConverter}}">
+                                                    Visibility="{x:Bind UserGroup, Converter={StaticResource UserGroup2Visibility}}">
                                                     <TextBlock
                                                         Margin="3,0"
-                                                        Padding="0,0,0,1"
+                                                        Padding="0,0,0,2"
                                                         FontSize="11"
                                                         Foreground="White"
                                                         Text="{x:Bind UserGroup}" />
@@ -352,6 +354,31 @@
                                                 FontSize="12"
                                                 Foreground="Gray"
                                                 Text="{x:Bind CreateTime, Converter={StaticResource Date2RelativeStringConverter}}" />
+                                            <!--  引用内容  -->
+                                            <Border
+                                                Margin="2,0,0,0"
+                                                Padding="8"
+                                                BorderBrush="#1976D2"
+                                                BorderThickness="2,0,0,0"
+                                                Visibility="{x:Bind HasQuote, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
+                                                <StackPanel Spacing="5">
+                                                    <StackPanel Orientation="Horizontal" Spacing="5">
+                                                        <TextBlock
+                                                            VerticalAlignment="Center"
+                                                            FontWeight="SemiBold"
+                                                            Text="{x:Bind QuoteUsername}" />
+                                                        <TextBlock
+                                                            VerticalAlignment="Center"
+                                                            FontSize="12"
+                                                            Foreground="Gray"
+                                                            Text="{x:Bind CreateTime, Converter={StaticResource Date2RelativeStringConverter}}" />
+                                                    </StackPanel>
+                                                    <TextBlock
+                                                        Foreground="Gray"
+                                                        Text="{x:Bind QuoteContent, Mode=OneWay}"
+                                                        TextWrapping="Wrap" />
+                                                </StackPanel>
+                                            </Border>
                                             <!--  评论内容  -->
                                             <local_controls:RichText Contents="{x:Bind Contents}" />
                                         </StackPanel>

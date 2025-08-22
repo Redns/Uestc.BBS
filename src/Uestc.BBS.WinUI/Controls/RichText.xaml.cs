@@ -98,6 +98,10 @@ namespace Uestc.BBS.WinUI.Controls
             // 【分割线】---
             if (content.Type is TopicContenType.Text)
             {
+                // 移除多余的 \r\n
+                content.Information = RedundantCRLF().Replace(content.Information, "\r\n");
+
+                // 获取表情包
                 var emojis = _emojiRegex.Matches(content.Information).Where(m => m.Success);
                 if (emojis.Any() is false)
                 {
@@ -196,7 +200,18 @@ namespace Uestc.BBS.WinUI.Controls
             ];
         }
 
+        /// <summary>
+        /// Emoji 正则表达式
+        /// </summary>
+        /// <returns></returns>
         [GeneratedRegex(@"\[mobcent_phiz=(?<url>[^\]]+)\]")]
         private static partial Regex EmojiRegex();
+
+        /// <summary>
+        /// 移除多余的 \r\n
+        /// </summary>
+        /// <returns></returns>
+        [GeneratedRegex(@"(\r\n)+", RegexOptions.None)]
+        private static partial Regex RedundantCRLF();
     }
 }
