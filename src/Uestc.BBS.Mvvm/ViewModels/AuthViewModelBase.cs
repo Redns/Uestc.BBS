@@ -91,7 +91,7 @@ namespace Uestc.BBS.Mvvm.ViewModels
                     .TimeoutCancelAsync(TimeSpan.FromSeconds(5));
 
                 // 保存本地登录信息
-                if (SelectedCredential?.Equals(credential) is false)
+                if (SelectedCredential?.Equals(credential) is not true)
                 {
                     AppSettingModel.Account.Credentials.Add(credential);
                 }

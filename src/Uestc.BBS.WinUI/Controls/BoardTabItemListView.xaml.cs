@@ -28,34 +28,55 @@ namespace Uestc.BBS.WinUI.Controls
                 nameof(BoardTabItem),
                 typeof(BoardTabItemModel),
                 typeof(BoardTabItemListView),
-                new PropertyMetadata(null)
+                new PropertyMetadata(null, OnBoardTabItemChanged)
             );
 
         public BoardTabItemModel BoardTabItem
         {
             get => (BoardTabItemModel)GetValue(BoardTabItemProperty);
-            set
-            {
-                SetValue(BoardTabItemProperty, value);
-                Threads = new IncrementalLoadingCollection<ThreadOverviewSource, ThreadOverview>(
-                    new ThreadOverviewSource(_threaListService, value),
-                    itemsPerPage: 30
-                );
-            }
+            set => SetValue(BoardTabItemProperty, value);
         }
 
         /// <summary>
         /// 主题列表
         /// </summary>
+        private static readonly DependencyProperty ThreadsProperty = DependencyProperty.Register(
+            nameof(Threads),
+            typeof(IncrementalLoadingCollection<ThreadOverviewSource, ThreadOverview>),
+            typeof(BoardTabItemListView),
+            new PropertyMetadata(null)
+        );
+
         public IncrementalLoadingCollection<ThreadOverviewSource, ThreadOverview>? Threads
         {
-            get;
-            private set;
+            get =>
+                (IncrementalLoadingCollection<ThreadOverviewSource, ThreadOverview>)
+                    GetValue(ThreadsProperty);
+            private set => SetValue(ThreadsProperty, value);
         }
 
         public BoardTabItemListView()
         {
             InitializeComponent();
+        }
+
+        private static void OnBoardTabItemChanged(
+            DependencyObject obj,
+            DependencyPropertyChangedEventArgs args
+        )
+        {
+            if (
+                obj is not BoardTabItemListView view
+                || args.NewValue is not BoardTabItemModel boardTabItem
+            )
+            {
+                return;
+            }
+
+            view.Threads = new IncrementalLoadingCollection<ThreadOverviewSource, ThreadOverview>(
+                new ThreadOverviewSource(view._threaListService, boardTabItem),
+                itemsPerPage: 30
+            );
         }
 
         private void SelectedThreadChanged(object _, ItemClickEventArgs e)

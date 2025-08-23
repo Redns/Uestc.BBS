@@ -89,6 +89,12 @@ namespace Uestc.BBS.Mvvm.ViewModels
         public bool IsCurrentThreadFromUs =>
             CurrentThread?.Uid == AppSettingModel.Account.DefaultCredentialUid;
 
+        /// <summary>
+        /// 评论内容
+        /// </summary>
+        [ObservableProperty]
+        public partial string ReplyContent { get; set; } = string.Empty;
+
         public HomeViewModelBase(
             ILogService logService,
             IThreadListService threadListService,
