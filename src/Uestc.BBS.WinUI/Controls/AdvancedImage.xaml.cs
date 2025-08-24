@@ -6,6 +6,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Uestc.BBS.Core;
+using Uestc.BBS.Core.Helpers;
 using Uestc.BBS.Core.Services.FileCache;
 using Uestc.BBS.Core.Services.System;
 
@@ -90,6 +91,60 @@ namespace Uestc.BBS.WinUI.Controls
             set => SetValue(StatusProperty, value);
         }
 
+        #region 占位符相关属性
+        /// <summary>
+        /// 是否显示占位符
+        /// </summary>
+        private static readonly DependencyProperty ShowPlaceholderProperty =
+            DependencyProperty.Register(
+                nameof(ShowPlaceholder),
+                typeof(bool),
+                typeof(AdvancedImage),
+                new PropertyMetadata(true)
+            );
+
+        public bool ShowPlaceholder
+        {
+            get => (bool)GetValue(ShowPlaceholderProperty);
+            set => SetValue(ShowPlaceholderProperty, value);
+        }
+
+        /// <summary>
+        /// 占位符宽度
+        /// </summary>
+        private static readonly DependencyProperty PlaceholderWidthProperty =
+            DependencyProperty.Register(
+                nameof(PlaceholderWidth),
+                typeof(double),
+                typeof(AdvancedImage),
+                new PropertyMetadata(800.0)
+            );
+
+        public double PlaceholderWidth
+        {
+            get => (double)GetValue(PlaceholderWidthProperty);
+            set => SetValue(PlaceholderWidthProperty, value);
+        }
+
+        /// <summary>
+        /// 占位符高度
+        /// </summary>
+        private static readonly DependencyProperty PlaceholderHeightProperty =
+            DependencyProperty.Register(
+                nameof(PlaceholderHeight),
+                typeof(double),
+                typeof(AdvancedImage),
+                new PropertyMetadata(600.0)
+            );
+
+        public double PlaceholderHeight
+        {
+            get => (double)GetValue(PlaceholderHeightProperty);
+            set => SetValue(PlaceholderHeightProperty, value);
+        }
+
+        #endregion
+
         public AdvancedImage()
         {
             InitializeComponent();
@@ -108,7 +163,9 @@ namespace Uestc.BBS.WinUI.Controls
             try
             {
                 var imageUri = image.IsCachedEnable
-                    ? await _fileCache.GetFileUriAsync(new Uri(source))
+                    ? await _fileCache
+                        .GetFileUriAsync(new Uri(source))
+                        .TimeoutCancelAsync(TimeSpan.FromMinutes(1))
                     : new Uri(source);
                 image.SuccessImage.Source = new BitmapImage(imageUri)
                 {
@@ -123,7 +180,7 @@ namespace Uestc.BBS.WinUI.Controls
             }
             catch (TaskCanceledException)
             {
-                image.Status = ImageStatus.Timeout;
+                image.Status = ImageStatus.Error;
             }
             catch (Exception ex)
             {
@@ -164,7 +221,6 @@ namespace Uestc.BBS.WinUI.Controls
         Idle = 0,
         Loading,
         Success,
-        Timeout,
         Error,
     }
 }

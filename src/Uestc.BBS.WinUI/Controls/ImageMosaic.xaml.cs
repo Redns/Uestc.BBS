@@ -114,12 +114,7 @@ namespace Uestc.BBS.WinUI.Controls
                         return image;
                     }
                 )
-                .Select(image => new Border
-                {
-                    Child = image,
-                    CornerRadius = new CornerRadius(6),
-                    HorizontalAlignment = HorizontalAlignment.Left,
-                })
+                .Select(image => new Border { Child = image, CornerRadius = new CornerRadius(6) })
                 .ToArray();
 
             if (sources.Length == 3)

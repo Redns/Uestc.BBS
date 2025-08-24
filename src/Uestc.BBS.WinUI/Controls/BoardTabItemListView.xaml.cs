@@ -28,7 +28,24 @@ namespace Uestc.BBS.WinUI.Controls
                 nameof(BoardTabItem),
                 typeof(BoardTabItemModel),
                 typeof(BoardTabItemListView),
-                new PropertyMetadata(null, OnBoardTabItemChanged)
+                new PropertyMetadata(
+                    null,
+                    static (obj, args) =>
+                    {
+                        if (
+                            obj is not BoardTabItemListView view
+                            || args.NewValue is not BoardTabItemModel model
+                        )
+                        {
+                            return;
+                        }
+
+                        view.Threads = new(
+                            new ThreadOverviewSource(view._threaListService, model),
+                            itemsPerPage: 30
+                        );
+                    }
+                )
             );
 
         public BoardTabItemModel BoardTabItem
@@ -58,25 +75,6 @@ namespace Uestc.BBS.WinUI.Controls
         public BoardTabItemListView()
         {
             InitializeComponent();
-        }
-
-        private static void OnBoardTabItemChanged(
-            DependencyObject obj,
-            DependencyPropertyChangedEventArgs args
-        )
-        {
-            if (
-                obj is not BoardTabItemListView view
-                || args.NewValue is not BoardTabItemModel boardTabItem
-            )
-            {
-                return;
-            }
-
-            view.Threads = new IncrementalLoadingCollection<ThreadOverviewSource, ThreadOverview>(
-                new ThreadOverviewSource(view._threaListService, boardTabItem),
-                itemsPerPage: 30
-            );
         }
 
         private void SelectedThreadChanged(object _, ItemClickEventArgs e)

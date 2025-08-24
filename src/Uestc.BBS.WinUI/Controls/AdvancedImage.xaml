@@ -5,10 +5,16 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:animatedvisuals="using:AnimatedVisuals"
     xmlns:controls="using:CommunityToolkit.WinUI.Controls"
+    xmlns:converters="using:CommunityToolkit.WinUI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:labs="using:CommunityToolkit.Labs.WinUI"
     xmlns:local="using:Uestc.BBS.WinUI.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+    </UserControl.Resources>
 
     <controls:SwitchPresenter
         Width="{x:Bind Width, Mode=OneWay}"
@@ -17,17 +23,18 @@
         MaxHeight="{x:Bind MaxHeight, Mode=OneWay}"
         TargetType="local:ImageStatus"
         Value="{x:Bind Status, Mode=OneWay}">
-        <controls:Case Value="Idle" />
         <controls:Case Value="Loading">
-            <AnimatedVisualPlayer MaxHeight="280">
-                <animatedvisuals:SendButton />
-            </AnimatedVisualPlayer>
+            <labs:Shimmer
+                Width="{x:Bind PlaceholderWidth, Mode=OneWay}"
+                Height="{x:Bind PlaceholderHeight, Mode=OneWay}"
+                Visibility="{x:Bind ShowPlaceholder, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
         </controls:Case>
         <controls:Case Value="Success">
             <Image x:Name="SuccessImage" Stretch="{x:Bind Stretch, Mode=OneWay}" />
         </controls:Case>
-        <controls:Case Value="Timeout" />
-        <controls:Case Value="Error" />
+        <controls:Case Value="Error">
+            <Image Source="/Assets/Images/image_load_failed.svg" Stretch="Uniform" />
+        </controls:Case>
     </controls:SwitchPresenter>
 
 </UserControl>

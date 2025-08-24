@@ -21,7 +21,7 @@
             Height="48"
             VerticalAlignment="Top"
             controls:DockPanel.Dock="Left"
-            helpers:PersonPictureCacheHelper.ProfilePictureEx="{x:Bind Avatar}" />
+            helpers:PersonPictureCacheHelper.ProfilePictureEx="{x:Bind Avatar, Mode=OneWay}" />
         <!--  昵称、签名  -->
         <StackPanel VerticalAlignment="Center" Spacing="3">
             <StackPanel Orientation="Horizontal" Spacing="5">

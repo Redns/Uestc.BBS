@@ -74,7 +74,7 @@ namespace Uestc.BBS.Core.Helpers
                 return date.ToString("MM/dd HH:mm");
             }
 
-            return date.ToShortDateString();
+            return date.ToString("yyyy/MM/dd HH:mm");
         }
     }
 }

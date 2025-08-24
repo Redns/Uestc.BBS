@@ -110,6 +110,7 @@ namespace Uestc.BBS.WinUI.Controls
             if (content.Type is TopicContenType.Text)
             {
                 // 移除多余的 \r\n
+                // XXX 重复的 \r\n 似乎代表特殊组件，此处渲染逻辑有待优化
                 content.Information = RedundantCRLF().Replace(content.Information, "\r\n");
 
                 // 获取表情包
@@ -137,6 +138,7 @@ namespace Uestc.BBS.WinUI.Controls
                         Source = emoji.Groups["url"].Value,
                         VerticalAlignment = VerticalAlignment.Center,
                         RenderTransform = new TranslateTransform { Y = 6 },
+                        ShowPlaceholder = false,
                     };
                     // TODO 使用本地 alu-face 代替，同时统一行高
                     inlineList.Add(new InlineUIContainer { Child = emojiImage });
@@ -182,6 +184,8 @@ namespace Uestc.BBS.WinUI.Controls
                     Stretch = Stretch.Uniform,
                     Source = content.Information,
                     IsCachedEnable = true,
+                    PlaceholderHeight = 240,
+                    PlaceholderWidth = 320,
                 };
 
                 return
