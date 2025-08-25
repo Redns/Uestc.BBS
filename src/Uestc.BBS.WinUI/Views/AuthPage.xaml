@@ -6,9 +6,9 @@
     xmlns:controls="using:CommunityToolkit.WinUI.Controls"
     xmlns:converters="using:CommunityToolkit.WinUI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:helpers="using:Uestc.BBS.WinUI.Helpers"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:local="using:Uestc.BBS.WinUI.Views"
+    xmlns:local_controls="using:Uestc.BBS.WinUI.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="using:Uestc.BBS.Mvvm.Models"
     xmlns:viewmodels="using:Uestc.BBS.WinUI.ViewModels"
@@ -49,7 +49,7 @@
                         Margin="0,5"
                         HorizontalSpacing="10"
                         LastChildFill="False">
-                        <PersonPicture Width="32" helpers:PersonPictureCacheHelper.ProfilePictureEx="{x:Bind Avatar, Mode=OneWay}" />
+                        <local_controls:Avatar Size="32" Source="{x:Bind Avatar, Mode=OneWay}" />
                         <StackPanel VerticalAlignment="Center">
                             <TextBlock VerticalAlignment="Center" Text="{x:Bind Username, Mode=OneWay}" />
                             <TextBlock

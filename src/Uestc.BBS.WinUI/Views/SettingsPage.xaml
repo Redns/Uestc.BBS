@@ -6,6 +6,7 @@
     xmlns:controls="using:CommunityToolkit.WinUI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Uestc.BBS.WinUI.Views"
+    xmlns:local_controls="using:Uestc.BBS.WinUI.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="using:CommunityToolkit.WinUI"
     xmlns:viewmodels="using:Uestc.BBS.WinUI.ViewModels"
@@ -92,10 +93,10 @@
                             </ItemsControl.ItemsPanel>
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate xmlns:models="using:Uestc.BBS.Core.Models" x:DataType="models:Contributor">
-                                    <PersonPicture
-                                        Height="36"
+                                    <local_controls:Avatar
                                         PointerPressed="OpenContributorHomepage"
-                                        ProfilePicture="{x:Bind Avatar}"
+                                        Size="36"
+                                        Source="{x:Bind Avatar, Mode=OneWay}"
                                         Tag="{x:Bind Homepage}"
                                         ToolTipService.ToolTip="{x:Bind Name}" />
                                 </DataTemplate>

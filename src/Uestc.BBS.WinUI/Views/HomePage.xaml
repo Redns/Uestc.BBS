@@ -8,7 +8,6 @@
     xmlns:converters="using:CommunityToolkit.WinUI.Converters"
     xmlns:core="using:Uestc.BBS.Core"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:helpers="using:Uestc.BBS.WinUI.Helpers"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:local_controls="using:Uestc.BBS.WinUI.Controls"
     xmlns:local_converters="using:Uestc.BBS.WinUI.Converters"
@@ -120,10 +119,10 @@
                 <ScrollViewer x:Name="ThreadContentScrollViewer" Padding="2,10,12,0">
                     <StackPanel Spacing="10" Visibility="{x:Bind ViewModel.CurrentThread, Converter={StaticResource Null2Visibility}, Mode=OneWay}">
                         <controls:DockPanel HorizontalSpacing="10" LastChildFill="False">
-                            <PersonPicture
-                                Height="36"
+                            <local_controls:Avatar
                                 VerticalAlignment="Top"
-                                helpers:PersonPictureCacheHelper.ProfilePictureEx="{x:Bind ViewModel.CurrentThread.UserAvatar, Mode=OneWay}" />
+                                Size="36"
+                                Source="{x:Bind ViewModel.CurrentThread.UserAvatar, Mode=OneWay}" />
                             <!--  昵称、签名  -->
                             <StackPanel Spacing="3">
                                 <StackPanel Orientation="Horizontal" Spacing="5">
@@ -269,13 +268,13 @@
                                 <ColumnDefinition Width="auto" />
                                 <ColumnDefinition />
                             </Grid.ColumnDefinitions>
-                            <PersonPicture
+                            <local_controls:Avatar
                                 Grid.Row="0"
                                 Grid.RowSpan="2"
                                 Grid.Column="0"
-                                Width="36"
                                 VerticalAlignment="Top"
-                                helpers:PersonPictureCacheHelper.ProfilePictureEx="{x:Bind ViewModel.AppSettingModel.Account.DefaultCredential.Avatar, Mode=OneWay}" />
+                                Size="36"
+                                Source="{x:Bind ViewModel.AppSettingModel.Account.DefaultCredential.Avatar, Mode=OneWay}" />
                             <TextBox
                                 Grid.Row="0"
                                 Grid.Column="1"
@@ -355,11 +354,11 @@
                                             <ColumnDefinition Width="*" />
                                             <ColumnDefinition Width="auto" />
                                         </Grid.ColumnDefinitions>
-                                        <PersonPicture
+                                        <local_controls:Avatar
                                             Grid.Column="0"
-                                            Height="36"
                                             VerticalAlignment="Top"
-                                            helpers:PersonPictureCacheHelper.ProfilePictureEx="{x:Bind UserAvatar}" />
+                                            Size="36"
+                                            Source="{x:Bind UserAvatar}" />
                                         <StackPanel Grid.Column="1" Spacing="6">
                                             <!--  用户名、等级、用户组  -->
                                             <StackPanel Orientation="Horizontal" Spacing="5">

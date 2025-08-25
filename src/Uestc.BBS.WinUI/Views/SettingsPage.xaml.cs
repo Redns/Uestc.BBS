@@ -2,6 +2,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Uestc.BBS.Core.Helpers;
 using Uestc.BBS.Core.Services.System;
+using Uestc.BBS.WinUI.Controls;
 using Uestc.BBS.WinUI.ViewModels;
 
 namespace Uestc.BBS.WinUI.Views
@@ -30,7 +31,7 @@ namespace Uestc.BBS.WinUI.Views
 
         private void OpenContributorHomepage(object sender, PointerRoutedEventArgs _)
         {
-            if (sender is PersonPicture picture && picture.Tag is string homePage)
+            if (sender is Avatar avatar && avatar.Tag is string homePage)
             {
                 OperatingSystemHelper.OpenWebsite(homePage);
             }

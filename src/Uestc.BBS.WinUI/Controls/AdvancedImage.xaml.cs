@@ -12,7 +12,7 @@ using Uestc.BBS.Core.Services.System;
 
 namespace Uestc.BBS.WinUI.Controls
 {
-    public sealed partial class AdvancedImage : UserControl
+    public partial class AdvancedImage : UserControl
     {
         /// <summary>
         /// 文件缓存服务
@@ -33,7 +33,23 @@ namespace Uestc.BBS.WinUI.Controls
             nameof(Source),
             typeof(string),
             typeof(AdvancedImage),
-            new PropertyMetadata(null)
+            new PropertyMetadata(
+                null,
+                static async (obj, args) =>
+                {
+                    if (obj is not AdvancedImage image || args.NewValue is not string source)
+                    {
+                        return;
+                    }
+
+                    if (image.IsLazyLoadEnable)
+                    {
+                        return;
+                    }
+
+                    await SetSourceAsync(image, source);
+                }
+            )
         );
 
         public string Source
@@ -59,9 +75,44 @@ namespace Uestc.BBS.WinUI.Controls
         }
 
         /// <summary>
+        /// 图片数据源
+        /// </summary>
+        private static readonly DependencyProperty SuccessImageSourceProperty =
+            DependencyProperty.Register(
+                nameof(SuccessImageSource),
+                typeof(ImageSource),
+                typeof(AdvancedImage),
+                new PropertyMetadata(null)
+            );
+
+        private ImageSource SuccessImageSource
+        {
+            get => (ImageSource)GetValue(SuccessImageSourceProperty);
+            set => SetValue(SuccessImageSourceProperty, value);
+        }
+
+        /// <summary>
+        /// 是否启用延时加载（默认关闭）
+        /// XXX 虚拟化和延时加载冲突，只能启用其中一个
+        /// </summary>
+        private static readonly DependencyProperty IsLazyLoadEnableProperty =
+            DependencyProperty.Register(
+                nameof(IsLazyLoadEnable),
+                typeof(bool),
+                typeof(AdvancedImage),
+                new PropertyMetadata(false)
+            );
+
+        public bool IsLazyLoadEnable
+        {
+            get => (bool)GetValue(IsLazyLoadEnableProperty);
+            set => SetValue(IsLazyLoadEnableProperty, value);
+        }
+
+        /// <summary>
         /// 是否启用缓存
         /// </summary>
-        public static readonly DependencyProperty IsCachedEnableProperty =
+        private static readonly DependencyProperty IsCachedEnableProperty =
             DependencyProperty.Register(
                 nameof(IsCachedEnable),
                 typeof(bool),
@@ -167,7 +218,7 @@ namespace Uestc.BBS.WinUI.Controls
                         .GetFileUriAsync(new Uri(source))
                         .TimeoutCancelAsync(TimeSpan.FromMinutes(1))
                     : new Uri(source);
-                image.SuccessImage.Source = new BitmapImage(imageUri)
+                image.SuccessImageSource = new BitmapImage(imageUri)
                 {
                     DecodePixelHeight =
                         image.Height is not double.PositiveInfinity ? (int)image.Height
@@ -205,9 +256,14 @@ namespace Uestc.BBS.WinUI.Controls
                 return;
             }
 
-            // 当图像距离视窗底部小于两倍窗口高度时，开始加载图像
-            // 此处实际上应该使用 ScrollViewer 的高度，但 ScrollViewer 高度不确定，
-            // 由于首页显示主题列表的 ScrollViewer 高度与窗口近似，故使用 App.CurrentWindow.Bounds.Height
+            if (!image.IsLazyLoadEnable)
+            {
+                image.EffectiveViewportChanged -= ImageLazyLoad;
+                return;
+            }
+
+            // 当图像距离视窗距离小于窗口高度时，开始加载图像
+            // 此处实际上应该使用 ScrollViewer 的高度，但 ScrollViewer 高度不确定，此处使用窗口高度以兼容大部分情况
             if (args.BringIntoViewDistanceY < App.CurrentWindow?.Bounds.Height)
             {
                 image.EffectiveViewportChanged -= ImageLazyLoad;

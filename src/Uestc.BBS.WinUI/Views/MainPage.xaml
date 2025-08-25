@@ -121,13 +121,11 @@
                 </interactivity:Interaction.Behaviors>
             </controls:Segmented>
             <!--  头像  -->
-            <PersonPicture
-                Height="35"
+            <local_controls:Avatar
                 controls:DockPanel.Dock="Right"
-                helpers:PersonPictureCacheHelper.ProfilePictureEx="{x:Bind ViewModel.AppSettingModel.Account.DefaultCredential.Avatar, Mode=OneWay}"
-                Background="Transparent"
-                BorderBrush="Transparent"
-                PointerPressed="OpenPersonalCenterFlyout">
+                PointerPressed="OpenPersonalCenterFlyout"
+                Size="35"
+                Source="{x:Bind ViewModel.AppSettingModel.Account.DefaultCredential.Avatar, Mode=OneWay}">
                 <FlyoutBase.AttachedFlyout>
                     <Flyout Placement="BottomEdgeAlignedRight">
                         <local_controls:PersonProfile
@@ -139,7 +137,7 @@
                             Signature="{x:Bind ViewModel.AppSettingModel.Account.DefaultCredential.Signature, Mode=OneWay}" />
                     </Flyout>
                 </FlyoutBase.AttachedFlyout>
-            </PersonPicture>
+            </local_controls:Avatar>
             <!--  搜索框  -->
             <AutoSuggestBox
                 MaxWidth="520"

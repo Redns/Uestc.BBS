@@ -28,6 +28,41 @@ namespace Uestc.BBS.WinUI.Controls
             set => SetValue(SourcesProperty, value);
         }
 
+        /// <summary>
+        /// 是否启用延迟加载（默认关闭）
+        /// XXX 延迟加载和虚拟化冲突，只能启用其中一个
+        /// </summary>
+        private static readonly DependencyProperty IsLazyLoadEnableProperty =
+            DependencyProperty.Register(
+                nameof(IsLazyLoadEnable),
+                typeof(bool),
+                typeof(Avatar),
+                new PropertyMetadata(false)
+            );
+
+        public bool IsLazyLoadEnable
+        {
+            get => (bool)GetValue(IsLazyLoadEnableProperty);
+            set => SetValue(IsLazyLoadEnableProperty, value);
+        }
+
+        /// <summary>
+        /// 是否启用缓存（默认开启）
+        /// </summary>
+        private static readonly DependencyProperty IsCachedEnableProperty =
+            DependencyProperty.Register(
+                nameof(IsCachedEnable),
+                typeof(bool),
+                typeof(Avatar),
+                new PropertyMetadata(true)
+            );
+
+        public bool IsCachedEnable
+        {
+            get => (bool)GetValue(IsCachedEnableProperty);
+            set => SetValue(IsCachedEnableProperty, value);
+        }
+
         public ImageMosaic()
         {
             InitializeComponent();
@@ -57,7 +92,8 @@ namespace Uestc.BBS.WinUI.Controls
                     MaxHeight = 240,
                     Stretch = Stretch.Uniform,
                     Source = sources[0],
-                    IsCachedEnable = true,
+                    IsCachedEnable = imageMosaic.IsCachedEnable,
+                    IsLazyLoadEnable = imageMosaic.IsLazyLoadEnable,
                 };
                 image.PointerPressed += (_, _) =>
                     OpenImage(imageMosaic.Sources, 0, imageMosaic.PreviewFlipViewDataTemplete);
@@ -101,7 +137,8 @@ namespace Uestc.BBS.WinUI.Controls
                                     : imageHeight,
                             Stretch = Stretch.UniformToFill,
                             Source = s,
-                            IsCachedEnable = true,
+                            IsCachedEnable = imageMosaic.IsCachedEnable,
+                            IsLazyLoadEnable = imageMosaic.IsLazyLoadEnable,
                         };
 
                         image.PointerPressed += (_, _) =>

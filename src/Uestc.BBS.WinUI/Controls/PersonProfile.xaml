@@ -6,7 +6,6 @@
     xmlns:controls="using:CommunityToolkit.WinUI.Controls"
     xmlns:converters="using:CommunityToolkit.WinUI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:helpers="using:Uestc.BBS.WinUI.Helpers"
     xmlns:local="using:Uestc.BBS.WinUI.Controls"
     xmlns:local_converters="using:Uestc.BBS.WinUI.Converters"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -22,11 +21,11 @@
     </UserControl.Resources>
 
     <StackPanel Orientation="Horizontal" Spacing="10">
-        <PersonPicture
+        <local:Avatar
             Height="48"
             VerticalAlignment="Top"
             controls:DockPanel.Dock="Left"
-            helpers:PersonPictureCacheHelper.ProfilePictureEx="{x:Bind Avatar, Mode=OneWay}" />
+            Source="{x:Bind Avatar, Mode=OneWay}" />
         <!--  昵称、签名  -->
         <StackPanel VerticalAlignment="Center" Spacing="3">
             <StackPanel Orientation="Horizontal" Spacing="5">

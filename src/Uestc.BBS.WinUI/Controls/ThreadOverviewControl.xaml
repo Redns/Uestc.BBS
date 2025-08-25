@@ -26,13 +26,11 @@
         <StackPanel Spacing="8">
             <!--  头像、昵称、发布/回复时间、分区  -->
             <controls:DockPanel HorizontalSpacing="10">
-                <PersonPicture
-                    Width="36"
+                <local:Avatar
                     VerticalAlignment="Center"
                     controls:DockPanel.Dock="Left"
-                    helpers:PersonPictureCacheHelper.ProfilePictureEx="{x:Bind Avatar, Mode=OneWay}"
-                    Background="Transparent"
-                    BorderBrush="Transparent" />
+                    Size="36"
+                    Source="{x:Bind Avatar, Mode=OneWay}" />
                 <StackPanel VerticalAlignment="Center" controls:DockPanel.Dock="Left">
                     <TextBlock Text="{x:Bind Username, Mode=OneWay}" />
                     <!--  热门主题显示发布时间  -->

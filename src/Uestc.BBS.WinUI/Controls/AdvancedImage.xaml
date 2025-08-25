@@ -30,7 +30,7 @@
                 Visibility="{x:Bind ShowPlaceholder, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
         </controls:Case>
         <controls:Case Value="Success">
-            <Image x:Name="SuccessImage" Stretch="{x:Bind Stretch, Mode=OneWay}" />
+            <Image Source="{x:Bind SuccessImageSource, Mode=OneWay}" Stretch="{x:Bind Stretch, Mode=OneWay}" />
         </controls:Case>
         <controls:Case Value="Error">
             <Image Source="/Assets/Images/image_load_failed.svg" Stretch="Uniform" />
