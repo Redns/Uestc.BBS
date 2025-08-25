@@ -160,7 +160,9 @@
                                 <TextBlock
                                     FontSize="12"
                                     Foreground="Gray"
-                                    Text="{x:Bind ViewModel.CurrentThread.CreateTime, Converter={StaticResource Date2RelativeStringConverter}, Mode=OneWay}" />
+                                    Text="{x:Bind ViewModel.CurrentThread.CreateTime, Converter={StaticResource Date2RelativeStringConverter}, Mode=OneWay}"
+                                    ToolTipService.Placement="Right"
+                                    ToolTipService.ToolTip="{x:Bind ViewModel.CurrentThread.CreateTime, Mode=OneWay}" />
                             </StackPanel>
                             <!--  操作按钮  -->
                             <StackPanel
@@ -169,81 +171,81 @@
                                 Spacing="-2">
                                 <AppBarButton
                                     Width="40"
-                                    Height="47"
                                     Margin="0,-6,-2,-13"
                                     Icon="Like"
+                                    LabelPosition="Collapsed"
                                     ToolTipService.ToolTip="点赞"
                                     Visibility="{x:Bind ViewModel.IsCurrentThreadFromUs, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True, Mode=OneWay}" />
                                 <AppBarButton
                                     Width="40"
-                                    Height="47"
                                     Margin="0,-6,-2,-13"
                                     Icon="Dislike"
+                                    LabelPosition="Collapsed"
                                     ToolTipService.ToolTip="点踩"
                                     Visibility="{x:Bind ViewModel.IsCurrentThreadFromUs, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True, Mode=OneWay}" />
                                 <AppBarButton
                                     Width="40"
-                                    Height="47"
                                     Margin="0,-6,-2,-13"
                                     Icon="{ui:FontIcon Glyph=&#xED1A;}"
+                                    LabelPosition="Collapsed"
                                     ToolTipService.ToolTip="插眼" />
                                 <AppBarButton
                                     Width="40"
-                                    Height="47"
                                     Margin="0,-6,-2,-13"
                                     Icon="Favorite"
+                                    LabelPosition="Collapsed"
                                     ToolTipService.ToolTip="收藏"
                                     Visibility="{x:Bind ViewModel.IsCurrentThreadFromUs, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True, Mode=OneWay}" />
                                 <AppBarButton
                                     Width="40"
-                                    Height="47"
                                     Margin="0,-6,-2,-13"
                                     Icon="Memo"
+                                    LabelPosition="Collapsed"
                                     ToolTipService.ToolTip="备份" />
                                 <AppBarButton
                                     Width="40"
-                                    Height="47"
                                     Margin="0,-6,-2,-13"
                                     Icon="{ui:FontIcon Glyph=&#xE932;}"
+                                    LabelPosition="Collapsed"
                                     ToolTipService.ToolTip="编辑"
                                     Visibility="{x:Bind ViewModel.IsCurrentThreadFromUs, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
                                 <AppBarButton
                                     Width="40"
-                                    Height="47"
                                     Margin="0,-6,-2,-13"
                                     Icon="Delete"
+                                    LabelPosition="Collapsed"
                                     ToolTipService.ToolTip="删除"
                                     Visibility="{x:Bind ViewModel.IsCurrentThreadFromUs, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
                                 <AppBarButton
                                     Width="40"
-                                    Height="47"
                                     Margin="0,-6,-2,-13"
                                     Icon="ReportHacked"
+                                    LabelPosition="Collapsed"
                                     ToolTipService.ToolTip="举报"
                                     Visibility="{x:Bind ViewModel.IsCurrentThreadFromUs, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True, Mode=OneWay}" />
                                 <AppBarButton
                                     Width="40"
-                                    Height="47"
                                     Margin="0,-6,-2,-13"
                                     Icon="{ui:FontIcon Glyph=&#xF406;}"
+                                    LabelPosition="Collapsed"
                                     ToolTipService.ToolTip="截屏" />
                                 <AppBarButton
                                     Width="40"
-                                    Height="47"
                                     Margin="0,-6,-2,-13"
                                     Icon="Globe"
+                                    LabelPosition="Collapsed"
                                     ToolTipService.ToolTip="在浏览器中打开" />
                                 <AppBarButton
                                     Width="40"
-                                    Height="47"
                                     Margin="0,-6,-2,-13"
                                     Icon="{ui:FontIcon Glyph=&#xE82E;}"
+                                    LabelPosition="Collapsed"
                                     ToolTipService.ToolTip="添加到淘专辑" />
                                 <AppBarButton
                                     Width="40"
-                                    Height="47"
                                     Margin="0,-6,-2,-13"
                                     Icon="Share"
+                                    LabelPosition="Collapsed"
                                     ToolTipService.ToolTip="分享" />
                             </StackPanel>
                         </controls:DockPanel>
@@ -287,39 +289,39 @@
                                 LastChildFill="False">
                                 <AppBarButton
                                     Width="40"
-                                    Height="47"
                                     Margin="0,-6,-2,-13"
                                     Icon="Emoji2"
+                                    LabelPosition="Collapsed"
                                     ToolTipService.ToolTip="表情包" />
                                 <AppBarButton
                                     Width="40"
-                                    Height="47"
                                     Margin="0,-6,-2,-13"
                                     Icon="Account"
+                                    LabelPosition="Collapsed"
                                     ToolTipService.ToolTip="@" />
                                 <AppBarButton
                                     Width="40"
-                                    Height="47"
                                     Margin="0,-6,-2,-13"
                                     Icon="Folder"
+                                    LabelPosition="Collapsed"
                                     ToolTipService.ToolTip="文件" />
                                 <AppBarButton
                                     Width="40"
-                                    Height="47"
                                     Margin="0,-6,-2,-13"
                                     Icon="Delete"
+                                    LabelPosition="Collapsed"
                                     ToolTipService.ToolTip="清空" />
                                 <AppBarButton
                                     Width="40"
-                                    Height="47"
                                     Margin="0,-6,-2,-13"
                                     Icon="Save"
+                                    LabelPosition="Collapsed"
                                     ToolTipService.ToolTip="保存至草稿箱" />
                                 <AppBarButton
                                     Width="40"
-                                    Height="47"
                                     Margin="0,-6,-2,-13"
                                     Icon="FullScreen"
+                                    LabelPosition="Collapsed"
                                     ToolTipService.ToolTip="全屏" />
                                 <Button
                                     controls:DockPanel.Dock="Right"
@@ -412,7 +414,9 @@
                                                 Margin="0,-5,0,0"
                                                 FontSize="12"
                                                 Foreground="Gray"
-                                                Text="{x:Bind CreateTime, Converter={StaticResource Date2RelativeStringConverter}}" />
+                                                Text="{x:Bind CreateTime, Converter={StaticResource Date2RelativeStringConverter}}"
+                                                ToolTipService.Placement="Right"
+                                                ToolTipService.ToolTip="{x:Bind CreateTime, Mode=OneWay}" />
                                             <!--  引用内容  -->
                                             <Border
                                                 Margin="2,5,0,0"
@@ -441,6 +445,22 @@
                                             </Border>
                                             <!--  评论内容  -->
                                             <local_controls:RichText Margin="0,-10,0,0" Contents="{x:Bind Contents}" />
+                                            <StackPanel Margin="0,8,0,0" Orientation="Horizontal">
+                                                <AppBarButton
+                                                    Width="40"
+                                                    Margin="0,-6,-2,-13"
+                                                    Icon="Like"
+                                                    Label="{x:Bind LikeCount, Mode=OneWay}"
+                                                    LabelPosition="Collapsed"
+                                                    ToolTipService.ToolTip="点赞" />
+                                                <AppBarButton
+                                                    Width="40"
+                                                    Margin="0,-6,-2,-13"
+                                                    Icon="Dislike"
+                                                    Label="{x:Bind DislikeCount, Mode=OneWay}"
+                                                    LabelPosition="Collapsed"
+                                                    ToolTipService.ToolTip="点踩" />
+                                            </StackPanel>
                                         </StackPanel>
                                         <!--  楼层  -->
                                         <TextBlock

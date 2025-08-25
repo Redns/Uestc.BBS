@@ -20,6 +20,7 @@
 
     <Page.Resources>
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        <local_converters:MenuKey2BadgeVisibility x:Key="MenuKey2BadgeVisibility" />
         <!--  Navigate Bottom2Top  -->
         <Storyboard x:Name="NavigateBottom2TopStoryboard">
             <DoubleAnimation
@@ -163,14 +164,23 @@
             SelectedItem="{x:Bind ViewModel.CurrentMenuItem, Mode=TwoWay}">
             <NavigationView.MenuItemTemplate>
                 <DataTemplate x:DataType="models:MenuItemModel">
-                    <StackPanel
-                        Margin="0,9"
-                        Padding="-10,0,0,0"
-                        HorizontalAlignment="Center"
-                        Spacing="4">
-                        <FontIcon FontSize="23" Glyph="{x:Bind Glyph, Mode=OneWay}" />
-                        <TextBlock FontSize="13" Text="{x:Bind Name, Mode=OneWay}" />
-                    </StackPanel>
+                    <Grid>
+                        <StackPanel
+                            Margin="0,9"
+                            Padding="-10,0,0,0"
+                            HorizontalAlignment="Center"
+                            Spacing="4">
+                            <FontIcon FontSize="23" Glyph="{x:Bind Glyph, Mode=OneWay}" />
+                            <TextBlock FontSize="13" Text="{x:Bind Name, Mode=OneWay}" />
+                        </StackPanel>
+                        <InfoBadge
+                            Width="5"
+                            Height="5"
+                            Margin="0,8,12,0"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Top"
+                            Visibility="{x:Bind Key, Converter={StaticResource MenuKey2BadgeVisibility}, Mode=OneWay}" />
+                    </Grid>
                 </DataTemplate>
             </NavigationView.MenuItemTemplate>
             <UserControl Content="{x:Bind ViewModel.CurrentMenuContent, Mode=OneWay}">

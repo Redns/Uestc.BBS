@@ -8,12 +8,17 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:helpers="using:Uestc.BBS.WinUI.Helpers"
     xmlns:local="using:Uestc.BBS.WinUI.Controls"
+    xmlns:local_converters="using:Uestc.BBS.WinUI.Converters"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
     <UserControl.Resources>
         <converters:StringFormatConverter x:Key="StringFormatConverter" />
         <converters:StringVisibilityConverter x:Key="StringVisibilityConverter" />
+        <converters:DoubleToVisibilityConverter x:Key="DoubleToVisibilityConverter" GreaterThan="0" />
+        <local_converters:UserGroup2Visibility x:Key="UserGroup2Visibility" />
+        <local_converters:UserGroup2BadgeBrush x:Key="UserGroup2BadgeBrush" />
+        <local_converters:UserLevel2BadgeBackground x:Key="UserLevel2BadgeBackground" />
     </UserControl.Resources>
 
     <StackPanel Orientation="Horizontal" Spacing="10">
@@ -29,24 +34,33 @@
                     FontWeight="SemiBold"
                     Text="{x:Bind Name, Mode=OneWay}"
                     Visibility="{x:Bind Name, Converter={StaticResource StringVisibilityConverter}, Mode=OneWay}" />
-                <Border Background="{ThemeResource SystemFillColorSuccessBrush}" CornerRadius="3">
+                <!--  等级  -->
+                <Border
+                    Height="18"
+                    Padding="3,0"
+                    Background="{x:Bind Level, Converter={StaticResource UserLevel2BadgeBackground}, Mode=OneWay}"
+                    CornerRadius="3"
+                    Visibility="{x:Bind Level, Converter={StaticResource DoubleToVisibilityConverter}, Mode=OneWay}">
                     <TextBlock
-                        Margin="3,0"
-                        Padding="0,1,0,0"
+                        VerticalAlignment="Center"
                         FontSize="12"
                         Foreground="White"
-                        Text="{x:Bind Level, Converter={StaticResource StringFormatConverter}, ConverterParameter='Lv.{0}', Mode=OneWay}" />
+                        Text="{x:Bind Level, Converter={StaticResource StringFormatConverter}, ConverterParameter='Lv.{0}', Mode=OneWay}"
+                        TextLineBounds="Tight" />
                 </Border>
+                <!--  用户组  -->
                 <Border
-                    Background="{ThemeResource AccentTextFillColorTertiaryBrush}"
+                    Height="18"
+                    Padding="3,0"
+                    Background="{x:Bind Group, Converter={StaticResource UserGroup2BadgeBrush}, Mode=OneWay}"
                     CornerRadius="3"
-                    Visibility="{x:Bind Group, Converter={StaticResource StringVisibilityConverter}, Mode=OneWay}">
+                    Visibility="{x:Bind Group, Converter={StaticResource UserGroup2Visibility}, Mode=OneWay}">
                     <TextBlock
-                        Margin="3,0"
-                        Padding="0,1,0,0"
-                        FontSize="11"
+                        VerticalAlignment="Center"
+                        FontSize="12"
                         Foreground="White"
-                        Text="{x:Bind Group, Mode=OneWay}" />
+                        Text="{x:Bind Group, Mode=OneWay}"
+                        TextLineBounds="Tight" />
                 </Border>
             </StackPanel>
             <TextBlock
