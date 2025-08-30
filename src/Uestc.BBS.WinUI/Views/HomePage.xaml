@@ -231,15 +231,17 @@
                                 <AppBarButton
                                     Width="40"
                                     Margin="0,-6,-2,-13"
-                                    Icon="Globe"
-                                    LabelPosition="Collapsed"
-                                    ToolTipService.ToolTip="在浏览器中打开" />
-                                <AppBarButton
-                                    Width="40"
-                                    Margin="0,-6,-2,-13"
                                     Icon="{ui:FontIcon Glyph=&#xE82E;}"
                                     LabelPosition="Collapsed"
                                     ToolTipService.ToolTip="添加到淘专辑" />
+                                <AppBarButton
+                                    Width="40"
+                                    Margin="0,-6,-2,-13"
+                                    Command="{x:Bind ViewModel.OpenWebsiteCommand}"
+                                    CommandParameter="{x:Bind ViewModel.CurrentThread.WebUrl, Mode=OneWay}"
+                                    Icon="Globe"
+                                    LabelPosition="Collapsed"
+                                    ToolTipService.ToolTip="在浏览器中打开" />
                                 <AppBarButton
                                     Width="40"
                                     Margin="0,-6,-2,-13"
@@ -281,7 +283,17 @@
                                 Height="80"
                                 HorizontalAlignment="Stretch"
                                 AcceptsReturn="True"
-                                Text="{x:Bind ViewModel.ReplyContent, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                PlaceholderText="使用 Ctrl+Enter 快速回复~"
+                                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                Text="{x:Bind ViewModel.ReplyContent, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                TextWrapping="Wrap">
+                                <TextBox.KeyboardAccelerators>
+                                    <KeyboardAccelerator
+                                        Key="Enter"
+                                        Invoked="EnterToReply"
+                                        Modifiers="Control" />
+                                </TextBox.KeyboardAccelerators>
+                            </TextBox>
                             <controls:DockPanel
                                 Grid.Row="1"
                                 Grid.Column="1"
@@ -295,18 +307,19 @@
                                 <AppBarButton
                                     Width="40"
                                     Margin="0,-6,-2,-13"
-                                    Icon="Account"
-                                    LabelPosition="Collapsed"
-                                    ToolTipService.ToolTip="@" />
-                                <AppBarButton
-                                    Width="40"
-                                    Margin="0,-6,-2,-13"
                                     Icon="Folder"
                                     LabelPosition="Collapsed"
                                     ToolTipService.ToolTip="文件" />
                                 <AppBarButton
                                     Width="40"
                                     Margin="0,-6,-2,-13"
+                                    Icon="Account"
+                                    LabelPosition="Collapsed"
+                                    ToolTipService.ToolTip="@" />
+                                <AppBarButton
+                                    Width="40"
+                                    Margin="0,-6,-2,-13"
+                                    Command="{x:Bind ViewModel.ClearReplyContentCommand}"
                                     Icon="Delete"
                                     LabelPosition="Collapsed"
                                     ToolTipService.ToolTip="清空" />
@@ -324,9 +337,24 @@
                                     ToolTipService.ToolTip="全屏" />
                                 <Button
                                     controls:DockPanel.Dock="Right"
-                                    Content="发 布"
+                                    Command="{x:Bind ViewModel.ReplyCommand}"
                                     IsEnabled="{x:Bind ViewModel.ReplyContent, Converter={StaticResource EmptyStringToObjectConverter}, Mode=OneWay}"
-                                    Style="{StaticResource AccentButtonStyle}" />
+                                    Style="{StaticResource AccentButtonStyle}">
+                                    <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+                                        <ProgressRing
+                                            Width="20"
+                                            Height="20"
+                                            Foreground="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                                            Visibility="{x:Bind ViewModel.ReplyCommand.IsRunning, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
+                                        <TextBlock
+                                            VerticalAlignment="Center"
+                                            Text="发 布"
+                                            Visibility="{x:Bind ViewModel.ReplyCommand.IsRunning, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True, Mode=OneWay}" />
+                                    </StackPanel>
+                                    <Button.KeyboardAccelerators>
+                                        <KeyboardAccelerator Key="Enter" Modifiers="Control" />
+                                    </Button.KeyboardAccelerators>
+                                </Button>
                             </controls:DockPanel>
                         </Grid>
                         <ListView
@@ -368,7 +396,7 @@
                                                 <Border
                                                     Height="18"
                                                     Padding="3,0"
-                                                    Background="{x:Bind UserLevel, Converter={StaticResource UserLevel2BadgeBackground}, Mode=OneWay}"
+                                                    Background="{x:Bind UserLevel, Converter={StaticResource UserLevel2BadgeBackground}}"
                                                     CornerRadius="3"
                                                     Visibility="{x:Bind UserLevel, Converter={StaticResource DoubleToVisibilityConverter}}">
                                                     <TextBlock
@@ -394,12 +422,13 @@
                                                 </Border>
                                                 <!--  楼主  -->
                                                 <Border
+                                                    x:Name="ThreadMasterLabel"
                                                     Height="18"
                                                     Padding="3,0"
+                                                    x:Load="{x:Bind IsFromThreadMaster}"
                                                     BorderBrush="#0067C0"
                                                     BorderThickness="1"
-                                                    CornerRadius="3"
-                                                    Visibility="{x:Bind IsFromThreadMaster, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
+                                                    CornerRadius="3">
                                                     <TextBlock
                                                         VerticalAlignment="Center"
                                                         FontSize="12"
@@ -411,6 +440,7 @@
                                             <!--  评论时间  -->
                                             <TextBlock
                                                 Margin="0,-5,0,0"
+                                                HorizontalAlignment="Left"
                                                 FontSize="12"
                                                 Foreground="Gray"
                                                 Text="{x:Bind CreateTime, Converter={StaticResource Date2RelativeStringConverter}}"
@@ -418,23 +448,27 @@
                                                 ToolTipService.ToolTip="{x:Bind CreateTime, Mode=OneWay}" />
                                             <!--  引用内容  -->
                                             <Border
+                                                x:Name="ThreadReplyQuoteReply"
                                                 Margin="2,5,0,0"
                                                 Padding="8"
+                                                x:Load="{x:Bind HasQuote}"
                                                 BorderBrush="#1976D2"
-                                                BorderThickness="2,0,0,0"
-                                                Visibility="{x:Bind HasQuote, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
+                                                BorderThickness="2,0,0,0">
                                                 <StackPanel Spacing="5">
                                                     <StackPanel Orientation="Horizontal" Spacing="5">
+                                                        <local_controls:Avatar Size="18" Source="{x:Bind QuoteUserAvatar}" />
                                                         <TextBlock
                                                             VerticalAlignment="Center"
                                                             FontWeight="SemiBold"
                                                             Foreground="Gray"
-                                                            Text="{x:Bind QuoteUsername}" />
+                                                            Text="{x:Bind QuoteUsername}"
+                                                            TextLineBounds="Tight" />
                                                         <TextBlock
                                                             VerticalAlignment="Center"
                                                             FontSize="12"
                                                             Foreground="Gray"
-                                                            Text="{x:Bind CreateTime, Converter={StaticResource Date2RelativeStringConverter}}" />
+                                                            Text="{x:Bind CreateTime, Converter={StaticResource Date2RelativeStringConverter}}"
+                                                            TextLineBounds="Tight" />
                                                     </StackPanel>
                                                     <TextBlock
                                                         Foreground="Gray"
@@ -444,6 +478,7 @@
                                             </Border>
                                             <!--  评论内容  -->
                                             <local_controls:RichText Margin="0,-10,0,0" Contents="{x:Bind Contents}" />
+                                            <!--  操作按钮  -->
                                             <StackPanel Margin="0,8,0,0" Orientation="Horizontal">
                                                 <AppBarButton
                                                     Width="40"
@@ -459,6 +494,26 @@
                                                     Label="{x:Bind DislikeCount, Mode=OneWay}"
                                                     LabelPosition="Collapsed"
                                                     ToolTipService.ToolTip="点踩" />
+                                                <AppBarButton
+                                                    Width="40"
+                                                    Margin="0,-6,-2,-13"
+                                                    Icon="Comment"
+                                                    Label="{x:Bind DislikeCount, Mode=OneWay}"
+                                                    LabelPosition="Collapsed"
+                                                    ToolTipService.ToolTip="回复" />
+                                                <AppBarButton
+                                                    Width="40"
+                                                    Margin="0,-6,-2,-13"
+                                                    Icon="{ui:FontIcon Glyph=&#xE771;}"
+                                                    Label="{x:Bind DislikeCount, Mode=OneWay}"
+                                                    LabelPosition="Collapsed"
+                                                    ToolTipService.ToolTip="点评" />
+                                                <AppBarButton
+                                                    Width="40"
+                                                    Margin="0,-6,-2,-13"
+                                                    Icon="ReportHacked"
+                                                    LabelPosition="Collapsed"
+                                                    ToolTipService.ToolTip="举报" />
                                             </StackPanel>
                                         </StackPanel>
                                         <!--  楼层  -->

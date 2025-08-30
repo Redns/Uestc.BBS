@@ -20,7 +20,7 @@
 
     <Page.Resources>
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
-        <local_converters:MenuKey2BadgeVisibility x:Key="MenuKey2BadgeVisibility" />
+        <converters:DoubleToVisibilityConverter x:Key="DoubleToVisibilityConverter" GreaterThan="0" />
         <!--  Navigate Bottom2Top  -->
         <Storyboard x:Name="NavigateBottom2TopStoryboard">
             <DoubleAnimation
@@ -172,12 +172,10 @@
                             <TextBlock FontSize="13" Text="{x:Bind Name, Mode=OneWay}" />
                         </StackPanel>
                         <InfoBadge
-                            Width="5"
-                            Height="5"
-                            Margin="0,8,12,0"
                             HorizontalAlignment="Right"
                             VerticalAlignment="Top"
-                            Visibility="{x:Bind Key, Converter={StaticResource MenuKey2BadgeVisibility}, Mode=OneWay}" />
+                            Visibility="{x:Bind MessageCount, Converter={StaticResource DoubleToVisibilityConverter}, Mode=OneWay}"
+                            Value="{x:Bind MessageCount, Mode=OneWay}" />
                     </Grid>
                 </DataTemplate>
             </NavigationView.MenuItemTemplate>

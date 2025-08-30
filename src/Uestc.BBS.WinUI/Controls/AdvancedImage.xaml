@@ -16,13 +16,7 @@
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
     </UserControl.Resources>
 
-    <controls:SwitchPresenter
-        Width="{x:Bind Width, Mode=OneWay}"
-        Height="{x:Bind Height, Mode=OneWay}"
-        MaxWidth="{x:Bind MaxWidth, Mode=OneWay}"
-        MaxHeight="{x:Bind MaxHeight, Mode=OneWay}"
-        TargetType="local:ImageStatus"
-        Value="{x:Bind Status, Mode=OneWay}">
+    <controls:SwitchPresenter TargetType="local:ImageStatus" Value="{x:Bind Status, Mode=OneWay}">
         <controls:Case Value="Loading">
             <labs:Shimmer
                 Width="{x:Bind PlaceholderWidth, Mode=OneWay}"

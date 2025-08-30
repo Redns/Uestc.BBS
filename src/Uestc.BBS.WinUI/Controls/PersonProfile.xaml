@@ -22,9 +22,9 @@
 
     <StackPanel Orientation="Horizontal" Spacing="10">
         <local:Avatar
-            Height="48"
             VerticalAlignment="Top"
             controls:DockPanel.Dock="Left"
+            Size="48"
             Source="{x:Bind Avatar, Mode=OneWay}" />
         <!--  昵称、签名  -->
         <StackPanel VerticalAlignment="Center" Spacing="3">

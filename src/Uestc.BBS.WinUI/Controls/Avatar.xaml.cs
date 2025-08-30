@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using Amazon.Auth.AccessControlPolicy;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
@@ -58,7 +57,7 @@ public sealed partial class Avatar : UserControl
         nameof(Stretch),
         typeof(Stretch),
         typeof(Avatar),
-        new PropertyMetadata(Stretch.Fill)
+        new PropertyMetadata(Stretch.UniformToFill)
     );
 
     public Stretch Stretch

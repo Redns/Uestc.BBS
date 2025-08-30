@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
@@ -42,7 +43,7 @@ namespace Uestc.BBS.WinUI.Controls
                         return;
                     }
 
-                    if (image.IsLazyLoadEnable)
+                    if (image.Status is ImageStatus.Idle || image.Status is ImageStatus.Loading)
                     {
                         return;
                     }
@@ -199,10 +200,38 @@ namespace Uestc.BBS.WinUI.Controls
         public AdvancedImage()
         {
             InitializeComponent();
+
+            // 右键清除缓存
+            RightTapped += async (sender, e) =>
+            {
+                if (sender is not AdvancedImage image)
+                {
+                    return;
+                }
+
+                if (!image.IsCachedEnable || image.Status is not ImageStatus.Success)
+                {
+                    return;
+                }
+
+                if (image.SuccessImageSource is not BitmapImage bitmapImage)
+                {
+                    return;
+                }
+
+                File.Delete(bitmapImage.UriSource.LocalPath);
+
+                await SetSourceAsync(image, image.Source, true);
+            };
+            // 懒加载
             EffectiveViewportChanged += ImageLazyLoad;
         }
 
-        private static async Task SetSourceAsync(AdvancedImage image, string source)
+        private static async Task SetSourceAsync(
+            AdvancedImage image,
+            string source,
+            bool ignoreCache = false
+        )
         {
             if (string.IsNullOrEmpty(source))
             {
@@ -225,6 +254,9 @@ namespace Uestc.BBS.WinUI.Controls
                         : image.MaxHeight is not double.PositiveInfinity ? (int)image.MaxHeight
                         : 0,
                     DecodePixelType = DecodePixelType.Logical,
+                    CreateOptions = ignoreCache
+                        ? BitmapCreateOptions.IgnoreImageCache
+                        : BitmapCreateOptions.None,
                 };
 
                 image.Status = ImageStatus.Success;
@@ -256,15 +288,21 @@ namespace Uestc.BBS.WinUI.Controls
                 return;
             }
 
-            if (!image.IsLazyLoadEnable)
+            if (image.Status is not ImageStatus.Idle)
             {
-                image.EffectiveViewportChanged -= ImageLazyLoad;
                 return;
             }
 
-            // 当图像距离视窗距离小于窗口高度时，开始加载图像
+            if (!image.IsLazyLoadEnable)
+            {
+                image.EffectiveViewportChanged -= ImageLazyLoad;
+                await SetSourceAsync(image, image.Source);
+                return;
+            }
+
+            // 当图像距离视窗距离小于窗口高度的 1.5 倍时，开始加载图像
             // 此处实际上应该使用 ScrollViewer 的高度，但 ScrollViewer 高度不确定，此处使用窗口高度以兼容大部分情况
-            if (args.BringIntoViewDistanceY < App.CurrentWindow?.Bounds.Height)
+            if (args.BringIntoViewDistanceY < App.CurrentWindow?.Bounds.Height * 1.5)
             {
                 image.EffectiveViewportChanged -= ImageLazyLoad;
                 await SetSourceAsync(image, image.Source);

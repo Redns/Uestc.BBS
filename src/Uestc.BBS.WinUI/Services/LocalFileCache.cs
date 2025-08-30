@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Uestc.BBS.Core.Helpers;
 using Uestc.BBS.Core.Services.FileCache;
+using Uestc.BBS.Sdk;
 
 namespace Uestc.BBS.WinUI.Services
 {
@@ -33,7 +34,7 @@ namespace Uestc.BBS.WinUI.Services
 
             // 网络图片
             // XXX AbsolutePath 不包含 Query 参数，头像链接包含 uid 参数
-            var imageKey = uri.PathAndQuery.ToMD5();
+            var imageKey = GenerateUniqueKey(uri.PathAndQuery);
             var imageFullPath = Path.Combine(cacheRoot, imageKey);
             if (!File.Exists(imageFullPath))
             {
@@ -50,7 +51,7 @@ namespace Uestc.BBS.WinUI.Services
                     {
                         try
                         {
-                            var client = httpClientFactory.CreateClient();
+                            var client = httpClientFactory.CreateClient(ServiceExtensions.WEB_API);
                             using var imageReadStream =
                                 await client.GetStreamAsync(uri, cancellationToken)
                                 ?? throw new NullReferenceException(
@@ -68,19 +69,43 @@ namespace Uestc.BBS.WinUI.Services
                             await imageReadStream.CopyToAsync(imageWriteStream, cancellationToken);
                             imageWriteStream.Close();
 
-                            // XXX 原子化操作，避免缓存图片时出现异常导致缓存文件不完整
+                            // 避免缓存图片时出现异常导致缓存文件不完整
                             File.Move(imageTempPath, imageFullPath);
                         }
                         catch
                         {
-                            _downloadTasks.TryRemove(imageFullPath, out var _);
                             File.Delete(imageTempPath);
                             throw;
+                        }
+                        finally
+                        {
+                            _downloadTasks.TryRemove(imageFullPath, out var _);
                         }
                     }
                 );
             }
             return new Uri(imageFullPath);
         }
+
+        public Task InvalidateAsync(Uri uri, CancellationToken cancellationToken = default)
+        {
+            if (uri.IsFile || uri.AbsoluteUri.StartsWith("ms-appx://"))
+            {
+                return Task.CompletedTask;
+            }
+
+            // 网络图片
+            // XXX AbsolutePath 不包含 Query 参数，头像链接包含 uid 参数
+            var imageKey = GenerateUniqueKey(uri.PathAndQuery);
+            var imageFullPath = Path.Combine(cacheRoot, imageKey);
+            if (File.Exists(imageFullPath))
+            {
+                File.Delete(imageFullPath);
+            }
+
+            return Task.CompletedTask;
+        }
+
+        private string GenerateUniqueKey(string filename) => filename.ToMD5();
     }
 }

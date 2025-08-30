@@ -5,6 +5,7 @@ using Uestc.BBS.Core;
 using Uestc.BBS.Core.Services.System;
 using Uestc.BBS.Mvvm.Models;
 using Uestc.BBS.Mvvm.ViewModels;
+using Uestc.BBS.Sdk;
 using Uestc.BBS.Sdk.Services.Auth;
 using Uestc.BBS.WinUI.Views;
 
@@ -12,10 +13,18 @@ namespace Uestc.BBS.WinUI.ViewModels
 {
     public partial class AuthViewModel(
         ILogService logService,
-        IAuthService authService,
+        [FromKeyedServices(ServiceExtensions.WEB_API)] IAuthService webAuthService,
+        [FromKeyedServices(ServiceExtensions.MOBCENT_API)] IAuthService mobcentAuthService,
         INotificationService notificationService,
         AppSettingModel appSettingModel
-    ) : AuthViewModelBase(logService, authService, notificationService, appSettingModel)
+    )
+        : AuthViewModelBase(
+            logService,
+            webAuthService,
+            mobcentAuthService,
+            notificationService,
+            appSettingModel
+        )
     {
         public override void NavigateToMainView()
         {

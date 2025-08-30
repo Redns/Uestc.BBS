@@ -15,7 +15,9 @@ namespace Uestc.BBS.Mvvm.ViewModels
     {
         protected readonly ILogService _logService;
 
-        protected readonly IAuthService _authService;
+        protected readonly IAuthService _webAuthService;
+
+        protected readonly IAuthService _mobcentAuthService;
 
         protected readonly INotificationService _notificationService;
 
@@ -58,16 +60,21 @@ namespace Uestc.BBS.Mvvm.ViewModels
 
         protected AuthViewModelBase(
             ILogService logService,
-            IAuthService authService,
+            IAuthService webAuthService,
+            IAuthService mobcentAuthService,
             INotificationService notificationService,
             AppSettingModel appSettingModel
         )
         {
             _logService = logService;
-            _authService = authService;
+            _webAuthService = webAuthService;
+            _mobcentAuthService = mobcentAuthService;
             _notificationService = notificationService;
 
             AppSettingModel = appSettingModel;
+            Username = appSettingModel.Account.DefaultCredential?.Username;
+            Password = appSettingModel.Account.DefaultCredential?.Password;
+
             PropertyChanged += (_, args) =>
             {
                 if (args.PropertyName == nameof(Username) && SelectedCredential is not null)
@@ -123,14 +130,11 @@ namespace Uestc.BBS.Mvvm.ViewModels
         {
             // 选中授权信息有效，无需重新获取
             if (
-                !string.IsNullOrEmpty(SelectedCredential?.Token)
-                && !string.IsNullOrEmpty(SelectedCredential?.Secret)
-                && !string.IsNullOrEmpty(SelectedCredential.Cookie)
-                && !string.IsNullOrEmpty(SelectedCredential.Authorization)
-                && SelectedCredential?.Password == Password
+                SelectedCredential?.IsCookieAuthenticated is true
+                && SelectedCredential.IsMobcentAuthenticated
             )
             {
-                return SelectedCredential!;
+                return SelectedCredential;
             }
 
             // 若授权信息不存在则创建
@@ -139,8 +143,18 @@ namespace Uestc.BBS.Mvvm.ViewModels
                 ?? new AuthCredentialModel(new AuthCredential { Username = Username! });
             credential.Password = Password!;
 
-            // 根据用户名和密码登录
-            await _authService.LoginAsync(credential.AuthCredential);
+            // 获取 Cookie
+            if (!credential.IsCookieAuthenticated)
+            {
+                await _webAuthService.LoginAsync(credential.AuthCredential);
+            }
+
+            // 获取 Mobcent Token & Secret
+            if (!credential.IsMobcentAuthenticated)
+            {
+                await _mobcentAuthService.LoginAsync(credential.AuthCredential);
+            }
+
             credential.Password = AppSettingModel.Account.RememberPassword
                 ? Password!
                 : string.Empty;

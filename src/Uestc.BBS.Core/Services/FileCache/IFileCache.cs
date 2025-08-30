@@ -8,5 +8,13 @@
         /// <param name="uri"></param>
         /// <returns></returns>
         Task<Uri> GetFileUriAsync(Uri uri, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 清除缓存
+        /// </summary>
+        /// <param name="uri"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task InvalidateAsync(Uri uri, CancellationToken cancellationToken = default);
     }
 }

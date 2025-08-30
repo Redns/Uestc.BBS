@@ -196,6 +196,13 @@ namespace Uestc.BBS.Mvvm.Models
             get => menuItem.Position;
             set => SetProperty(menuItem.Position, value, menuItem, (s, e) => s.Position = e);
         }
+
+        public int MessageCount
+        {
+            get => menuItem.MessageCount;
+            set =>
+                SetProperty(menuItem.MessageCount, value, menuItem, (s, e) => s.MessageCount = e);
+        }
     }
 
     public class BoardTabItemModel(BoardTabItem boardTabItem) : ObservableObject

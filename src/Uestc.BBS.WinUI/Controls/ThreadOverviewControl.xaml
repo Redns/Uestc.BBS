@@ -35,10 +35,11 @@
                     <TextBlock Text="{x:Bind Username, Mode=OneWay}" />
                     <!--  热门主题显示发布时间  -->
                     <TextBlock
+                        x:Name="HotThreadCreateTime"
+                        x:Load="{x:Bind IsHot, Mode=OneWay}"
                         FontSize="12"
                         Foreground="Gray"
-                        Text="{x:Bind Date, Converter={StaticResource Date2RelativeStringConverter}, ConverterParameter=True, Mode=OneWay}"
-                        Visibility="{x:Bind IsHot, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
+                        Text="{x:Bind Date, Converter={StaticResource Date2RelativeStringConverter}, ConverterParameter=True, Mode=OneWay}" />
                     <!--  其他主题显示最新回复时间  -->
                     <!--  xaml 格式化自动换行，导致无法消除 Run 之间的空格，暂时使用 StackPanel  -->
                     <StackPanel Orientation="Horizontal" Visibility="{x:Bind IsHot, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True, Mode=OneWay}">

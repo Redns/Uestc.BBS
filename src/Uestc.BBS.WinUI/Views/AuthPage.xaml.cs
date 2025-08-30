@@ -85,12 +85,22 @@ namespace Uestc.BBS.WinUI.Views
             }
         }
 
-        private async void EnterToLogin(object sender, KeyRoutedEventArgs e)
+        /// <summary>
+        /// 使用 Enter 键快速登录
+        /// </summary>
+        /// <param name="_"></param>
+        /// <param name="__"></param>
+        private async void EnterToLogin(
+            KeyboardAccelerator _,
+            KeyboardAcceleratorInvokedEventArgs __
+        )
         {
-            if (e.Key is Windows.System.VirtualKey.Enter && ViewModel.CanLogin)
+            if (!ViewModel.CanLogin || ViewModel.LoginCommand.IsRunning)
             {
-                await ViewModel.LoginAsync();
+                return;
             }
+
+            await ViewModel.LoginAsync();
         }
     }
 }

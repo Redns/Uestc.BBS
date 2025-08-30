@@ -183,7 +183,6 @@ namespace Uestc.BBS.WinUI.Controls
                     MaxHeight = 600,
                     Stretch = Stretch.Uniform,
                     Source = content.Information,
-                    IsCachedEnable = true,
                     IsLazyLoadEnable = true,
                     PlaceholderHeight = 240,
                     PlaceholderWidth = 320,

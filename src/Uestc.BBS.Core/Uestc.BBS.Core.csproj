@@ -28,7 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AWSSDK.S3" Version="4.0.6.7" />
+    <PackageReference Include="AWSSDK.S3" Version="4.0.6.9" />
     <PackageReference Include="FastEnum.Core" Version="2.0.5" />
     <PackageReference Include="NLog" Version="6.0.3" />
     <PackageReference Include="WebDav.Client" Version="2.9.0" />

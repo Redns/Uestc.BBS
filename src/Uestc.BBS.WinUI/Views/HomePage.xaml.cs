@@ -5,13 +5,16 @@ using System.Threading;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.Messaging;
 using CommunityToolkit.WinUI;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Uestc.BBS.Core.Helpers;
 using Uestc.BBS.Core.Services.System;
 using Uestc.BBS.Mvvm.Messages;
+using Uestc.BBS.Sdk;
 using Uestc.BBS.Sdk.Services.Thread.ThreadContent;
 using Uestc.BBS.WinUI.ViewModels;
+using Windows.System;
 
 namespace Uestc.BBS.WinUI.Views
 {
@@ -28,7 +31,8 @@ namespace Uestc.BBS.WinUI.Views
         public HomePage(
             HomeViewModel viewModel,
             ILogService logService,
-            IThreadContentService threadContentService
+            [FromKeyedServices(ServiceExtensions.MOBCENT_API)]
+                IThreadContentService threadContentService
         )
         {
             InitializeComponent();
@@ -190,5 +194,18 @@ namespace Uestc.BBS.WinUI.Views
             RegexOptions.Multiline
         )]
         private static partial Regex EmploymentWarningRegex();
+
+        private async void EnterToReply(
+            KeyboardAccelerator _,
+            KeyboardAcceleratorInvokedEventArgs __
+        )
+        {
+            if (string.IsNullOrEmpty(ViewModel.ReplyContent) || ViewModel.ReplyCommand.IsRunning)
+            {
+                return;
+            }
+
+            await ViewModel.ReplyAsync();
+        }
     }
 }

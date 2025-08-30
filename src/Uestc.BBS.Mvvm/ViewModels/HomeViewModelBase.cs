@@ -1,8 +1,11 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using Uestc.BBS.Core.Helpers;
 using Uestc.BBS.Core.Services.System;
 using Uestc.BBS.Mvvm.Models;
 using Uestc.BBS.Sdk.Services.Thread.ThreadContent;
 using Uestc.BBS.Sdk.Services.Thread.ThreadList;
+using Uestc.BBS.Sdk.Services.Thread.ThreadReply;
 
 namespace Uestc.BBS.Mvvm.ViewModels
 {
@@ -19,6 +22,11 @@ namespace Uestc.BBS.Mvvm.ViewModels
         protected readonly ILogService _logService;
 
         /// <summary>
+        /// 通知
+        /// </summary>
+        protected readonly INotificationService _notificationService;
+
+        /// <summary>
         /// 主题列表
         /// </summary>
         protected readonly IThreadListService _threaListService;
@@ -27,6 +35,11 @@ namespace Uestc.BBS.Mvvm.ViewModels
         /// 主题内容
         /// </summary>
         protected readonly IThreadContentService _threadContentService;
+
+        /// <summary>
+        /// 主题回复
+        /// </summary>
+        protected readonly IThreadReplyService _threadReplyService;
 
         /// <summary>
         /// Tab 栏对应的 View 列表
@@ -97,16 +110,20 @@ namespace Uestc.BBS.Mvvm.ViewModels
 
         public HomeViewModelBase(
             ILogService logService,
+            INotificationService notificationService,
             IThreadListService threadListService,
             IThreadContentService threadContentService,
+            IThreadReplyService threadReplyService,
             Func<BoardTabItemModel, IBoardTabItemListView> boardTabItemModelToView,
             Func<IBoardTabItemListView, BoardTabItemModel> boardTabItemModelFromView,
             AppSettingModel appSettingModel
         )
         {
             _logService = logService;
+            _notificationService = notificationService;
             _threaListService = threadListService;
             _threadContentService = threadContentService;
+            _threadReplyService = threadReplyService;
             _boardTabItemModelToView = boardTabItemModelToView;
             _boardTabItemModelFromView = boardTabItemModelFromView;
             _boardTabItemListViewList =
@@ -129,5 +146,41 @@ namespace Uestc.BBS.Mvvm.ViewModels
                 }
             };
         }
+
+        [RelayCommand]
+        public async Task ReplyAsync()
+        {
+            if (CurrentThread is null || string.IsNullOrEmpty(ReplyContent))
+            {
+                return;
+            }
+
+            try
+            {
+                await _threadReplyService
+                    .SendAsync(ReplyContent, CurrentThread.Id)
+                    .TimeoutCancelAsync(TimeSpan.FromSeconds(10));
+
+                ReplyContent = string.Empty;
+            }
+            catch (TaskCanceledException)
+            {
+                _notificationService.Show("回复失败", "网络超时请稍后重试");
+            }
+            catch (Exception ex)
+            {
+                _notificationService.Show("回复失败", ex.Message);
+                _logService.Error("Reply to thread " + CurrentThread.Id + " failed.", ex);
+            }
+        }
+
+        [RelayCommand]
+        private void ClearReplyContent()
+        {
+            ReplyContent = string.Empty;
+        }
+
+        [RelayCommand]
+        private void OpenWebsite(string url) => OperatingSystemHelper.OpenWebsite(url);
     }
 }

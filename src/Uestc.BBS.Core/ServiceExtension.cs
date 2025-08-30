@@ -44,56 +44,70 @@ namespace Uestc.BBS.Core
             // HttpClient
             ServiceCollection
                 .AddHttpClient()
-                .ConfigureHttpClientDefaults(builder => builder.ConfigureProxyAndCertificate());
+                .ConfigureHttpClientDefaults(builder =>
+                    builder.ConfigurePrimaryHttpMessageHandler(
+                        (handler, services) =>
+                        {
+                            if (handler is not SocketsHttpHandler socketsHttpHandler)
+                            {
+                                return;
+                            }
+
+                            var appSetting = services.GetRequiredService<AppSetting>();
+
+                            // 系统代理 & SSL
+                            socketsHttpHandler.UseProxy = appSetting
+                                .Services
+                                .Network
+                                .UseSystemProxy;
+                            socketsHttpHandler.SslOptions.RemoteCertificateValidationCallback = (
+                                sender,
+                                cert,
+                                chain,
+                                sslPolicyErrors
+                            ) =>
+                            {
+                                return appSetting.Services.Network.IsCertificateVerificationEnabled
+                                    || sslPolicyErrors == SslPolicyErrors.None;
+                            };
+
+                            // 多连接 & 压缩
+                            socketsHttpHandler.EnableMultipleHttp2Connections = true;
+                            socketsHttpHandler.AutomaticDecompression = DecompressionMethods.All;
+                        }
+                    )
+                );
+
+            ServiceCollection.UseWebServices(
+                services =>
+                    services
+                        .GetRequiredService<AppSetting>()
+                        .Account.DefaultCredential?.CookieContainer,
+                services =>
+                    services
+                        .GetRequiredService<AppSetting>()
+                        .Account.DefaultCredential?.Authorization ?? string.Empty,
+                services => services.GetRequiredService<AppSetting>().Services.Network.BaseUri
+            );
+
+            ServiceCollection.UseMobcentServices(services =>
+                services.GetRequiredService<AppSetting>().Services.Network.BaseUri
+            );
+
             ServiceCollection
-                .AddDailySentencesService(services =>
-                    services.GetRequiredService<AppSetting>().Services.Network.BaseUri
-                )
-                .ConfigureProxyAndCertificate();
-            ServiceCollection
-                .AddAuthService(services =>
-                    services.GetRequiredService<AppSetting>().Services.Network.BaseUri
-                )
-                .ConfigureProxyAndCertificate();
-            ServiceCollection
-                .AddMobcentThreadListService(services =>
-                    services.GetRequiredService<AppSetting>().Services.Network.BaseUri
-                )
-                .ConfigureProxyAndCertificate();
-            ServiceCollection
-                .AddMobcentThreadContentService(services =>
-                    services.GetRequiredService<AppSetting>().Services.Network.BaseUri
-                )
-                .ConfigureProxyAndCertificate();
+                // 登录授权
+                .AddWebAuthService()
+                .AddMobcentAuthService()
+                // 每日一句
+                .AddDailySentencesService()
+                // 主题列表
+                .AddMobcentThreadListService()
+                // 主题内容 & 评论
+                .AddMobcentThreadContentService()
+                // 回复
+                .AddWebThreadReplyService();
 
             return ServiceCollection;
         }
-
-        private static IHttpClientBuilder ConfigureProxyAndCertificate(
-            this IHttpClientBuilder builder
-        ) =>
-            builder.ConfigurePrimaryHttpMessageHandler(
-                (handler, services) =>
-                {
-                    var appSetting = services.GetRequiredService<AppSetting>();
-                    if (handler is SocketsHttpHandler socketsHttpHandler)
-                    {
-                        // 系统代理 & SSL
-                        socketsHttpHandler.UseProxy = appSetting.Services.Network.UseSystemProxy;
-                        socketsHttpHandler.SslOptions.RemoteCertificateValidationCallback = (
-                            sender,
-                            cert,
-                            chain,
-                            sslPolicyErrors
-                        ) =>
-                        {
-                            return appSetting.Services.Network.IsCertificateVerificationEnabled
-                                || sslPolicyErrors == SslPolicyErrors.None;
-                        };
-                        socketsHttpHandler.EnableMultipleHttp2Connections = true;
-                        socketsHttpHandler.AutomaticDecompression = DecompressionMethods.All;
-                    }
-                }
-            );
     }
 }

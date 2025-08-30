@@ -10,6 +10,7 @@ using Microsoft.UI.Xaml.Controls;
 using Uestc.BBS.Core;
 using Uestc.BBS.Mvvm.Messages;
 using Uestc.BBS.Mvvm.Models;
+using Uestc.BBS.Sdk;
 using Uestc.BBS.Sdk.Services.Thread;
 using Uestc.BBS.Sdk.Services.Thread.ThreadList;
 
@@ -18,7 +19,9 @@ namespace Uestc.BBS.WinUI.Controls
     public sealed partial class BoardTabItemListView : UserControl
     {
         private readonly IThreadListService _threaListService =
-            ServiceExtension.Services.GetRequiredService<IThreadListService>();
+            ServiceExtension.Services.GetRequiredKeyedService<IThreadListService>(
+                ServiceExtensions.MOBCENT_API
+            );
 
         /// <summary>
         /// µ±Ç°°å¿é

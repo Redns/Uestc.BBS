@@ -247,6 +247,11 @@ namespace Uestc.BBS.Core.Models
         /// 菜单位置
         /// </summary>
         public Position Position { get; set; } = Position.LeftTop;
+
+        /// <summary>
+        /// 消息数量
+        /// </summary>
+        public int MessageCount { get; set; } = 0;
     }
 
     public class BoardTabItem

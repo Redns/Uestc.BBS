@@ -8,15 +8,20 @@ namespace Uestc.BBS.WinUI.Converters
 {
     public partial class UserGroup2Visibility : IValueConverter
     {
+        /// <summary>
+        /// 判断是否显示用户组
+        /// </summary>
+        /// <param name="value">用户组</param>
+        /// <param name="targetType"></param>
+        /// <param name="parameter">返回 bool/Visibility（默认 Visibility）</param>
+        /// <param name="language"></param>
+        /// <returns></returns>
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            if (value is not string group)
-            {
-                return Visibility.Collapsed;
-            }
-
-            return GlobalValues.UserVisibleGroups.Any(g => g.Key == group)
-                ? Visibility.Visible
+            var isUserGroupVisiable =
+                value is string group && GlobalValues.UserVisibleGroups.Any(g => g.Key == group);
+            return parameter is "True" ? isUserGroupVisiable
+                : isUserGroupVisiable ? Visibility.Visible
                 : Visibility.Collapsed;
         }
 

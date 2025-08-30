@@ -76,10 +76,14 @@
             Foreground="{ThemeResource AccentTextFillColorTertiaryBrush}"
             Text="{x:Bind ViewModel.UsernameMessage, Mode=OneWay}" />
         <!--  密码  -->
-        <PasswordBox
-            KeyDown="EnterToLogin"
-            Password="{x:Bind ViewModel.Password, Mode=TwoWay}"
-            PlaceholderText="密码" />
+        <PasswordBox Password="{x:Bind ViewModel.Password, Mode=TwoWay}" PlaceholderText="密码">
+            <PasswordBox.KeyboardAccelerators>
+                <KeyboardAccelerator
+                    Key="Enter"
+                    Invoked="EnterToLogin"
+                    Modifiers="None" />
+            </PasswordBox.KeyboardAccelerators>
+        </PasswordBox>
         <TextBlock
             Height="18"
             FontSize="10"

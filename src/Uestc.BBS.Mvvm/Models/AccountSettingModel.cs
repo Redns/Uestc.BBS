@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Net;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Uestc.BBS.Core.Models;
 using Uestc.BBS.Sdk.Services.Auth;
@@ -158,7 +159,11 @@ namespace Uestc.BBS.Mvvm.Models
         public string Token
         {
             get => authCredential.Token;
-            set => SetProperty(authCredential.Token, value, authCredential, (s, e) => s.Token = e);
+            set
+            {
+                SetProperty(authCredential.Token, value, authCredential, (s, e) => s.Token = e);
+                OnPropertyChanged(nameof(IsMobcentAuthenticated));
+            }
         }
 
         /// <summary>
@@ -167,18 +172,29 @@ namespace Uestc.BBS.Mvvm.Models
         public string Secret
         {
             get => authCredential.Secret;
-            set =>
+            set
+            {
                 SetProperty(authCredential.Secret, value, authCredential, (s, e) => s.Secret = e);
+                OnPropertyChanged(nameof(IsMobcentAuthenticated));
+            }
         }
 
         /// <summary>
         /// Cookie
         /// </summary>
-        public string Cookie
+        public CookieCollection Cookies
         {
-            get => authCredential.Cookie;
-            set =>
-                SetProperty(authCredential.Cookie, value, authCredential, (s, e) => s.Cookie = e);
+            get => authCredential.Cookies;
+            set
+            {
+                SetProperty(authCredential.Cookies, value, authCredential, (s, e) => s.Cookies = e);
+                OnPropertyChanged(nameof(IsCookieAuthenticated));
+            }
+        }
+
+        public CookieContainer CookieContainer
+        {
+            get => authCredential.CookieContainer;
         }
 
         /// <summary>
@@ -187,14 +203,27 @@ namespace Uestc.BBS.Mvvm.Models
         public string Authorization
         {
             get => authCredential.Authorization;
-            set =>
+            set
+            {
                 SetProperty(
                     authCredential.Authorization,
                     value,
                     authCredential,
                     (s, e) => s.Authorization = e
                 );
+                OnPropertyChanged(nameof(IsCookieAuthenticated));
+            }
         }
+
+        /// <summary>
+        /// 是否已通过 Cookie 验证
+        /// </summary>
+        public bool IsCookieAuthenticated = authCredential.IsCookieAuthenticated;
+
+        /// <summary>
+        /// 是否已通过 Mobcent 验证
+        /// </summary>
+        public bool IsMobcentAuthenticated = authCredential.IsMobcentAuthenticated;
 
         /// <summary>
         /// 头像
