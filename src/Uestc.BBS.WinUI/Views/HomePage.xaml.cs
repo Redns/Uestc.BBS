@@ -1,20 +1,25 @@
 ﻿using System;
-using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using CommunityToolkit.WinUI;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Media;
 using Uestc.BBS.Core.Helpers;
 using Uestc.BBS.Core.Services.System;
 using Uestc.BBS.Mvvm.Messages;
+using Uestc.BBS.Mvvm.Models;
 using Uestc.BBS.Sdk;
 using Uestc.BBS.Sdk.Services.Thread.ThreadContent;
 using Uestc.BBS.WinUI.ViewModels;
+using Uestc.BBS.WinUI.Views.ContentDialogs;
 using Windows.System;
+using WinUIEx;
 
 namespace Uestc.BBS.WinUI.Views
 {
@@ -158,21 +163,16 @@ namespace Uestc.BBS.WinUI.Views
         /// <summary>
         /// 刷新当前板块的帖子列表
         /// </summary>
-        /// <param name="sender"></param>
         /// <param name="_"></param>
-        private async void RefreshBoardTabItems(object sender, PointerRoutedEventArgs _)
+        /// <param name="e"></param>
+        private async void RefreshBoardTabItem(object _, ItemClickEventArgs e)
         {
-            if (sender is not TextBlock textBlock)
+            if (e.ClickedItem is not BoardTabItemModel boardTabItemModel)
             {
                 return;
             }
 
-            var clickedBoardTabItemModel =
-                ViewModel.AppSettingModel.Appearance.BoardTab.Items.First(b =>
-                    b.Name == textBlock.Text
-                );
-
-            if (clickedBoardTabItemModel != ViewModel.CurrentBoardTabItemModel)
+            if (boardTabItemModel != ViewModel.CurrentBoardTabItemModel)
             {
                 return;
             }
@@ -206,6 +206,31 @@ namespace Uestc.BBS.WinUI.Views
             }
 
             await ViewModel.ReplyAsync();
+        }
+
+        [RelayCommand]
+        private void OpenReplyDialog()
+        {
+            var window = new WindowEx
+            {
+                ExtendsContentIntoTitleBar = true,
+                SystemBackdrop = new MicaBackdrop(),
+                PresenterKind = AppWindowPresenterKind.CompactOverlay,
+                Content = new ScrollViewer
+                {
+                    ZoomMode = ZoomMode.Enabled,
+                    Content = new ThreadReplyDialog
+                    {
+                        UserAvatar = ViewModel.AppSettingModel.Account.DefaultCredential!.Avatar,
+                    },
+                    VerticalScrollBarVisibility = ScrollBarVisibility.Hidden,
+                    HorizontalScrollBarVisibility = ScrollBarVisibility.Hidden,
+                },
+            };
+
+            window.SetWindowSize(800, 600);
+            window.Activate();
+            window.CenterOnScreen();
         }
     }
 }

@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<UserControl
+    x:Class="Uestc.BBS.WinUI.Views.ContentDialogs.ThreadReplyDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:CommunityToolkit.WinUI.Controls"
+    xmlns:converters="using:CommunityToolkit.WinUI.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:Uestc.BBS.WinUI.Views.ContentDialogs"
+    xmlns:local_controls="using:Uestc.BBS.WinUI.Controls"
+    xmlns:local_converters="using:Uestc.BBS.WinUI.Converters"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <converters:EmptyStringToObjectConverter
+            x:Key="EmptyStringToObjectConverter"
+            EmptyValue="False"
+            NotEmptyValue="True" />
+        <converters:StringFormatConverter x:Key="StringFormatConverter" />
+        <converters:DoubleToVisibilityConverter x:Key="DoubleToVisibilityConverter" GreaterThan="0" />
+        <local_converters:UserGroup2Visibility x:Key="UserGroup2Visibility" />
+        <local_converters:UserGroup2BadgeBrush x:Key="UserGroup2BadgeBrush" />
+        <local_converters:UserLevel2BadgeBackground x:Key="UserLevel2BadgeBackground" />
+    </UserControl.Resources>
+
+    <Grid
+        Margin="20"
+        ColumnSpacing="10"
+        RowSpacing="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <!--  回复的评论内容  -->
+        <local_controls:Avatar
+            Grid.RowSpan="2"
+            VerticalAlignment="Top"
+            Size="36"
+            Source="{x:Bind UserAvatar, Mode=OneWay}" />
+        <StackPanel Grid.Column="1" Spacing="6">
+            <!--  用户名、等级、用户组  -->
+            <StackPanel Orientation="Horizontal" Spacing="5">
+                <!--  用户名  -->
+                <TextBlock VerticalAlignment="Center" Text="TestUser" />
+                <!--  等级（如：Lv.x）  -->
+                <Border
+                    Height="18"
+                    Padding="3,0"
+                    Background="{x:Bind Width, Converter={StaticResource UserLevel2BadgeBackground}}"
+                    CornerRadius="3"
+                    Visibility="{x:Bind Width, Converter={StaticResource DoubleToVisibilityConverter}}">
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        FontSize="12"
+                        Foreground="White"
+                        Text="{x:Bind Width, Converter={StaticResource StringFormatConverter}, ConverterParameter='Lv.{0}'}"
+                        TextLineBounds="Tight" />
+                </Border>
+                <!--  用户组（如：管理员）  -->
+                <Border
+                    Height="18"
+                    Padding="3,0"
+                    Background="{x:Bind UserAvatar, Converter={StaticResource UserGroup2BadgeBrush}}"
+                    CornerRadius="3"
+                    Visibility="{x:Bind UserAvatar, Converter={StaticResource UserGroup2Visibility}}">
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        FontSize="12"
+                        Foreground="White"
+                        Text="{x:Bind UserAvatar}"
+                        TextLineBounds="Tight" />
+                </Border>
+                <!--  楼主  -->
+                <Border
+                    x:Name="ThreadMasterLabel"
+                    Height="18"
+                    Padding="3,0"
+                    x:Load="True"
+                    BorderBrush="#0067C0"
+                    BorderThickness="1"
+                    CornerRadius="3">
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        FontSize="12"
+                        Foreground="#0067C0"
+                        Text="楼主"
+                        TextLineBounds="Tight" />
+                </Border>
+            </StackPanel>
+            <!--  评论时间  -->
+            <TextBlock
+                Margin="0,-5,0,0"
+                HorizontalAlignment="Left"
+                FontSize="12"
+                Foreground="Gray"
+                Text="刚刚"
+                ToolTipService.Placement="Right"
+                ToolTipService.ToolTip="刚刚" />
+            <!--  评论内容  -->
+            <TextBlock Text="有兴趣的同学可以进群了解一下校研究生会呀，更欢迎有兴趣做志愿的同学加入研途公益协会呀" />
+        </StackPanel>
+        <!--  评论输入框  -->
+        <local_controls:Avatar
+            Grid.Row="1"
+            Grid.RowSpan="2"
+            Grid.Column="0"
+            Margin="0,24,0,0"
+            VerticalAlignment="Top"
+            Size="36"
+            Source="{x:Bind UserAvatar, Mode=OneWay}" />
+        <TextBox
+            Grid.Row="1"
+            Grid.Column="1"
+            Margin="0,24,0,0"
+            HorizontalAlignment="Stretch"
+            AcceptsReturn="True"
+            PlaceholderText="使用 Ctrl+Enter 快速回复~"
+            ScrollViewer.VerticalScrollBarVisibility="Auto"
+            Text="{x:Bind ReplyContent, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            TextWrapping="Wrap" />
+        <!--  工具栏  -->
+        <controls:DockPanel
+            Grid.Row="2"
+            Grid.Column="1"
+            LastChildFill="False">
+            <AppBarButton
+                Width="40"
+                Margin="0,-6,-2,-13"
+                Icon="Emoji2"
+                LabelPosition="Collapsed"
+                ToolTipService.ToolTip="表情包" />
+            <AppBarButton
+                Width="40"
+                Margin="0,-6,-2,-13"
+                Icon="Folder"
+                LabelPosition="Collapsed"
+                ToolTipService.ToolTip="文件" />
+            <AppBarButton
+                Width="40"
+                Margin="0,-6,-2,-13"
+                Icon="Account"
+                LabelPosition="Collapsed"
+                ToolTipService.ToolTip="@" />
+            <AppBarButton
+                Width="40"
+                Margin="0,-6,-2,-13"
+                Icon="Delete"
+                LabelPosition="Collapsed"
+                ToolTipService.ToolTip="清空" />
+            <AppBarButton
+                Width="40"
+                Margin="0,-6,-2,-13"
+                Icon="Save"
+                LabelPosition="Collapsed"
+                ToolTipService.ToolTip="保存至草稿箱" />
+            <AppBarButton
+                Width="40"
+                Margin="0,-6,-2,-13"
+                Icon="FullScreen"
+                LabelPosition="Collapsed"
+                ToolTipService.ToolTip="全屏" />
+            <Button
+                controls:DockPanel.Dock="Right"
+                IsEnabled="{x:Bind ReplyContent, Converter={StaticResource EmptyStringToObjectConverter}, Mode=OneWay}"
+                Style="{StaticResource AccentButtonStyle}">
+                <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+                    <ProgressRing
+                        Width="20"
+                        Height="20"
+                        Foreground="{ThemeResource CardBackgroundFillColorDefaultBrush}" />
+                    <TextBlock VerticalAlignment="Center" Text="发 布" />
+                </StackPanel>
+                <Button.KeyboardAccelerators>
+                    <KeyboardAccelerator Key="Enter" Modifiers="Control" />
+                </Button.KeyboardAccelerators>
+            </Button>
+        </controls:DockPanel>
+    </Grid>
+</UserControl>

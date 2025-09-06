@@ -40,9 +40,11 @@
   <None Remove="Controls\ImageMosaic.xaml" />
   <None Remove="Controls\PersonProfile.xaml" />
   <None Remove="Controls\RichText.xaml" />
+  <None Remove="Controls\Thread.xaml" />
   <None Remove="Views\AuthPage.xaml" />
   <None Remove="Views\AuthSettingPage.xaml" />
   <None Remove="Views\ContentDialogs\AboutContentDialog.xaml" />
+  <None Remove="Views\ContentDialogs\ThreadReplyDialog.xaml" />
   <None Remove="Views\HomePage.xaml" />
   <None Remove="Views\ImageBrowserWindow.xaml" />
   <None Remove="Views\ImageViewerWindow.xaml" />
@@ -87,7 +89,7 @@
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.7.250606001" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.WinUI.Managed" Version="3.0.0" />
     <PackageReference Include="System.Private.Uri" Version="4.3.2" />
-    <PackageReference Include="WinUIEx" Version="2.6.0" />
+    <PackageReference Include="WinUIEx" Version="2.7.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Uestc.BBS.Mvvm\Uestc.BBS.Mvvm.csproj" />
@@ -116,6 +118,12 @@
     <None Update="Assets\Images\image_load_failed.svg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Page Update="Views\ContentDialogs\ThreadReplyDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Thread.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Controls\RichText.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -79,9 +79,9 @@ namespace Uestc.BBS.Desktop
                     }
                 });
             // HttpClient
-            ServiceExtension.ServiceCollection.AddHttpClient<AuthViewModel>();
-            ServiceExtension.ServiceCollection.AddHttpClient<MainWindowViewModel>();
-            ServiceExtension.ServiceCollection.AddHttpClient<SettingsViewModel>();
+            ServiceExtension.Container.AddHttpClient<AuthViewModel>();
+            ServiceExtension.Container.AddHttpClient<MainWindowViewModel>();
+            ServiceExtension.Container.AddHttpClient<SettingsViewModel>();
 
             return builder;
         }

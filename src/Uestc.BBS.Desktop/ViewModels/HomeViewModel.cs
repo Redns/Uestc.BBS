@@ -5,9 +5,8 @@ using Avalonia.Controls;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Uestc.BBS.Core.Models;
-using Uestc.BBS.Core.Services.Forum;
-using Uestc.BBS.Core.Services.Forum.TopicList;
 using Uestc.BBS.Mvvm.Models;
+using Uestc.BBS.Sdk.Services.Thread.ThreadList;
 
 namespace Uestc.BBS.Desktop.ViewModels
 {
@@ -15,7 +14,7 @@ namespace Uestc.BBS.Desktop.ViewModels
     {
         private readonly AppSetting _appSetting;
 
-        private readonly ITopicListService _topicService;
+        private readonly IThreadListService _threadService;
 
         /// <summary>
         /// 当前选中的 Tab 栏
@@ -33,10 +32,10 @@ namespace Uestc.BBS.Desktop.ViewModels
         private string _markdownContent =
             "生物钟彻底乱了，晚上八点迷迷糊糊睡着现在就醒了，刷到生动民主实践的帖子，对不起我有罪我脑海里第一时间出现的居然是这个\r\n\r\n![](https://bbs.uestc.edu.cn/thumb/data/attachment/forum/202501/10/033148ovvv227vd2fif2c4.png)\r\n\r\n当然我说的是😓\r\n旧版河畔右上角会有每日好句，感觉挺有意思想找接口没找到，所以直接暴力获取首页 html 然后解析，代码比较简单\r\n\r\n```js\r\nexport default {\r\n  async fetch(request, env, ctx) {\r\n    // 获取首页内容\r\n    const html = await (await fetch('https://bbs.uestc.edu.cn/forum.php?mobile=no')).text();\r\n    // 使用正则表达式匹配字符串\r\n    const regex = /<div class=\"vanfon_geyan\">.*?<span[^>]*>(.*?)<\\/span>.*?<\\/div>/s;\r\n    const match = regex.exec(html);\r\n    if(match)\r\n    {\r\n      return new Response(match[1]);\r\n    }\r\n    return new Response('获取失败~');\r\n  },\r\n};```\r\n";
 
-        public HomeViewModel(AppSetting appSetting, ITopicListService topicService)
+        public HomeViewModel(AppSetting appSetting, IThreadListService topicService)
         {
             _appSetting = appSetting;
-            _topicService = topicService;
+            _threadService = topicService;
             BoardTabItems =
             [
                 .. appSetting.Appearance.BoardTab.Items.Select(item => new BoardTabItemModel(item)),
@@ -49,9 +48,9 @@ namespace Uestc.BBS.Desktop.ViewModels
                     {
                         // tabItem.IsLoading = true;
 
-                        var topics = await _topicService.GetTopicsAsync(
+                        var topics = await _threadService.GetThreadListAsync(
                             route: tabItem.Route,
-                            pageSize: tabItem.PageSize,
+                            pageSize: 30,
                             boardId: tabItem.Board,
                             sortby: tabItem.SortType,
                             moduleId: tabItem.ModuleId,
@@ -102,7 +101,7 @@ namespace Uestc.BBS.Desktop.ViewModels
             // 加载帖子
             var currentTopics = CurrentBoardTabItemModel.Topics;
             foreach (
-                var topic in await _topicService
+                var topic in await _threadService
                     .GetTopicsAsync(
                         page: (uint)CurrentBoardTabItemModel.Topics.Count
                             / CurrentBoardTabItemModel.PageSize

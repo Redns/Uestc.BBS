@@ -77,10 +77,11 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <!--  板块列表  -->
+        <!--  板块 Tab 栏  -->
         <controls:Segmented
             HorizontalAlignment="Center"
             IsItemClickEnabled="True"
+            ItemClick="RefreshBoardTabItem"
             ItemsSource="{x:Bind ViewModel.AppSettingModel.Appearance.BoardTab.Items, Mode=OneWay}"
             SelectedItem="{x:Bind ViewModel.CurrentBoardTabItemModel, Mode=TwoWay}"
             Style="{StaticResource PivotSegmentedStyle}">
@@ -89,20 +90,11 @@
                     <TextBlock
                         Width="auto"
                         Margin="-3,0"
-                        PointerPressed="RefreshBoardTabItems"
                         Text="{x:Bind Name}" />
                 </DataTemplate>
             </controls:Segmented.ItemTemplate>
-            <!--  Native-AOT 编译后失效  -->
-            <!--<interactivity:Interaction.Behaviors>
-                <interactivity:EventTriggerBehavior EventName="ItemClick">
-                    <interactivity:EventTriggerBehavior.Actions>
-                        <interactivity:InvokeCommandAction Command="{x:Bind ViewModel.RefreshBoardTabItemsCommand}" />
-                    </interactivity:EventTriggerBehavior.Actions>
-                </interactivity:EventTriggerBehavior>
-            </interactivity:Interaction.Behaviors>-->
         </controls:Segmented>
-        <!--  板块内容  -->
+        <!--  板块列表  -->
         <UserControl Grid.Row="1" Content="{x:Bind ViewModel.CurrentBoardTabItemListView, Mode=OneWay}">
             <UserControl.RenderTransform>
                 <TranslateTransform x:Name="BoardSwitchTranslation" />
@@ -182,6 +174,13 @@
                                     LabelPosition="Collapsed"
                                     ToolTipService.ToolTip="点踩"
                                     Visibility="{x:Bind ViewModel.IsCurrentThreadFromUs, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True, Mode=OneWay}" />
+                                <AppBarButton
+                                    Width="40"
+                                    Margin="0,-6,-2,-13"
+                                    Command="{x:Bind OpenReplyDialogCommand}"
+                                    Icon="{ui:FontIcon Glyph=&#xE90A;}"
+                                    LabelPosition="Collapsed"
+                                    ToolTipService.ToolTip="回复" />
                                 <AppBarButton
                                     Width="40"
                                     Margin="0,-6,-2,-13"
