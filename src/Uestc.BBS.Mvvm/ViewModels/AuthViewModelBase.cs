@@ -77,11 +77,19 @@ namespace Uestc.BBS.Mvvm.ViewModels
 
             PropertyChanged += (_, args) =>
             {
+                // 根据所选用户名自动填充密码
                 if (args.PropertyName == nameof(Username) && SelectedCredential is not null)
                 {
                     Password = SelectedCredential.Password;
                 }
             };
+
+            // 自动登录
+            // FIXME 同步操作将导致 UI 卡顿，待修复
+            if (appSettingModel.Account.AutoLogin && CanLogin)
+            {
+                LoginCommand.Execute(null);
+            }
         }
 
         /// <summary>

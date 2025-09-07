@@ -28,12 +28,18 @@
 }
 ```
 
-`Appmanifest` 已进行依赖注入，使用时直接获取即可。如果需要自行加载，示例代码如下
+`Appmanifest` 已进行依赖注入，使用时直接获取即可
+
+```csharp
+var appmanifest = ServiceExtension.Services.GetRequiredService<Appmanifest>();
+```
+
+如果需要自行加载，示例代码如下（以 Avalonia 为例）
 
 ```csharp
 var appmanifest = JsonSerializer.Deserialize<Appmanifest>(
     ResourceHelper.Load("/Assets/appmanifest.json"),
-    Appmanifest.SerializerOptions
+    AppmanifestContext.Default.Appmanifest
 );
 ```
 
@@ -63,7 +69,7 @@ sudo apt-get install clang zlib1g-dev
 
 ### Windows
 
-若使用 `Visual Studio` 开发则选中 Uestc.BBS.Desktop ，右键点击发布
+若使用 `Visual Studio` 开发则选中 Uestc.BBS.Desktop/Uestc.BBS.WinUI，右键点击发布
 
 ![image-20241223110112938](https://image.krins.cloud/f9ec8f991ad1d4d548aa2709c83fbb39.png)
 
@@ -78,8 +84,6 @@ sudo apt-get install clang zlib1g-dev
 打开编译输出目录，其中 pdb 调试文件可直接删除
 
 ![image-20241223112902965](https://image.krins.cloud/9c304cee0b805ee84cfeee7902c94d93.png)
-
-
 
 ### Linux
 
