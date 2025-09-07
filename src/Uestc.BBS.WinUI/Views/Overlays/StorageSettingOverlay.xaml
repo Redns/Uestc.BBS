@@ -27,7 +27,7 @@
                 Description="保存图像、视频等数据以减少网络请求"
                 Header="缓存"
                 HeaderIcon="{ui:FontIcon Glyph=&#xE7B8;}">
-                <ToggleSwitch IsOn="{x:Bind ViewModel.StorageSettingModel.Cache.IsEnabled, Mode=TwoWay}" />
+                <Button Content="打开文件夹" />
                 <controls:SettingsExpander.Items>
                     <controls:SettingsCard Header="清除缓存">
                         <controls:SettingsCard.Description>

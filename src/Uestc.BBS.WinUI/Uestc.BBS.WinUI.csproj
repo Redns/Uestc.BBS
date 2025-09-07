@@ -31,6 +31,7 @@
   <Content Remove="Assets\appmanifest.json" />
   <Content Remove="Assets\Icons\Anonymous.png" />
   <Content Remove="Assets\Icons\auth_icon.png" />
+  <Content Remove="Assets\Images\default_user_avatar.png" />
   <Content Remove="Assets\Images\image_load_failed.svg" />
 </ItemGroup>
 
@@ -73,8 +74,8 @@
     <ProjectCapability Include="Msix" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="CommunityToolkit.Labs.WinUI.Shimmer" Version="0.1.250811-build.2202" />
-    <PackageReference Include="CommunityToolkit.Labs.WinUI.TokenView" Version="0.1.230830" />
+    <PackageReference Include="CommunityToolkit.Labs.WinUI.Shimmer" Version="0.1.250828-build.2223" />
+    <PackageReference Include="CommunityToolkit.Labs.WinUI.TokenView" Version="0.1.250828-build.2223" />
     <PackageReference Include="CommunityToolkit.WinUI.Collections" Version="8.2.250402" />
     <PackageReference Include="CommunityToolkit.WinUI.Controls.Primitives" Version="8.2.250402" />
     <PackageReference Include="CommunityToolkit.WinUI.Controls.RangeSelector" Version="8.2.250402" />
@@ -106,13 +107,16 @@
     <None Update="Assets\appmanifest.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Assets\Icons\anonymous.png">
+    <None Update="Assets\Images\anonymous_user_avatar.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Assets\Icons\app.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Assets\Icons\auth_icon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\Images\default_user_avatar.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Assets\Images\image_load_failed.svg">

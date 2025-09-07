@@ -22,9 +22,14 @@ public sealed partial class Avatar : UserControl
         get => (string)GetValue(SourceProperty);
         set
         {
+            // TODO 替换默认头像
+            // 网页端头像链接构造方式为 /uc_server/data/avatar/000/23/53/51_avatar_middle.jpg
+            // 其中数字部分首先将 UID 补齐至 9 位（高位补零），然后划分为 3-2-2-2 长度，默认头像则返回 404
+            // 移动端头像链接构造方式如下所示，最终通过 301 跳转至上述链接（包括默认头像）
+            // 因此如果想要替换默认头像需要直接采用网页端构造，然后判断是否 404
             if (value.Split('?').LastOrDefault() is "uid=0&size=middle")
             {
-                value = "ms-appx:///Assets/Icons/anonymous.png";
+                value = "ms-appx:///Assets/Images/anonymous_user_avatar.png";
             }
             SetValue(SourceProperty, value);
         }

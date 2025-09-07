@@ -112,9 +112,6 @@ namespace Uestc.BBS.WinUI.Views
                                 cancellationToken: _threadContentCancelTokenSource.Token
                             )
                             .TimeoutCancelAsync(TimeSpan.FromSeconds(5));
-                        threadContent.UserAvatar = threadContent.Uid is 0
-                            ? "ms-appx:///Assets/Icons/anonymous.png"
-                            : threadContent.UserAvatar;
 
                         if (threadContent.Contents.Length is 0)
                         {

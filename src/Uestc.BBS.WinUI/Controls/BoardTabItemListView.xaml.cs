@@ -96,6 +96,12 @@ namespace Uestc.BBS.WinUI.Controls
         BoardTabItemModel boardTabItem
     ) : IIncrementalSource<ThreadOverview>
     {
+        /// <summary>
+        /// 已获取的主题 ID 集合
+        /// XXX 主题采用分页加载，假设某次加载后新发布若干主题，则下一次加载的主题可能存在重复
+        /// </summary>
+        private readonly HashSet<uint> _threadIds = new(1024);
+
         // XXX IIncrementalSource 发生异常时程序崩溃，如果捕获异常并返回 [] 则继续滚动不会获取数据
         // TODO 使用 ScrollViewer 重构
         public async Task<IEnumerable<ThreadOverview>> GetPagedItemsAsync(
@@ -115,16 +121,24 @@ namespace Uestc.BBS.WinUI.Controls
                 cancellationToken: cancellationToken
             );
 
-            return threads
-                .DistinctBy(o => o.Id)
-                .Select(o =>
-                {
-                    // XXX 热门板块的时间为发布时间，其余为最新回复时间
-                    // 由于热门板块实际上是由各板块主题组成，因此 Board 字段不是 Hot 而是其对应的板块名称
-                    // 因此这里需要判断板块是否为热门板块，并设置 IsHot 属性
-                    o.IsHot = boardTabItem.Board is Board.Hot;
-                    return o;
-                });
+            if (pageIndex is 0)
+            {
+                _threadIds.Clear();
+            }
+
+            return
+            [
+                .. threads
+                    .Where(o => _threadIds.Add(o.Id))
+                    .Select(o =>
+                    {
+                        // XXX 热门板块的时间为发布时间，其余为最新回复时间
+                        // 由于热门板块实际上是由各板块主题组成，因此 Board 字段不是 Hot 而是其对应的板块名称
+                        // 因此这里需要判断板块是否为热门板块，并设置 IsHot 属性
+                        o.IsHot = boardTabItem.Board is Board.Hot;
+                        return o;
+                    }),
+            ];
         }
     }
 }
