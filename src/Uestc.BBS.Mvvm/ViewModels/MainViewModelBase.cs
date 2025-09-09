@@ -7,6 +7,7 @@ using Uestc.BBS.Core.Services.System;
 using Uestc.BBS.Mvvm.Messages;
 using Uestc.BBS.Mvvm.Models;
 using Uestc.BBS.Mvvm.Services;
+using Uestc.BBS.Sdk.Services.Auth;
 using Uestc.BBS.Sdk.Services.System;
 using Uestc.BBS.Sdk.Services.User.Friend;
 
@@ -130,20 +131,47 @@ namespace Uestc.BBS.Mvvm.ViewModels
 
                     try
                     {
-                        // TODO 未分页获取黑名单可能导致数据缺失
-                        var blacklist = await _friendListService
-                            .GetFriendListAsync(
-                                FriendType.Blacklist,
-                                cancellationToken: _blaclistCancelTokenSource.Token
-                            )
-                            .TimeoutCancelAsync(TimeSpan.FromSeconds(5));
+                        uint page = 1;
+                        var blacklistUsers = new List<BlacklistUser>(128);
+
+                        while (true)
+                        {
+                            var pageBlacklistUsers = await _friendListService
+                                .GetFriendListAsync(
+                                    FriendType.Blacklist,
+                                    page++,
+                                    cancellationToken: _blaclistCancelTokenSource.Token
+                                )
+                                .TimeoutCancelAsync(TimeSpan.FromSeconds(5));
+
+                            if (!pageBlacklistUsers.Any())
+                            {
+                                break;
+                            }
+
+                            blacklistUsers.AddRange(pageBlacklistUsers);
+                        }
+
+                        if (
+                            blacklistUsers
+                                .Select(u => u.Uid)
+                                .ToHashSet()
+                                .SetEquals(
+                                    appSettingModel.Account.DefaultCredential!.BlacklistUsers.Select(
+                                        u => u.Uid
+                                    )
+                                )
+                        )
+                        {
+                            return;
+                        }
+
                         await DispatcherAsync(() =>
                         {
                             appSettingModel.Account.DefaultCredential!.BlacklistUsers.Clear();
-                            foreach (var user in blacklist)
-                            {
-                                appSettingModel.Account.DefaultCredential.BlacklistUsers.Add(user);
-                            }
+                            blacklistUsers.ForEach(u =>
+                                appSettingModel.Account.DefaultCredential.BlacklistUsers.Add(u)
+                            );
                         });
                     }
                     catch (TimeoutException) { }

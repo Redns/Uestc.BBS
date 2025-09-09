@@ -87,15 +87,12 @@
                         <controls:SettingsCard.Resources>
                             <x:Double x:Key="SettingsCardWrapThreshold">10000</x:Double>
                         </controls:SettingsCard.Resources>
-                        <ItemsRepeater
-                            xmlns:auth="using:Uestc.BBS.Sdk.Services.Auth"
-                            Margin="0,8"
-                            ItemsSource="{x:Bind AppSetting.Account.DefaultCredential.BlacklistUsers, Mode=OneWay}">
+                        <ItemsRepeater Margin="0,8" ItemsSource="{x:Bind AppSetting.Account.DefaultCredential.BlacklistUsers, Mode=OneWay}">
                             <ItemsRepeater.Layout>
                                 <controls:WrapLayout HorizontalSpacing="10" VerticalSpacing="10" />
                             </ItemsRepeater.Layout>
                             <ItemsRepeater.ItemTemplate>
-                                <DataTemplate x:DataType="auth:BlacklistUser">
+                                <DataTemplate xmlns:auth="using:Uestc.BBS.Sdk.Services.Auth" x:DataType="auth:BlacklistUser">
                                     <StackPanel
                                         Padding="5"
                                         Background="Transparent"
