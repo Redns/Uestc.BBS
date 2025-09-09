@@ -45,6 +45,7 @@
   <None Remove="Views\AuthPage.xaml" />
   <None Remove="Views\AuthSettingPage.xaml" />
   <None Remove="Views\ContentDialogs\AboutContentDialog.xaml" />
+  <None Remove="Views\ContentDialogs\AppAbortDialog.xaml" />
   <None Remove="Views\ContentDialogs\ThreadReplyDialog.xaml" />
   <None Remove="Views\HomePage.xaml" />
   <None Remove="Views\ImageBrowserWindow.xaml" />
@@ -122,6 +123,9 @@
     <None Update="Assets\Images\image_load_failed.svg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Page Update="Views\ContentDialogs\AppAbortDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Views\ContentDialogs\ThreadReplyDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

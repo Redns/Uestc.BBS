@@ -23,6 +23,7 @@
         <local_converters:UserGroup2Visibility x:Key="UserGroup2Visibility" />
         <local_converters:UserGroup2BadgeBrush x:Key="UserGroup2BadgeBrush" />
         <local_converters:UserLevel2BadgeBackground x:Key="UserLevel2BadgeBackground" />
+        <local_converters:Uid2Avatar x:Key="Uid2Avatar" BaseUri="{x:Bind ApiBaseUri, Mode=OneWay}" />
     </Page.Resources>
 
     <ScrollViewer Margin="10" VerticalScrollBarVisibility="Hidden">
@@ -40,7 +41,7 @@
                             CornerRadius="5"
                             Orientation="Horizontal"
                             Spacing="10">
-                            <local_controls:Avatar Size="44" Source="{x:Bind Avatar}" />
+                            <local_controls:Avatar Size="44" Source="{x:Bind Uid, Converter={StaticResource Uid2Avatar}}" />
                             <StackPanel Spacing="5">
                                 <StackPanel Orientation="Horizontal" Spacing="5">
                                     <!--  用户名  -->

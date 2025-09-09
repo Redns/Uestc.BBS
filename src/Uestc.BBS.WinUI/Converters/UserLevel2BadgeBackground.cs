@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
+using CommunityToolkit.WinUI.Helpers;
 using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Media;
 using Uestc.BBS.Core;
-using Windows.UI;
 
 namespace Uestc.BBS.WinUI.Converters
 {
@@ -15,7 +15,7 @@ namespace Uestc.BBS.WinUI.Converters
         private static readonly Brush[] UserLevelBadgeBackgroundBrushes =
         [
             .. GlobalValues.UserLevelBadgeBackgroundBrushes.Select(b => new SolidColorBrush(
-                Color.FromArgb((byte)(b >> 24), (byte)(b >> 16), (byte)(b >> 8), (byte)b)
+                b.ToColor()
             )),
         ];
 

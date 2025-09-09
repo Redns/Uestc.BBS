@@ -21,6 +21,7 @@
     <Page.Resources>
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
         <converters:DoubleToVisibilityConverter x:Key="DoubleToVisibilityConverter" GreaterThan="0" />
+        <local_converters:Uid2Avatar x:Key="Uid2Avatar" BaseUri="{x:Bind ViewModel.BaseUri, Mode=OneWay}" />
         <!--  Navigate Bottom2Top  -->
         <Storyboard x:Name="NavigateBottom2TopStoryboard">
             <DoubleAnimation
@@ -125,13 +126,13 @@
                 controls:DockPanel.Dock="Right"
                 PointerPressed="OpenPersonalCenterFlyout"
                 Size="35"
-                Source="{x:Bind ViewModel.AppSettingModel.Account.DefaultCredential.Avatar, Mode=OneWay}">
+                Source="{x:Bind ViewModel.AppSettingModel.Account.DefaultCredential.Uid, Converter={StaticResource Uid2Avatar}, Mode=OneWay}">
                 <FlyoutBase.AttachedFlyout>
                     <Flyout Placement="BottomEdgeAlignedRight">
                         <local_controls:PersonProfile
                             Name="{x:Bind ViewModel.AppSettingModel.Account.DefaultCredential.Username, Mode=OneWay}"
                             MaxWidth="300"
-                            Avatar="{x:Bind ViewModel.AppSettingModel.Account.DefaultCredential.Avatar, Mode=OneWay}"
+                            Avatar="{x:Bind ViewModel.AppSettingModel.Account.DefaultCredential.Uid, Converter={StaticResource Uid2Avatar}, Mode=OneWay}"
                             Group="{x:Bind ViewModel.AppSettingModel.Account.DefaultCredential.Group, Mode=OneWay}"
                             Level="{x:Bind ViewModel.AppSettingModel.Account.DefaultCredential.Level, Mode=OneWay}"
                             Signature="{x:Bind ViewModel.AppSettingModel.Account.DefaultCredential.Signature, Mode=OneWay}" />

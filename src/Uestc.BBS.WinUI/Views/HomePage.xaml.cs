@@ -218,7 +218,7 @@ namespace Uestc.BBS.WinUI.Views
                     ZoomMode = ZoomMode.Enabled,
                     Content = new ThreadReplyDialog
                     {
-                        UserAvatar = ViewModel.AppSettingModel.Account.DefaultCredential!.Avatar,
+                        Uid = ViewModel.AppSettingModel.Account.DefaultCredential!.Uid,
                     },
                     VerticalScrollBarVisibility = ScrollBarVisibility.Hidden,
                     HorizontalScrollBarVisibility = ScrollBarVisibility.Hidden,

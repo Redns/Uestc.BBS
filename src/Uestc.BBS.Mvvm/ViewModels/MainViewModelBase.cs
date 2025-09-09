@@ -8,6 +8,7 @@ using Uestc.BBS.Mvvm.Messages;
 using Uestc.BBS.Mvvm.Models;
 using Uestc.BBS.Mvvm.Services;
 using Uestc.BBS.Sdk.Services.System;
+using Uestc.BBS.Sdk.Services.User.Friend;
 
 namespace Uestc.BBS.Mvvm.ViewModels
 {
@@ -15,14 +16,34 @@ namespace Uestc.BBS.Mvvm.ViewModels
         where TContent : class
     {
         /// <summary>
+        /// 黑名单定时更新
+        /// </summary>
+        protected readonly Timer _blacklistUpdateTimer;
+
+        /// <summary>
         /// 搜索栏文字定时更新
         /// </summary>
         protected readonly Timer _searchPlaceholderTextUpdateTimer;
 
         /// <summary>
+        /// 黑名单 CancellationTokenSource
+        /// </summary>
+        protected CancellationTokenSource? _blaclistCancelTokenSource;
+
+        /// <summary>
+        /// 每日一句 CancellationTokenSource
+        /// </summary>
+        protected CancellationTokenSource? _daiysentenceCancelTokenSource;
+
+        /// <summary>
         /// 日志服务
         /// </summary>
         protected readonly ILogService _logService;
+
+        /// <summary>
+        /// 好友列表服务
+        /// </summary>
+        protected readonly IFriendListService _friendListService;
 
         /// <summary>
         /// 通知服务
@@ -33,11 +54,6 @@ namespace Uestc.BBS.Mvvm.ViewModels
         /// 每日一句
         /// </summary>
         protected readonly IDailySentenceService _dailySentenceService;
-
-        /// <summary>
-        /// 每日一句 CancellationTokenSource
-        /// </summary>
-        protected CancellationTokenSource? _daiysentenceCancelTokenSource;
 
         /// <summary>
         /// 导航服务
@@ -53,6 +69,8 @@ namespace Uestc.BBS.Mvvm.ViewModels
                 AppSettingModel.Appearance.SearchBar.IsDailySentenceEnabled ? field : string.Empty;
             set => SetProperty(ref field, value);
         } = string.Empty;
+
+        public Uri BaseUri { get; init; }
 
         /// <summary>
         /// 应用设置
@@ -89,17 +107,56 @@ namespace Uestc.BBS.Mvvm.ViewModels
             !AppSettingModel.Appearance.MenuItems.Any(m => m.Key == CurrentMenuKey);
 
         public MainViewModelBase(
+            Uri baseUri,
             AppSettingModel appSettingModel,
             ILogService logService,
+            IFriendListService friendListService,
             INotificationService notificationService,
             IDailySentenceService dailySentenceService,
             INavigateService<TContent> navigateService
         )
         {
             _logService = logService;
+            _friendListService = friendListService;
             _navigateService = navigateService;
             _notificationService = notificationService;
             _dailySentenceService = dailySentenceService;
+            _blacklistUpdateTimer = new Timer(
+                async _ =>
+                {
+                    _blaclistCancelTokenSource?.Cancel();
+                    _blaclistCancelTokenSource?.Dispose();
+                    _blaclistCancelTokenSource = new CancellationTokenSource();
+
+                    try
+                    {
+                        // TODO 未分页获取黑名单可能导致数据缺失
+                        var blacklist = await _friendListService
+                            .GetFriendListAsync(
+                                FriendType.Blacklist,
+                                cancellationToken: _blaclistCancelTokenSource.Token
+                            )
+                            .TimeoutCancelAsync(TimeSpan.FromSeconds(5));
+                        await DispatcherAsync(() =>
+                        {
+                            appSettingModel.Account.DefaultCredential!.BlacklistUsers.Clear();
+                            foreach (var user in blacklist)
+                            {
+                                appSettingModel.Account.DefaultCredential.BlacklistUsers.Add(user);
+                            }
+                        });
+                    }
+                    catch (TimeoutException) { }
+                    catch (TaskCanceledException) { }
+                    catch (Exception ex)
+                    {
+                        _logService.Error("Blacklist update failed", ex);
+                    }
+                },
+                null,
+                0,
+                30 * 1000
+            );
             _searchPlaceholderTextUpdateTimer = new Timer(
                 async _ =>
                 {
@@ -132,7 +189,7 @@ namespace Uestc.BBS.Mvvm.ViewModels
                     catch (TaskCanceledException) { }
                     catch (Exception ex)
                     {
-                        _logService.Error("Daily sentence refresh failed", ex);
+                        _logService.Error("Daily sentence uppdate failed", ex);
                     }
                 },
                 null,
@@ -140,6 +197,7 @@ namespace Uestc.BBS.Mvvm.ViewModels
                 appSettingModel.Appearance.SearchBar.DailySentenceUpdateTimeInterval * 1000
             );
 
+            BaseUri = baseUri;
             AppSettingModel = appSettingModel;
             AppSettingModel.Appearance.SearchBar.PropertyChanged += (_, args) =>
             {
@@ -176,6 +234,7 @@ namespace Uestc.BBS.Mvvm.ViewModels
 
         ~MainViewModelBase()
         {
+            _blacklistUpdateTimer.Dispose();
             _searchPlaceholderTextUpdateTimer.Dispose();
             StrongReferenceMessenger.Default.Unregister<NavigateChangedMessage>(this);
         }

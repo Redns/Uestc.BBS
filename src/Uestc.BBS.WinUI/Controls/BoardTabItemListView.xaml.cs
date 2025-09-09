@@ -11,6 +11,7 @@ using Uestc.BBS.Core;
 using Uestc.BBS.Mvvm.Messages;
 using Uestc.BBS.Mvvm.Models;
 using Uestc.BBS.Sdk;
+using Uestc.BBS.Sdk.Services.Auth;
 using Uestc.BBS.Sdk.Services.Thread;
 using Uestc.BBS.Sdk.Services.Thread.ThreadList;
 
@@ -22,6 +23,9 @@ namespace Uestc.BBS.WinUI.Controls
             ServiceExtension.Services.GetRequiredKeyedService<IThreadListService>(
                 ServiceExtensions.MOBCENT_API
             );
+
+        private readonly AppSettingModel _appSetting =
+            ServiceExtension.Services.GetRequiredService<AppSettingModel>();
 
         /// <summary>
         /// 当前板块
@@ -44,7 +48,11 @@ namespace Uestc.BBS.WinUI.Controls
                         }
 
                         view.Threads = new(
-                            new ThreadOverviewSource(view._threaListService, model),
+                            new ThreadOverviewSource(
+                                view._threaListService,
+                                view._appSetting.Account.DefaultCredential?.BlacklistUsers ?? [],
+                                model
+                            ),
                             itemsPerPage: 30
                         );
                     }
@@ -93,6 +101,7 @@ namespace Uestc.BBS.WinUI.Controls
 
     public class ThreadOverviewSource(
         IThreadListService threadListService,
+        IEnumerable<BlacklistUser> blacklist,
         BoardTabItemModel boardTabItem
     ) : IIncrementalSource<ThreadOverview>
     {
@@ -130,6 +139,7 @@ namespace Uestc.BBS.WinUI.Controls
             [
                 .. threads
                     .Where(o => _threadIds.Add(o.Id))
+                    .Where(o => !blacklist.Any(b => b.Uid == o.Uid))
                     .Select(o =>
                     {
                         // XXX 热门板块的时间为发布时间，其余为最新回复时间

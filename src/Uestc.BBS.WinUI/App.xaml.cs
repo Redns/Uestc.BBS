@@ -2,6 +2,7 @@
 using System.IO;
 using System.Net.Http;
 using System.Text.Json;
+using System.Threading.Tasks;
 using H.NotifyIcon;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
@@ -16,6 +17,7 @@ using Uestc.BBS.Mvvm.Services;
 using Uestc.BBS.WinUI.Services;
 using Uestc.BBS.WinUI.ViewModels;
 using Uestc.BBS.WinUI.Views;
+using Uestc.BBS.WinUI.Views.ContentDialogs;
 using Uestc.BBS.WinUI.Views.Overlays;
 using Windows.UI.ViewManagement;
 using WinUIEx;
@@ -147,9 +149,13 @@ namespace Uestc.BBS.WinUI
             AppDomain.CurrentDomain.ProcessExit += (_, _) =>
                 ServiceExtension.Services.GetRequiredService<AppSetting>().Save();
 
-            // 捕获并记录未处理异常
-            Current.UnhandledException += (_, args) =>
+            #region 异常处理
+
+            // 不导致崩溃但未处理的异常
+            UnhandledException += async (_, args) =>
             {
+                args.Handled = true;
+
                 ServiceExtension
                     .Services.GetRequiredService<ILogService>()
                     .Error(args.Message, args.Exception);
@@ -159,7 +165,55 @@ namespace Uestc.BBS.WinUI
                 {
                     Exit();
                 }
+
+                var dialog = new AppAbortDialog { Exception = args.Exception };
+                await new ContentDialog
+                {
+                    XamlRoot = CurrentWindow!.Content.XamlRoot,
+                    Title = "发生未知错误",
+                    Content = dialog,
+                    CloseButtonText = "确 定",
+                    DefaultButton = ContentDialogButton.Close,
+                }.ShowAsync();
+
+                if (dialog.Feedback && !string.IsNullOrEmpty(dialog.FeekbackContent))
+                {
+                    // TODO 发送反馈
+                }
+
+                if (dialog.RestartApp)
+                {
+                    Exit();
+                }
             };
+
+            // 崩溃性错误，多是和框架相关的 COMException
+            AppDomain.CurrentDomain.UnhandledException += (_, args) =>
+            {
+                if (args.ExceptionObject is not Exception e)
+                {
+                    return;
+                }
+
+                ServiceExtension.Services.GetRequiredService<ILogService>().Error(e.Message, e);
+                ServiceExtension.Services.GetRequiredService<AppSetting>().Save();
+
+                if (CurrentWindow is null)
+                {
+                    Exit();
+                }
+            };
+
+            TaskScheduler.UnobservedTaskException += (_, args) =>
+            {
+                args.SetObserved();
+                ServiceExtension
+                    .Services.GetRequiredService<ILogService>()
+                    .Error("Unobserved task exception", args.Exception);
+                ServiceExtension.Services.GetRequiredService<AppSetting>().Save();
+            };
+
+            #endregion
         }
 
         protected override void OnLaunched(LaunchActivatedEventArgs args)

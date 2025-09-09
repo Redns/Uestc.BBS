@@ -28,6 +28,7 @@
             x:Key="EmptyStringToObjectConverter"
             EmptyValue="False"
             NotEmptyValue="True" />
+        <local_converters:Uid2Avatar x:Key="Uid2Avatar" BaseUri="{x:Bind ViewModel.BaseUri, Mode=OneWay}" />
         <local_converters:Null2Visibility x:Key="Null2Visibility" />
         <local_converters:Uint2Visibility x:Key="Uint2Visibility" />
         <local_converters:Double2GridLength x:Key="Double2GridLength" />
@@ -275,7 +276,7 @@
                                 Grid.Column="0"
                                 VerticalAlignment="Top"
                                 Size="36"
-                                Source="{x:Bind ViewModel.AppSettingModel.Account.DefaultCredential.Avatar, Mode=OneWay}" />
+                                Source="{x:Bind ViewModel.AppSettingModel.Account.DefaultCredential.Uid, Converter={StaticResource Uid2Avatar}, Mode=OneWay}" />
                             <TextBox
                                 Grid.Row="0"
                                 Grid.Column="1"

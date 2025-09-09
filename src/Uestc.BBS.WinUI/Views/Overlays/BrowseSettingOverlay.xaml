@@ -4,24 +4,28 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="using:CommunityToolkit.WinUI.Controls"
+    xmlns:converters="using:CommunityToolkit.WinUI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:labs="using:CommunityToolkit.Labs.WinUI"
     xmlns:local="using:Uestc.BBS.WinUI.Views.Overlays"
+    xmlns:local_controls="using:Uestc.BBS.WinUI.Controls"
+    xmlns:local_converters="using:Uestc.BBS.WinUI.Converters"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="using:CommunityToolkit.WinUI"
     xmlns:viewmodels="using:Uestc.BBS.WinUI.ViewModels"
+    x:Name="Self"
     d:DataContext="{d:DesignInstance Type=viewmodels:BrowseSettingsViewModel}"
     mc:Ignorable="d">
 
+    <Page.Resources>
+        <converters:StringFormatConverter x:Key="StringFormatConverter" />
+        <local_converters:Uid2Space x:Key="Uid2Space" BaseUri="{x:Bind ApiBaseUri, Mode=OneWay}" />
+        <local_converters:Uid2Avatar x:Key="Uid2Avatar" BaseUri="{x:Bind ApiBaseUri, Mode=OneWay}" />
+    </Page.Resources>
+
     <ScrollViewer Margin="10" VerticalScrollBarVisibility="Hidden">
         <StackPanel Spacing="5">
-            <!--  预览图像  -->
-            <controls:SettingsCard
-                Description="在主题列表中显示缩略图"
-                Header="预览图像"
-                HeaderIcon="{ui:FontIcon Glyph=&#xE8B9;}">
-                <ToggleSwitch IsOn="{x:Bind ViewModel.BrowsingSettingModel.ShowPreviewImage, Mode=TwoWay}" />
-            </controls:SettingsCard>
             <!--  筛选主题  -->
             <controls:SettingsExpander
                 Description="过滤指定主题和评论"
@@ -83,14 +87,41 @@
                         <controls:SettingsCard.Resources>
                             <x:Double x:Key="SettingsCardWrapThreshold">10000</x:Double>
                         </controls:SettingsCard.Resources>
-                        <labs:TokenView
+                        <ItemsRepeater
+                            xmlns:auth="using:Uestc.BBS.Sdk.Services.Auth"
                             Margin="0,8"
-                            IsWrapped="True"
-                            SelectionMode="None">
-                            <labs:TokenItem Content="龙云李（114514）" />
-                            <labs:TokenItem Content="龙李云（191981）" />
-                            <labs:TokenItem Content="李龙云（000000）" />
-                        </labs:TokenView>
+                            ItemsSource="{x:Bind AppSetting.Account.DefaultCredential.BlacklistUsers, Mode=OneWay}">
+                            <ItemsRepeater.Layout>
+                                <controls:WrapLayout HorizontalSpacing="10" VerticalSpacing="10" />
+                            </ItemsRepeater.Layout>
+                            <ItemsRepeater.ItemTemplate>
+                                <DataTemplate x:DataType="auth:BlacklistUser">
+                                    <StackPanel
+                                        Padding="5"
+                                        Background="Transparent"
+                                        BorderBrush="{ThemeResource ControlStrokeColorDefaultBrush}"
+                                        BorderThickness="1"
+                                        CornerRadius="14"
+                                        Orientation="Horizontal"
+                                        Spacing="5"
+                                        ToolTipService.Placement="Top"
+                                        ToolTipService.ToolTip="{x:Bind Uid, Converter={StaticResource StringFormatConverter}, ConverterParameter='uid: {0}'}">
+                                        <local_controls:Avatar Size="18" Source="{x:Bind Uid, Converter={StaticResource Uid2Avatar}}" />
+                                        <TextBlock
+                                            VerticalAlignment="Center"
+                                            Text="{x:Bind Username}"
+                                            TextLineBounds="Tight" />
+                                        <interactivity:Interaction.Behaviors>
+                                            <interactivity:EventTriggerBehavior EventName="PointerPressed">
+                                                <interactivity:EventTriggerBehavior.Actions>
+                                                    <interactivity:InvokeCommandAction Command="{Binding OpenWebsiteCommand, ElementName=Self}" CommandParameter="{x:Bind Uid, Converter={StaticResource Uid2Space}}" />
+                                                </interactivity:EventTriggerBehavior.Actions>
+                                            </interactivity:EventTriggerBehavior>
+                                        </interactivity:Interaction.Behaviors>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsRepeater.ItemTemplate>
+                        </ItemsRepeater>
                     </controls:SettingsCard>
                 </controls:SettingsExpander.Items>
             </controls:SettingsExpander>

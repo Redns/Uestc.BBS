@@ -12,6 +12,7 @@ using Uestc.BBS.Mvvm.Models;
 using Uestc.BBS.Mvvm.Services;
 using Uestc.BBS.Mvvm.ViewModels;
 using Uestc.BBS.Sdk.Services.System;
+using Uestc.BBS.Sdk.Services.User.Friend;
 
 namespace Uestc.BBS.WinUI.ViewModels
 {
@@ -41,15 +42,19 @@ namespace Uestc.BBS.WinUI.ViewModels
         private readonly DispatcherQueue _dispatcherQueue = DispatcherQueue.GetForCurrentThread();
 
         public MainViewModel(
+            Uri baseUri,
             AppSettingModel appSettingModel,
             ILogService logService,
+            IFriendListService friendListService,
             INotificationService notificationService,
             IDailySentenceService dailySentenceService,
             INavigateService<Page> navigateService
         )
             : base(
+                baseUri,
                 appSettingModel,
                 logService,
+                friendListService,
                 notificationService,
                 dailySentenceService,
                 navigateService

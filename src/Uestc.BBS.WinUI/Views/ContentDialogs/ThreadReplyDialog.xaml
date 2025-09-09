@@ -19,6 +19,7 @@
             NotEmptyValue="True" />
         <converters:StringFormatConverter x:Key="StringFormatConverter" />
         <converters:DoubleToVisibilityConverter x:Key="DoubleToVisibilityConverter" GreaterThan="0" />
+        <local_converters:Uid2Avatar x:Key="Uid2Avatar" BaseUri="{x:Bind ApiBaseUri, Mode=OneWay}" />
         <local_converters:UserGroup2Visibility x:Key="UserGroup2Visibility" />
         <local_converters:UserGroup2BadgeBrush x:Key="UserGroup2BadgeBrush" />
         <local_converters:UserLevel2BadgeBackground x:Key="UserLevel2BadgeBackground" />
@@ -42,7 +43,7 @@
             Grid.RowSpan="2"
             VerticalAlignment="Top"
             Size="36"
-            Source="{x:Bind UserAvatar, Mode=OneWay}" />
+            Source="{x:Bind Uid, Converter={StaticResource Uid2Avatar}, Mode=OneWay}" />
         <StackPanel Grid.Column="1" Spacing="6">
             <!--  用户名、等级、用户组  -->
             <StackPanel Orientation="Horizontal" Spacing="5">
@@ -66,14 +67,14 @@
                 <Border
                     Height="18"
                     Padding="3,0"
-                    Background="{x:Bind UserAvatar, Converter={StaticResource UserGroup2BadgeBrush}}"
+                    Background="{x:Bind Uid, Converter={StaticResource UserGroup2BadgeBrush}}"
                     CornerRadius="3"
-                    Visibility="{x:Bind UserAvatar, Converter={StaticResource UserGroup2Visibility}}">
+                    Visibility="{x:Bind Uid, Converter={StaticResource UserGroup2Visibility}}">
                     <TextBlock
                         VerticalAlignment="Center"
                         FontSize="12"
                         Foreground="White"
-                        Text="{x:Bind UserAvatar}"
+                        Text="{x:Bind Uid}"
                         TextLineBounds="Tight" />
                 </Border>
                 <!--  楼主  -->
@@ -113,7 +114,7 @@
             Margin="0,24,0,0"
             VerticalAlignment="Top"
             Size="36"
-            Source="{x:Bind UserAvatar, Mode=OneWay}" />
+            Source="{x:Bind Uid, Mode=OneWay}" />
         <TextBox
             Grid.Row="1"
             Grid.Column="1"

@@ -6,11 +6,6 @@
     public class BrowseSetting
     {
         /// <summary>
-        /// 是否显示预览图片
-        /// </summary>
-        public bool ShowPreviewImage { get; set; } = true;
-
-        /// <summary>
         /// 评论设置
         /// </summary>
         public CommentSetting Comment { get; set; } = new();

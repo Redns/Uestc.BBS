@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<UserControl
+    x:Class="Uestc.BBS.WinUI.Views.ContentDialogs.AppAbortDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:Uestc.BBS.WinUI.Views.ContentDialogs"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <StackPanel Spacing="10">
+        <TextBlock Text="我们已经生成了相关错误报告（不包含您的任何隐私信息），希望您发送此报告给我们以改善软件质量" TextWrapping="WrapWholeWords" />
+        <TextBox
+            Height="180"
+            AcceptsReturn="True"
+            IsEnabled="{x:Bind Feedback, Mode=OneWay}"
+            PlaceholderText="这个错误是如何发生的？"
+            ScrollViewer.VerticalScrollBarVisibility="Auto"
+            Text="{x:Bind FeekbackContent, Mode=TwoWay}" />
+        <StackPanel Orientation="Horizontal" Spacing="-18">
+            <CheckBox Content="重启应用" IsChecked="{x:Bind RestartApp, Mode=TwoWay}" />
+            <CheckBox Content="发送错误报告" IsChecked="{x:Bind Feedback, Mode=TwoWay}" />
+        </StackPanel>
+    </StackPanel>
+</UserControl>

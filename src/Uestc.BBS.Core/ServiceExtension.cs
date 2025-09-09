@@ -30,6 +30,10 @@ namespace Uestc.BBS.Core
             Container
                 // AppSetting
                 .AddSingleton(AppSetting.Load())
+                // API 基地址
+                .AddSingleton(services =>
+                    services.GetRequiredService<AppSetting>().Services.Network.BaseUri
+                )
                 // 日志
                 .AddSingleton<ILogService>(services =>
                 {
@@ -84,7 +88,7 @@ namespace Uestc.BBS.Core
                         services
                             .GetRequiredService<AppSetting>()
                             .Account.DefaultCredential?.Authorization ?? string.Empty,
-                    services => services.GetRequiredService<AppSetting>().Services.Network.BaseUri
+                    services => services.GetRequiredService<Uri>()
                 )
                 .AddPolicyHandler(
                     (services, request) =>
@@ -132,7 +136,7 @@ namespace Uestc.BBS.Core
                         appSetting.Account.DefaultCredential?.Secret ?? string.Empty
                     );
                 },
-                services => services.GetRequiredService<AppSetting>().Services.Network.BaseUri
+                services => services.GetRequiredService<Uri>()
             );
             // Web & Mobcent
             Container
@@ -146,7 +150,9 @@ namespace Uestc.BBS.Core
                 // 主题内容 & 评论
                 .AddMobcentThreadContentService()
                 // 回复
-                .AddWebThreadReplyService();
+                .AddWebThreadReplyService()
+                // 好友列表
+                .AddFriendListService();
 
             return Container;
         }

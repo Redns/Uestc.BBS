@@ -6,21 +6,6 @@ namespace Uestc.BBS.Mvvm.Models
     public class BrowseSettingModel(BrowseSetting setting) : ObservableObject
     {
         /// <summary>
-        /// 是否显示预览图片
-        /// </summary>
-        public bool ShowPreviewImage
-        {
-            get => setting.ShowPreviewImage;
-            set =>
-                SetProperty(
-                    setting.ShowPreviewImage,
-                    value,
-                    setting,
-                    (s, e) => s.ShowPreviewImage = e
-                );
-        }
-
-        /// <summary>
         /// 评论设置
         /// </summary>
         public CommentSettingModel Comment { get; init; } = new(setting.Comment);

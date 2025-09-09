@@ -137,23 +137,6 @@ namespace Uestc.BBS.WinUI.Controls
         }
 
         /// <summary>
-        ///  «∑Òœ‘ æ‘§¿¿Õº∆¨
-        /// </summary>
-        private static readonly DependencyProperty ShowPreviewImageProperty =
-            DependencyProperty.Register(
-                nameof(ShowPreviewImage),
-                typeof(bool),
-                typeof(ThreadOverviewControl),
-                new PropertyMetadata(default(bool))
-            );
-
-        public bool ShowPreviewImage
-        {
-            get => (bool)GetValue(ShowPreviewImageProperty);
-            set => SetValue(ShowPreviewImageProperty, value);
-        }
-
-        /// <summary>
         /// ‰Ø¿¿¡ø
         /// </summary>
         private static readonly DependencyProperty ViewsProperty = DependencyProperty.Register(

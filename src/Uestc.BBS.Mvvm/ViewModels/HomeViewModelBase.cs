@@ -59,6 +59,8 @@ namespace Uestc.BBS.Mvvm.ViewModels
             BoardTabItemModel
         > _boardTabItemModelFromView;
 
+        public Uri BaseUri { get; init; }
+
         /// <summary>
         /// 应用配置
         /// </summary>
@@ -98,6 +100,7 @@ namespace Uestc.BBS.Mvvm.ViewModels
 
         /// <summary>
         /// 当前选中的主题帖是否来自于自己
+        /// TODO 使用 Converter 优化
         /// </summary>
         public bool IsCurrentThreadFromUs =>
             CurrentThread?.Uid == AppSettingModel.Account.DefaultCredentialUid;
@@ -116,6 +119,7 @@ namespace Uestc.BBS.Mvvm.ViewModels
             IThreadReplyService threadReplyService,
             Func<BoardTabItemModel, IBoardTabItemListView> boardTabItemModelToView,
             Func<IBoardTabItemListView, BoardTabItemModel> boardTabItemModelFromView,
+            Uri baseUri,
             AppSettingModel appSettingModel
         )
         {
@@ -133,6 +137,7 @@ namespace Uestc.BBS.Mvvm.ViewModels
                 ),
             ];
 
+            BaseUri = baseUri;
             AppSettingModel = appSettingModel;
             CurrentBoardTabItemModel = appSettingModel.Appearance.BoardTab.Items.First();
 

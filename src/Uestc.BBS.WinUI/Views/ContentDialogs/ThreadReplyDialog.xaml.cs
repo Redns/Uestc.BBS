@@ -23,6 +23,8 @@ namespace Uestc.BBS.WinUI.Views.ContentDialogs
         private readonly INotificationService _notificationService =
             ServiceExtension.Services.GetRequiredService<INotificationService>();
 
+        private Uri ApiBaseUri = ServiceExtension.Services.GetRequiredService<Uri>();
+
         /// <summary>
         /// 当前回复的主题 ID
         /// </summary>
@@ -43,15 +45,15 @@ namespace Uestc.BBS.WinUI.Views.ContentDialogs
         /// 当前用户头像
         /// </summary>
         private static readonly DependencyProperty UserAvatarProperty = DependencyProperty.Register(
-            nameof(UserAvatar),
-            typeof(string),
+            nameof(Uid),
+            typeof(uint),
             typeof(ThreadReplyDialog),
-            new PropertyMetadata(string.Empty)
+            new PropertyMetadata(default)
         );
 
-        public string UserAvatar
+        public uint Uid
         {
-            get => (string)GetValue(UserAvatarProperty);
+            get => (uint)GetValue(UserAvatarProperty);
             set => SetValue(UserAvatarProperty, value);
         }
 

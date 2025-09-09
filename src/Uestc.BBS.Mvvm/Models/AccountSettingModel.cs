@@ -107,20 +107,51 @@ namespace Uestc.BBS.Mvvm.Models
         public ObservableCollection<AuthCredentialModel> Credentials { get; init; }
     }
 
-    public class AuthCredentialModel(AuthCredential authCredential) : ObservableObject
+    public class AuthCredentialModel : ObservableObject
     {
         /// <summary>
         /// 授权信息
         /// </summary>
-        public AuthCredential AuthCredential => authCredential;
+        public AuthCredential AuthCredential { get; init; }
+
+        public AuthCredentialModel(AuthCredential authCredential)
+        {
+            AuthCredential = authCredential;
+            BlacklistUsers = [.. authCredential.BlacklistUsers];
+            BlacklistUsers.CollectionChanged += (sender, args) =>
+            {
+                switch (args.Action)
+                {
+                    case NotifyCollectionChangedAction.Reset:
+                        authCredential.BlacklistUsers.Clear();
+                        break;
+                    case NotifyCollectionChangedAction.Add:
+                        authCredential.BlacklistUsers.AddRange(
+                            args.NewItems!.Cast<BlacklistUser>()
+                        );
+                        break;
+                    case NotifyCollectionChangedAction.Remove:
+                        foreach (var item in args.OldItems!.Cast<BlacklistUser>())
+                        {
+                            authCredential.BlacklistUsers.Remove(item);
+                        }
+                        break;
+                    default:
+                        throw new ArgumentException(
+                            "Unhandled collection change action.",
+                            nameof(args)
+                        );
+                }
+            };
+        }
 
         /// <summary>
         /// Uid
         /// </summary>
         public uint Uid
         {
-            get => authCredential.Uid;
-            set => SetProperty(authCredential.Uid, value, authCredential, (s, e) => s.Uid = e);
+            get => AuthCredential.Uid;
+            set => SetProperty(AuthCredential.Uid, value, AuthCredential, (s, e) => s.Uid = e);
         }
 
         /// <summary>
@@ -128,12 +159,12 @@ namespace Uestc.BBS.Mvvm.Models
         /// </summary>
         public string Username
         {
-            get => authCredential.Username;
+            get => AuthCredential.Username;
             set =>
                 SetProperty(
-                    authCredential.Username,
+                    AuthCredential.Username,
                     value,
-                    authCredential,
+                    AuthCredential,
                     (s, e) => s.Username = e
                 );
         }
@@ -143,12 +174,12 @@ namespace Uestc.BBS.Mvvm.Models
         /// </summary>
         public string Password
         {
-            get => authCredential.Password;
+            get => AuthCredential.Password;
             set =>
                 SetProperty(
-                    authCredential.Password,
+                    AuthCredential.Password,
                     value,
-                    authCredential,
+                    AuthCredential,
                     (s, e) => s.Password = e
                 );
         }
@@ -158,10 +189,10 @@ namespace Uestc.BBS.Mvvm.Models
         /// </summary>
         public string Token
         {
-            get => authCredential.Token;
+            get => AuthCredential.Token;
             set
             {
-                SetProperty(authCredential.Token, value, authCredential, (s, e) => s.Token = e);
+                SetProperty(AuthCredential.Token, value, AuthCredential, (s, e) => s.Token = e);
                 OnPropertyChanged(nameof(IsMobcentAuthenticated));
             }
         }
@@ -171,10 +202,10 @@ namespace Uestc.BBS.Mvvm.Models
         /// </summary>
         public string Secret
         {
-            get => authCredential.Secret;
+            get => AuthCredential.Secret;
             set
             {
-                SetProperty(authCredential.Secret, value, authCredential, (s, e) => s.Secret = e);
+                SetProperty(AuthCredential.Secret, value, AuthCredential, (s, e) => s.Secret = e);
                 OnPropertyChanged(nameof(IsMobcentAuthenticated));
             }
         }
@@ -184,17 +215,17 @@ namespace Uestc.BBS.Mvvm.Models
         /// </summary>
         public CookieCollection Cookies
         {
-            get => authCredential.Cookies;
+            get => AuthCredential.Cookies;
             set
             {
-                SetProperty(authCredential.Cookies, value, authCredential, (s, e) => s.Cookies = e);
+                SetProperty(AuthCredential.Cookies, value, AuthCredential, (s, e) => s.Cookies = e);
                 OnPropertyChanged(nameof(IsCookieAuthenticated));
             }
         }
 
         public CookieContainer CookieContainer
         {
-            get => authCredential.CookieContainer;
+            get => AuthCredential.CookieContainer;
         }
 
         /// <summary>
@@ -202,13 +233,13 @@ namespace Uestc.BBS.Mvvm.Models
         /// </summary>
         public string Authorization
         {
-            get => authCredential.Authorization;
+            get => AuthCredential.Authorization;
             set
             {
                 SetProperty(
-                    authCredential.Authorization,
+                    AuthCredential.Authorization,
                     value,
-                    authCredential,
+                    AuthCredential,
                     (s, e) => s.Authorization = e
                 );
                 OnPropertyChanged(nameof(IsCookieAuthenticated));
@@ -218,30 +249,20 @@ namespace Uestc.BBS.Mvvm.Models
         /// <summary>
         /// 是否已通过 Cookie 验证
         /// </summary>
-        public bool IsCookieAuthenticated = authCredential.IsCookieAuthenticated;
+        public bool IsCookieAuthenticated => AuthCredential.IsCookieAuthenticated;
 
         /// <summary>
         /// 是否已通过 Mobcent 验证
         /// </summary>
-        public bool IsMobcentAuthenticated = authCredential.IsMobcentAuthenticated;
-
-        /// <summary>
-        /// 头像
-        /// </summary>
-        public string Avatar
-        {
-            get => authCredential.Avatar;
-            set =>
-                SetProperty(authCredential.Avatar, value, authCredential, (s, e) => s.Avatar = e);
-        }
+        public bool IsMobcentAuthenticated => AuthCredential.IsMobcentAuthenticated;
 
         /// <summary>
         /// 用户等级
         /// </summary>
         public uint Level
         {
-            get => authCredential.Level;
-            set => SetProperty(authCredential.Level, value, authCredential, (s, e) => s.Level = e);
+            get => AuthCredential.Level;
+            set => SetProperty(AuthCredential.Level, value, AuthCredential, (s, e) => s.Level = e);
         }
 
         /// <summary>
@@ -249,8 +270,8 @@ namespace Uestc.BBS.Mvvm.Models
         /// </summary>
         public string Group
         {
-            get => authCredential.Group;
-            set => SetProperty(authCredential.Group, value, authCredential, (s, e) => s.Group = e);
+            get => AuthCredential.Group;
+            set => SetProperty(AuthCredential.Group, value, AuthCredential, (s, e) => s.Group = e);
         }
 
         /// <summary>
@@ -258,14 +279,19 @@ namespace Uestc.BBS.Mvvm.Models
         /// </summary>
         public string Signature
         {
-            get => authCredential.Signature;
+            get => AuthCredential.Signature;
             set =>
                 SetProperty(
-                    authCredential.Signature,
+                    AuthCredential.Signature,
                     value,
-                    authCredential,
+                    AuthCredential,
                     (s, e) => s.Signature = e
                 );
         }
+
+        /// <summary>
+        /// 黑名单用户列表
+        /// </summary>
+        public ObservableCollection<BlacklistUser> BlacklistUsers { get; init; }
     }
 }
