@@ -66,23 +66,6 @@ namespace Uestc.BBS.Mvvm.Models
         }
 
         /// <summary>
-        /// 自定义表达式
-        /// </summary>
-        public string CustomizedExpression
-        {
-            get => setting.CustomizedExpression;
-            set =>
-                SetProperty(
-                    setting.CustomizedExpression,
-                    value,
-                    setting,
-                    (s, e) => s.CustomizedExpression = e
-                );
-        }
-
-        public Func<ThreadOverview, bool> CustomizedFilter => setting.CustomizedFilter;
-
-        /// <summary>
         /// 屏蔽板块
         /// </summary>
         public List<Board> BlockedBoards

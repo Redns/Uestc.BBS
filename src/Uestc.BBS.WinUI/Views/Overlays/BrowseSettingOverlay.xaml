@@ -41,16 +41,6 @@
                     <controls:SettingsCard Description="仅显示包含图像的主题" Header="无图拦截">
                         <ToggleSwitch IsOn="{x:Bind ViewModel.BrowsingSettingModel.Filter.BlockNoImage, Mode=TwoWay}" />
                     </controls:SettingsCard>
-                    <controls:SettingsCard Description="表达式返回 true 时屏蔽主题（⚠此设置可能导致应用崩溃）" Header="自定义表达式">
-                        <TextBox
-                            Width="240"
-                            Height="80"
-                            AcceptsReturn="True"
-                            PlaceholderText="请严格参照文档和 LINQ 语法规则"
-                            ScrollViewer.VerticalScrollBarVisibility="Auto"
-                            Text="{x:Bind ViewModel.BrowsingSettingModel.Filter.CustomizedExpression, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
-                            TextWrapping="Wrap" />
-                    </controls:SettingsCard>
                     <controls:SettingsCard Description="仅当主题出现在其它板块（如：最新发表）下时屏蔽" Header="屏蔽板块">
                         <controls:SettingsCard.Resources>
                             <x:Double x:Key="SettingsCardWrapThreshold">10000</x:Double>

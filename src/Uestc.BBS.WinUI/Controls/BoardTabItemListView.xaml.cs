@@ -111,12 +111,6 @@ namespace Uestc.BBS.WinUI.Controls
                                         return false;
                                     }
 
-                                    // 自定义表达式
-                                    if (view._appSetting.Browse.Filter.CustomizedFilter(t))
-                                    {
-                                        return false;
-                                    }
-
                                     return true;
                                 }
                             ),

@@ -1,7 +1,4 @@
-﻿using System.Linq.Dynamic.Core;
-using System.Linq.Expressions;
-using System.Text.Json.Serialization;
-using Uestc.BBS.Sdk.Services.Thread;
+﻿using Uestc.BBS.Sdk.Services.Thread;
 
 namespace Uestc.BBS.Core.Models
 {
@@ -46,44 +43,6 @@ namespace Uestc.BBS.Core.Models
         /// 屏蔽无图帖
         /// </summary>
         public bool BlockNoImage { get; set; } = false;
-
-        /// <summary>
-        /// 自定义表达式（返回 true 时屏蔽主题）
-        /// </summary>
-        public string CustomizedExpression
-        {
-            get;
-            set
-            {
-                if (field == value)
-                {
-                    return;
-                }
-                field = value;
-
-                // 为空时不启用自定义过滤器
-                if (string.IsNullOrEmpty(field))
-                {
-                    CustomizedFilter = t => false;
-                    return;
-                }
-
-                // 自定义过滤器
-                var param = Expression.Parameter(typeof(ThreadOverview), "t");
-                var expression = DynamicExpressionParser.ParseLambda([param], typeof(bool), field);
-                if (expression.Compile() is not Func<ThreadOverview, bool> customizedFilter)
-                {
-                    return;
-                }
-                CustomizedFilter = customizedFilter;
-            }
-        } = string.Empty;
-
-        /// <summary>
-        /// 自定义过滤器
-        /// </summary>
-        [JsonIgnore]
-        public Func<ThreadOverview, bool> CustomizedFilter { get; private set; } = t => false;
 
         /// <summary>
         /// 屏蔽板块
