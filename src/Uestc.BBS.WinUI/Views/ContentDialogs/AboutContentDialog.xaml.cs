@@ -1,79 +1,41 @@
+using CommunityToolkit.Mvvm.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Uestc.BBS.Core.Helpers;
+using Uestc.BBS.Core.Models;
 
 namespace Uestc.BBS.WinUI.Views.ContentDialogs
 {
     public sealed partial class AboutContentDialog : UserControl
     {
-        /// <summary>
-        /// 版本号
-        /// </summary>
-        private static readonly DependencyProperty VersionProperty = DependencyProperty.Register(
-            nameof(Version),
-            typeof(string),
-            typeof(AboutContentDialog),
-            new PropertyMetadata(default(string))
-        );
-
-        public string Version
-        {
-            get => (string)GetValue(VersionProperty);
-            set => SetValue(VersionProperty, value);
-        }
-
-        /// <summary>
-        /// 版权信息
-        /// </summary>
-        private static readonly DependencyProperty CopyRightProperty = DependencyProperty.Register(
-            nameof(CopyRight),
-            typeof(string),
-            typeof(AboutContentDialog),
-            new PropertyMetadata(default(string))
-        );
-
-        public string CopyRight
-        {
-            get => (string)GetValue(CopyRightProperty);
-            set => SetValue(CopyRightProperty, value);
-        }
-
-        /// <summary>
-        /// 源码仓库地址
-        /// </summary>
-        private static readonly DependencyProperty SourceRepositoryUrlProperty =
+        private static readonly DependencyProperty AppmanifestProperty =
             DependencyProperty.Register(
-                nameof(SourceRepositoryUrl),
-                typeof(string),
+                nameof(Appmanifest),
+                typeof(Appmanifest),
                 typeof(AboutContentDialog),
-                new PropertyMetadata(default(string))
+                new PropertyMetadata(new())
             );
 
-        public string SourceRepositoryUrl
+        public Appmanifest Appmanifest
         {
-            get => (string)GetValue(SourceRepositoryUrlProperty);
-            set => SetValue(SourceRepositoryUrlProperty, value);
-        }
-
-        /// <summary>
-        /// 反馈地址
-        /// </summary>
-        private static readonly DependencyProperty FeedbackUrlProperty =
-            DependencyProperty.Register(
-                nameof(FeedbackUrl),
-                typeof(string),
-                typeof(AboutContentDialog),
-                new PropertyMetadata(default(string))
-            );
-
-        public string FeedbackUrl
-        {
-            get => (string)GetValue(FeedbackUrlProperty);
-            set => SetValue(FeedbackUrlProperty, value);
+            get => (Appmanifest)GetValue(AppmanifestProperty);
+            set => SetValue(AppmanifestProperty, value);
         }
 
         public AboutContentDialog()
         {
             InitializeComponent();
+        }
+
+        [RelayCommand]
+        private void ContactDeveloper()
+        {
+            if (string.IsNullOrEmpty(Appmanifest.ContactEmail))
+            {
+                return;
+            }
+
+            OperatingSystemHelper.OpenWebsite("mailto:" + Appmanifest.ContactEmail);
         }
     }
 }

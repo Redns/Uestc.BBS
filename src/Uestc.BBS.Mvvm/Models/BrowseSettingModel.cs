@@ -1,14 +1,111 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using Uestc.BBS.Core.Models;
+using Uestc.BBS.Sdk.Services.Thread;
 
 namespace Uestc.BBS.Mvvm.Models
 {
     public class BrowseSettingModel(BrowseSetting setting) : ObservableObject
     {
         /// <summary>
+        /// 过滤设置
+        /// </summary>
+        public FilterSettingModel Filter { get; init; } = new(setting.Filter);
+
+        /// <summary>
         /// 评论设置
         /// </summary>
         public CommentSettingModel Comment { get; init; } = new(setting.Comment);
+    }
+
+    /// <summary>
+    /// 过滤设置
+    /// </summary>
+    public class FilterSettingModel(FilterSetting setting) : ObservableObject
+    {
+        /// <summary>
+        /// 是否启用过滤器
+        /// </summary>
+        public bool IsFilterEnable
+        {
+            get => setting.IsFilterEnable;
+            set =>
+                SetProperty(setting.IsFilterEnable, value, setting, (s, e) => s.IsFilterEnable = e);
+        }
+
+        /// <summary>
+        /// 屏蔽投票
+        /// </summary>
+        public bool BlockVote
+        {
+            get => setting.BlockVote;
+            set => SetProperty(setting.BlockVote, value, setting, (s, e) => s.BlockVote = e);
+        }
+
+        /// <summary>
+        /// 屏蔽匿名用户
+        /// </summary>
+        public bool BlockAnonymousUser
+        {
+            get => setting.BlockAnonymousUser;
+            set =>
+                SetProperty(
+                    setting.BlockAnonymousUser,
+                    value,
+                    setting,
+                    (s, e) => s.BlockAnonymousUser = e
+                );
+        }
+
+        /// <summary>
+        /// 屏蔽无图帖
+        /// </summary>
+        public bool BlockNoImage
+        {
+            get => setting.BlockNoImage;
+            set => SetProperty(setting.BlockNoImage, value, setting, (s, e) => s.BlockNoImage = e);
+        }
+
+        /// <summary>
+        /// 自定义表达式
+        /// </summary>
+        public string CustomizedExpression
+        {
+            get => setting.CustomizedExpression;
+            set =>
+                SetProperty(
+                    setting.CustomizedExpression,
+                    value,
+                    setting,
+                    (s, e) => s.CustomizedExpression = e
+                );
+        }
+
+        public Func<ThreadOverview, bool> CustomizedFilter => setting.CustomizedFilter;
+
+        /// <summary>
+        /// 屏蔽板块
+        /// </summary>
+        public List<Board> BlockedBoards
+        {
+            get => setting.BlockedBoards;
+            set =>
+                SetProperty(setting.BlockedBoards, value, setting, (s, e) => s.BlockedBoards = e);
+        }
+
+        /// <summary>
+        /// 屏蔽关键词
+        /// </summary>
+        public List<string> BlockedKeywords
+        {
+            get => setting.BlockedKeywords;
+            set =>
+                SetProperty(
+                    setting.BlockedKeywords,
+                    value,
+                    setting,
+                    (s, e) => s.BlockedKeywords = e
+                );
+        }
     }
 
     /// <summary>

@@ -42,7 +42,6 @@ namespace Uestc.BBS.WinUI.Views
             ExtendsContentIntoTitleBar = true;
             // 设置标题栏高度
             AppWindow.TitleBar.PreferredHeightOption = TitleBarHeightOption.Tall;
-
             // 设置主题色
             this.SetThemeColor(AppSettingModel.Appearance.ThemeColor);
             AppSettingModel.Appearance.PropertyChanged += (_, args) =>
@@ -94,7 +93,7 @@ namespace Uestc.BBS.WinUI.Views
 
         [RelayCommand]
         private void ToggleSilentStart() =>
-            AppSettingModel.Services.StartupAndShutdown.SilentStart = AppSettingModel
+            AppSettingModel.Services.StartupAndShutdown.SilentStart = !AppSettingModel
                 .Services
                 .StartupAndShutdown
                 .SilentStart;
@@ -135,13 +134,7 @@ namespace Uestc.BBS.WinUI.Views
                 XamlRoot = Content.XamlRoot,
                 Title = _appmanifest.Name,
                 PrimaryButtonText = "确 定",
-                Content = new AboutContentDialog()
-                {
-                    Version = _appmanifest.Version,
-                    CopyRight = _appmanifest.CopyRight,
-                    SourceRepositoryUrl = _appmanifest.SourceRepositoryUrl,
-                    FeedbackUrl = _appmanifest.FeedbackUrl,
-                },
+                Content = new AboutContentDialog() { Appmanifest = _appmanifest },
             }.ShowAsync();
     }
 }

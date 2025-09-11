@@ -19,7 +19,7 @@
             NotEmptyValue="True" />
         <converters:StringFormatConverter x:Key="StringFormatConverter" />
         <converters:DoubleToVisibilityConverter x:Key="DoubleToVisibilityConverter" GreaterThan="0" />
-        <local_converters:Uid2Avatar x:Key="Uid2Avatar" BaseUri="{x:Bind ApiBaseUri, Mode=OneWay}" />
+        <local_converters:Uid2Avatar x:Key="Uid2Avatar" BaseUri="{x:Bind ApiBaseUri}" />
         <local_converters:UserGroup2Visibility x:Key="UserGroup2Visibility" />
         <local_converters:UserGroup2BadgeBrush x:Key="UserGroup2BadgeBrush" />
         <local_converters:UserLevel2BadgeBackground x:Key="UserLevel2BadgeBackground" />
@@ -43,7 +43,7 @@
             Grid.RowSpan="2"
             VerticalAlignment="Top"
             Size="36"
-            Source="{x:Bind Uid, Converter={StaticResource Uid2Avatar}, Mode=OneWay}" />
+            Source="{x:Bind Uid, Converter={StaticResource Uid2Avatar}}" />
         <StackPanel Grid.Column="1" Spacing="6">
             <!--  用户名、等级、用户组  -->
             <StackPanel Orientation="Horizontal" Spacing="5">
@@ -114,7 +114,7 @@
             Margin="0,24,0,0"
             VerticalAlignment="Top"
             Size="36"
-            Source="{x:Bind Uid, Mode=OneWay}" />
+            Source="{x:Bind Uid}" />
         <TextBox
             Grid.Row="1"
             Grid.Column="1"

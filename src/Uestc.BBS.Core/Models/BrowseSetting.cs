@@ -1,4 +1,9 @@
-﻿namespace Uestc.BBS.Core.Models
+﻿using System.Linq.Dynamic.Core;
+using System.Linq.Expressions;
+using System.Text.Json.Serialization;
+using Uestc.BBS.Sdk.Services.Thread;
+
+namespace Uestc.BBS.Core.Models
 {
     /// <summary>
     /// 浏览设置
@@ -6,9 +11,89 @@
     public class BrowseSetting
     {
         /// <summary>
+        /// 过滤设置
+        /// </summary>
+        public FilterSetting Filter { get; set; } = new();
+
+        /// <summary>
         /// 评论设置
         /// </summary>
         public CommentSetting Comment { get; set; } = new();
+    }
+
+    /// <summary>
+    /// 过滤设置
+    /// </summary>
+    public class FilterSetting
+    {
+        /// <summary>
+        /// 是否启用过滤器
+        /// </summary>
+        public bool IsFilterEnable { get; set; } = true;
+
+        /// <summary>
+        /// 屏蔽投票
+        /// </summary>
+        public bool BlockVote { get; set; } = false;
+
+        /// <summary>
+        /// 屏蔽匿名用户
+        /// TODO 考虑使用黑名单实现
+        /// </summary>
+        public bool BlockAnonymousUser { get; set; } = false;
+
+        /// <summary>
+        /// 屏蔽无图帖
+        /// </summary>
+        public bool BlockNoImage { get; set; } = false;
+
+        /// <summary>
+        /// 自定义表达式（返回 true 时屏蔽主题）
+        /// </summary>
+        public string CustomizedExpression
+        {
+            get;
+            set
+            {
+                if (field == value)
+                {
+                    return;
+                }
+                field = value;
+
+                // 为空时不启用自定义过滤器
+                if (string.IsNullOrEmpty(field))
+                {
+                    CustomizedFilter = t => false;
+                    return;
+                }
+
+                // 自定义过滤器
+                var param = Expression.Parameter(typeof(ThreadOverview), "t");
+                var expression = DynamicExpressionParser.ParseLambda([param], typeof(bool), field);
+                if (expression.Compile() is not Func<ThreadOverview, bool> customizedFilter)
+                {
+                    return;
+                }
+                CustomizedFilter = customizedFilter;
+            }
+        } = string.Empty;
+
+        /// <summary>
+        /// 自定义过滤器
+        /// </summary>
+        [JsonIgnore]
+        public Func<ThreadOverview, bool> CustomizedFilter { get; private set; } = t => false;
+
+        /// <summary>
+        /// 屏蔽板块
+        /// </summary>
+        public List<Board> BlockedBoards { get; set; } = [];
+
+        /// <summary>
+        /// 屏蔽关键词
+        /// </summary>
+        public List<string> BlockedKeywords { get; set; } = [];
     }
 
     /// <summary>

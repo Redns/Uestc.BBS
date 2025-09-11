@@ -7,6 +7,6 @@ namespace Uestc.BBS.Mvvm.ViewModels
     {
         public BrowseSettingModel BrowsingSettingModel { get; } = appSettingModel.Browse;
 
-        public AppearanceSettingModel AppearanceSettingModel { get; } = appSettingModel.Appearance;
+        public AccountSettingModel AccountSettingModel { get; } = appSettingModel.Account;
     }
 }

@@ -14,6 +14,7 @@ using Uestc.BBS.Core.Services.FileCache;
 using Uestc.BBS.Core.Services.System;
 using Uestc.BBS.Mvvm.Models;
 using Uestc.BBS.Mvvm.Services;
+using Uestc.BBS.WinUI.Helpers;
 using Uestc.BBS.WinUI.Services;
 using Uestc.BBS.WinUI.ViewModels;
 using Uestc.BBS.WinUI.Views;
@@ -183,7 +184,7 @@ namespace Uestc.BBS.WinUI
 
                 if (dialog.RestartApp)
                 {
-                    Exit();
+                    WindowsHelper.Restart();
                 }
             };
 

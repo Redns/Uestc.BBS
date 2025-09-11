@@ -131,6 +131,11 @@ namespace Uestc.BBS.Mvvm.ViewModels
 
                     try
                     {
+                        if (appSettingModel.Account.DefaultCredential is null)
+                        {
+                            return;
+                        }
+
                         uint page = 1;
                         var blacklistUsers = new List<BlacklistUser>(128);
 
@@ -157,7 +162,7 @@ namespace Uestc.BBS.Mvvm.ViewModels
                                 .Select(u => u.Uid)
                                 .ToHashSet()
                                 .SetEquals(
-                                    appSettingModel.Account.DefaultCredential!.BlacklistUsers.Select(
+                                    appSettingModel.Account.DefaultCredential.BlacklistUsers.Select(
                                         u => u.Uid
                                     )
                                 )
@@ -183,7 +188,7 @@ namespace Uestc.BBS.Mvvm.ViewModels
                 },
                 null,
                 0,
-                30 * 1000
+                60 * 1000
             );
             _searchPlaceholderTextUpdateTimer = new Timer(
                 async _ =>

@@ -445,7 +445,7 @@
                                                 Foreground="Gray"
                                                 Text="{x:Bind CreateTime, Converter={StaticResource Date2RelativeStringConverter}}"
                                                 ToolTipService.Placement="Right"
-                                                ToolTipService.ToolTip="{x:Bind CreateTime, Mode=OneWay}" />
+                                                ToolTipService.ToolTip="{x:Bind CreateTime}" />
                                             <!--  引用内容  -->
                                             <Border
                                                 x:Name="ThreadReplyQuoteReply"
@@ -472,7 +472,7 @@
                                                     </StackPanel>
                                                     <TextBlock
                                                         Foreground="Gray"
-                                                        Text="{x:Bind QuoteContent, Mode=OneWay}"
+                                                        Text="{x:Bind QuoteContent}"
                                                         TextWrapping="Wrap" />
                                                 </StackPanel>
                                             </Border>
@@ -484,28 +484,28 @@
                                                     Width="40"
                                                     Margin="0,-6,-2,-13"
                                                     Icon="Like"
-                                                    Label="{x:Bind LikeCount, Mode=OneWay}"
+                                                    Label="{x:Bind LikeCount}"
                                                     LabelPosition="Collapsed"
                                                     ToolTipService.ToolTip="点赞" />
                                                 <AppBarButton
                                                     Width="40"
                                                     Margin="0,-6,-2,-13"
                                                     Icon="Dislike"
-                                                    Label="{x:Bind DislikeCount, Mode=OneWay}"
+                                                    Label="{x:Bind DislikeCount}"
                                                     LabelPosition="Collapsed"
                                                     ToolTipService.ToolTip="点踩" />
                                                 <AppBarButton
                                                     Width="40"
                                                     Margin="0,-6,-2,-13"
                                                     Icon="Comment"
-                                                    Label="{x:Bind DislikeCount, Mode=OneWay}"
+                                                    Label="{x:Bind DislikeCount}"
                                                     LabelPosition="Collapsed"
                                                     ToolTipService.ToolTip="回复" />
                                                 <AppBarButton
                                                     Width="40"
                                                     Margin="0,-6,-2,-13"
                                                     Icon="{ui:FontIcon Glyph=&#xE771;}"
-                                                    Label="{x:Bind DislikeCount, Mode=OneWay}"
+                                                    Label="{x:Bind DislikeCount}"
                                                     LabelPosition="Collapsed"
                                                     ToolTipService.ToolTip="点评" />
                                                 <AppBarButton

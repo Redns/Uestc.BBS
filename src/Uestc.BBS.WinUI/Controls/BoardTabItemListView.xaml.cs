@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -11,12 +12,17 @@ using Uestc.BBS.Core;
 using Uestc.BBS.Mvvm.Messages;
 using Uestc.BBS.Mvvm.Models;
 using Uestc.BBS.Sdk;
-using Uestc.BBS.Sdk.Services.Auth;
 using Uestc.BBS.Sdk.Services.Thread;
 using Uestc.BBS.Sdk.Services.Thread.ThreadList;
 
 namespace Uestc.BBS.WinUI.Controls
 {
+    /// <summary>
+    /// TODO 重构具体实现
+    /// 1. BoardTabItemListView 实现 IBoardTabItemListView 接口，提供 IsLoading 属性、RefreshThreads 方法
+    /// 2. 将 HashSet 放置在具体实现类中，采用双列表筛选重复/屏蔽主题
+    /// 3. ViewModel 直接注入依赖项，避免使用 ServiceExtension.Services，或者使用 IServiceProvider 注入
+    /// </summary>
     public sealed partial class BoardTabItemListView : UserControl
     {
         private readonly IThreadListService _threaListService =
@@ -50,8 +56,69 @@ namespace Uestc.BBS.WinUI.Controls
                         view.Threads = new(
                             new ThreadOverviewSource(
                                 view._threaListService,
-                                view._appSetting.Account.DefaultCredential?.BlacklistUsers ?? [],
-                                model
+                                model,
+                                t =>
+                                {
+                                    if (!view._appSetting.Browse.Filter.IsFilterEnable)
+                                    {
+                                        return true;
+                                    }
+
+                                    // 屏蔽投票
+                                    if (view._appSetting.Browse.Filter.BlockVote && t.HasVote)
+                                    {
+                                        return false;
+                                    }
+
+                                    // 屏蔽匿名
+                                    if (
+                                        view._appSetting.Browse.Filter.BlockAnonymousUser
+                                        && t.IsAnonymous
+                                    )
+                                    {
+                                        return false;
+                                    }
+
+                                    // 无图拦截
+                                    // 仅当板块开启了预览图像加载时生效
+                                    if (
+                                        model.RequirePreviewSources
+                                        && view._appSetting.Browse.Filter.BlockNoImage
+                                        && t.PreviewImageSources.Length is 0
+                                    )
+                                    {
+                                        return false;
+                                    }
+
+                                    // 屏蔽关键词
+                                    if (
+                                        view._appSetting.Browse.Filter.BlockedKeywords.Any(k =>
+                                            t.Title.Contains(k) || t.Subject.Contains(k)
+                                        )
+                                    )
+                                    {
+                                        return false;
+                                    }
+
+                                    // 屏蔽黑名单
+                                    if (
+                                        view._appSetting.Account.DefaultCredential?.BlacklistUsers.Any(
+                                            u => u.Uid == t.Uid
+                                        )
+                                        is true
+                                    )
+                                    {
+                                        return false;
+                                    }
+
+                                    // 自定义表达式
+                                    if (view._appSetting.Browse.Filter.CustomizedFilter(t))
+                                    {
+                                        return false;
+                                    }
+
+                                    return true;
+                                }
                             ),
                             itemsPerPage: 30
                         );
@@ -88,6 +155,11 @@ namespace Uestc.BBS.WinUI.Controls
             InitializeComponent();
         }
 
+        /// <summary>
+        /// 选择主题
+        /// </summary>
+        /// <param name="_"></param>
+        /// <param name="e"></param>
         private void SelectedThreadChanged(object _, ItemClickEventArgs e)
         {
             if (e.ClickedItem is not ThreadOverview threadOverview)
@@ -101,8 +173,8 @@ namespace Uestc.BBS.WinUI.Controls
 
     public class ThreadOverviewSource(
         IThreadListService threadListService,
-        IEnumerable<BlacklistUser> blacklist,
-        BoardTabItemModel boardTabItem
+        BoardTabItemModel boardTabItem,
+        Func<ThreadOverview, bool>? filter = null
     ) : IIncrementalSource<ThreadOverview>
     {
         /// <summary>
@@ -139,7 +211,7 @@ namespace Uestc.BBS.WinUI.Controls
             [
                 .. threads
                     .Where(o => _threadIds.Add(o.Id))
-                    .Where(o => !blacklist.Any(b => b.Uid == o.Uid))
+                    .Where(o => filter is null || filter(o))
                     .Select(o =>
                     {
                         // XXX 热门板块的时间为发布时间，其余为最新回复时间

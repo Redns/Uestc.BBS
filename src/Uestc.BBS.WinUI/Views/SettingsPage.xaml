@@ -96,7 +96,7 @@
                                     <local_controls:Avatar
                                         PointerPressed="OpenContributorHomepage"
                                         Size="36"
-                                        Source="{x:Bind Avatar, Mode=OneWay}"
+                                        Source="{x:Bind Avatar}"
                                         Tag="{x:Bind Homepage}"
                                         ToolTipService.ToolTip="{x:Bind Name}" />
                                 </DataTemplate>

@@ -14,14 +14,13 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="using:CommunityToolkit.WinUI"
     xmlns:viewmodels="using:Uestc.BBS.WinUI.ViewModels"
-    x:Name="Self"
     d:DataContext="{d:DesignInstance Type=viewmodels:BrowseSettingsViewModel}"
     mc:Ignorable="d">
 
     <Page.Resources>
         <converters:StringFormatConverter x:Key="StringFormatConverter" />
-        <local_converters:Uid2Space x:Key="Uid2Space" BaseUri="{x:Bind ApiBaseUri, Mode=OneWay}" />
-        <local_converters:Uid2Avatar x:Key="Uid2Avatar" BaseUri="{x:Bind ApiBaseUri, Mode=OneWay}" />
+        <local_converters:Uid2Space x:Key="Uid2Space" BaseUri="{x:Bind ApiBaseUri}" />
+        <local_converters:Uid2Avatar x:Key="Uid2Avatar" BaseUri="{x:Bind ApiBaseUri}" />
     </Page.Resources>
 
     <ScrollViewer Margin="10" VerticalScrollBarVisibility="Hidden">
@@ -31,28 +30,26 @@
                 Description="过滤指定主题和评论"
                 Header="筛选主题"
                 HeaderIcon="{ui:FontIcon Glyph=&#xE71C;}">
-                <ToggleSwitch />
+                <ToggleSwitch IsOn="{x:Bind ViewModel.BrowsingSettingModel.Filter.IsFilterEnable, Mode=TwoWay}" />
                 <controls:SettingsExpander.Items>
-                    <controls:SettingsCard Description="开启后将不显示包含投票的主题" Header="屏蔽投票">
-                        <ToggleSwitch />
+                    <controls:SettingsCard Description="不显示匿名用户发布的主题" Header="屏蔽匿名">
+                        <ToggleSwitch IsOn="{x:Bind ViewModel.BrowsingSettingModel.Filter.BlockAnonymousUser, Mode=TwoWay}" />
                     </controls:SettingsCard>
-                    <controls:SettingsCard Header="屏蔽散水">
-                        <ToggleSwitch />
+                    <controls:SettingsCard Description="不显示包含投票的主题" Header="屏蔽投票">
+                        <ToggleSwitch IsOn="{x:Bind ViewModel.BrowsingSettingModel.Filter.BlockVote, Mode=TwoWay}" />
                     </controls:SettingsCard>
                     <controls:SettingsCard Description="仅显示包含图像的主题" Header="无图拦截">
-                        <ToggleSwitch />
+                        <ToggleSwitch IsOn="{x:Bind ViewModel.BrowsingSettingModel.Filter.BlockNoImage, Mode=TwoWay}" />
                     </controls:SettingsCard>
-                    <controls:SettingsCard Description="不显示内容长度（字节）小于阈值的主题" Header="短文过滤">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock
-                                Margin="10,0"
-                                VerticalAlignment="Center"
-                                Text="8" />
-                            <Slider
-                                Width="160"
-                                Maximum="1024"
-                                Minimum="1" />
-                        </StackPanel>
+                    <controls:SettingsCard Description="表达式返回 true 时屏蔽主题（⚠此设置可能导致应用崩溃）" Header="自定义表达式">
+                        <TextBox
+                            Width="240"
+                            Height="80"
+                            AcceptsReturn="True"
+                            PlaceholderText="请严格参照文档和 LINQ 语法规则"
+                            ScrollViewer.VerticalScrollBarVisibility="Auto"
+                            Text="{x:Bind ViewModel.BrowsingSettingModel.Filter.CustomizedExpression, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
+                            TextWrapping="Wrap" />
                     </controls:SettingsCard>
                     <controls:SettingsCard Description="仅当主题出现在其它板块（如：最新发表）下时屏蔽" Header="屏蔽板块">
                         <controls:SettingsCard.Resources>
@@ -69,38 +66,48 @@
                             <labs:TokenItem Content="兼职信息发布栏" />
                         </labs:TokenView>
                     </controls:SettingsCard>
-                    <controls:SettingsCard Description="标题或内容包含关键字的主题都将被屏蔽" Header="屏蔽关键字">
+                    <controls:SettingsCard Description="不显示标题或摘要包含关键字的主题" Header="屏蔽关键字">
                         <controls:SettingsCard.Resources>
                             <x:Double x:Key="SettingsCardWrapThreshold">10000</x:Double>
                         </controls:SettingsCard.Resources>
-                        <labs:TokenView
-                            Margin="0,8"
-                            IsWrapped="True"
-                            SelectionMode="None">
-                            <labs:TokenItem Content="赢" />
-                            <labs:TokenItem Content="鼠鼠" />
-                            <labs:TokenItem Content="美国" />
-                            <labs:TokenItem Content="二刺螈" />
-                        </labs:TokenView>
+                        <ItemsRepeater ItemsSource="{x:Bind ViewModel.BrowsingSettingModel.Filter.BlockedKeywords, Mode=OneWay}">
+                            <ItemsRepeater.Layout>
+                                <controls:WrapLayout HorizontalSpacing="10" VerticalSpacing="10" />
+                            </ItemsRepeater.Layout>
+                            <ItemsRepeater.ItemTemplate>
+                                <DataTemplate x:DataType="x:String">
+                                    <Border
+                                        Padding="11,4,11,6"
+                                        Background="{ThemeResource ControlFillColorDefaultBrush}"
+                                        BorderBrush="{ThemeResource ControlStrokeColorDefaultBrush}"
+                                        BorderThickness="1"
+                                        CornerRadius="16">
+                                        <TextBlock Text="{x:Bind}" />
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsRepeater.ItemTemplate>
+                        </ItemsRepeater>
                     </controls:SettingsCard>
-                    <controls:SettingsCard Header="黑名单">
+                    <controls:SettingsCard Header="{x:Bind ViewModel.AccountSettingModel.DefaultCredential.BlacklistUsers.Count, Mode=OneWay, Converter={StaticResource StringFormatConverter}, ConverterParameter='黑名单 ({0})'}">
                         <controls:SettingsCard.Resources>
                             <x:Double x:Key="SettingsCardWrapThreshold">10000</x:Double>
                         </controls:SettingsCard.Resources>
-                        <ItemsRepeater Margin="0,8" ItemsSource="{x:Bind AppSetting.Account.DefaultCredential.BlacklistUsers, Mode=OneWay}">
+                        <ItemsRepeater Margin="0,8" ItemsSource="{x:Bind ViewModel.AccountSettingModel.DefaultCredential.BlacklistUsers, Mode=OneWay}">
                             <ItemsRepeater.Layout>
                                 <controls:WrapLayout HorizontalSpacing="10" VerticalSpacing="10" />
                             </ItemsRepeater.Layout>
                             <ItemsRepeater.ItemTemplate>
                                 <DataTemplate xmlns:auth="using:Uestc.BBS.Sdk.Services.Auth" x:DataType="auth:BlacklistUser">
                                     <StackPanel
-                                        Padding="5"
-                                        Background="Transparent"
+                                        Padding="6"
+                                        Background="{ThemeResource ControlFillColorDefaultBrush}"
                                         BorderBrush="{ThemeResource ControlStrokeColorDefaultBrush}"
                                         BorderThickness="1"
-                                        CornerRadius="14"
+                                        CornerRadius="16"
                                         Orientation="Horizontal"
+                                        PointerPressed="OpenUserSpace"
                                         Spacing="5"
+                                        Tag="{x:Bind Uid, Converter={StaticResource Uid2Space}}"
                                         ToolTipService.Placement="Top"
                                         ToolTipService.ToolTip="{x:Bind Uid, Converter={StaticResource StringFormatConverter}, ConverterParameter='uid: {0}'}">
                                         <local_controls:Avatar Size="18" Source="{x:Bind Uid, Converter={StaticResource Uid2Avatar}}" />
@@ -108,13 +115,6 @@
                                             VerticalAlignment="Center"
                                             Text="{x:Bind Username}"
                                             TextLineBounds="Tight" />
-                                        <interactivity:Interaction.Behaviors>
-                                            <interactivity:EventTriggerBehavior EventName="PointerPressed">
-                                                <interactivity:EventTriggerBehavior.Actions>
-                                                    <interactivity:InvokeCommandAction Command="{Binding OpenWebsiteCommand, ElementName=Self}" CommandParameter="{x:Bind Uid, Converter={StaticResource Uid2Space}}" />
-                                                </interactivity:EventTriggerBehavior.Actions>
-                                            </interactivity:EventTriggerBehavior>
-                                        </interactivity:Interaction.Behaviors>
                                     </StackPanel>
                                 </DataTemplate>
                             </ItemsRepeater.ItemTemplate>

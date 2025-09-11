@@ -20,6 +20,16 @@ namespace Uestc.BBS.Core.Models
         public string Author { get; init; } = "Redns";
 
         /// <summary>
+        /// 联系邮箱
+        /// </summary>
+        public string ContactEmail { get; init; } = "ljing431@163.com";
+
+        /// <summary>
+        /// 文档地址
+        /// </summary>
+        public string DocumentUrl { get; init; } = "https://github.com/Redns/Uestc.BBS";
+
+        /// <summary>
         /// 开源协议
         /// </summary>
         public string License { get; init; } = "MIT";

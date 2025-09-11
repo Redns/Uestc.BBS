@@ -23,7 +23,7 @@
         <local_converters:UserGroup2Visibility x:Key="UserGroup2Visibility" />
         <local_converters:UserGroup2BadgeBrush x:Key="UserGroup2BadgeBrush" />
         <local_converters:UserLevel2BadgeBackground x:Key="UserLevel2BadgeBackground" />
-        <local_converters:Uid2Avatar x:Key="Uid2Avatar" BaseUri="{x:Bind ApiBaseUri, Mode=OneWay}" />
+        <local_converters:Uid2Avatar x:Key="Uid2Avatar" BaseUri="{x:Bind ApiBaseUri}" />
     </Page.Resources>
 
     <ScrollViewer Margin="10" VerticalScrollBarVisibility="Hidden">

@@ -14,7 +14,7 @@ namespace Uestc.BBS.WinUI.Helpers
         private const int GWLP_WNDPROC = -4;
 
         // Static field to hold the delegate, preventing it from being garbage-collected
-        private static WndProcDelegate _currentWndProcDelegate;
+        private static WndProcDelegate? _currentWndProcDelegate;
 
         // Delegate for the new window procedure
         private delegate IntPtr WndProcDelegate(
@@ -31,7 +31,6 @@ namespace Uestc.BBS.WinUI.Helpers
         public static void ForceDisableMaximize(this Window window)
         {
             var hwnd = WindowNative.GetWindowHandle(window);
-
             if (hwnd == IntPtr.Zero)
             {
                 Debug.WriteLine("Invalid window handle. Cannot hook window procedure.");
@@ -39,7 +38,7 @@ namespace Uestc.BBS.WinUI.Helpers
             }
 
             // Store the original WndProc and assign the new one
-            IntPtr originalWndProc = GetWindowLongPtr(hwnd, GWLP_WNDPROC);
+            var originalWndProc = GetWindowLongPtr(hwnd, GWLP_WNDPROC);
             if (originalWndProc == IntPtr.Zero)
             {
                 Debug.WriteLine("Failed to retrieve the original WndProc.");

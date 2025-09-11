@@ -1,8 +1,7 @@
 using System;
-using CommunityToolkit.Mvvm.Input;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
 using Uestc.BBS.Core.Helpers;
-using Uestc.BBS.Mvvm.Models;
 using Uestc.BBS.WinUI.ViewModels;
 
 namespace Uestc.BBS.WinUI.Views.Overlays
@@ -11,24 +10,29 @@ namespace Uestc.BBS.WinUI.Views.Overlays
     {
         private Uri ApiBaseUri { get; init; }
 
-        private AppSettingModel AppSetting { get; init; }
-
         private BrowseSettingsViewModel ViewModel { get; init; }
 
-        public BrowseSettingOverlay(
-            Uri baseUri,
-            AppSettingModel appSetting,
-            BrowseSettingsViewModel viewModel
-        )
+        public BrowseSettingOverlay(Uri baseUri, BrowseSettingsViewModel viewModel)
         {
             InitializeComponent();
 
             ApiBaseUri = baseUri;
             ViewModel = viewModel;
-            AppSetting = appSetting;
         }
 
-        [RelayCommand]
-        private void OpenWebsite(string url) => OperatingSystemHelper.OpenWebsite(url);
+        private void OpenUserSpace(object sender, PointerRoutedEventArgs _)
+        {
+            if (sender is not StackPanel stackPanel)
+            {
+                return;
+            }
+
+            if (stackPanel.Tag is not string userSpaceUrl)
+            {
+                return;
+            }
+
+            OperatingSystemHelper.OpenWebsite(userSpaceUrl);
+        }
     }
 }

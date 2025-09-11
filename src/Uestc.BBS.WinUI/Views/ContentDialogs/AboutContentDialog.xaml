@@ -11,13 +11,13 @@
     mc:Ignorable="d">
     <StackPanel Spacing="10">
         <Image Width="48" Source="/Assets/Icons/app.ico" />
-        <TextBlock HorizontalAlignment="Center" Text="{x:Bind Version}" />
-        <TextBlock HorizontalAlignment="Center" Text="{x:Bind CopyRight}" />
+        <TextBlock HorizontalAlignment="Center" Text="{x:Bind Appmanifest.Version}" />
+        <TextBlock HorizontalAlignment="Center" Text="{x:Bind Appmanifest.CopyRight}" />
         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-            <HyperlinkButton Content="源码仓库" NavigateUri="{x:Bind SourceRepositoryUrl}" />
-            <HyperlinkButton Content="问题反馈" NavigateUri="{x:Bind FeedbackUrl}" />
-            <HyperlinkButton Content="阅读文档" />
-            <HyperlinkButton Content="联系作者" />
+            <HyperlinkButton Content="源码仓库" NavigateUri="{x:Bind Appmanifest.SourceRepositoryUrl}" />
+            <HyperlinkButton Content="问题反馈" NavigateUri="{x:Bind Appmanifest.FeedbackUrl}" />
+            <HyperlinkButton Content="阅读文档" NavigateUri="{x:Bind Appmanifest.DocumentUrl}" />
+            <HyperlinkButton Command="{x:Bind ContactDeveloperCommand}" Content="联系作者" />
         </StackPanel>
     </StackPanel>
 </UserControl>
