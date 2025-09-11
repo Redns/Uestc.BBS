@@ -41,6 +41,25 @@
                     <controls:SettingsCard Description="仅显示包含图像的主题" Header="无图拦截">
                         <ToggleSwitch IsOn="{x:Bind ViewModel.BrowsingSettingModel.Filter.BlockNoImage, Mode=TwoWay}" />
                     </controls:SettingsCard>
+                    <controls:SettingsCard Header="自定义表达式">
+                        <controls:SettingsCard.Description>
+                            <TextBlock>
+                                <Run Text="请严格参照" />
+                                <Hyperlink ui:HyperlinkExtensions.Command="{x:Bind OpenUrlCommand}" ui:HyperlinkExtensions.CommandParameter="https://github.com/Redns/Uestc.BBS/blob/master/README.md">清水河畔客户端</Hyperlink>
+                                <Run Text="和" />
+                                <Hyperlink ui:HyperlinkExtensions.Command="{x:Bind OpenUrlCommand}" ui:HyperlinkExtensions.CommandParameter="https://github.com/panoramicdata/PanoramicData.NCalcExtensions/blob/main/README.md">PanoramicData.NCalcExtensions</Hyperlink>
+                                <Run Text="文档" />
+                            </TextBlock>
+                        </controls:SettingsCard.Description>
+                        <TextBox
+                            Width="240"
+                            Height="80"
+                            AcceptsReturn="True"
+                            PlaceholderText="表达式返回 true 时屏蔽主题"
+                            ScrollViewer.VerticalScrollBarVisibility="Auto"
+                            Text="{x:Bind ViewModel.BrowsingSettingModel.Filter.CustomizedExpression, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
+                            TextWrapping="Wrap" />
+                    </controls:SettingsCard>
                     <controls:SettingsCard Description="仅当主题出现在其它板块（如：最新发表）下时屏蔽" Header="屏蔽板块">
                         <controls:SettingsCard.Resources>
                             <x:Double x:Key="SettingsCardWrapThreshold">10000</x:Double>

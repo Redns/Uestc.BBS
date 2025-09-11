@@ -1,4 +1,5 @@
 using System;
+using CommunityToolkit.Mvvm.Input;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Uestc.BBS.Core.Helpers;
@@ -34,5 +35,8 @@ namespace Uestc.BBS.WinUI.Views.Overlays
 
             OperatingSystemHelper.OpenWebsite(userSpaceUrl);
         }
+
+        [RelayCommand]
+        private void OpenUrl(string url) => OperatingSystemHelper.OpenWebsite(url);
     }
 }

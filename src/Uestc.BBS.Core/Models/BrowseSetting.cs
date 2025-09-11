@@ -1,4 +1,7 @@
-﻿using Uestc.BBS.Sdk.Services.Thread;
+﻿using System.Text.Json.Serialization;
+using PanoramicData.NCalcExtensions;
+using Uestc.BBS.Sdk.Services.Thread;
+using Uestc.BBS.Sdk.Services.User;
 
 namespace Uestc.BBS.Core.Models
 {
@@ -43,6 +46,100 @@ namespace Uestc.BBS.Core.Models
         /// 屏蔽无图帖
         /// </summary>
         public bool BlockNoImage { get; set; } = false;
+
+        /// <summary>
+        /// 自定义表达式（返回 true 时屏蔽主题）
+        /// </summary>
+        public string CustomizedExpression
+        {
+            get;
+            set
+            {
+                if (field == value)
+                {
+                    return;
+                }
+
+                // 为空时不启用自定义过滤器
+                if (string.IsNullOrEmpty(value))
+                {
+                    field = value;
+                    CustomizedFilter = t => false;
+                    return;
+                }
+
+                // 自定义过滤器
+                var expression = new ExtendedExpression(value);
+                if (expression.HasErrors())
+                {
+                    return;
+                }
+                // 添加参数
+                // TODO 使用源码生成器代替
+                expression.Parameters.Add("Id", typeof(uint));
+                expression.Parameters.Add("Title", typeof(string));
+                expression.Parameters.Add("Board", typeof(Board));
+                expression.Parameters.Add("Subject", typeof(string));
+                expression.Parameters.Add("DateTime", typeof(DateTime));
+                expression.Parameters.Add("BoardName", typeof(string));
+                expression.Parameters.Add("PreviewImageSources", typeof(string[]));
+
+                expression.Parameters.Add("Uid", typeof(uint));
+                expression.Parameters.Add("Username", typeof(string));
+                expression.Parameters.Add("UserGender", typeof(Gender));
+                expression.Parameters.Add("UserAvatar", typeof(string));
+
+                expression.Parameters.Add("ViewCount", typeof(uint));
+                expression.Parameters.Add("LikeCount", typeof(uint));
+                expression.Parameters.Add("DislikeCount", typeof(uint));
+                expression.Parameters.Add("ReplyCount", typeof(uint));
+
+                expression.Parameters.Add("IsHot", typeof(bool));
+                expression.Parameters.Add("HasVote", typeof(bool));
+                expression.Parameters.Add("IsAnonymous", typeof(bool));
+
+                // 编译表达式
+                CustomizedFilter = t =>
+                {
+                    // TODO 使用源码生成器代替
+                    expression.Parameters["Id"] = t.Id;
+                    expression.Parameters["Title"] = t.Title;
+                    expression.Parameters["Board"] = t.Board;
+                    expression.Parameters["Subject"] = t.Subject;
+                    expression.Parameters["DateTime"] = t.DateTime;
+                    expression.Parameters["BoardName"] = t.BoardName;
+                    expression.Parameters["PreviewImageSources"] = t.PreviewImageSources;
+
+                    expression.Parameters["Uid"] = t.Uid;
+                    expression.Parameters["Username"] = t.Username;
+                    expression.Parameters["UserGender"] = t.UserGender;
+                    expression.Parameters["UserAvatar"] = t.UserAvatar;
+
+                    expression.Parameters["ViewCount"] = t.ViewCount;
+                    expression.Parameters["LikeCount"] = t.LikeCount;
+                    expression.Parameters["DislikeCount"] = t.DislikeCount;
+                    expression.Parameters["ReplyCount"] = t.ReplyCount;
+
+                    expression.Parameters["IsHot"] = t.IsHot;
+                    expression.Parameters["HasVote"] = t.HasVote;
+                    expression.Parameters["IsAnonymous"] = t.IsAnonymous;
+
+                    if (expression.Evaluate() is not bool ret)
+                    {
+                        return false;
+                    }
+                    return ret;
+                };
+
+                field = value;
+            }
+        } = string.Empty;
+
+        /// <summary>
+        /// 自定义过滤器
+        /// </summary>
+        [JsonIgnore]
+        public Func<ThreadOverview, bool> CustomizedFilter { get; private set; } = t => false;
 
         /// <summary>
         /// 屏蔽板块

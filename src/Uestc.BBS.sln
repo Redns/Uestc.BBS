@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Uestc.BBS.Sdk", "..\..\Uest
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Uestc.BBS.Sdk.Tests", "..\..\Uestc.BBS.Sdk\Uestc.BBS.Sdk.Tests\Uestc.BBS.Sdk.Tests.csproj", "{4B8A369C-C326-B3C7-EBE0-6A6CB5E24E13}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Uestc.BBS.Analyzer", "Uestc.BBS.Analyzer\Uestc.BBS.Analyzer.csproj", "{BB390699-AC28-4E60-9043-94E4DB5E7524}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -52,6 +54,10 @@ Global
 		{4B8A369C-C326-B3C7-EBE0-6A6CB5E24E13}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4B8A369C-C326-B3C7-EBE0-6A6CB5E24E13}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4B8A369C-C326-B3C7-EBE0-6A6CB5E24E13}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB390699-AC28-4E60-9043-94E4DB5E7524}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB390699-AC28-4E60-9043-94E4DB5E7524}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB390699-AC28-4E60-9043-94E4DB5E7524}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB390699-AC28-4E60-9043-94E4DB5E7524}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
