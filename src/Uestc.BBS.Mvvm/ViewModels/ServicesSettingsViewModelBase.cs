@@ -1,6 +1,4 @@
-﻿using System.Diagnostics;
-using System.Runtime.InteropServices;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Uestc.BBS.Core.Helpers;
 using Uestc.BBS.Core.Services.System;
@@ -40,30 +38,8 @@ namespace Uestc.BBS.Mvvm.ViewModels
         /// 打开日志输出路径
         /// </summary>
         [RelayCommand]
-        private void OpenLogDirectory()
-        {
-            if (!Directory.Exists(_logService.LogDirectory))
-            {
-                Directory.CreateDirectory(_logService.LogDirectory);
-            }
-
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            {
-                Process.Start("explorer.exe", _logService.LogDirectory);
-                return;
-            }
-
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-            {
-                Process.Start("open", $"-R {_logService.LogDirectory}");
-                return;
-            }
-
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-            {
-                Process.Start("xdg-open", _logService.LogDirectory);
-            }
-        }
+        private void OpenLogDirectory() =>
+            OperatingSystemHelper.OpenDirectory(_logService.LogDirectory, true);
 
         /// <summary>
         /// 清除日志

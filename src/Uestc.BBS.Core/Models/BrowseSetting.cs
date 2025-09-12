@@ -94,6 +94,17 @@ namespace Uestc.BBS.Core.Models
                     return ret;
                 };
 
+                // 测试表达式
+                var testThread = new ThreadOverview();
+                try
+                {
+                    CustomizedFilter(testThread);
+                }
+                catch
+                {
+                    return;
+                }
+
                 field = value;
             }
         } = string.Empty;

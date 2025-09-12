@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using System.Collections.ObjectModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using Uestc.BBS.Core.Models;
 using Uestc.BBS.Sdk.Services.Thread;
 
@@ -85,27 +86,12 @@ namespace Uestc.BBS.Mvvm.Models
         /// <summary>
         /// 屏蔽板块
         /// </summary>
-        public List<Board> BlockedBoards
-        {
-            get => setting.BlockedBoards;
-            set =>
-                SetProperty(setting.BlockedBoards, value, setting, (s, e) => s.BlockedBoards = e);
-        }
+        public ObservableCollection<Board> BlockedBoards { get; } = [.. setting.BlockedBoards];
 
         /// <summary>
         /// 屏蔽关键词
         /// </summary>
-        public List<string> BlockedKeywords
-        {
-            get => setting.BlockedKeywords;
-            set =>
-                SetProperty(
-                    setting.BlockedKeywords,
-                    value,
-                    setting,
-                    (s, e) => s.BlockedKeywords = e
-                );
-        }
+        public ObservableCollection<string> BlockedKeywords { get; } = [.. setting.BlockedKeywords];
     }
 
     /// <summary>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -87,6 +88,12 @@ namespace Uestc.BBS.WinUI.Services
             return new Uri(imageFullPath);
         }
 
+        /// <summary>
+        /// 删除缓存文件
+        /// </summary>
+        /// <param name="uri"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         public Task InvalidateAsync(Uri uri, CancellationToken cancellationToken = default)
         {
             if (uri.IsFile || uri.AbsoluteUri.StartsWith("ms-appx://"))
@@ -106,6 +113,30 @@ namespace Uestc.BBS.WinUI.Services
             return Task.CompletedTask;
         }
 
+        /// <summary>
+        /// 清除所有缓存文件
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public async Task ClearAsync(CancellationToken cancellationToken = default)
+        {
+            var files = new DirectoryInfo(cacheRoot).EnumerateFiles().AsParallel();
+            await Parallel.ForEachAsync(
+                files,
+                cancellationToken,
+                (file, token) =>
+                {
+                    File.Delete(file.FullName);
+                    return ValueTask.CompletedTask;
+                }
+            );
+        }
+
+        /// <summary>
+        /// 生成唯一的缓存文件名
+        /// </summary>
+        /// <param name="filename"></param>
+        /// <returns></returns>
         private string GenerateUniqueKey(string filename) => filename.ToMD5();
     }
 }

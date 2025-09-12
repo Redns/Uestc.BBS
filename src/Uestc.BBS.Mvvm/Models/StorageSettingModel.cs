@@ -33,15 +33,6 @@ namespace Uestc.BBS.Mvvm.Models
             set =>
                 SetProperty(setting.RootDirectory, value, setting, (s, e) => s.RootDirectory = e);
         }
-
-        /// <summary>
-        /// 缓存有效时间（小时）
-        /// </summary>
-        public uint ValidHours
-        {
-            get => setting.ValidHours;
-            set => SetProperty(setting.ValidHours, value, setting, (s, e) => s.ValidHours = e);
-        }
     }
 
     /// <summary>

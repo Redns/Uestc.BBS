@@ -15,6 +15,7 @@
     mc:Ignorable="d">
 
     <Page.Resources>
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
         <local_converters:Enum2LabelConverter x:Key="Enum2LabelConverter" />
         <local_converters:TimeSpan2MinutesConverter x:Key="TimeSpan2MinutesConverter" />
         <converters:FileSizeToFriendlyStringConverter x:Key="FileSizeToFriendlyStringConverter" />
@@ -27,28 +28,27 @@
                 Description="保存图像、视频等数据以减少网络请求"
                 Header="缓存"
                 HeaderIcon="{ui:FontIcon Glyph=&#xE7B8;}">
-                <Button Content="打开文件夹" />
+                <Button Command="{x:Bind ViewModel.OpenCacheRootDirectoryCommand}" Content="打开文件夹" />
                 <controls:SettingsExpander.Items>
                     <controls:SettingsCard Header="清除缓存">
                         <controls:SettingsCard.Description>
-                            <TextBlock>
-                                <Run Text="缓存已占用" />
-                                <Run Text="{x:Bind ViewModel.CacheTotalSize, Converter={StaticResource FileSizeToFriendlyStringConverter}, Mode=OneWay}" />
-                            </TextBlock>
+                            <StackPanel HorizontalAlignment="Left">
+                                <TextBlock Visibility="{x:Bind ViewModel.ClearCacheCommand.IsRunning, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True, Mode=OneWay}">
+                                    <Run Text="缓存已占用" />
+                                    <Run Text="{x:Bind ViewModel.CacheTotalSize, Converter={StaticResource FileSizeToFriendlyStringConverter}, Mode=OneWay}" />
+                                </TextBlock>
+                                <ProgressBar
+                                    Width="160"
+                                    Height="16"
+                                    VerticalAlignment="Center"
+                                    IsIndeterminate="True"
+                                    Visibility="{x:Bind ViewModel.ClearCacheCommand.IsRunning, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
+                            </StackPanel>
                         </controls:SettingsCard.Description>
-                        <Button Content="清除缓存" />
+                        <Button Command="{x:Bind ViewModel.ClearCacheCommand}" Content="清除缓存" />
                     </controls:SettingsCard>
                     <controls:SettingsCard Description="{x:Bind ViewModel.StorageSettingModel.Cache.RootDirectory, Mode=OneWay}" Header="缓存路径">
                         <Button Command="{x:Bind ViewModel.ChangeCacheRootDirectoryCommand}" Content="更改路径" />
-                    </controls:SettingsCard>
-                    <controls:SettingsCard Description="超过有效期的缓存文件将被清除" Header="缓存有效期">
-                        <StackPanel Orientation="Horizontal" Spacing="10">
-                            <NumberBox
-                                Maximum="87600"
-                                Minimum="1"
-                                Value="{x:Bind ViewModel.StorageSettingModel.Cache.ValidHours, Mode=TwoWay}" />
-                            <TextBlock VerticalAlignment="Center" Text="小时" />
-                        </StackPanel>
                     </controls:SettingsCard>
                     <!--<controls:SettingsCard>
                         <controls:SettingsCard.Resources>

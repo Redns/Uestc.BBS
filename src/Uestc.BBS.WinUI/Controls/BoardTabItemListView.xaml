@@ -19,7 +19,6 @@
 
     <Grid>
         <ListView
-            x:Name="TopicListView"
             IsItemClickEnabled="True"
             ItemClick="SelectedThreadChanged"
             ItemsSource="{x:Bind Threads, Mode=OneWay}"

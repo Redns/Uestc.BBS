@@ -7,7 +7,6 @@
     xmlns:converters="using:CommunityToolkit.WinUI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
-    xmlns:labs="using:CommunityToolkit.Labs.WinUI"
     xmlns:local="using:Uestc.BBS.WinUI.Views.Overlays"
     xmlns:local_controls="using:Uestc.BBS.WinUI.Controls"
     xmlns:local_converters="using:Uestc.BBS.WinUI.Converters"
@@ -19,6 +18,7 @@
 
     <Page.Resources>
         <converters:StringFormatConverter x:Key="StringFormatConverter" />
+        <converters:DoubleToVisibilityConverter x:Key="DoubleToVisibilityConverter" GreaterThan="0" />
         <local_converters:Uid2Space x:Key="Uid2Space" BaseUri="{x:Bind ApiBaseUri}" />
         <local_converters:Uid2Avatar x:Key="Uid2Avatar" BaseUri="{x:Bind ApiBaseUri}" />
     </Page.Resources>
@@ -41,6 +41,7 @@
                     <controls:SettingsCard Description="仅显示包含图像的主题" Header="无图拦截">
                         <ToggleSwitch IsOn="{x:Bind ViewModel.BrowsingSettingModel.Filter.BlockNoImage, Mode=TwoWay}" />
                     </controls:SettingsCard>
+                    <!--  自定义表达式  -->
                     <controls:SettingsCard Header="自定义表达式">
                         <controls:SettingsCard.Description>
                             <TextBlock>
@@ -57,25 +58,23 @@
                             AcceptsReturn="True"
                             PlaceholderText="表达式返回 true 时屏蔽主题"
                             ScrollViewer.VerticalScrollBarVisibility="Auto"
-                            Text="{x:Bind ViewModel.BrowsingSettingModel.Filter.CustomizedExpression, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
+                            Text="{x:Bind ViewModel.BrowsingSettingModel.Filter.CustomizedExpression, Mode=TwoWay}"
                             TextWrapping="Wrap" />
                     </controls:SettingsCard>
+                    <!--  板块  -->
                     <controls:SettingsCard Description="仅当主题出现在其它板块（如：最新发表）下时屏蔽" Header="屏蔽板块">
                         <controls:SettingsCard.Resources>
                             <x:Double x:Key="SettingsCardWrapThreshold">10000</x:Double>
                         </controls:SettingsCard.Resources>
-                        <labs:TokenView
-                            Margin="0,8"
-                            IsWrapped="True"
-                            SelectionMode="None">
-                            <labs:TokenItem Content="密语" />
-                            <labs:TokenItem Content="灌水" />
-                            <labs:TokenItem Content="二手专区" />
-                            <labs:TokenItem Content="站务投诉" />
-                            <labs:TokenItem Content="兼职信息发布栏" />
-                        </labs:TokenView>
                     </controls:SettingsCard>
-                    <controls:SettingsCard Description="不显示标题或摘要包含关键字的主题" Header="屏蔽关键字">
+                    <!--  关键字  -->
+                    <controls:SettingsCard Description="不显示标题或摘要包含关键字的主题">
+                        <controls:SettingsCard.Header>
+                            <Grid>
+                                <TextBlock Text="屏蔽关键字" Visibility="{x:Bind ViewModel.BrowsingSettingModel.Filter.BlockedKeywords.Count, Converter={StaticResource DoubleToVisibilityConverter}, ConverterParameter=True, Mode=OneWay}" />
+                                <TextBlock Text="{x:Bind ViewModel.BrowsingSettingModel.Filter.BlockedKeywords.Count, Mode=OneWay, Converter={StaticResource StringFormatConverter}, ConverterParameter='屏蔽关键字 ({0})'}" Visibility="{x:Bind ViewModel.BrowsingSettingModel.Filter.BlockedKeywords.Count, Converter={StaticResource DoubleToVisibilityConverter}, Mode=OneWay}" />
+                            </Grid>
+                        </controls:SettingsCard.Header>
                         <controls:SettingsCard.Resources>
                             <x:Double x:Key="SettingsCardWrapThreshold">10000</x:Double>
                         </controls:SettingsCard.Resources>
@@ -97,7 +96,14 @@
                             </ItemsRepeater.ItemTemplate>
                         </ItemsRepeater>
                     </controls:SettingsCard>
-                    <controls:SettingsCard Header="{x:Bind ViewModel.AccountSettingModel.DefaultCredential.BlacklistUsers.Count, Mode=OneWay, Converter={StaticResource StringFormatConverter}, ConverterParameter='黑名单 ({0})'}">
+                    <!--  黑名单  -->
+                    <controls:SettingsCard>
+                        <controls:SettingsCard.Header>
+                            <Grid>
+                                <TextBlock Text="黑名单" Visibility="{x:Bind ViewModel.AccountSettingModel.DefaultCredential.BlacklistUsers.Count, Mode=OneWay, Converter={StaticResource DoubleToVisibilityConverter}, ConverterParameter=True}" />
+                                <TextBlock Text="{x:Bind ViewModel.AccountSettingModel.DefaultCredential.BlacklistUsers.Count, Mode=OneWay, Converter={StaticResource StringFormatConverter}, ConverterParameter='黑名单 ({0})'}" Visibility="{x:Bind ViewModel.AccountSettingModel.DefaultCredential.BlacklistUsers.Count, Mode=OneWay, Converter={StaticResource DoubleToVisibilityConverter}}" />
+                            </Grid>
+                        </controls:SettingsCard.Header>
                         <controls:SettingsCard.Resources>
                             <x:Double x:Key="SettingsCardWrapThreshold">10000</x:Double>
                         </controls:SettingsCard.Resources>

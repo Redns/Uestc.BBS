@@ -28,11 +28,6 @@ namespace Uestc.BBS.Core.Models
                 AppDomain.CurrentDomain.FriendlyName,
                 "Cache"
             );
-
-        /// <summary>
-        /// 缓存有效时间（小时）
-        /// </summary>
-        public uint ValidHours { get; set; } = 365 * 24;
     }
 
     /// <summary>

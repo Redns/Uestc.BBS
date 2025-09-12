@@ -16,5 +16,12 @@
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         Task InvalidateAsync(Uri uri, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 清除所有缓存
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task ClearAsync(CancellationToken cancellationToken = default);
     }
 }
