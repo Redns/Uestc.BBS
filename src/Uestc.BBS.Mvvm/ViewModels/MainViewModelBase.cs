@@ -22,6 +22,11 @@ namespace Uestc.BBS.Mvvm.ViewModels
         protected readonly Timer _blacklistUpdateTimer;
 
         /// <summary>
+        /// 全站状态定时更新
+        /// </summary>
+        protected readonly Timer _globalStatusUpdateTimer;
+
+        /// <summary>
         /// 搜索栏文字定时更新
         /// </summary>
         protected readonly Timer _searchPlaceholderTextUpdateTimer;
@@ -30,6 +35,11 @@ namespace Uestc.BBS.Mvvm.ViewModels
         /// 黑名单 CancellationTokenSource
         /// </summary>
         protected CancellationTokenSource? _blaclistCancelTokenSource;
+
+        /// <summary>
+        /// 全站状态 CancellationTokenSource
+        /// </summary>
+        protected CancellationTokenSource? _globalStatusCancelTokenSource;
 
         /// <summary>
         /// 每日一句 CancellationTokenSource
@@ -52,6 +62,11 @@ namespace Uestc.BBS.Mvvm.ViewModels
         protected readonly INotificationService _notificationService;
 
         /// <summary>
+        /// 全站状态服务
+        /// </summary>
+        protected readonly IGlobalStatusService _globalStatusService;
+
+        /// <summary>
         /// 每日一句
         /// </summary>
         protected readonly IDailySentenceService _dailySentenceService;
@@ -60,6 +75,12 @@ namespace Uestc.BBS.Mvvm.ViewModels
         /// 导航服务
         /// </summary>
         protected readonly INavigateService<TContent> _navigateService;
+
+        /// <summary>
+        /// 全局状态
+        /// </summary>
+        [ObservableProperty]
+        public partial GlobalStatusModel GlobalStatus { get; set; } = new();
 
         /// <summary>
         /// 搜索栏提示文字
@@ -112,6 +133,7 @@ namespace Uestc.BBS.Mvvm.ViewModels
             AppSettingModel appSettingModel,
             ILogService logService,
             IFriendListService friendListService,
+            IGlobalStatusService globalStatusService,
             INotificationService notificationService,
             IDailySentenceService dailySentenceService,
             INavigateService<TContent> navigateService
@@ -120,6 +142,7 @@ namespace Uestc.BBS.Mvvm.ViewModels
             _logService = logService;
             _friendListService = friendListService;
             _navigateService = navigateService;
+            _globalStatusService = globalStatusService;
             _notificationService = notificationService;
             _dailySentenceService = dailySentenceService;
             _blacklistUpdateTimer = new Timer(
@@ -189,6 +212,38 @@ namespace Uestc.BBS.Mvvm.ViewModels
                 null,
                 0,
                 60 * 1000
+            );
+            _globalStatusUpdateTimer = new Timer(
+                async _ =>
+                {
+                    _globalStatusCancelTokenSource?.Cancel();
+                    _globalStatusCancelTokenSource?.Dispose();
+                    _globalStatusCancelTokenSource = new CancellationTokenSource();
+
+                    try
+                    {
+                        var globalStatus = await _globalStatusService.GetGlobalStatusAsync(
+                            _globalStatusCancelTokenSource.Token
+                        );
+
+                        await DispatcherAsync(() =>
+                        {
+                            GlobalStatus.TodayPostCount = globalStatus.TodayPostCount;
+                            GlobalStatus.YesterdayPostCount = globalStatus.YesterdayPostCount;
+                            GlobalStatus.TotalPostCount = globalStatus.TotalPostCount;
+                            GlobalStatus.TotalUserCount = globalStatus.TotalUserCount;
+                        });
+                    }
+                    catch (TimeoutException) { }
+                    catch (TaskCanceledException) { }
+                    catch (Exception ex)
+                    {
+                        _logService.Error("Global status update failed", ex);
+                    }
+                },
+                null,
+                0,
+                300 * 1000
             );
             _searchPlaceholderTextUpdateTimer = new Timer(
                 async _ =>
@@ -268,6 +323,7 @@ namespace Uestc.BBS.Mvvm.ViewModels
         ~MainViewModelBase()
         {
             _blacklistUpdateTimer.Dispose();
+            _globalStatusUpdateTimer.Dispose();
             _searchPlaceholderTextUpdateTimer.Dispose();
             StrongReferenceMessenger.Default.Unregister<NavigateChangedMessage>(this);
         }

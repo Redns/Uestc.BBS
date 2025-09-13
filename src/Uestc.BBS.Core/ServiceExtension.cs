@@ -152,7 +152,11 @@ namespace Uestc.BBS.Core
                 // 回复
                 .AddWebThreadReplyService()
                 // 好友列表
-                .AddFriendListService();
+                .AddFriendListService()
+                // 公告
+                .AddWebAnnouncementService()
+                // 全站信息
+                .AddWebGlobalStatusService();
 
             return Container;
         }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml.Controls;
 using Uestc.BBS.Core.Models;
@@ -11,6 +12,7 @@ using Uestc.BBS.Core.Services.System;
 using Uestc.BBS.Mvvm.Models;
 using Uestc.BBS.Mvvm.Services;
 using Uestc.BBS.Mvvm.ViewModels;
+using Uestc.BBS.Sdk;
 using Uestc.BBS.Sdk.Services.System;
 using Uestc.BBS.Sdk.Services.User.Friend;
 
@@ -46,6 +48,7 @@ namespace Uestc.BBS.WinUI.ViewModels
             AppSettingModel appSettingModel,
             ILogService logService,
             IFriendListService friendListService,
+            [FromKeyedServices(ServiceExtensions.WEB_API)] IGlobalStatusService globalStatusService,
             INotificationService notificationService,
             IDailySentenceService dailySentenceService,
             INavigateService<Page> navigateService
@@ -55,6 +58,7 @@ namespace Uestc.BBS.WinUI.ViewModels
                 appSettingModel,
                 logService,
                 friendListService,
+                globalStatusService,
                 notificationService,
                 dailySentenceService,
                 navigateService
