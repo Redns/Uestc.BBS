@@ -12,30 +12,35 @@ using Uestc.BBS.WinUI.Controls;
 
 namespace Uestc.BBS.WinUI.ViewModels
 {
-    public partial class HomeViewModel(
-        ILogService logService,
-        INotificationService notificationService,
-        [FromKeyedServices(ServiceExtensions.MOBCENT_API)] IThreadListService threadListService,
-        [FromKeyedServices(ServiceExtensions.MOBCENT_API)]
-            IThreadContentService threadContentService,
-        [FromKeyedServices(ServiceExtensions.WEB_API)] IThreadReplyService threadReplyService,
-        Uri baseUri,
-        AppSettingModel appSettingModel
-    )
-        : HomeViewModelBase<BoardTabItemListView>(
-            logService,
-            notificationService,
-            threadListService,
-            threadContentService,
-            threadReplyService,
-            model => new BoardTabItemListView() { BoardTabItem = model },
-            view => view.BoardTabItem,
-            baseUri,
-            appSettingModel
-        )
+    public partial class HomeViewModel : HomeViewModelBase<BoardTabItemListView>
     {
         [ObservableProperty]
         public partial PageStatus PageStatus { get; set; } = PageStatus.Idle;
+
+        public HomeViewModel(
+            ILogService logService,
+            INotificationService notificationService,
+            [FromKeyedServices(ServiceExtensions.MOBCENT_API)] IThreadListService threadListService,
+            [FromKeyedServices(ServiceExtensions.MOBCENT_API)]
+                IThreadContentService threadContentService,
+            [FromKeyedServices(ServiceExtensions.WEB_API)] IThreadReplyService threadReplyService,
+            Uri baseUri,
+            AppSettingModel appSettingModel
+        )
+            : base(
+                logService,
+                notificationService,
+                threadListService,
+                threadContentService,
+                threadReplyService,
+                baseUri,
+                appSettingModel
+            )
+        {
+            BoardTabItemModelToView = model =>
+                new(appSettingModel, threadListService) { BoardTabItem = model };
+            BoardTabItemModelFromView = view => view.BoardTabItem;
+        }
     }
 
     public enum PageStatus

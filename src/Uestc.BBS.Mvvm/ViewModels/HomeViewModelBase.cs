@@ -14,7 +14,7 @@ namespace Uestc.BBS.Mvvm.ViewModels
     /// </summary>
     /// <typeparam name="IBoardTabItemListView">板块对应的主题列表 View</typeparam>
     public partial class HomeViewModelBase<IBoardTabItemListView> : ObservableObject
-        where IBoardTabItemListView : new()
+        where IBoardTabItemListView : class
     {
         /// <summary>
         /// 日志
@@ -44,20 +44,31 @@ namespace Uestc.BBS.Mvvm.ViewModels
         /// <summary>
         /// Tab 栏对应的 View 列表
         /// </summary>
-        protected readonly List<IBoardTabItemListView> _boardTabItemListViewList;
+        protected List<IBoardTabItemListView> BoardTabItemListViewList
+        {
+            get =>
+                field ??= [
+                    .. AppSettingModel.Appearance.BoardTab.Items.Select(b =>
+                        BoardTabItemModelToView(b)
+                    ),
+                ];
+        }
 
         /// <summary>
         /// 根据 BoardTabItemModel 生成对应 View
         /// </summary>
-        protected readonly Func<BoardTabItemModel, IBoardTabItemListView> _boardTabItemModelToView;
+        public required Func<
+            BoardTabItemModel,
+            IBoardTabItemListView
+        > BoardTabItemModelToView { get; init; }
 
         /// <summary>
         /// 获取 View 对应 BoardTabItemModel
         /// </summary>
-        protected readonly Func<
+        public required Func<
             IBoardTabItemListView,
             BoardTabItemModel
-        > _boardTabItemModelFromView;
+        > BoardTabItemModelFromView { get; init; }
 
         public Uri BaseUri { get; init; }
 
@@ -82,9 +93,9 @@ namespace Uestc.BBS.Mvvm.ViewModels
         /// 当前选中的 Tab 栏的 View
         /// </summary>
         public IBoardTabItemListView CurrentBoardTabItemListView =>
-            _boardTabItemListViewList.FirstOrDefault(b =>
-                _boardTabItemModelFromView(b) == CurrentBoardTabItemModel
-            ) ?? _boardTabItemListViewList[0];
+            BoardTabItemListViewList.FirstOrDefault(b =>
+                BoardTabItemModelFromView(b) == CurrentBoardTabItemModel
+            ) ?? BoardTabItemListViewList[0];
 
         /// <summary>
         /// 选中的主题帖
@@ -117,8 +128,6 @@ namespace Uestc.BBS.Mvvm.ViewModels
             IThreadListService threadListService,
             IThreadContentService threadContentService,
             IThreadReplyService threadReplyService,
-            Func<BoardTabItemModel, IBoardTabItemListView> boardTabItemModelToView,
-            Func<IBoardTabItemListView, BoardTabItemModel> boardTabItemModelFromView,
             Uri baseUri,
             AppSettingModel appSettingModel
         )
@@ -128,14 +137,6 @@ namespace Uestc.BBS.Mvvm.ViewModels
             _threaListService = threadListService;
             _threadContentService = threadContentService;
             _threadReplyService = threadReplyService;
-            _boardTabItemModelToView = boardTabItemModelToView;
-            _boardTabItemModelFromView = boardTabItemModelFromView;
-            _boardTabItemListViewList =
-            [
-                .. appSettingModel.Appearance.BoardTab.Items.Select(b =>
-                    boardTabItemModelToView(b)
-                ),
-            ];
 
             BaseUri = baseUri;
             AppSettingModel = appSettingModel;

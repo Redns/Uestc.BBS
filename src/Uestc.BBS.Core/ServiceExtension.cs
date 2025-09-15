@@ -156,7 +156,9 @@ namespace Uestc.BBS.Core
                 // 公告
                 .AddWebAnnouncementService()
                 // 全站信息
-                .AddWebGlobalStatusService();
+                .AddWebGlobalStatusService()
+                // 勋章
+                .AddWebMedalService();
 
             return Container;
         }

@@ -78,7 +78,7 @@
                         <controls:SettingsCard.Resources>
                             <x:Double x:Key="SettingsCardWrapThreshold">10000</x:Double>
                         </controls:SettingsCard.Resources>
-                        <ItemsRepeater ItemsSource="{x:Bind ViewModel.BrowsingSettingModel.Filter.BlockedKeywords, Mode=OneWay}">
+                        <ItemsRepeater Margin="0,8" ItemsSource="{x:Bind ViewModel.BrowsingSettingModel.Filter.BlockedKeywords, Mode=OneWay}">
                             <ItemsRepeater.Layout>
                                 <controls:WrapLayout HorizontalSpacing="10" VerticalSpacing="10" />
                             </ItemsRepeater.Layout>

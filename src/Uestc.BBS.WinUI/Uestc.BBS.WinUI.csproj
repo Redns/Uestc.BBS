@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net8.0-windows10.0.22621</TargetFramework>
+    <TargetFramework>net9.0-windows10.0.22621.0</TargetFramework>
     <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
     <RootNamespace>Uestc.BBS.WinUI</RootNamespace>
     <ApplicationManifest>app.manifest</ApplicationManifest>
@@ -11,60 +11,54 @@
     <UseWinUI>true</UseWinUI>
     <EnableMsixTooling>true</EnableMsixTooling>
     <Nullable>enable</Nullable>
-	<LangVersion>preview</LangVersion>
-	<WindowsPackageType>None</WindowsPackageType>
+    <LangVersion>preview</LangVersion>
+    <WindowsPackageType>None</WindowsPackageType>
   </PropertyGroup>
-
-<PropertyGroup Condition="'$(Configuration)'=='Release'">
-	<!--AOT-->
-	<PublishAot>True</PublishAot>
-	<IsAotCompatible>true</IsAotCompatible>
-	<!-- 打包运行时 -->
-	<WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
-</PropertyGroup>
-
-<ItemGroup>
-  <Compile Remove="Animations\SadFailed.cs" />
-</ItemGroup>
-
-<ItemGroup>
-  <Content Remove="Assets\appmanifest.json" />
-  <Content Remove="Assets\Icons\Anonymous.png" />
-  <Content Remove="Assets\Icons\auth_icon.png" />
-  <Content Remove="Assets\Images\default_user_avatar.png" />
-  <Content Remove="Assets\Images\image_load_failed.svg" />
-</ItemGroup>
-
-<ItemGroup>
-  <None Remove="Controls\AdvancedImage.xaml" />
-  <None Remove="Controls\BoardTabItemListView.xaml" />
-  <None Remove="Controls\ImageMosaic.xaml" />
-  <None Remove="Controls\PersonProfile.xaml" />
-  <None Remove="Controls\RichText.xaml" />
-  <None Remove="Views\AuthPage.xaml" />
-  <None Remove="Views\AuthSettingPage.xaml" />
-  <None Remove="Views\ContentDialogs\AboutContentDialog.xaml" />
-  <None Remove="Views\ContentDialogs\AppAbortDialog.xaml" />
-  <None Remove="Views\ContentDialogs\ThreadReplyDialog.xaml" />
-  <None Remove="Views\HomePage.xaml" />
-  <None Remove="Views\ImageBrowserWindow.xaml" />
-  <None Remove="Views\ImageViewerWindow.xaml" />
-  <None Remove="Views\MainPage.xaml" />
-  <None Remove="Views\MessagesPage.xaml" />
-  <None Remove="Views\MomentsPage.xaml" />
-  <None Remove="Views\Overlays\MyFavoritesOverlay.xaml" />
-  <None Remove="Views\Overlays\MyMarksOverlay.xaml" />
-  <None Remove="Views\Overlays\MyPostsOverlay.xaml" />
-  <None Remove="Views\Overlays\MyRepliesOverlay.xaml" />
-  <None Remove="Views\SectionsPage.xaml" />
-  <None Remove="Views\ServicesPage.xaml" />
-  <None Remove="Views\SettingsPage.xaml" />
-</ItemGroup>
-
+  <PropertyGroup Condition="'$(Configuration)'=='Release'">
+    <!--AOT-->
+    <PublishAot>True</PublishAot>
+    <IsAotCompatible>true</IsAotCompatible>
+    <!-- 打包运行时 -->
+    <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="Animations\SadFailed.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="Assets\appmanifest.json" />
+    <Content Remove="Assets\Icons\Anonymous.png" />
+    <Content Remove="Assets\Icons\auth_icon.png" />
+    <Content Remove="Assets\Images\default_user_avatar.png" />
+    <Content Remove="Assets\Images\image_load_failed.svg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Controls\AdvancedImage.xaml" />
+    <None Remove="Controls\BoardTabItemListView.xaml" />
+    <None Remove="Controls\ImageMosaic.xaml" />
+    <None Remove="Controls\PersonProfile.xaml" />
+    <None Remove="Controls\RichText.xaml" />
+    <None Remove="Views\AuthPage.xaml" />
+    <None Remove="Views\AuthSettingPage.xaml" />
+    <None Remove="Views\ContentDialogs\AboutContentDialog.xaml" />
+    <None Remove="Views\ContentDialogs\AppAbortDialog.xaml" />
+    <None Remove="Views\ContentDialogs\ThreadReplyDialog.xaml" />
+    <None Remove="Views\HomePage.xaml" />
+    <None Remove="Views\ImageBrowserWindow.xaml" />
+    <None Remove="Views\ImageViewerWindow.xaml" />
+    <None Remove="Views\MainPage.xaml" />
+    <None Remove="Views\MessagesPage.xaml" />
+    <None Remove="Views\MomentsPage.xaml" />
+    <None Remove="Views\Overlays\MyFavoritesOverlay.xaml" />
+    <None Remove="Views\Overlays\MyMarksOverlay.xaml" />
+    <None Remove="Views\Overlays\MyPostsOverlay.xaml" />
+    <None Remove="Views\Overlays\MyRepliesOverlay.xaml" />
+    <None Remove="Views\SectionsPage.xaml" />
+    <None Remove="Views\ServicesPage.xaml" />
+    <None Remove="Views\SettingsPage.xaml" />
+  </ItemGroup>
   <ItemGroup>
     <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
-
   <!--
     Defining the "Msix" ProjectCapability here allows the Single-project MSIX Packaging
     Tools extension to be activated for this project even if the Windows App SDK Nuget
@@ -222,7 +216,6 @@
   <ItemGroup>
     <None Include="Animations\SadFailed.cs" />
   </ItemGroup>
-
   <!--
     Defining the "HasPackageAndPublishMenuAddedByProject" property here allows the Solution
     Explorer "Package and Publish" context menu entry to be enabled for this project even if
@@ -231,7 +224,6 @@
   <PropertyGroup Condition="'$(DisableHasPackageAndPublishMenuAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
     <HasPackageAndPublishMenu>true</HasPackageAndPublishMenu>
   </PropertyGroup>
-
   <!-- Publish Properties -->
   <PropertyGroup>
     <PublishReadyToRun Condition="'$(Configuration)' == 'Debug'">False</PublishReadyToRun>

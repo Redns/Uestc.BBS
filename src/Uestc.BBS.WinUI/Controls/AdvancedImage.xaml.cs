@@ -219,8 +219,7 @@ namespace Uestc.BBS.WinUI.Controls
                     return;
                 }
 
-                File.Delete(bitmapImage.UriSource.LocalPath);
-
+                await _fileCache.InvalidateAsync(bitmapImage.UriSource);
                 await SetSourceAsync(image, image.Source, true);
             };
             // ¿¡º”‘ÿ
