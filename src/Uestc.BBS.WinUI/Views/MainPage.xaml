@@ -160,8 +160,16 @@
                 Margin="15,0"
                 VerticalAlignment="Center"
                 PlaceholderText="{x:Bind ViewModel.SearchPlaceholderText, Mode=OneWay}"
-                QueryIcon="Find"
-                ToolTipService.ToolTip="{x:Bind ViewModel.SearchPlaceholderText, Mode=OneWay}" />
+                QueryIcon="Find">
+                <ToolTipService.ToolTip>
+                    <ToolTip MaxWidth="10000">
+                        <ToolTip.Resources>
+                            <x:Double x:Key="ToolTipMaxWidth">520</x:Double>
+                        </ToolTip.Resources>
+                        <TextBlock Text="{x:Bind ViewModel.SearchPlaceholderText, Mode=OneWay}" />
+                    </ToolTip>
+                </ToolTipService.ToolTip>
+            </AutoSuggestBox>
         </controls:DockPanel>
         <!--  导航栏  -->
         <NavigationView

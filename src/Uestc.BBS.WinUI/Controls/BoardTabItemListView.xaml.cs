@@ -47,8 +47,7 @@ namespace Uestc.BBS.WinUI.Controls
 
                         view.Threads = new ThreadOverviewSource(view.ThreadListService, model)
                         {
-                            PageSize = 30,
-
+                            PageSize = 50,
                             KeySelector = t => t.Id,
                             Filter = t =>
                             {

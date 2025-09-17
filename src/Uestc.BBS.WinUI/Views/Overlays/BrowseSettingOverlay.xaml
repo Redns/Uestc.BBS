@@ -55,7 +55,6 @@
                         <TextBox
                             Width="240"
                             Height="80"
-                            AcceptsReturn="True"
                             PlaceholderText="表达式返回 true 时屏蔽主题"
                             ScrollViewer.VerticalScrollBarVisibility="Auto"
                             Text="{x:Bind ViewModel.BrowsingSettingModel.Filter.CustomizedExpression, Mode=TwoWay}"

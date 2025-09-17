@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 	<LangVersion>preview</LangVersion>
@@ -27,7 +27,7 @@
   <ItemGroup>
     <PackageReference Include="AWSSDK.S3" Version="4.0.7.1" />
     <PackageReference Include="FastEnum.Core" Version="2.0.5" />
-    <PackageReference Include="Microsoft.Extensions.Http.Polly" Version="9.0.9" />
+    <PackageReference Include="Microsoft.Extensions.Http.Polly" Version="10.0.0-rc.1.25451.107" />
     <PackageReference Include="NLog" Version="6.0.4" />
     <PackageReference Include="PanoramicData.NCalcExtensions" Version="3.2.4" />
     <PackageReference Include="WebDav.Client" Version="2.9.0" />

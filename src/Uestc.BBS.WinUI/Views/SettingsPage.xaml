@@ -46,7 +46,7 @@
             <controls:SettingsCard
                 Command="{x:Bind ViewModel.NavigateToSubSettingsOverlayCommand}"
                 CommandParameter="BrowseSettings"
-                Description="主题筛选、热门主题、点赞评论"
+                Description="主题筛选、点赞评论"
                 Header="浏览"
                 HeaderIcon="{ui:FontIcon Glyph=&#xE71D;}"
                 IsClickEnabled="True" />
