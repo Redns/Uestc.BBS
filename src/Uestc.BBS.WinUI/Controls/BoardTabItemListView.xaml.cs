@@ -112,6 +112,15 @@ namespace Uestc.BBS.WinUI.Controls
                                 return true;
                             },
                         };
+                        view.Threads.OnRefresh += () =>
+                        {
+                            view.Status = BoardStatus.Normal;
+                        };
+                        view.Threads.OnException += exception =>
+                        {
+                            view.Status = BoardStatus.Error;
+                            view.AlertMessage = exception.Message;
+                        };
                     }
                 )
             );
@@ -136,6 +145,39 @@ namespace Uestc.BBS.WinUI.Controls
         {
             get => (ThreadOverviewSource)GetValue(ThreadsProperty);
             private set => SetValue(ThreadsProperty, value);
+        }
+
+        /// <summary>
+        /// 当前状态
+        /// </summary>
+        private static readonly DependencyProperty StatusProperty = DependencyProperty.Register(
+            nameof(Status),
+            typeof(BoardStatus),
+            typeof(BoardTabItemListView),
+            new PropertyMetadata(BoardStatus.Normal)
+        );
+
+        public BoardStatus Status
+        {
+            get => (BoardStatus)GetValue(StatusProperty);
+            set => SetValue(StatusProperty, value);
+        }
+
+        /// <summary>
+        /// 警告信息
+        /// </summary>
+        private static readonly DependencyProperty AlertMessageProperty =
+            DependencyProperty.Register(
+                nameof(AlertMessage),
+                typeof(string),
+                typeof(BoardTabItemListView),
+                new PropertyMetadata(string.Empty)
+            );
+
+        public string? AlertMessage
+        {
+            get => (string)GetValue(AlertMessageProperty);
+            set => SetValue(AlertMessageProperty, value);
         }
 
         public BoardTabItemListView(
@@ -199,5 +241,11 @@ namespace Uestc.BBS.WinUI.Controls
                 }),
             ];
         }
+    }
+
+    public enum BoardStatus
+    {
+        Normal,
+        Error,
     }
 }

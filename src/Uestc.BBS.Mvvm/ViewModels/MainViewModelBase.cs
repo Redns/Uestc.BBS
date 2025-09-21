@@ -90,7 +90,7 @@ namespace Uestc.BBS.Mvvm.ViewModels
             get =>
                 AppSettingModel.Appearance.SearchBar.IsDailySentenceEnabled ? field : string.Empty;
             set => SetProperty(ref field, value);
-        } = string.Empty;
+        } = "韶光易逝，劝君惜取少年时";
 
         public Uri BaseUri { get; init; }
 
@@ -335,13 +335,5 @@ namespace Uestc.BBS.Mvvm.ViewModels
         private void NavigateBack() => CurrentMenuKey = CurrentMenuItem.Key;
 
         public abstract Task DispatcherAsync(Action action);
-
-        /// <summary>
-        /// 打开网站
-        /// </summary>
-        /// <param name="url"></param>
-        [RelayCommand]
-        private void OpenOfficialWebsite() =>
-            OperatingSystemHelper.OpenWebsite(AppSettingModel.Appearance.OfficialWebsite);
     }
 }

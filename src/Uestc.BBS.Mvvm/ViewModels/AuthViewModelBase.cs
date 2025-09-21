@@ -186,12 +186,5 @@ namespace Uestc.BBS.Mvvm.ViewModels
         /// 导航至首页
         /// </summary>
         public abstract void NavigateToMainView();
-
-        /// <summary>
-        /// 打开官方论坛链接
-        /// </summary>
-        [RelayCommand]
-        private void OpenOfficialWebsite() =>
-            OperatingSystemHelper.OpenWebsite(AppSettingModel.Appearance.OfficialWebsite);
     }
 }

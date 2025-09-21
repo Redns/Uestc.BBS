@@ -45,6 +45,21 @@ namespace Uestc.BBS.WinUI.Common
         public Func<TValue, TKey>? KeySelector { get; init; }
 
         /// <summary>
+        /// 加载事件
+        /// </summary>
+        public event Action<uint>? LoadedMoreItems;
+
+        /// <summary>
+        /// 刷新事件
+        /// </summary>
+        public event Action? OnRefresh;
+
+        /// <summary>
+        /// 异常事件
+        /// </summary>
+        public event Action<Exception>? OnException;
+
+        /// <summary>
         /// 是否有更多条目
         /// </summary>
         public bool HasMoreItems { get; private set; } = true;
@@ -62,7 +77,10 @@ namespace Uestc.BBS.WinUI.Common
             }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        /// <summary>
+        /// PropertyChanged 事件
+        /// </summary>
+        public new event PropertyChangedEventHandler? PropertyChanged;
 
         protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
@@ -93,6 +111,8 @@ namespace Uestc.BBS.WinUI.Common
                         return new LoadMoreItemsResult { Count = 0 };
                     }
 
+                    LoadedMoreItems?.Invoke(Page);
+
                     var filteredItems = pagedItems
                         .Where(i => Filter is null || Filter(i))
                         .Where(i => KeySelector is null || _keys.Add(KeySelector(i)))
@@ -108,8 +128,10 @@ namespace Uestc.BBS.WinUI.Common
 
                     return new LoadMoreItemsResult { Count = (uint)filteredItems.Length };
                 }
-                catch
+                catch (Exception e)
                 {
+                    HasMoreItems = false;
+                    OnException?.Invoke(e);
                     return new LoadMoreItemsResult { Count = 0 };
                 }
                 finally
@@ -128,8 +150,9 @@ namespace Uestc.BBS.WinUI.Common
             HasMoreItems = true;
 
             Clear();
-
             _keys.Clear();
+
+            OnRefresh?.Invoke();
 
             await LoadMoreItemsAsync(PageSize);
         }

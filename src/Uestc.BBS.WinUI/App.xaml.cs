@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Windows.AppLifecycle;
+using SqlSugar;
 using Uestc.BBS.Core;
 using Uestc.BBS.Core.Models;
 using Uestc.BBS.Core.Services.FileCache;
@@ -138,6 +139,13 @@ namespace Uestc.BBS.WinUI
                         cacheRoot,
                         services.GetRequiredService<IHttpClientFactory>()
                     );
+                })
+                // SqlSugar Client
+                .AddSqlSugarClient(services => new ConnectionConfig()
+                {
+                    IsAutoCloseConnection = true,
+                    DbType = DbType.Sqlite,
+                    ConnectionString = "",
                 });
 
             // 监听系统主题变更

@@ -50,9 +50,9 @@ namespace Uestc.BBS.WinUI.Services
             {
                 Code = 0,
                 Quality = video.GetProperty("id").GetInt32(),
-                AcceptQuality = root.GetProperty("accept_quality").Deserialize<List<int>>(),
-                Video = video.GetProperty("baseUrl").GetString(),
-                Audio = audio.GetProperty("baseUrl").GetString(),
+                //AcceptQuality = root.GetProperty("accept_quality").Deserialize<List<int>>()!,
+                //Video = video.GetProperty("baseUrl").GetString(),
+                //Audio = audio.GetProperty("baseUrl").GetString(),
             };
         }
 
@@ -77,10 +77,10 @@ namespace Uestc.BBS.WinUI.Services
     public class BiliPlayResponse
     {
         public int Code { get; set; }
-        public string Message { get; set; }
+        public string Message { get; set; } = string.Empty;
         public int Quality { get; set; }
-        public List<int> AcceptQuality { get; set; }
-        public string Video { get; set; }
-        public string Audio { get; set; }
+        public List<int> AcceptQuality { get; set; } = [];
+        public string Video { get; set; } = string.Empty;
+        public string Audio { get; set; } = string.Empty;
     }
 }

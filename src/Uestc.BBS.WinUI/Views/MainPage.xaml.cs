@@ -5,6 +5,8 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
 using Uestc.BBS.Core;
+using Uestc.BBS.Core.Helpers;
+using Uestc.BBS.Mvvm.Models;
 using Uestc.BBS.WinUI.ViewModels;
 
 namespace Uestc.BBS.WinUI.Views
@@ -73,5 +75,28 @@ namespace Uestc.BBS.WinUI.Views
             NavigationView _,
             NavigationViewItemInvokedEventArgs e
         ) => TopMenuBar.SelectedIndex = -1;
+
+        /// <summary>
+        /// 打开官方网站
+        /// </summary>
+        /// <param name="_"></param>
+        /// <param name="__"></param>
+        private void OpenOfficialWebsite(object _, PointerRoutedEventArgs __) =>
+            OperatingSystemHelper.OpenWebsite(ViewModel.AppSettingModel.Appearance.OfficialWebsite);
+
+        /// <summary>
+        /// 切换顶部菜单
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SwitchTopMenu(object _, SelectionChangedEventArgs e)
+        {
+            if (e.AddedItems.FirstOrDefault() is not MenuItemModel menuItem)
+            {
+                return;
+            }
+
+            ViewModel.CurrentMenuItem = menuItem;
+        }
     }
 }

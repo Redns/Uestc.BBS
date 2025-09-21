@@ -3,6 +3,7 @@ using System.Net.Security;
 using Microsoft.Extensions.DependencyInjection;
 using NLog;
 using Polly;
+using SqlSugar;
 using Uestc.BBS.Core.Models;
 using Uestc.BBS.Core.Services.System;
 using Uestc.BBS.Sdk;
@@ -161,6 +162,22 @@ namespace Uestc.BBS.Core
                 .AddWebMedalService();
 
             return Container;
+        }
+
+        /// <summary>
+        /// 初始化 SqlSugar 客户端
+        /// </summary>
+        /// <param name="container"></param>
+        /// <param name="configFactory"></param>
+        /// <returns></returns>
+        public static IServiceCollection AddSqlSugarClient(
+            this IServiceCollection container,
+            Func<IServiceProvider, ConnectionConfig> configFactory
+        )
+        {
+            // enable aot
+            StaticConfig.EnableAot = true;
+            return container.AddScoped(services => new SqlSugarClient(configFactory(services)));
         }
     }
 }

@@ -6,6 +6,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Uestc.BBS.Core;
+using Uestc.BBS.Core.Helpers;
 using Uestc.BBS.Mvvm.Models;
 using Uestc.BBS.WinUI.ViewModels;
 
@@ -102,5 +103,13 @@ namespace Uestc.BBS.WinUI.Views
 
             await ViewModel.LoginAsync();
         }
+
+        /// <summary>
+        /// ´ò¿ª¹Ù·½ÍøÕ¾
+        /// </summary>
+        /// <param name="_"></param>
+        /// <param name="__"></param>
+        private void OpenOfficialWebsite(object _, PointerRoutedEventArgs __) =>
+            OperatingSystemHelper.OpenWebsite(ViewModel.AppSettingModel.Appearance.OfficialWebsite);
     }
 }

@@ -7,13 +7,11 @@
     xmlns:converters="using:CommunityToolkit.WinUI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:helpers="using:Uestc.BBS.WinUI.Helpers"
-    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:local="using:Uestc.BBS.WinUI.Views"
     xmlns:local_controls="using:Uestc.BBS.WinUI.Controls"
     xmlns:local_converters="using:Uestc.BBS.WinUI.Converters"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="using:Uestc.BBS.Mvvm.Models"
-    xmlns:ui="using:CommunityToolkit.WinUI"
     xmlns:viewmodels="using:Uestc.BBS.WinUI.ViewModels"
     d:DataContext="{d:DesignInstance Type=viewmodels:MainViewModel}"
     mc:Ignorable="d">
@@ -72,6 +70,7 @@
 
         <!--  标题栏  -->
         <controls:DockPanel Grid.Row="0" Margin="0,0,160,0">
+            <!--  返回上一页  -->
             <AppBarButton
                 Width="40"
                 Margin="5,0,0,0"
@@ -80,19 +79,13 @@
                 Visibility="{x:Bind ViewModel.IsBackButtonEnabled, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
                 <FontIcon Glyph="&#xEC52;" />
             </AppBarButton>
+            <!--  应用图标  -->
             <ImageIcon
                 Height="18"
                 Margin="15,0,10,0"
+                PointerPressed="OpenOfficialWebsite"
                 Source="/Assets/Icons/app.ico"
-                ToolTipService.ToolTip="前往官方论坛">
-                <interactivity:Interaction.Behaviors>
-                    <interactivity:EventTriggerBehavior EventName="PointerPressed">
-                        <interactivity:EventTriggerBehavior.Actions>
-                            <interactivity:InvokeCommandAction Command="{x:Bind ViewModel.OpenOfficialWebsiteCommand}" />
-                        </interactivity:EventTriggerBehavior.Actions>
-                    </interactivity:EventTriggerBehavior>
-                </interactivity:Interaction.Behaviors>
-            </ImageIcon>
+                ToolTipService.ToolTip="前往官方论坛" />
             <TextBlock
                 Margin="0,0,20,0"
                 Padding="0,0,0,1"
@@ -105,12 +98,16 @@
                         <ToolTip.Resources>
                             <x:Double x:Key="ToolTipMaxWidth">480</x:Double>
                         </ToolTip.Resources>
-                        <StackPanel Orientation="Horizontal" Spacing="0">
-                            <TextBlock Text="{x:Bind ViewModel.GlobalStatus.TodayPostCount, Mode=OneWay, Converter={StaticResource StringFormatConverter}, ConverterParameter='【今日】{0}'}" />
-                            <TextBlock Text="{x:Bind ViewModel.GlobalStatus.YesterdayPostCount, Mode=OneWay, Converter={StaticResource StringFormatConverter}, ConverterParameter='【昨日】{0}'}" />
-                            <TextBlock Text="{x:Bind ViewModel.GlobalStatus.TotalPostCount, Mode=OneWay, Converter={StaticResource StringFormatConverter}, ConverterParameter='【主题】{0}'}" />
-                            <TextBlock Text="{x:Bind ViewModel.GlobalStatus.TotalUserCount, Mode=OneWay, Converter={StaticResource StringFormatConverter}, ConverterParameter='【用户】{0}'}" />
-                        </StackPanel>
+                        <TextBlock>
+                            <Run Text="【今日】" />
+                            <Run Text="{x:Bind ViewModel.GlobalStatus.TodayPostCount, Mode=OneWay}" />
+                            <Run Text="【昨日】" />
+                            <Run Text="{x:Bind ViewModel.GlobalStatus.YesterdayPostCount, Mode=OneWay}" />
+                            <Run Text="【主题】" />
+                            <Run Text="{x:Bind ViewModel.GlobalStatus.TotalPostCount, Mode=OneWay}" />
+                            <Run Text="【用户】" />
+                            <Run Text="{x:Bind ViewModel.GlobalStatus.TotalUserCount, Mode=OneWay}" />
+                        </TextBlock>
                     </ToolTip>
                 </ToolTipService.ToolTip>
             </TextBlock>
@@ -118,6 +115,7 @@
             <controls:Segmented
                 x:Name="TopMenuBar"
                 ItemsSource="{x:Bind ViewModel.TopMenuItems, Mode=OneWay}"
+                SelectionChanged="SwitchTopMenu"
                 Visibility="{x:Bind ViewModel.AppSettingModel.Appearance.IsTopNavigateBarEnabled, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
                 <controls:Segmented.ItemTemplate>
                     <DataTemplate x:DataType="models:MenuItemModel">
@@ -128,13 +126,6 @@
                             ToolTipService.ToolTip="{x:Bind Name, Mode=OneWay}" />
                     </DataTemplate>
                 </controls:Segmented.ItemTemplate>
-                <interactivity:Interaction.Behaviors>
-                    <interactivity:EventTriggerBehavior EventName="SelectionChanged">
-                        <interactivity:EventTriggerBehavior.Actions>
-                            <interactivity:InvokeCommandAction Command="{x:Bind ViewModel.SwitchTopMenuCommand}" />
-                        </interactivity:EventTriggerBehavior.Actions>
-                    </interactivity:EventTriggerBehavior>
-                </interactivity:Interaction.Behaviors>
             </controls:Segmented>
             <!--  头像  -->
             <local_controls:Avatar
@@ -162,7 +153,7 @@
                 PlaceholderText="{x:Bind ViewModel.SearchPlaceholderText, Mode=OneWay}"
                 QueryIcon="Find">
                 <ToolTipService.ToolTip>
-                    <ToolTip MaxWidth="10000">
+                    <ToolTip MaxWidth="520">
                         <ToolTip.Resources>
                             <x:Double x:Key="ToolTipMaxWidth">520</x:Double>
                         </ToolTip.Resources>

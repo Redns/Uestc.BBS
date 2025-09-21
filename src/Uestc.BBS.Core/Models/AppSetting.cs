@@ -1,8 +1,5 @@
-﻿using System.Text.Encodings.Web;
-using System.Text.Json;
+﻿using System.Text.Json;
 using System.Text.Json.Serialization;
-using System.Text.Json.Serialization.Metadata;
-using System.Text.Unicode;
 using Microsoft.Extensions.DependencyInjection;
 using Uestc.BBS.Core.Services.System;
 
@@ -63,7 +60,7 @@ namespace Uestc.BBS.Core.Models
                 {
                     appSetting = JsonSerializer.Deserialize<AppSetting>(
                         File.ReadAllText(path),
-                        SerializerOptions
+                        AppSettingContext.Default.AppSetting
                     );
 
                     if (appSetting is not null)
@@ -102,22 +99,15 @@ namespace Uestc.BBS.Core.Models
 
         public override string ToString()
         {
-            return JsonSerializer.Serialize(this, SerializerOptions);
+            return JsonSerializer.Serialize(this, AppSettingContext.Default.AppSetting);
         }
-
-        public static readonly JsonSerializerOptions SerializerOptions = new()
-        {
-            WriteIndented = true,
-            Encoder = JavaScriptEncoder.Create(UnicodeRanges.All),
-            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-            PropertyNameCaseInsensitive = true,
-            TypeInfoResolver = JsonTypeInfoResolver.Combine(
-                AppSettingContext.Default,
-                new DefaultJsonTypeInfoResolver()
-            ),
-        };
     }
 
     [JsonSerializable(typeof(AppSetting))]
+    [JsonSourceGenerationOptions(
+        WriteIndented = true,
+        PropertyNamingPolicy = JsonKnownNamingPolicy.CamelCase,
+        PropertyNameCaseInsensitive = true
+    )]
     public partial class AppSettingContext : JsonSerializerContext { }
 }

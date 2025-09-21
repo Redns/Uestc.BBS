@@ -2,7 +2,6 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Dispatching;
@@ -71,17 +70,6 @@ namespace Uestc.BBS.WinUI.ViewModels
                 OnPropertyChanged(nameof(LeftTopMenuItems));
                 OnPropertyChanged(nameof(LeftFooterMenuItems));
             };
-        }
-
-        [RelayCommand]
-        private void SwitchTopMenu(SelectionChangedEventArgs e)
-        {
-            if (e.AddedItems.FirstOrDefault() is not MenuItemModel menuItem)
-            {
-                return;
-            }
-
-            CurrentMenuItem = menuItem;
         }
 
         public override Task DispatcherAsync(Action action) =>

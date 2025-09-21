@@ -6,7 +6,6 @@
     xmlns:controls="using:CommunityToolkit.WinUI.Controls"
     xmlns:converters="using:CommunityToolkit.WinUI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:local="using:Uestc.BBS.WinUI.Views"
     xmlns:local_controls="using:Uestc.BBS.WinUI.Controls"
     xmlns:local_converters="using:Uestc.BBS.WinUI.Converters"
@@ -27,16 +26,9 @@
         Orientation="Vertical">
         <Image
             Height="50"
+            PointerPressed="OpenOfficialWebsite"
             Source="/Assets/Icons/auth_icon.png"
-            ToolTipService.ToolTip="前往官方论坛">
-            <interactivity:Interaction.Behaviors>
-                <interactivity:EventTriggerBehavior EventName="PointerPressed">
-                    <interactivity:EventTriggerBehavior.Actions>
-                        <interactivity:InvokeCommandAction Command="{x:Bind ViewModel.OpenOfficialWebsiteCommand}" />
-                    </interactivity:EventTriggerBehavior.Actions>
-                </interactivity:EventTriggerBehavior>
-            </interactivity:Interaction.Behaviors>
-        </Image>
+            ToolTipService.ToolTip="前往官方论坛" />
         <!--  用户名  -->
         <AutoSuggestBox
             x:Name="UsernameAutoSuggestBox"

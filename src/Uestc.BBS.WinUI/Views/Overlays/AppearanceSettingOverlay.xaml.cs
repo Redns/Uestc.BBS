@@ -12,6 +12,9 @@ namespace Uestc.BBS.WinUI.Views.Overlays
     {
         private AppearanceSettingsViewModel ViewModel { get; init; }
 
+        /// <summary>
+        /// TODO 使用源码生成器代替
+        /// </summary>
         private List<ThemeColor> ThemeColors { get; init; } = [.. FastEnum.GetValues<ThemeColor>()];
 
         private List<MenuItemModel> TopBarMenuItems { get; set; }
