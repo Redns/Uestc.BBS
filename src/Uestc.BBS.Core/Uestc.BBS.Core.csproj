@@ -16,26 +16,23 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Entities\**" />
     <Compile Remove="Services\Notification\**" />
-    <EmbeddedResource Remove="Entities\**" />
     <EmbeddedResource Remove="Services\Notification\**" />
-    <None Remove="Entities\**" />
     <None Remove="Services\Notification\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AWSSDK.S3" Version="4.0.7.1" />
+    <PackageReference Include="AWSSDK.S3" Version="4.0.7.2" />
     <PackageReference Include="FastEnum.Core" Version="2.0.5" />
     <PackageReference Include="Microsoft.Extensions.Http.Polly" Version="9.0.9" />
     <PackageReference Include="NLog" Version="6.0.4" />
     <PackageReference Include="PanoramicData.NCalcExtensions" Version="3.2.4" />
-    <PackageReference Include="SqlSugarCoreNoDrive.Aot" Version="5.1.4.186" />
     <PackageReference Include="WebDav.Client" Version="2.9.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Uestc.BBS.Sdk\Uestc.BBS.Sdk\Uestc.BBS.Sdk.csproj" />
+    <ProjectReference Include="..\Uestc.BBS.Entities\Uestc.BBS.Entities.csproj" />
   </ItemGroup>
 
 </Project>

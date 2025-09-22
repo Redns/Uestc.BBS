@@ -13,6 +13,7 @@ using Uestc.BBS.Core;
 using Uestc.BBS.Core.Models;
 using Uestc.BBS.Core.Services.FileCache;
 using Uestc.BBS.Core.Services.System;
+using Uestc.BBS.Entities;
 using Uestc.BBS.Mvvm.Models;
 using Uestc.BBS.Mvvm.Services;
 using Uestc.BBS.WinUI.Helpers;
@@ -107,9 +108,9 @@ namespace Uestc.BBS.WinUI
                     ) ?? throw new ArgumentNullException(nameof(Appmanifest))
                 )
                 // Notification
-                .AddSingleton<INotificationService>(n =>
+                .AddSingleton<INotificationService>(services =>
                 {
-                    var appmanifest = ServiceExtension.Services.GetRequiredService<Appmanifest>();
+                    var appmanifest = services.GetRequiredService<Appmanifest>();
                     var appIconUri = new Uri(
                         Path.Combine(
                             "file://",
@@ -141,11 +142,20 @@ namespace Uestc.BBS.WinUI
                     );
                 })
                 // SqlSugar Client
-                .AddSqlSugarClient(services => new ConnectionConfig()
+                .AddSqlSugarClient(services =>
                 {
-                    IsAutoCloseConnection = true,
-                    DbType = DbType.Sqlite,
-                    ConnectionString = "",
+                    var dbFullPath = Path.Combine(
+                        Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                        AppDomain.CurrentDomain.FriendlyName,
+                        "data.db"
+                    );
+
+                    return new ConnectionConfig()
+                    {
+                        IsAutoCloseConnection = true,
+                        DbType = DbType.Sqlite,
+                        ConnectionString = "Data Source=" + dbFullPath,
+                    };
                 });
 
             // 监听系统主题变更
@@ -229,6 +239,14 @@ namespace Uestc.BBS.WinUI
         {
             try
             {
+                // 初始化数据库
+                var sqlSugarClient = ServiceExtension.Services.GetService<SqlSugarClient>();
+                if (sqlSugarClient is not null)
+                {
+                    sqlSugarClient.DbMaintenance.CreateDatabase();
+                    sqlSugarClient.CodeFirst.InitTables<ThreadHistoryEntity>();
+                }
+
                 var appSetting = ServiceExtension.Services.GetRequiredService<AppSetting>();
                 if (!appSetting.Account.IsUserAuthed)
                 {
@@ -255,6 +273,7 @@ namespace Uestc.BBS.WinUI
                 ServiceExtension
                     .Services.GetRequiredService<ILogService>()
                     .Error("Application launched failed", e);
+                WindowsHelper.Exit();
             }
         }
     }

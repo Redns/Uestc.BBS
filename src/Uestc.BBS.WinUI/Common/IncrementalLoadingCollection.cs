@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -116,7 +115,7 @@ namespace Uestc.BBS.WinUI.Common
                     var filteredItems = pagedItems
                         .Where(i => Filter is null || Filter(i))
                         .Where(i => KeySelector is null || _keys.Add(KeySelector(i)))
-                        .ToImmutableArray();
+                        .ToArray();
 
                     foreach (var item in filteredItems)
                     {

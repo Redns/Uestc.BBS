@@ -74,17 +74,17 @@ namespace Uestc.BBS.Core.Models
                     return;
                 }
                 // 添加参数
-                foreach (var propertyType in ThreadOverview.PropertyTypes)
+                foreach (var propertyInfo in ThreadOverview.PropertyInfos)
                 {
-                    expression.Parameters.Add(propertyType.Key, propertyType.Value);
+                    expression.Parameters.Add(propertyInfo.Name, propertyInfo.Type);
                 }
 
                 // 编译表达式
                 CustomizedFilter = t =>
                 {
-                    foreach (var propertyType in ThreadOverview.PropertyTypes)
+                    foreach (var propertyInfo in ThreadOverview.PropertyInfos)
                     {
-                        expression.Parameters[propertyType.Key] = t.GetValue(propertyType.Key);
+                        expression.Parameters[propertyInfo.Name] = t.GetValue(propertyInfo.Name);
                     }
 
                     if (expression.Evaluate() is not bool ret)

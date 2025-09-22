@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using System.Security.Authentication;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Uestc.BBS.Core.Helpers;
@@ -204,6 +205,10 @@ namespace Uestc.BBS.Mvvm.ViewModels
                     }
                     catch (TimeoutException) { }
                     catch (TaskCanceledException) { }
+                    catch (AuthenticationException)
+                    {
+                        // TODO 登录失效
+                    }
                     catch (Exception ex)
                     {
                         _logService.Error("Blacklist update failed", ex);

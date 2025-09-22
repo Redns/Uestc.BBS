@@ -15,10 +15,9 @@ namespace Uestc.BBS.Core
     {
         public static readonly ServiceCollection Container = new();
 
-        private static ServiceProvider? _services;
         public static ServiceProvider Services
         {
-            get { return _services ??= Container.BuildServiceProvider(); }
+            get => field ??= Container.BuildServiceProvider();
         }
 
         /// <summary>
@@ -94,13 +93,13 @@ namespace Uestc.BBS.Core
                 .AddPolicyHandler(
                     (services, request) =>
                     {
-                        var appSetting = Services.GetRequiredService<AppSetting>();
-                        var authServices = Services.GetRequiredKeyedService<IAuthService>(
+                        var appSetting = services.GetRequiredService<AppSetting>();
+                        var authServices = services.GetRequiredKeyedService<IAuthService>(
                             ServiceExtensions.WEB_API
                         );
 
                         return Policy<HttpResponseMessage>
-                            .HandleResult(r => r.StatusCode == HttpStatusCode.Unauthorized)
+                            .HandleResult(r => r.StatusCode is HttpStatusCode.Unauthorized)
                             .RetryAsync(
                                 3,
                                 async (_, _) =>
@@ -177,7 +176,10 @@ namespace Uestc.BBS.Core
         {
             // enable aot
             StaticConfig.EnableAot = true;
-            return container.AddScoped(services => new SqlSugarClient(configFactory(services)));
+            return container.AddTransient(services =>
+            {
+                return new SqlSugarClient(configFactory(services));
+            });
         }
     }
 }

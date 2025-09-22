@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Krins.Analyzer", "..\..\Kri
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Krins.Analyzer.Attributes", "..\..\Krins.Analyzer\Krins.Analyzer.Attributes\Krins.Analyzer.Attributes.csproj", "{3B591CAD-1045-3693-AA56-85A55C9CBF46}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Uestc.BBS.Entities", "Uestc.BBS.Entities\Uestc.BBS.Entities.csproj", "{A0146ECF-3EB6-4D65-9469-D3F10ECBA3BF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -64,6 +66,10 @@ Global
 		{3B591CAD-1045-3693-AA56-85A55C9CBF46}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3B591CAD-1045-3693-AA56-85A55C9CBF46}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3B591CAD-1045-3693-AA56-85A55C9CBF46}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A0146ECF-3EB6-4D65-9469-D3F10ECBA3BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0146ECF-3EB6-4D65-9469-D3F10ECBA3BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A0146ECF-3EB6-4D65-9469-D3F10ECBA3BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A0146ECF-3EB6-4D65-9469-D3F10ECBA3BF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

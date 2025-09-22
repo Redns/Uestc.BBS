@@ -1,0 +1,6 @@
+﻿<Directives>
+	<Application>
+		<Assembly Name="SqlSugar"  Dynamic="Required All" />
+		<Assembly Name="Uestc.BBS.Entities" Dynamic="Required All"/>
+	</Application>
+</Directives>

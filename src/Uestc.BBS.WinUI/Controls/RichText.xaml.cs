@@ -2,12 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Documents;
 using Microsoft.UI.Xaml.Media;
 using Uestc.BBS.Sdk.Services.Thread;
 using Uestc.BBS.WinUI.Helpers;
+using Windows.Media.Core;
 
 namespace Uestc.BBS.WinUI.Controls
 {
@@ -69,7 +71,10 @@ namespace Uestc.BBS.WinUI.Controls
             foreach (var content in contents)
             {
                 var inlines = RenderInlineContent(content);
-                if (content.Type is not TopicContenType.Image)
+                if (
+                    content.Type is not TopicContenType.Image
+                    && content.Type is not TopicContenType.Attachment
+                )
                 {
                     paragraph.AddRange(inlines);
                     continue;
@@ -203,18 +208,29 @@ namespace Uestc.BBS.WinUI.Controls
                 ];
             }
 
-            return
-            [
-                new InlineUIContainer
-                {
-                    Child = new InfoBar
+            // ¸½¼þ
+            if (content.Type is TopicContenType.Attachment)
+            {
+                return
+                [
+                    new InlineUIContainer
                     {
-                        Severity = InfoBarSeverity.Warning,
-                        Title = "½âÎöÊ§°Ü",
-                        Message = content.Information,
+                        Child = new MediaPlayerElement
+                        {
+                            Source = MediaSource.CreateFromUri(
+                                new Uri(
+                                    "https://bbs.uestc.edu.cn/star/api/v1/attachment/forum/2646554?v=2646554%401758465809990%2F256825%3A51r_aRzLXJsKxaTgvKgnrgoPLrJqR6tXnlpoRd5Ugbg"
+                                )
+                            ),
+                            AutoPlay = false,
+                            AreTransportControlsEnabled = true,
+                            MaxHeight = 600,
+                        },
                     },
-                },
-            ];
+                ];
+            }
+
+            return [new Run { Text = "½âÎöÊ§°Ü", Foreground = new SolidColorBrush(Colors.Red) }];
         }
 
         /// <summary>

@@ -139,7 +139,7 @@
             <controls:SettingsExpander
                 Description="楼中楼、强制置顶、热评"
                 Header="评论"
-                HeaderIcon="{ui:FontIcon Glyph=&#xE8BD;}">
+                HeaderIcon="{ui:FontIcon Glyph=&#xE90A;}">
                 <controls:SettingsExpander.Items>
                     <controls:SettingsCard Description="聚合对单个评论的所有回复" Header="楼中楼">
                         <ToggleSwitch IsOn="{x:Bind ViewModel.BrowsingSettingModel.Comment.IsNested, Mode=TwoWay}" />

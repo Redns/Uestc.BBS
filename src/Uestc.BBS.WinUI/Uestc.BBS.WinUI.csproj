@@ -21,6 +21,9 @@
     <!-- 打包运行时 -->
     <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
   </PropertyGroup>
+	<ItemGroup>
+		<RdXmlFile Include="rd.xml" />
+	</ItemGroup>
   <ItemGroup>
     <Compile Remove="Animations\SadFailed.cs" />
   </ItemGroup>
@@ -109,6 +112,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Assets\Images\image_load_failed.svg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="rd.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <Page Update="Views\ContentDialogs\AppAbortDialog.xaml">
