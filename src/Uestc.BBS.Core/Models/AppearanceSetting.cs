@@ -25,7 +25,7 @@ namespace Uestc.BBS.Core.Models
         public SearchBarSetting SearchBar { get; set; } = new();
 
         /// <summary>
-        /// 侧边栏菜单列表
+        /// 菜单列表
         /// </summary>
         public List<MenuItem> MenuItems { get; init; } =
             [
@@ -121,10 +121,10 @@ namespace Uestc.BBS.Core.Models
                 },
                 new MenuItem
                 {
-                    Key = MenuItemKey.TopicFilter,
-                    Name = "主题过滤",
-                    Symbol = "Filter",
-                    Glyph = "\uE71C",
+                    Key = MenuItemKey.ThreadHistory,
+                    Name = "浏览历史",
+                    Symbol = "History",
+                    Glyph = "\uE81C",
                     Position = Position.Top,
                 },
             ];
@@ -337,8 +337,8 @@ namespace Uestc.BBS.Core.Models
         [Label("我的插眼")]
         MyMarks,
 
-        [Label("主题筛选")]
-        TopicFilter,
+        [Label("浏览历史")]
+        ThreadHistory,
 
         [Label("外观设置")]
         ApperanceSettings,

@@ -113,8 +113,8 @@ namespace Uestc.BBS.Mvvm.Models
         {
             get => setting.BaseUrl;
             set => SetProperty(setting.BaseUrl, value, setting, (s, e) => s.BaseUrl = e);
+            }
         }
-    }
 
     public class UpgradeSettingModel(UpgradeSetting upgradeSetting) : ObservableObject
     {

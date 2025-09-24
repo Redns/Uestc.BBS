@@ -8,6 +8,7 @@ using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml.Controls;
 using Uestc.BBS.Core.Models;
 using Uestc.BBS.Core.Services.System;
+using Uestc.BBS.Entities;
 using Uestc.BBS.Mvvm.Models;
 using Uestc.BBS.Mvvm.Services;
 using Uestc.BBS.Mvvm.ViewModels;
@@ -43,24 +44,24 @@ namespace Uestc.BBS.WinUI.ViewModels
         private readonly DispatcherQueue _dispatcherQueue = DispatcherQueue.GetForCurrentThread();
 
         public MainViewModel(
-            Uri baseUri,
             AppSettingModel appSettingModel,
             ILogService logService,
             IFriendListService friendListService,
             [FromKeyedServices(ServiceExtensions.WEB_API)] IGlobalStatusService globalStatusService,
             INotificationService notificationService,
             IDailySentenceService dailySentenceService,
-            INavigateService<Page> navigateService
+            INavigateService<Page> navigateService,
+            Repository<ThreadHistoryEntity> threadHistoryRepository
         )
             : base(
-                baseUri,
                 appSettingModel,
                 logService,
                 friendListService,
                 globalStatusService,
                 notificationService,
                 dailySentenceService,
-                navigateService
+                navigateService,
+                threadHistoryRepository
             )
         {
             // FIXME 修改菜单项后 CurrentMenuItem 在 set 时 value 为 null

@@ -16,7 +16,6 @@ namespace Uestc.BBS.WinUI.ViewModels
         [FromKeyedServices(ServiceExtensions.WEB_API)] IAuthService webAuthService,
         [FromKeyedServices(ServiceExtensions.MOBCENT_API)] IAuthService mobcentAuthService,
         INotificationService notificationService,
-        Uri baseUri,
         AppSettingModel appSettingModel
     )
         : AuthViewModelBase(
@@ -24,7 +23,6 @@ namespace Uestc.BBS.WinUI.ViewModels
             webAuthService,
             mobcentAuthService,
             notificationService,
-            baseUri,
             appSettingModel
         )
     {

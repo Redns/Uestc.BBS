@@ -22,7 +22,7 @@
                 <ListView
                     IsItemClickEnabled="True"
                     ItemClick="SelectedThreadChanged"
-                    ItemsSource="{x:Bind Threads, Mode=OneWay}"
+                    ItemsSource="{x:Bind Threads}"
                     ScrollViewer.VerticalScrollBarVisibility="Hidden"
                     SelectionMode="None">
                     <ListView.ItemContainerStyle>
@@ -44,6 +44,7 @@
                                 Avatar="{x:Bind UserAvatar}"
                                 BoardName="{x:Bind BoardName}"
                                 Date="{x:Bind DateTime}"
+                                HasVote="{x:Bind HasVote}"
                                 IsHot="{x:Bind IsHot}"
                                 Likes="{x:Bind LikeCount}"
                                 PreviewSources="{x:Bind PreviewImageSources}"

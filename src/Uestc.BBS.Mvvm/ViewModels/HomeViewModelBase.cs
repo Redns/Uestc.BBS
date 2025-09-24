@@ -70,8 +70,6 @@ namespace Uestc.BBS.Mvvm.ViewModels
             BoardTabItemModel
         > BoardTabItemModelFromView { get; init; }
 
-        public Uri BaseUri { get; init; }
-
         /// <summary>
         /// 应用配置
         /// </summary>
@@ -128,7 +126,6 @@ namespace Uestc.BBS.Mvvm.ViewModels
             IThreadListService threadListService,
             IThreadContentService threadContentService,
             IThreadReplyService threadReplyService,
-            Uri baseUri,
             AppSettingModel appSettingModel
         )
         {
@@ -138,7 +135,6 @@ namespace Uestc.BBS.Mvvm.ViewModels
             _threadContentService = threadContentService;
             _threadReplyService = threadReplyService;
 
-            BaseUri = baseUri;
             AppSettingModel = appSettingModel;
             CurrentBoardTabItemModel = appSettingModel.Appearance.BoardTab.Items.First();
 

@@ -21,8 +21,6 @@ namespace Uestc.BBS.Mvvm.ViewModels
 
         protected readonly INotificationService _notificationService;
 
-        public Uri BaseUri { get; init; }
-
         public AppSettingModel AppSettingModel { get; init; }
 
         /// <summary>
@@ -65,7 +63,6 @@ namespace Uestc.BBS.Mvvm.ViewModels
             IAuthService webAuthService,
             IAuthService mobcentAuthService,
             INotificationService notificationService,
-            Uri baseUri,
             AppSettingModel appSettingModel
         )
         {
@@ -74,7 +71,6 @@ namespace Uestc.BBS.Mvvm.ViewModels
             _mobcentAuthService = mobcentAuthService;
             _notificationService = notificationService;
 
-            BaseUri = baseUri;
             AppSettingModel = appSettingModel;
             Username = appSettingModel.Account.DefaultCredential?.Username;
             Password = appSettingModel.Account.DefaultCredential?.Password;

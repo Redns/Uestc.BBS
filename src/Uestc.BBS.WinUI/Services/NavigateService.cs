@@ -28,7 +28,7 @@ namespace Uestc.BBS.WinUI.Services
                 MenuItemKey.MyPosts => _services.GetRequiredService<MyPostsOverlay>(),
                 MenuItemKey.MyReplies => _services.GetRequiredService<MyRepliesOverlay>(),
                 MenuItemKey.MyMarks => _services.GetRequiredService<MyMarksOverlay>(),
-                MenuItemKey.TopicFilter => _services.GetRequiredService<TopicFilterOverlay>(),
+                MenuItemKey.ThreadHistory => _services.GetRequiredService<ThreadHistoryOverlay>(),
                 // Settings Overlays
                 MenuItemKey.ApperanceSettings =>
                     _services.GetRequiredService<AppearanceSettingOverlay>(),

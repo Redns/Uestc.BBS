@@ -22,15 +22,15 @@ namespace Uestc.BBS.WinUI.Common
         /// <summary>
         /// 分页索引
         /// </summary>
-        public uint Page { get; private set; }
+        public int Page { get; private set; }
 
         /// <summary>
         /// 分页大小
         /// </summary>
-        public uint PageSize
+        public int PageSize
         {
             get;
-            init => field = value is not 0 ? value : field;
+            init => field = value > 0 ? value : field;
         } = 30;
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace Uestc.BBS.WinUI.Common
         /// <summary>
         /// 加载事件
         /// </summary>
-        public event Action<uint>? LoadedMoreItems;
+        public event Action<int>? LoadedMoreItems;
 
         /// <summary>
         /// 刷新事件
@@ -153,7 +153,7 @@ namespace Uestc.BBS.WinUI.Common
 
             OnRefresh?.Invoke();
 
-            await LoadMoreItemsAsync(PageSize);
+            await LoadMoreItemsAsync(0);
         }
 
         /// <summary>
@@ -164,8 +164,8 @@ namespace Uestc.BBS.WinUI.Common
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         public abstract Task<IEnumerable<TValue>> GetPagedItemsAsync(
-            uint page,
-            uint pageSize,
+            int page,
+            int pageSize,
             CancellationToken cancellationToken = default
         );
     }

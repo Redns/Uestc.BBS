@@ -31,9 +31,10 @@ namespace Uestc.BBS.Entities
         public string Subject { get; set; } = string.Empty;
 
         /// <summary>
-        /// 热门帖子为发表时间，其余帖子为最新回复时间
+        /// 浏览时间
         /// </summary>
-        public DateTime DateTime { get; set; }
+        [SugarColumn(DefaultValue = "(strftime('%Y-%m-%d %H:%M:%S', 'now', 'localtime'))")]
+        public DateTime BrowserDateTime { get; set; }
 
         /// <summary>
         /// 用户 ID

@@ -3,7 +3,7 @@ using Uestc.BBS.Mvvm.Models;
 
 namespace Uestc.BBS.Mvvm.ViewModels
 {
-    public class TopicFilterViewModelBase(AppSettingModel appSettingModel) : ObservableObject
+    public class ThreadHistoryViewModelBase(AppSettingModel appSettingModel) : ObservableObject
     {
         public AccountSettingModel AppSettingModel { get; } = appSettingModel.Account;
     }

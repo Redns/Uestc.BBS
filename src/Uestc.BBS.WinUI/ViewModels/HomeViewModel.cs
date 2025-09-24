@@ -1,5 +1,4 @@
-﻿using System;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Extensions.DependencyInjection;
 using Uestc.BBS.Core.Services.System;
 using Uestc.BBS.Mvvm.Models;
@@ -24,7 +23,6 @@ namespace Uestc.BBS.WinUI.ViewModels
             [FromKeyedServices(ServiceExtensions.MOBCENT_API)]
                 IThreadContentService threadContentService,
             [FromKeyedServices(ServiceExtensions.WEB_API)] IThreadReplyService threadReplyService,
-            Uri baseUri,
             AppSettingModel appSettingModel
         )
             : base(
@@ -33,7 +31,6 @@ namespace Uestc.BBS.WinUI.ViewModels
                 threadListService,
                 threadContentService,
                 threadReplyService,
-                baseUri,
                 appSettingModel
             )
         {

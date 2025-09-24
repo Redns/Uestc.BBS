@@ -7,16 +7,25 @@
     xmlns:converters="using:CommunityToolkit.WinUI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:helpers="using:Uestc.BBS.WinUI.Helpers"
-    xmlns:lc="using:Uestc.BBS.WinUI.Converters"
     xmlns:local="using:Uestc.BBS.WinUI.Controls"
+    xmlns:local_converters="using:Uestc.BBS.WinUI.Converters"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
     <UserControl.Resources>
-        <lc:Date2RelativeStringConverter x:Key="Date2RelativeStringConverter" />
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
         <converters:StringVisibilityConverter x:Key="StringVisibilityConverter" />
         <converters:CollectionVisibilityConverter x:Key="CollectionVisibilityConverter" />
+        <converters:EmptyStringToObjectConverter
+            x:Key="EmptyStringToObjectConverter"
+            EmptyValue="False"
+            NotEmptyValue="True" />
+        <converters:EmptyCollectionToObjectConverter
+            x:Key="EmptyCollectionToObjectConverter"
+            EmptyValue="False"
+            NotEmptyValue="True" />
+        <local_converters:BoolReverseConverter x:Key="BoolReverseConverter" />
+        <local_converters:Date2RelativeStringConverter x:Key="Date2RelativeStringConverter" />
     </UserControl.Resources>
 
     <Border
@@ -42,7 +51,10 @@
                         Text="{x:Bind Date, Converter={StaticResource Date2RelativeStringConverter}, ConverterParameter=True, Mode=OneWay}" />
                     <!--  其他主题显示最新回复时间  -->
                     <!--  xaml 格式化自动换行，导致无法消除 Run 之间的空格，暂时使用 StackPanel  -->
-                    <StackPanel Orientation="Horizontal" Visibility="{x:Bind IsHot, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True, Mode=OneWay}">
+                    <StackPanel
+                        x:Name="LatestReplyTime"
+                        x:Load="{x:Bind IsHot, Converter={StaticResource BoolReverseConverter}, Mode=OneWay}"
+                        Orientation="Horizontal">
                         <TextBlock
                             FontSize="12"
                             Foreground="Gray"
@@ -60,19 +72,24 @@
                     Text="{x:Bind BoardName, Mode=OneWay}"
                     TextAlignment="Right" />
             </controls:DockPanel>
-            <!--  标题、摘要  -->
+            <!--  标题  -->
             <TextBlock
                 FontSize="16"
                 Text="{x:Bind Title, Mode=OneWay}"
                 TextWrapping="Wrap"
                 Visibility="{x:Bind Title, Converter={StaticResource StringVisibilityConverter}, Mode=OneWay}" />
+            <!--  摘要  -->
             <TextBlock
+                x:Name="ThreadSubject"
+                x:Load="{x:Bind Subject, Converter={StaticResource EmptyStringToObjectConverter}, Mode=OneWay}"
                 Foreground="Gray"
                 Text="{x:Bind Subject, Mode=OneWay}"
-                TextWrapping="Wrap"
-                Visibility="{x:Bind Subject, Converter={StaticResource StringVisibilityConverter}, Mode=OneWay}" />
+                TextWrapping="Wrap" />
             <!--  预览图  -->
-            <local:ImageMosaic Sources="{x:Bind PreviewSources, Mode=OneWay}" Visibility="{x:Bind PreviewSources, Converter={StaticResource CollectionVisibilityConverter}, Mode=OneWay}" />
+            <local:ImageMosaic
+                x:Name="PreviewMosaic"
+                x:Load="{x:Bind PreviewSources, Converter={StaticResource EmptyCollectionToObjectConverter}, Mode=OneWay}"
+                Sources="{x:Bind PreviewSources, Mode=OneWay}" />
             <!--  浏览、点赞、评论  -->
             <Grid>
                 <Grid.ColumnDefinitions>

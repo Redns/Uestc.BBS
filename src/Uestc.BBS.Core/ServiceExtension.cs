@@ -6,6 +6,7 @@ using Polly;
 using SqlSugar;
 using Uestc.BBS.Core.Models;
 using Uestc.BBS.Core.Services.System;
+using Uestc.BBS.Entities;
 using Uestc.BBS.Sdk;
 using Uestc.BBS.Sdk.Services.Auth;
 
@@ -17,7 +18,22 @@ namespace Uestc.BBS.Core
 
         public static ServiceProvider Services
         {
-            get => field ??= Container.BuildServiceProvider();
+            get
+            {
+                if (field is null)
+                {
+                    field = Container.BuildServiceProvider();
+
+                    // 初始化数据库
+                    var sqlSugarClient = field.GetService<SqlSugarClient>();
+                    if (sqlSugarClient is not null)
+                    {
+                        sqlSugarClient.DbMaintenance.CreateDatabase();
+                        sqlSugarClient.CodeFirst.InitTables<ThreadHistoryEntity>();
+                    }
+                }
+                return field;
+            }
         }
 
         /// <summary>
@@ -30,10 +46,6 @@ namespace Uestc.BBS.Core
             Container
                 // AppSetting
                 .AddSingleton(AppSetting.Load())
-                // API 基地址
-                .AddSingleton(services =>
-                    services.GetRequiredService<AppSetting>().Services.Network.BaseUri
-                )
                 // 日志
                 .AddSingleton<ILogService>(services =>
                 {
@@ -88,7 +100,7 @@ namespace Uestc.BBS.Core
                         services
                             .GetRequiredService<AppSetting>()
                             .Account.DefaultCredential?.Authorization ?? string.Empty,
-                    services => services.GetRequiredService<Uri>()
+                    services => services.GetRequiredService<AppSetting>().Services.Network.BaseUri
                 )
                 .AddPolicyHandler(
                     (services, request) =>
@@ -136,7 +148,7 @@ namespace Uestc.BBS.Core
                         appSetting.Account.DefaultCredential?.Secret ?? string.Empty
                     );
                 },
-                services => services.GetRequiredService<Uri>()
+                services => services.GetRequiredService<AppSetting>().Services.Network.BaseUri
             );
             // Web & Mobcent
             Container
@@ -176,10 +188,12 @@ namespace Uestc.BBS.Core
         {
             // enable aot
             StaticConfig.EnableAot = true;
-            return container.AddTransient(services =>
-            {
-                return new SqlSugarClient(configFactory(services));
-            });
+            return container
+                .AddTransient(services =>
+                {
+                    return new SqlSugarClient(configFactory(services));
+                })
+                .AddTransient<Repository<ThreadHistoryEntity>>();
         }
     }
 }

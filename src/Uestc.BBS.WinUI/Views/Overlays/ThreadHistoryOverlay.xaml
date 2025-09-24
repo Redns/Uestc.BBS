@@ -1,71 +1,31 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Page
-    x:Class="Uestc.BBS.WinUI.Views.HomePage"
+    x:Class="Uestc.BBS.WinUI.Views.Overlays.ThreadHistoryOverlay"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:animatedvisuals="using:AnimatedVisuals"
     xmlns:controls="using:CommunityToolkit.WinUI.Controls"
     xmlns:converters="using:CommunityToolkit.WinUI.Converters"
-    xmlns:core="using:Uestc.BBS.Core"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:entities="using:Uestc.BBS.Entities"
+    xmlns:local="using:Uestc.BBS.WinUI.Views.Overlays"
     xmlns:local_controls="using:Uestc.BBS.WinUI.Controls"
     xmlns:local_converters="using:Uestc.BBS.WinUI.Converters"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:models="using:Uestc.BBS.Mvvm.Models"
-    xmlns:thread="using:Uestc.BBS.Sdk.Services.Thread.ThreadContent"
-    xmlns:ui="using:CommunityToolkit.WinUI"
-    xmlns:vm="using:Uestc.BBS.WinUI.ViewModels"
-    d:DataContext="{d:DesignInstance Type=vm:HomeViewModel}"
+    xmlns:viewmodels="using:Uestc.BBS.WinUI.ViewModels"
+    d:DataContext="{d:DesignInstance Type=viewmodels:ThreadHistoryViewModel}"
     mc:Ignorable="d">
 
-    <Page.Resources>
-        <converters:StringFormatConverter x:Key="StringFormatConverter" />
+    <UserControl.Resources>
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
         <converters:StringVisibilityConverter x:Key="StringVisibilityConverter" />
-        <converters:DoubleToVisibilityConverter x:Key="DoubleToVisibilityConverter" GreaterThan="0" />
-        <converters:EmptyStringToObjectConverter
-            x:Key="EmptyStringToObjectConverter"
-            EmptyValue="False"
-            NotEmptyValue="True" />
-        <local_converters:Uid2Avatar x:Key="Uid2Avatar" BaseUri="{x:Bind ViewModel.AppSettingModel.AppSetting.Services.Network.BaseUri}" />
-        <local_converters:Null2Visibility x:Key="Null2Visibility" />
-        <local_converters:Uint2Visibility x:Key="Uint2Visibility" />
+        <converters:CollectionVisibilityConverter x:Key="CollectionVisibilityConverter" />
         <local_converters:Double2GridLength x:Key="Double2GridLength" />
-        <local_converters:UserGroup2Visibility x:Key="UserGroup2Visibility" />
-        <local_converters:UserGroup2BadgeBrush x:Key="UserGroup2BadgeBrush" />
-        <local_converters:UserLevel2BadgeBackground x:Key="UserLevel2BadgeBackground" />
         <local_converters:Date2RelativeStringConverter x:Key="Date2RelativeStringConverter" />
-        <!--  BoardSwitch  -->
-        <!--  BoardSwitch Right2Left  -->
-        <Storyboard x:Name="BoardSwitchRight2LeftStoryboard">
-            <DoubleAnimation
-                Storyboard.TargetName="BoardSwitchTranslation"
-                Storyboard.TargetProperty="X"
-                From="200"
-                To="0"
-                Duration="0:0:0.4">
-                <DoubleAnimation.EasingFunction>
-                    <QuinticEase />
-                </DoubleAnimation.EasingFunction>
-            </DoubleAnimation>
-        </Storyboard>
-        <!--  BoardSwitch Left2Right  -->
-        <Storyboard x:Name="BoardSwitchLeft2RightStoryboard">
-            <DoubleAnimation
-                Storyboard.TargetName="BoardSwitchTranslation"
-                Storyboard.TargetProperty="X"
-                From="-200"
-                To="0"
-                Duration="0:0:0.4                 ">
-                <DoubleAnimation.EasingFunction>
-                    <QuinticEase />
-                </DoubleAnimation.EasingFunction>
-            </DoubleAnimation>
-        </Storyboard>
-    </Page.Resources>
+    </UserControl.Resources>
 
     <Grid
-        Margin="10,0,0,15"
+        Margin="10,10,0,15"
         ColumnSpacing="10"
         RowSpacing="10">
         <Grid.RowDefinitions>
@@ -73,35 +33,100 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="{x:Bind ViewModel.AppSettingModel.Appearance.BoardTab.Width, Converter={StaticResource Double2GridLength}, Mode=TwoWay}" />
+            <ColumnDefinition Width="{x:Bind ViewModel.BoardTabWidth, Converter={StaticResource Double2GridLength}}" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <!--  板块 Tab 栏  -->
-        <controls:Segmented
-            HorizontalAlignment="Center"
-            IsItemClickEnabled="True"
-            ItemClick="RefreshBoardTabItem"
-            ItemsSource="{x:Bind ViewModel.AppSettingModel.Appearance.BoardTab.Items, Mode=OneWay}"
-            SelectedItem="{x:Bind ViewModel.CurrentBoardTabItemModel, Mode=TwoWay}"
-            Style="{StaticResource PivotSegmentedStyle}">
-            <controls:Segmented.ItemTemplate>
-                <DataTemplate x:DataType="models:BoardTabItemModel">
-                    <TextBlock
-                        Width="auto"
-                        Margin="-3,0"
-                        Text="{x:Bind Name}" />
-                </DataTemplate>
-            </controls:Segmented.ItemTemplate>
-        </controls:Segmented>
-        <!--  板块列表  -->
-        <UserControl Grid.Row="1" Content="{x:Bind ViewModel.CurrentBoardTabItemListView, Mode=OneWay}">
-            <UserControl.RenderTransform>
-                <TranslateTransform x:Name="BoardSwitchTranslation" />
-            </UserControl.RenderTransform>
-        </UserControl>
+        <!--  筛选  -->
+        <controls:DockPanel
+            Grid.ColumnSpan="2"
+            HorizontalSpacing="8"
+            LastChildFill="False">
+            <CalendarDatePicker PlaceholderText="起始时间" />
+            <CalendarDatePicker PlaceholderText="结束时间" />
+            <ComboBox PlaceholderText="主题版块">
+                <ComboBoxItem Content="全部" />
+                <ComboBoxItem Content="技术" />
+                <ComboBoxItem Content="生活" />
+                <ComboBoxItem Content="文学" />
+                <ComboBoxItem Content="体育" />
+                <ComboBoxItem Content="其他" />
+            </ComboBox>
+            <TextBlock controls:DockPanel.Dock="Right" Text="1788" />
+        </controls:DockPanel>
+        <!--  主题列表  -->
+        <Grid Grid.Row="1">
+            <ListView
+                IsItemClickEnabled="True"
+                ItemsSource="{x:Bind ThreadHistoryEntities}"
+                ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                SelectedValue="{x:Bind ViewModel.CurrentThreadHistory, Mode=TwoWay}"
+                SelectionMode="None">
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="Padding" Value="0" />
+                        <Setter Property="Margin" Value="0,0,0,10" />
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                    </Style>
+                </ListView.ItemContainerStyle>
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <ItemsStackPanel />
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="entities:ThreadHistoryEntity">
+                        <Border
+                            Padding="10"
+                            Background="{ThemeResource SolidBackgroundFillColorQuarternaryBrush}"
+                            CornerRadius="10">
+                            <StackPanel Spacing="8">
+                                <!--  头像、昵称、发布/回复时间、分区  -->
+                                <controls:DockPanel HorizontalSpacing="10">
+                                    <local_controls:Avatar
+                                        VerticalAlignment="Center"
+                                        controls:DockPanel.Dock="Left"
+                                        Size="36"
+                                        Source="{x:Bind UserAvatar, Mode=OneWay}" />
+                                    <StackPanel VerticalAlignment="Center" controls:DockPanel.Dock="Left">
+                                        <TextBlock Text="{x:Bind Username, Mode=OneWay}" />
+                                        <!--  浏览时间  -->
+                                        <TextBlock
+                                            FontSize="12"
+                                            Foreground="Gray"
+                                            Text="{x:Bind BrowserDateTime, Converter={StaticResource Date2RelativeStringConverter}, Mode=OneWay}" />
+                                    </StackPanel>
+                                    <TextBlock
+                                        VerticalAlignment="Center"
+                                        FontSize="12"
+                                        Foreground="{ThemeResource AccentTextFillColorTertiaryBrush}"
+                                        Text="{x:Bind BoardName, Mode=OneWay}"
+                                        TextAlignment="Right" />
+                                </controls:DockPanel>
+                                <!--  标题  -->
+                                <TextBlock
+                                    FontSize="16"
+                                    Text="{x:Bind Title, Mode=OneWay}"
+                                    TextWrapping="Wrap"
+                                    Visibility="{x:Bind Title, Converter={StaticResource StringVisibilityConverter}, Mode=OneWay}" />
+                                <!--  摘要  -->
+                                <TextBlock
+                                    Foreground="Gray"
+                                    Text="{x:Bind Subject, Mode=OneWay}"
+                                    TextWrapping="Wrap"
+                                    Visibility="{x:Bind Subject, Converter={StaticResource StringVisibilityConverter}, Mode=OneWay}" />
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <ProgressRing
+                Margin="0,20,0,0"
+                VerticalAlignment="Top"
+                IsActive="{x:Bind ThreadHistoryEntities.IsLoading, Mode=OneWay}" />
+        </Grid>
         <!--  主题内容  -->
-        <controls:SwitchPresenter
+        <!--<controls:SwitchPresenter
             Grid.RowSpan="2"
             Grid.Column="1"
             TargetType="vm:PageStatus"
@@ -115,11 +140,15 @@
                                 VerticalAlignment="Top"
                                 Size="36"
                                 Source="{x:Bind ViewModel.CurrentThread.UserAvatar, Mode=OneWay}" />
-                            <!--  昵称、签名  -->
+        -->
+        <!--  昵称、签名  -->
+        <!--
                             <StackPanel Spacing="3">
                                 <StackPanel Orientation="Horizontal" Spacing="5">
                                     <TextBlock VerticalAlignment="Center" Text="{x:Bind ViewModel.CurrentThread.Username, Mode=OneWay}" />
-                                    <!--  等级（如：Lv.x）  -->
+        -->
+        <!--  等级（如：Lv.x）  -->
+        <!--
                                     <Border
                                         Height="18"
                                         Padding="3,0"
@@ -133,7 +162,9 @@
                                             Text="{x:Bind ViewModel.CurrentThread.UserLevel, Mode=OneWay, Converter={StaticResource StringFormatConverter}, ConverterParameter='Lv.{0}'}"
                                             TextLineBounds="Tight" />
                                     </Border>
-                                    <!--  用户组（如：管理员）  -->
+        -->
+        <!--  用户组（如：管理员）  -->
+        <!--
                                     <Border
                                         Height="18"
                                         Padding="3,0"
@@ -155,7 +186,9 @@
                                     ToolTipService.Placement="Right"
                                     ToolTipService.ToolTip="{x:Bind ViewModel.CurrentThread.CreateTime, Mode=OneWay}" />
                             </StackPanel>
-                            <!--  操作按钮  -->
+        -->
+        <!--  操作按钮  -->
+        <!--
                             <StackPanel
                                 controls:DockPanel.Dock="Right"
                                 Orientation="Horizontal"
@@ -249,14 +282,20 @@
                                     ToolTipService.ToolTip="分享" />
                             </StackPanel>
                         </controls:DockPanel>
-                        <!--  标题  -->
+        -->
+        <!--  标题  -->
+        <!--
                         <TextBlock
                             controls:DockPanel.Dock="Bottom"
                             FontSize="18"
                             Text="{x:Bind ViewModel.CurrentThread.Title, Mode=OneWay}" />
-                        <!--  主题内容  -->
+        -->
+        <!--  主题内容  -->
+        <!--
                         <local_controls:RichText Margin="0,-10,0,0" Contents="{x:Bind ViewModel.CurrentThread.Contents, Mode=OneWay}" />
-                        <!--  评论  -->
+        -->
+        <!--  评论  -->
+        <!--
                         <Grid
                             Margin="0,36,0,24"
                             ColumnSpacing="10"
@@ -387,11 +426,17 @@
                                             Size="36"
                                             Source="{x:Bind UserAvatar}" />
                                         <StackPanel Grid.Column="1" Spacing="6">
-                                            <!--  用户名、等级、用户组  -->
+        -->
+        <!--  用户名、等级、用户组  -->
+        <!--
                                             <StackPanel Orientation="Horizontal" Spacing="5">
-                                                <!--  用户名  -->
+        -->
+        <!--  用户名  -->
+        <!--
                                                 <TextBlock VerticalAlignment="Center" Text="{x:Bind Username}" />
-                                                <!--  等级（如：Lv.x）  -->
+        -->
+        <!--  等级（如：Lv.x）  -->
+        <!--
                                                 <Border
                                                     Height="18"
                                                     Padding="3,0"
@@ -405,7 +450,9 @@
                                                         Text="{x:Bind UserLevel, Converter={StaticResource StringFormatConverter}, ConverterParameter='Lv.{0}'}"
                                                         TextLineBounds="Tight" />
                                                 </Border>
-                                                <!--  用户组（如：管理员）  -->
+        -->
+        <!--  用户组（如：管理员）  -->
+        <!--
                                                 <Border
                                                     Height="18"
                                                     Padding="3,0"
@@ -419,7 +466,9 @@
                                                         Text="{x:Bind UserGroup}"
                                                         TextLineBounds="Tight" />
                                                 </Border>
-                                                <!--  楼主  -->
+        -->
+        <!--  楼主  -->
+        <!--
                                                 <Border
                                                     x:Name="ThreadMasterLabel"
                                                     Height="18"
@@ -436,7 +485,9 @@
                                                         TextLineBounds="Tight" />
                                                 </Border>
                                             </StackPanel>
-                                            <!--  评论时间  -->
+        -->
+        <!--  评论时间  -->
+        <!--
                                             <TextBlock
                                                 Margin="0,-5,0,0"
                                                 HorizontalAlignment="Left"
@@ -445,7 +496,9 @@
                                                 Text="{x:Bind CreateTime, Converter={StaticResource Date2RelativeStringConverter}}"
                                                 ToolTipService.Placement="Right"
                                                 ToolTipService.ToolTip="{x:Bind CreateTime}" />
-                                            <!--  引用内容  -->
+        -->
+        <!--  引用内容  -->
+        <!--
                                             <Border
                                                 x:Name="ThreadReplyQuoteReply"
                                                 Margin="2,5,0,0"
@@ -475,9 +528,13 @@
                                                         TextWrapping="Wrap" />
                                                 </StackPanel>
                                             </Border>
-                                            <!--  评论内容  -->
+        -->
+        <!--  评论内容  -->
+        <!--
                                             <local_controls:RichText Margin="0,-10,0,0" Contents="{x:Bind Contents}" />
-                                            <!--  操作按钮  -->
+        -->
+        <!--  操作按钮  -->
+        <!--
                                             <StackPanel Margin="0,8,0,0" Orientation="Horizontal">
                                                 <AppBarButton
                                                     Width="40"
@@ -515,7 +572,9 @@
                                                     ToolTipService.ToolTip="举报" />
                                             </StackPanel>
                                         </StackPanel>
-                                        <!--  楼层  -->
+        -->
+        <!--  楼层  -->
+        <!--
                                         <TextBlock
                                             Grid.Column="2"
                                             Foreground="Gray"
@@ -542,22 +601,7 @@
                     <animatedvisuals:CryingEmoji />
                 </AnimatedVisualPlayer>
             </controls:Case>
-        </controls:SwitchPresenter>
-
-        <!--  分割线  -->
-        <controls:GridSplitter
-            Grid.Row="1"
-            Grid.Column="1"
-            Width="3"
-            MinWidth="1"
-            HorizontalAlignment="Left"
-            HorizontalContentAlignment="Left"
-            Foreground="Transparent"
-            ResizeBehavior="BasedOnAlignment"
-            ResizeDirection="Auto">
-            <controls:GridSplitter.RenderTransform>
-                <TranslateTransform X="-10" />
-            </controls:GridSplitter.RenderTransform>
-        </controls:GridSplitter>
+        </controls:SwitchPresenter>-->
     </Grid>
+
 </Page>

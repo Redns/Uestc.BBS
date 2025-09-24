@@ -184,6 +184,22 @@ namespace Uestc.BBS.WinUI.Controls
             set => SetValue(LikesProperty, value);
         }
 
+        /// <summary>
+        ///  «∑Ò”–Õ∂∆±
+        /// </summary>
+        private static readonly DependencyProperty HasVoteProperty = DependencyProperty.Register(
+            nameof(HasVote),
+            typeof(bool),
+            typeof(ThreadOverviewControl),
+            new PropertyMetadata(default(bool))
+        );
+
+        public bool HasVote
+        {
+            get => (bool)GetValue(HasVoteProperty);
+            set => SetValue(HasVoteProperty, value);
+        }
+
         public ThreadOverviewControl()
         {
             InitializeComponent();

@@ -22,8 +22,8 @@
     <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
   </PropertyGroup>
 	<ItemGroup>
-		<RdXmlFile Include="rd.xml" />
-	</ItemGroup>
+    <RdXmlFile Include="rd.xml" />
+  </ItemGroup>
   <ItemGroup>
     <Compile Remove="Animations\SadFailed.cs" />
   </ItemGroup>
@@ -162,7 +162,7 @@
     <Page Update="Controls\BoardTabItemListView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Update="Views\Overlays\TopicFilterOverlay.xaml">
+    <Page Update="Views\Overlays\ThreadHistoryOverlay.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\Overlays\BrowseSettingOverlay.xaml">

@@ -13,7 +13,6 @@ using Uestc.BBS.Core;
 using Uestc.BBS.Core.Models;
 using Uestc.BBS.Core.Services.FileCache;
 using Uestc.BBS.Core.Services.System;
-using Uestc.BBS.Entities;
 using Uestc.BBS.Mvvm.Models;
 using Uestc.BBS.Mvvm.Services;
 using Uestc.BBS.WinUI.Helpers;
@@ -71,7 +70,7 @@ namespace Uestc.BBS.WinUI
                 .AddTransient<MyPostsOverlay>()
                 .AddTransient<MyRepliesOverlay>()
                 .AddTransient<MyMarksOverlay>()
-                .AddTransient<TopicFilterOverlay>()
+                .AddTransient<ThreadHistoryOverlay>()
                 .AddTransient<AppearanceSettingOverlay>()
                 .AddTransient<BrowseSettingOverlay>()
                 .AddTransient<AccountSettingOverlay>()
@@ -92,7 +91,7 @@ namespace Uestc.BBS.WinUI
                 .AddTransient<MyPostsViewModel>()
                 .AddTransient<MyRepliesViewModel>()
                 .AddTransient<MyMarksViewModel>()
-                .AddTransient<TopicFilterViewModel>()
+                .AddTransient<ThreadHistoryViewModel>()
                 .AddTransient<AppearanceSettingsViewModel>()
                 .AddTransient<BrowseSettingsViewModel>()
                 .AddTransient<AccountSettingsViewModel>()
@@ -155,6 +154,11 @@ namespace Uestc.BBS.WinUI
                         IsAutoCloseConnection = true,
                         DbType = DbType.Sqlite,
                         ConnectionString = "Data Source=" + dbFullPath,
+                        MoreSettings = new ConnMoreSettings()
+                        {
+                            //启用默认值
+                            SqliteCodeFirstEnableDefaultValue = true,
+                        },
                     };
                 });
 
@@ -239,14 +243,6 @@ namespace Uestc.BBS.WinUI
         {
             try
             {
-                // 初始化数据库
-                var sqlSugarClient = ServiceExtension.Services.GetService<SqlSugarClient>();
-                if (sqlSugarClient is not null)
-                {
-                    sqlSugarClient.DbMaintenance.CreateDatabase();
-                    sqlSugarClient.CodeFirst.InitTables<ThreadHistoryEntity>();
-                }
-
                 var appSetting = ServiceExtension.Services.GetRequiredService<AppSetting>();
                 if (!appSetting.Account.IsUserAuthed)
                 {

@@ -118,6 +118,7 @@ namespace Uestc.BBS.WinUI.Views
                             return;
                         }
 
+                        // 去除就业区警告信息
                         if (EmploymentWarningRegex().IsMatch(threadContent.Contents[0].Information))
                         {
                             threadContent.Contents = threadContent.Contents[1..];

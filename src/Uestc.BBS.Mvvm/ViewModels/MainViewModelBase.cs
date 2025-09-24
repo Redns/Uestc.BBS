@@ -5,11 +5,13 @@ using CommunityToolkit.Mvvm.Messaging;
 using Uestc.BBS.Core.Helpers;
 using Uestc.BBS.Core.Models;
 using Uestc.BBS.Core.Services.System;
+using Uestc.BBS.Entities;
 using Uestc.BBS.Mvvm.Messages;
 using Uestc.BBS.Mvvm.Models;
 using Uestc.BBS.Mvvm.Services;
 using Uestc.BBS.Sdk.Services.Auth;
 using Uestc.BBS.Sdk.Services.System;
+using Uestc.BBS.Sdk.Services.Thread;
 using Uestc.BBS.Sdk.Services.User.Friend;
 
 namespace Uestc.BBS.Mvvm.ViewModels
@@ -17,6 +19,7 @@ namespace Uestc.BBS.Mvvm.ViewModels
     public abstract partial class MainViewModelBase<TContent> : ObservableObject
         where TContent : class
     {
+        #region Timer & Token
         /// <summary>
         /// 黑名单定时更新
         /// </summary>
@@ -46,7 +49,9 @@ namespace Uestc.BBS.Mvvm.ViewModels
         /// 每日一句 CancellationTokenSource
         /// </summary>
         protected CancellationTokenSource? _daiysentenceCancelTokenSource;
+        #endregion
 
+        #region Services
         /// <summary>
         /// 日志服务
         /// </summary>
@@ -76,6 +81,7 @@ namespace Uestc.BBS.Mvvm.ViewModels
         /// 导航服务
         /// </summary>
         protected readonly INavigateService<TContent> _navigateService;
+        #endregion
 
         /// <summary>
         /// 全局状态
@@ -92,8 +98,6 @@ namespace Uestc.BBS.Mvvm.ViewModels
                 AppSettingModel.Appearance.SearchBar.IsDailySentenceEnabled ? field : string.Empty;
             set => SetProperty(ref field, value);
         } = "韶光易逝，劝君惜取少年时";
-
-        public Uri BaseUri { get; init; }
 
         /// <summary>
         /// 应用设置
@@ -130,14 +134,14 @@ namespace Uestc.BBS.Mvvm.ViewModels
             !AppSettingModel.Appearance.MenuItems.Any(m => m.Key == CurrentMenuKey);
 
         public MainViewModelBase(
-            Uri baseUri,
             AppSettingModel appSettingModel,
             ILogService logService,
             IFriendListService friendListService,
             IGlobalStatusService globalStatusService,
             INotificationService notificationService,
             IDailySentenceService dailySentenceService,
-            INavigateService<TContent> navigateService
+            INavigateService<TContent> navigateService,
+            Repository<ThreadHistoryEntity> threadHistoryRepository
         )
         {
             _logService = logService;
@@ -146,6 +150,7 @@ namespace Uestc.BBS.Mvvm.ViewModels
             _globalStatusService = globalStatusService;
             _notificationService = notificationService;
             _dailySentenceService = dailySentenceService;
+
             _blacklistUpdateTimer = new Timer(
                 async _ =>
                 {
@@ -215,7 +220,7 @@ namespace Uestc.BBS.Mvvm.ViewModels
                     }
                 },
                 null,
-                0,
+                5 * 1000,
                 60 * 1000
             );
             _globalStatusUpdateTimer = new Timer(
@@ -290,7 +295,6 @@ namespace Uestc.BBS.Mvvm.ViewModels
                 appSettingModel.Appearance.SearchBar.DailySentenceUpdateTimeInterval * 1000
             );
 
-            BaseUri = baseUri;
             AppSettingModel = appSettingModel;
             AppSettingModel.Appearance.SearchBar.PropertyChanged += (_, args) =>
             {
@@ -322,6 +326,34 @@ namespace Uestc.BBS.Mvvm.ViewModels
             StrongReferenceMessenger.Default.Register<NavigateChangedMessage>(
                 this,
                 (_, m) => CurrentMenuKey = m.Value
+            );
+
+            StrongReferenceMessenger.Default.Register<ThreadHistoryChangedMessage>(
+                this,
+                async (_, m) =>
+                {
+                    var threadOverview = m.Value;
+                    // TODO 使用 Mapster 源码生成器
+                    var ret = await threadHistoryRepository.AddOrUpdateAsync(
+                        new ThreadHistoryEntity
+                        {
+                            Id = threadOverview.Id,
+                            BoardName = threadOverview.BoardName,
+                            Title = threadOverview.Title,
+                            Subject = threadOverview.Subject,
+                            Uid = threadOverview.Uid,
+                            Username = threadOverview.Username,
+                            UserAvatar = threadOverview.UserAvatar,
+                            HasVote = threadOverview.HasVote,
+                            BrowserDateTime = DateTime.Now,
+                        }
+                    );
+
+                    if (ret is 0)
+                    {
+                        _logService.Error("Thread history add or update failed.");
+                    }
+                }
             );
         }
 

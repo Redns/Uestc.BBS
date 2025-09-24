@@ -204,6 +204,7 @@ namespace Uestc.BBS.WinUI.Controls
             }
 
             StrongReferenceMessenger.Default.Send(new ThreadChangedMessage(threadOverview.Id));
+            StrongReferenceMessenger.Default.Send(new ThreadHistoryChangedMessage(threadOverview));
         }
     }
 
@@ -213,15 +214,15 @@ namespace Uestc.BBS.WinUI.Controls
     ) : IncrementalLoadingCollection<uint, ThreadOverview>
     {
         public override async Task<IEnumerable<ThreadOverview>> GetPagedItemsAsync(
-            uint page,
-            uint pageSize,
+            int page,
+            int pageSize,
             CancellationToken cancellationToken = default
         )
         {
             var threads = await threadListService.GetThreadListAsync(
                 route: boardTabItem.Route,
-                page: page + 1,
-                pageSize: pageSize,
+                page: (uint)page + 1,
+                pageSize: (uint)pageSize,
                 moduleId: boardTabItem.ModuleId,
                 boardId: boardTabItem.Board,
                 sortby: boardTabItem.SortType,
